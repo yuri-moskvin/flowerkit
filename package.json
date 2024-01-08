@@ -1,0 +1,111 @@
+{
+  "name": "@web3r/flowerkit",
+  "version": "1.0.0",
+  "description": "A collection of more than 60 often used utility JS functions that simplify frontend development.",
+  "keywords": [
+    "utils",
+    "utilities",
+    "utility",
+    "custom events",
+    "cookies",
+    "object",
+    "css variables",
+    "FormData",
+    "parse html",
+    "deep merge",
+    "string",
+    "json",
+    "number",
+    "array",
+    "url query",
+    "curry",
+    "onload",
+    "ondomcontentloaded",
+    "onresize",
+    "debounce",
+    "copy object",
+    "camelCase",
+    "kebab-case",
+    "snake_case",
+    "swipes",
+    "swipe event"
+  ],
+  "type": "module",
+  "engines": {
+    "node": ">=21"
+  },
+  "scripts": {
+    "build": "eslint . && jest && rollup --c && npm run docs",
+    "test": "jest",
+    "docs": "node ./docs/index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/yuri-moskvin/flowerkit.git"
+  },
+  "bugs": {
+    "url": "https://github.com/yuri-moskvin/flowerkit/issues"
+  },
+  "contributors": [
+    {
+      "name": "Yuri Moskvin",
+      "email": "me@web3r.ru"
+    }
+  ],
+  "module": "dist/index.js",
+  "browser": "dist/index.js",
+  "exports": {
+    ".": "./dist/index.js",
+    "./arr": "./dist/arr/index.js",
+    "./user": "./dist/user/index.js",
+    "./css": "./dist/css/index.js",
+    "./dom": "./dist/dom/index.js",
+    "./evt": "./dist/evt/index.js",
+    "./fn": "./dist/fn/index.js",
+    "./json": "./dist/json/index.js",
+    "./net": "./dist/net/index.js",
+    "./num": "./dist/num/index.js",
+    "./obj": "./dist/obj/index.js",
+    "./str": "./dist/str/index.js"
+  },
+  "files": [
+    "dist",
+    "README.md",
+    "CHANGELOG.md",
+    "LICENSE"
+  ],
+  "license": "MIT",
+  "private": false,
+  "devDependencies": {
+    "@babel/core": "^7.23.6",
+    "@babel/eslint-parser": "^7.23.3",
+    "@babel/plugin-syntax-import-attributes": "^7.23.3",
+    "@babel/plugin-transform-runtime": "^7.23.6",
+    "@babel/preset-env": "^7.23.6",
+    "@jest/globals": "^29.7.0",
+    "@rollup/plugin-babel": "^6.0.4",
+    "@rollup/plugin-json": "^6.1.0",
+    "@rollup/plugin-terser": "^0.4.4",
+    "@stylistic/eslint-plugin-js": "^1.5.1",
+    "eslint": "^8.56.0",
+    "eslint-plugin-import": "^2.29.1",
+    "eslint-plugin-jsdoc": "^46.9.1",
+    "globals": "^13.24.0",
+    "jest": "^29.7.0",
+    "jest-environment-jsdom": "^29.7.0",
+    "jest-esbuild": "^0.3.0",
+    "jsdoc-to-markdown": "^8.0.0",
+    "node-fetch": "^3.3.2",
+    "rollup": "^4.9.1",
+    "rollup-plugin-delete": "^2.0.0",
+    "rollup-plugin-filesize": "^10.0.0"
+  },
+  "browserslist": [
+    "defaults"
+  ],
+  "dependencies": {
+    "node-html-parser": "^6.1.11",
+    "ow": "^1.1.1",
+    "ssr-window": "^4.0.2"
+  }
+}
