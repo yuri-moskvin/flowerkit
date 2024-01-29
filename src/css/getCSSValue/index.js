@@ -17,7 +17,7 @@ const getCSSValue = (el, prop) => {
 
   ow(el, ow.object.validate(value => ({
     validator: isNode(value),
-    message: `The object must be node`
+    message: () => `The object must be node`
   })));
 
   ow(prop, ow.string.not.empty);

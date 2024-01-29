@@ -1,3 +1,4 @@
+import { getDocument } from "ssr-window";
 import { bubble } from "./index.js";
 
 describe(bubble.name, () => {
@@ -16,6 +17,8 @@ describe(bubble.name, () => {
     });
     bubble(document.querySelector("div"), "myEvent", "test");
     expect(detail).toBe("test");
+
+    bubble(getDocument(), bubble.name, {});
   });
 
 });

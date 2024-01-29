@@ -7,5 +7,5 @@
  * const isMyElNode = isNode(document.getElementById("test"));
  * console.log(isMyElNode) // => boolean
  */
-const isNode=el=>el instanceof Element||el instanceof HTMLDocument;export{isNode};
+const isNode=el=>{if(typeof Element==="undefined"||typeof Document==="undefined")return typeof el==="object"&&el.nodeType===1&&typeof el.style==="object"&&typeof el.ownerDocument==="object";else return el instanceof Element||el instanceof Document};export{isNode};
 //# sourceMappingURL=index.js.map

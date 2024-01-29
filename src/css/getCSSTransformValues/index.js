@@ -18,7 +18,7 @@ const getCSSTransformValues = (el) => {
 
   ow(el, ow.object.validate(value => ({
     validator: isNode(value),
-    message: `The object must be node`
+    message: () => `The object must be node`
   })));
 
   const style = getWindow().getComputedStyle(el);

@@ -58,12 +58,13 @@ const getFromServer = async (props = {}) => {
     mode: ow.optional.string.not.empty,
     getSuccessResp: ow.optional.function,
     getResp: ow.optional.function,
+    isBubble: ow.optional.boolean,
     type: ow.optional.string.not.empty,
     url: ow.optional.string.not.empty,
     headers: ow.optional.object,
     allowedCodes: ow.optional.array.validate(value => ({
       validator: value.length ? value.every(item => typeof item === "number") : true,
-      message: label => `AllowedCodes must be non-empty array of numbers`
+      message: () => label => `AllowedCodes must be non-empty array of numbers`
     })),
     credentials: ow.optional.string,
     redirect: ow.optional.string,
@@ -72,11 +73,11 @@ const getFromServer = async (props = {}) => {
     fetchProps: ow.optional.object,
     signal: ow.optional.object.validate(value => ({
       validator: value instanceof AbortSignal,
-      message: label => `"signal" prop must be instance of AbortSignal`
+      message: () => label => `"signal" prop must be instance of AbortSignal`
     })),
     data: ow.optional.any([ ow.null, ow.object.validate(value => ({
       validator: value === null || value instanceof FormData || typeof value === "object",
-      message: label => `"data" prop must be instance of FormData, plain Object or null`
+      message: () => label => `"data" prop must be instance of FormData, plain Object or null`
     })), ])
   }));
 
@@ -218,8 +219,8 @@ const getFromServer = async (props = {}) => {
   return await Promise.race(queries)
     .then(resp => getResponse(resp)
       .then(resp => {
-        if (isBubble) {
-          bubble(getDocument().documentElement, getFromServer.name, resp);
+        if (isBubble && typeof window !== "undefined") {
+          bubble(getDocument(), getFromServer.name, resp);
         }
         return getSuccessResp(resp);
       }), reject => getReject(reject));

@@ -18,7 +18,7 @@ const getCSSVar = (el, variable, isNumberFormat = false) => {
 
   ow(el, ow.object.validate(value => ({
     validator: isNode(value),
-    message: `The object must be node`
+    message: () => `The object must be node`
   })));
   ow(variable, ow.string.not.empty);
   ow(isNumberFormat, ow.optional.boolean);

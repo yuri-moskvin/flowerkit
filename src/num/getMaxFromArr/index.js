@@ -14,7 +14,7 @@ const getMaxFromArr = (arr) => {
 
   ow(arr, ow.array.validate(value => ({
     validator: value.length && value.every(item => typeof item === "number"),
-    message: `Array must be non-empty and contains only numbers`
+    message: () => `Array must be non-empty and contains only numbers`
   })));
 
   return arr.reduce((p, v) => {

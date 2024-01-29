@@ -21,7 +21,7 @@ const getUrlWithQueryParams = (uri = getWindow().location.href, params = {}) => 
   ow(uri, ow.optional.string);
   ow(params, ow.optional.object.validate(value => ({
     validator: !!value && (value instanceof FormData || typeof value === "object"),
-    message: `Params must be object or FormData`
+    message: () => `Params must be object or FormData`
   })));
 
   let url = uri;

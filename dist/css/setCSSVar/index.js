@@ -11,5 +11,5 @@ import ow from"ow";import{getDocument}from"ssr-window";import{isNode}from"../../
  * const block = document.getElementById("myBlock");
  * setCSSVar(block, "myVar", 10);
  * // <div id="myBlock" style="--myVar: 10"></div>
- */const setCSSVar=(el=getDocument().documentElement,variable,value="")=>{ow(el,ow.object.validate((value=>({validator:isNode(value),message:`The object must be node`}))));ow(variable,ow.string.not.empty);ow(value,ow.any(ow.string,ow.number,ow.boolean));el.style.setProperty(variable.startsWith("--")?variable:`--${variable}`,value+"")};export{setCSSVar};
+ */const setCSSVar=(el=getDocument().documentElement,variable,value="")=>{ow(el,ow.object.validate((value=>({validator:isNode(value),message:()=>`The object must be node`}))));ow(variable,ow.string.not.empty);ow(value,ow.any(ow.string,ow.number,ow.boolean));el.style.setProperty(variable.startsWith("--")?variable:`--${variable}`,value+"")};export{setCSSVar};
 //# sourceMappingURL=index.js.map

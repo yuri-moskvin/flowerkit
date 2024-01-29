@@ -8,5 +8,5 @@ import ow from"ow";
  * const arr = [ 100, 200, 300 ];
  * const max = getMaxFromArr(arr);
  * console.log(max); // 300
- */const getMaxFromArr=arr=>{ow(arr,ow.array.validate((value=>({validator:value.length&&value.every((item=>typeof item==="number")),message:`Array must be non-empty and contains only numbers`}))));return arr.reduce(((p,v)=>p>v?p:v))};export{getMaxFromArr};
+ */const getMaxFromArr=arr=>{ow(arr,ow.array.validate((value=>({validator:value.length&&value.every((item=>typeof item==="number")),message:()=>`Array must be non-empty and contains only numbers`}))));return arr.reduce(((p,v)=>p>v?p:v))};export{getMaxFromArr};
 //# sourceMappingURL=index.js.map

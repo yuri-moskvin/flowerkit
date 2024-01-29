@@ -12,7 +12,7 @@ import ow from "ow";
  *   foo: "bar"
  * };
  * const isHasOwnProp = isObjHasOwnProp(obj, "foo");
- * console.debug(isHasOwnProp); // => true
+ * console.log(isHasOwnProp); // => true
  */
 const isObjHasOwnProp = (obj, prop) => {
 

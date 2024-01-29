@@ -8,5 +8,5 @@ import ow from"ow";import{isNode}from"../isNode/index.js";
  * const myDiv = document.getElementById("myBlock");
  * removeChildNodes(myDiv);
  * console.log(Array.from(myDiv.children).length); // => 0
- */const removeChildNodes=el=>{ow(el,ow.object.validate((value=>({validator:isNode(value),message:`The object must be node`}))));while(el.firstChild)el.removeChild(el.lastChild)};export{removeChildNodes};
+ */const removeChildNodes=el=>{ow(el,ow.object.validate((value=>({validator:isNode(value),message:()=>`The object must be node`}))));while(el.firstChild)el.removeChild(el.lastChild)};export{removeChildNodes};
 //# sourceMappingURL=index.js.map

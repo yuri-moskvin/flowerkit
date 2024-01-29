@@ -8,5 +8,5 @@ import ow from"ow";import{isIterable}from"../isIterable/index.js";
  * // How to get last element from NodeList of `div`?
  * const lastDiv = getLastFromIterable(document.querySelectorAll("div"));
  * console.log(lastDiv) // => Node or null
- */const getLastFromIterable=obj=>{ow(obj,ow.object.validate((value=>({validator:isIterable(value),message:`The object must be iterable`}))));const{length:length}=obj;return length?obj[length-1]:null};export{getLastFromIterable};
+ */const getLastFromIterable=obj=>{ow(obj,ow.object.validate((value=>({validator:isIterable(value),message:()=>`The object must be iterable`}))));const{length:length}=obj;return length?obj[length-1]:null};export{getLastFromIterable};
 //# sourceMappingURL=index.js.map

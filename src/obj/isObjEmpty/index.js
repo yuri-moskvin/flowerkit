@@ -8,7 +8,7 @@ import ow from "ow";
  * // How to check if an object is empty?
  * const obj = {};
  * const isEmpty = isObjEmpty(obj);
- * console.debug(isEmpty); // => true
+ * console.log(isEmpty); // => true
  */
 const isObjEmpty = (obj) => {
 

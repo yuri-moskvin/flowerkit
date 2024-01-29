@@ -32,7 +32,7 @@ const getFormDataFromObj = (obj = {}, fd = new FormData(), setItem = setItemFn) 
 
   ow(fd, ow.object.validate(value => ({
     validator: value instanceof FormData,
-    message: `Value must be instance of FormData`
+    message: () => `Value must be instance of FormData`
   })));
 
   ow(setItem, ow.function);

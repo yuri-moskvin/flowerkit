@@ -6,7 +6,7 @@ import { getWindow } from "ssr-window";
  * @example
  * // How to detect mobile browser?
  * const isMobile = isMobileDevice();
- * console.debug(isMobile); // => false
+ * console.log(isMobile); // => false
  */
 const isMobileDevice = () => {
   const win = getWindow();

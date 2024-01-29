@@ -6,7 +6,7 @@
  * // How to check if an object is promise?
  * const obj = new Promise();
  * const isPromise = isObjPromise(obj);
- * console.debug(isPromise); // => true
+ * console.log(isPromise); // => true
  *
  */
 const isObjPromise = (obj) => {

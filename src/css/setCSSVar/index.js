@@ -19,7 +19,7 @@ const setCSSVar = (el = getDocument().documentElement, variable, value = "") => 
 
   ow(el, ow.object.validate(value => ({
     validator: isNode(value),
-    message: `The object must be node`
+    message: () => `The object must be node`
   })));
   ow(variable, ow.string.not.empty);
   ow(value, ow.any(ow.string, ow.number, ow.boolean));

@@ -69,7 +69,7 @@ const getObjWithFallbacks = (data, rules = {}, fallbacks = {}) => {
   ow(data, ow.object);
 
   ow(rules, ow.object.validate((value) => ({
-    message: `prop "rules" does not match schema "{ type?, output?, getValue?, fallback? }"`,
+    message: () => `prop "rules" does not match schema "{ type?, output?, getValue?, fallback? }"`,
     validator: Object.values(value).every(item => ow.isValid(item, isRulesValid))
   })));
 

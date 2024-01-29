@@ -19,7 +19,7 @@ const getElSiblings = (el) => {
 
   ow(el, ow.object.validate(value => ({
     validator: isNode(value),
-    message: `The object must be node`
+    message: () => `The object must be node`
   })));
 
   const siblings = [];

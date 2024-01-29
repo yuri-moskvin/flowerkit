@@ -14,7 +14,7 @@ const getId = (length = getRandomIntFromInterval(8, 16)) => {
 
   ow(length, ow.optional.number.validate(value => ({
     validator: value > 0 && value !== Infinity,
-    message: `Expected value to be greater than 0 and not to be Infinity, got ${value}`
+    message: () => `Expected value to be greater than 0 and not to be Infinity, got ${value}`
   })));
 
   const str = new Array(3)

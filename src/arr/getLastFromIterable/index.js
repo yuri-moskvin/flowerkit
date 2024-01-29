@@ -15,7 +15,7 @@ const getLastFromIterable = (obj) => {
 
   ow(obj, ow.object.validate(value => ({
     validator: isIterable(value),
-    message: `The object must be iterable`
+    message: () => `The object must be iterable`
   })));
 
   const { length } = obj;

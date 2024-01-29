@@ -15,7 +15,7 @@ const getObjFromFormData = (fd = new FormData()) => {
 
   ow(fd, ow.object.validate(value => ({
     validator: value instanceof FormData,
-    message: `Fd must be FormData`,
+    message: () => `Fd must be FormData`,
   })));
 
   const entries = [ ...fd ].map(([ name, value ]) => {

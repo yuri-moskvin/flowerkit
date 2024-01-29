@@ -8,7 +8,7 @@ import ow from"ow";import{getDocument}from"ssr-window";
  * // How to get value of Cookie?
  * setCookie("myCookieName", "myValue");
  * const savedValue = getCookie("myCookieName");
- * console.debug(savedValue); // => "myValue"
+ * console.log(savedValue); // => "myValue"
  */const getCookie=name=>{ow(name,ow.string);const matches=getDocument().cookie.match(new RegExp("(?:^|; )"+name.replace(/([$?*|{}\]\\^])/g,"\\$1")+"=([^;]*)"));return matches?decodeURIComponent(matches[1]):void 0};
 /**
  * Sets the Cookie value

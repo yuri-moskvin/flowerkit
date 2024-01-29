@@ -13,13 +13,13 @@ import { isNode } from "../isNode/index.js";
  * //   <li>2</li>
  * // </ul>
  * const index = document.querySelector("li#myElement");
- * console.debug(index); // => 1
+ * console.log(index); // => 1
  */
 const getIndexOfEl = (el) => {
 
   ow(el, ow.object.validate(value => ({
     validator: isNode(value),
-    message: `The object must be node`
+    message: () => `The object must be node`
   })));
 
   if (el.parentNode) {

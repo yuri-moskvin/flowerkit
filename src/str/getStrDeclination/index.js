@@ -16,7 +16,7 @@ const getStrDeclination = (num, words = []) => {
   ow(num, ow.number);
   ow(words, ow.array.validate(value => ({
     validator: value.length === 3,
-    message: `The "words" array length must be 3: [ "one", "two", "few or zero" ]`
+    message: () => `The "words" array length must be 3: [ "one", "two", "few or zero" ]`
   })));
 
   const number = Math.abs(num);

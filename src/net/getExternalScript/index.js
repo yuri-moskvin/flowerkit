@@ -32,7 +32,7 @@ const getExternalScript = (props = {}) => {
     type: ow.optional.string.not.empty,
     appendTo: ow.optional.object.validate(value => ({
       validator: isNode(value),
-      message: `The object must be node`
+      message: () => `The object must be node`
     })),
     id: ow.optional.string.not.empty,
     crossorigin: ow.optional.string.not.empty

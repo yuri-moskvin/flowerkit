@@ -1,6 +1,6 @@
 {
   "name": "@web3r/flowerkit",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "A collection of more than 60 often used utility JS functions that simplify frontend development.",
   "keywords": [
     "utils",
@@ -35,7 +35,7 @@
     "node": ">=21"
   },
   "scripts": {
-    "build": "eslint . && jest && rollup --c && npm run docs",
+    "build": "eslint . && jest && rollup --c && npm run docs && npx tsc",
     "test": "jest",
     "docs": "node ./docs/index.js"
   },
@@ -77,34 +77,35 @@
   "license": "MIT",
   "private": false,
   "devDependencies": {
-    "@babel/core": "^7.23.6",
-    "@babel/eslint-parser": "^7.23.3",
+    "@babel/core": "^7.23.9",
+    "@babel/eslint-parser": "^7.23.9",
     "@babel/plugin-syntax-import-attributes": "^7.23.3",
-    "@babel/plugin-transform-runtime": "^7.23.6",
-    "@babel/preset-env": "^7.23.6",
+    "@babel/plugin-transform-runtime": "^7.23.9",
+    "@babel/preset-env": "^7.23.9",
     "@jest/globals": "^29.7.0",
     "@rollup/plugin-babel": "^6.0.4",
     "@rollup/plugin-json": "^6.1.0",
     "@rollup/plugin-terser": "^0.4.4",
-    "@stylistic/eslint-plugin-js": "^1.5.1",
+    "@stylistic/eslint-plugin-js": "^1.5.4",
     "eslint": "^8.56.0",
     "eslint-plugin-import": "^2.29.1",
-    "eslint-plugin-jsdoc": "^46.9.1",
+    "eslint-plugin-jsdoc": "^48.0.4",
     "globals": "^13.24.0",
     "jest": "^29.7.0",
     "jest-environment-jsdom": "^29.7.0",
     "jest-esbuild": "^0.3.0",
     "jsdoc-to-markdown": "^8.0.0",
     "node-fetch": "^3.3.2",
-    "rollup": "^4.9.1",
+    "rollup": "^4.9.6",
     "rollup-plugin-delete": "^2.0.0",
-    "rollup-plugin-filesize": "^10.0.0"
+    "rollup-plugin-filesize": "^10.0.0",
+    "typescript": "^5.3.3"
   },
   "browserslist": [
     "defaults"
   ],
   "dependencies": {
-    "node-html-parser": "^6.1.11",
+    "node-html-parser": "^6.1.12",
     "ow": "^1.1.1",
     "ssr-window": "^4.0.2"
   }

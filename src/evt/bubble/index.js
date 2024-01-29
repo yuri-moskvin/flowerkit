@@ -20,13 +20,13 @@ import { isNode } from "../../dom/isNode/index.js";
  * }
  *
  * // How to listen custom events? Use your listener before calling of bubble function.
- * document.addEventListener("myEvent", (e) => console.debug(e));
+ * document.addEventListener("myEvent", (e) => console.log(e));
  */
 const bubble = (el = getDocument(), name, detail, params = {}) => {
 
   ow(el, ow.object.validate(value => ({
     validator: isNode(value),
-    message: `The object must be node`
+    message: () => `The object must be node`
   })));
 
   ow(name, ow.string.not.empty);
@@ -39,8 +39,10 @@ const bubble = (el = getDocument(), name, detail, params = {}) => {
     ...params,
   };
 
-  const event = new CustomEvent(name, eventParams);
-  el.dispatchEvent(event);
+  if (typeof dispatchEvent === "function" && typeof CustomEvent === "function") {
+    const event = new CustomEvent(name, eventParams);
+    el?.dispatchEvent(event);
+  }
 
 };
 

@@ -31,7 +31,7 @@ import { bubble } from "../bubble/index.js";
  * });
  * // Or with custom events:
  * onSwipe(myBlock);
- * myBlock.addEventListener("swipe", (e) => console.debug(e.detail));
+ * myBlock.addEventListener("swipe", (e) => console.log(e.detail));
  *
  * // To destroy whole instance or remove listeners:
  * myBlock._swipeCtrl.destroy(); // or other name given in `options.instanceName`;
@@ -40,7 +40,7 @@ const onSwipe = (el, props = {}) => {
 
   ow(el, ow.object.validate(value => ({
     validator: isNode(value),
-    message: `The object must be node`
+    message: () => `The object must be node`
   })));
 
   ow(props, ow.object.exactShape({

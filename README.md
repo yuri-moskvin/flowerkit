@@ -20,7 +20,7 @@ import { domKit, evtKit, /* ... */ } from "@web3r/flowerkit";
 - **JSDoc**: each utility contains a detailed description and example of usage which are available in your IDE;
 - **Lightweight**: the entire library weighs no more than 30kb;
 - **Error catching**: immediate errors when passing invalid arguments;
-- **SSR friendly**: fallbacks for `window` and `document` objects.
+- **SSR friendly**: fallbacks for DOM `window` and `document` objects.
 
 ## Structure
 
@@ -34,6 +34,90 @@ import { domKit, evtKit, /* ... */ } from "@web3r/flowerkit";
 - `@web3r/flowerkit/obj` — for objects;
 - `@web3r/flowerkit/str` — for strings;
 - `@web3r/flowerkit/user` — for common user features;
+
+___
+## User utils:
+
+  * [getCookie(name)](#getCookie) ⇒ <code>string</code> \| <code>undefined</code>
+  * [setCookie(name, value, [options])](#setCookie)
+  * [getScrollbarWidth()](#getScrollbarWidth) ⇒ <code>number</code>
+  * [isMobileDevice()](#isMobileDevice) ⇒ <code>boolean</code>
+  * [isTouchDevice()](#isTouchDevice) ⇒ <code>boolean</code>
+
+<a name="getCookie"></a>
+
+### getCookie(name) ⇒ <code>string</code> \| <code>undefined</code>
+Gets the Cookie value
+
+**See**: https://developer.mozilla.org/en-US/docs/Web/API/Document/cookie  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| name | <code>String</code> | name of Cookie |
+
+
+**Example**  
+
+```js
+// How to get value of Cookie?setCookie("myCookieName", "myValue");const savedValue = getCookie("myCookieName");console.log(savedValue); // => "myValue"
+```
+
+<a name="setCookie"></a>
+
+### setCookie(name, value, [options])
+Sets the Cookie value
+
+**See**: https://developer.mozilla.org/en-US/docs/Web/API/Document/cookie  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| name | <code>String</code> | name of Cookie |
+| value | <code>String</code> | value of Cookie |
+| [options] | <code>Object</code> | options of Cookie |
+
+
+**Example**  
+
+```js
+// How to set Cookie for one day or other time?setCookie("myCookie", "value", { expires: 86400 }) // expires in sec
+```
+
+<a name="getScrollbarWidth"></a>
+
+### getScrollbarWidth() ⇒ <code>number</code>
+Gets width of user scrollbar
+
+
+**Example**  
+
+```js
+// How to get width of user scrollbar?const scrollbarWidth = getScrollBarWidth();console.log(scrollbarWidth); // => number
+```
+
+<a name="isMobileDevice"></a>
+
+### isMobileDevice() ⇒ <code>boolean</code>
+Checks  if the user is using a mobile browser
+
+
+**Example**  
+
+```js
+// How to detect mobile browser?const isMobile = isMobileDevice();console.log(isMobile); // => false
+```
+
+<a name="isTouchDevice"></a>
+
+### isTouchDevice() ⇒ <code>boolean</code>
+Checks if user devise has touchscreen
+
+
+**Example**  
+
+```js
+// How to check if user has touchscreen device?const isTouchEnabled = isTouchDevice();console.log(isTouchEnabled); // => false
+```
+
 
 ___
 ## Array utils:
@@ -298,86 +382,112 @@ Sets CSS3 variable to specific DOM node
 
 
 ___
-## User utils:
+## Event utils:
 
-  * [getCookie(name)](#getCookie) ⇒ <code>string</code> \| <code>undefined</code>
-  * [setCookie(name, value, [options])](#setCookie)
-  * [getScrollbarWidth()](#getScrollbarWidth) ⇒ <code>number</code>
-  * [isMobileDevice()](#isMobileDevice) ⇒ <code>boolean</code>
-  * [isTouchDevice()](#isTouchDevice) ⇒ <code>boolean</code>
+  * [bubble(el, name, [detail], [params])](#bubble)
+  * [onDOMReady(cb)](#onDOMReady)
+  * [onSwipe(el, [props])](#onSwipe)
+  * [onWindowLoad(cb)](#onWindowLoad)
+  * [onWindowResize(cb, [delay])](#onWindowResize)
 
-<a name="getCookie"></a>
+<a name="bubble"></a>
 
-### getCookie(name) ⇒ <code>string</code> \| <code>undefined</code>
-Gets the Cookie value
+### bubble(el, name, [detail], [params])
+Creates a custom event that bubbles up through the DOM
 
-**See**: https://developer.mozilla.org/en-US/docs/Web/API/Document/cookie  
-
-| Param | Type | Description |
-| --- | --- | --- |
-| name | <code>String</code> | name of Cookie |
-
-
-**Example**  
-
-```js
-// How to get value of Cookie?setCookie("myCookieName", "myValue");const savedValue = getCookie("myCookieName");console.debug(savedValue); // => "myValue"
-```
-
-<a name="setCookie"></a>
-
-### setCookie(name, value, [options])
-Sets the Cookie value
-
-**See**: https://developer.mozilla.org/en-US/docs/Web/API/Document/cookie  
+**See**: https://developer.mozilla.org/en-US/docs/Web/Events/Creating_and_triggering_events  
 
 | Param | Type | Description |
 | --- | --- | --- |
-| name | <code>String</code> | name of Cookie |
-| value | <code>String</code> | value of Cookie |
-| [options] | <code>Object</code> | options of Cookie |
+| el | <code>HTMLElement</code> \| <code>Node</code> \| <code>Element</code> \| <code>Document</code> | DOM element |
+| name | <code>String</code> | name of CustomEvent |
+| [detail] | <code>\*</code> | detail field of CustomEvent |
+| [params] | <code>Object</code> | other params of CustomEvent |
 
 
 **Example**  
 
 ```js
-// How to set Cookie for one day or other time?setCookie("myCookie", "value", { expires: 86400 }) // expires in sec
+// How to create custom event with user data and bubble it on document element?bubble(document, "myEvent", { myData: "test" })// How to create custom event and bubble it on specific node?const myEl = document.querySelector("#myElement");if(myEl) {  bubble(myEl, "myEvent")}// How to listen custom events? Use your listener before calling of bubble function.document.addEventListener("myEvent", (e) => console.log(e));
 ```
 
-<a name="getScrollbarWidth"></a>
+<a name="onDOMReady"></a>
 
-### getScrollbarWidth() ⇒ <code>number</code>
-Gets width of user scrollbar
+### onDOMReady(cb)
+Runs callback when DOM tree can be manipulated
+
+**See**: https://developer.mozilla.org/en-US/docs/Web/API/Document/DOMContentLoaded_event  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| cb | <code>function</code> | callback function |
 
 
 **Example**  
 
 ```js
-// How to get width of user scrollbar?const scrollbarWidth = getScrollBarWidth();console.log(scrollbarWidth); // => number
+// How to check if DOM is ready?const callback = () => console.log("DOM Content Loaded");onDOMReady(callback);
 ```
 
-<a name="isMobileDevice"></a>
+<a name="onSwipe"></a>
 
-### isMobileDevice() ⇒ <code>boolean</code>
-Checks  if the user is using a mobile browser
+### onSwipe(el, [props])
+Adds custom `swipe` event on element.Works on desktop and mobile browsers.Supports speed, time and direction.Generates custom `swipe` event on element or uses your own callback.
+
+
+| Param | Type | Description |
+| --- | --- | --- |
+| el | <code>HTMLElement</code> \| <code>Node</code> \| <code>Element</code> \| <code>Document</code> | DOM element |
+| [props] | <code>Object</code> | swipe params |
+| [props.callback] | <code>function</code> | callback function after `swipe` |
+| [props.minDist] | <code>Number</code> | min distance for swipe in `px` |
+| [props.maxDist] | <code>Number</code> | max distance for swipe in `px` |
+| [props.minTime] | <code>Number</code> | min duration of swipe in `ms` |
+| [props.maxTime] | <code>Number</code> | max duration of swipe in `ms` |
+| [props.instanceName] | <code>String</code> | instance name to access it from node itself |
 
 
 **Example**  
 
 ```js
-// How to detect mobile browser?const isMobile = isMobileDevice();console.debug(isMobile); // => false
+// How to listen `swipe` event on element in JS?// <div id="myBlock"></div>const myBlock = document.getElementById("myBlock");onSwipe(myBlock, {  callback: ({ dist, dir, time }) => {    console.log(dir, dist, time); // swipe direction, swipe distant, swipe time    if(dir === "right") {      // logic for right swipe    }  }});// Or with custom events:onSwipe(myBlock);myBlock.addEventListener("swipe", (e) => console.log(e.detail));// To destroy whole instance or remove listeners:myBlock._swipeCtrl.destroy(); // or other name given in `options.instanceName`;
 ```
 
-<a name="isTouchDevice"></a>
+<a name="onWindowLoad"></a>
 
-### isTouchDevice() ⇒ <code>boolean</code>
-Checks if user devise has touchscreen
+### onWindowLoad(cb)
+Runs callback when page has fully loaded
+
+**See**: https://developer.mozilla.org/en-US/docs/Web/API/Window/load_event  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| cb | <code>function</code> | callback function |
 
 
 **Example**  
 
 ```js
-// How to check if user has touchscreen device?const isTouchEnabled = isTouchDevice();console.log(isTouchEnabled); // => false
+// How to detect when whole page has loaded?const callback = () => console.log("Page loaded");onWindowLoad(callback);
+```
+
+<a name="onWindowResize"></a>
+
+### onWindowResize(cb, [delay])
+Runs callback when page has been resized
+
+**See**: https://developer.mozilla.org/en-US/docs/Web/API/Window/resize_event  
+
+| Param | Type | Default | Description |
+| --- | --- | --- | --- |
+| cb | <code>function</code> |  | callback function |
+| [delay] | <code>Number</code> | <code>300</code> | callback execution delay |
+
+
+**Example**  
+
+```js
+// How to detect when page has been resized and run callback once when resize ends?const callback = () => console.log("Page loaded");onWindowLoad(callback);
 ```
 
 
@@ -459,7 +569,7 @@ Gets index of Node from relatively its siblings
 **Example**  
 
 ```js
-// How to get index of specific `li` element?// <ul>//   <li>0<li>//   <li id="myElement">1</li>//   <li>2</li>// </ul>const index = document.querySelector("li#myElement");console.debug(index); // => 1
+// How to get index of specific `li` element?// <ul>//   <li>0<li>//   <li id="myElement">1</li>//   <li>2</li>// </ul>const index = document.querySelector("li#myElement");console.log(index); // => 1
 ```
 
 <a name="isNode"></a>
@@ -494,116 +604,6 @@ Removes all child nodes of given node
 
 ```js
 // How to remove all child elements of a DOM node?// <div id="myBlock"><div>Block with child nodes</div></div>const myDiv = document.getElementById("myBlock");removeChildNodes(myDiv);console.log(Array.from(myDiv.children).length); // => 0
-```
-
-
-___
-## Event utils:
-
-  * [bubble(el, name, [detail], [params])](#bubble)
-  * [onDOMReady(cb)](#onDOMReady)
-  * [onSwipe(el, [props])](#onSwipe)
-  * [onWindowLoad(cb)](#onWindowLoad)
-  * [onWindowResize(cb, [delay])](#onWindowResize)
-
-<a name="bubble"></a>
-
-### bubble(el, name, [detail], [params])
-Creates a custom event that bubbles up through the DOM
-
-**See**: https://developer.mozilla.org/en-US/docs/Web/Events/Creating_and_triggering_events  
-
-| Param | Type | Description |
-| --- | --- | --- |
-| el | <code>HTMLElement</code> \| <code>Node</code> \| <code>Element</code> \| <code>Document</code> | DOM element |
-| name | <code>String</code> | name of CustomEvent |
-| [detail] | <code>\*</code> | detail field of CustomEvent |
-| [params] | <code>Object</code> | other params of CustomEvent |
-
-
-**Example**  
-
-```js
-// How to create custom event with user data and bubble it on document element?bubble(document, "myEvent", { myData: "test" })// How to create custom event and bubble it on specific node?const myEl = document.querySelector("#myElement");if(myEl) {  bubble(myEl, "myEvent")}// How to listen custom events? Use your listener before calling of bubble function.document.addEventListener("myEvent", (e) => console.debug(e));
-```
-
-<a name="onDOMReady"></a>
-
-### onDOMReady(cb)
-Runs callback when DOM tree can be manipulated
-
-**See**: https://developer.mozilla.org/en-US/docs/Web/API/Document/DOMContentLoaded_event  
-
-| Param | Type | Description |
-| --- | --- | --- |
-| cb | <code>function</code> | callback function |
-
-
-**Example**  
-
-```js
-// How to check if DOM is ready?const callback = () => console.log("DOM Content Loaded");onDOMReady(callback);
-```
-
-<a name="onSwipe"></a>
-
-### onSwipe(el, [props])
-Adds custom `swipe` event on element.Works on desktop and mobile browsers.Supports speed, time and direction.Generates custom `swipe` event on element or uses your own callback.
-
-
-| Param | Type | Description |
-| --- | --- | --- |
-| el | <code>HTMLElement</code> \| <code>Node</code> \| <code>Element</code> \| <code>Document</code> | DOM element |
-| [props] | <code>Object</code> | swipe params |
-| [props.callback] | <code>function</code> | callback function after `swipe` |
-| [props.minDist] | <code>Number</code> | min distance for swipe in `px` |
-| [props.maxDist] | <code>Number</code> | max distance for swipe in `px` |
-| [props.minTime] | <code>Number</code> | min duration of swipe in `ms` |
-| [props.maxTime] | <code>Number</code> | max duration of swipe in `ms` |
-| [props.instanceName] | <code>String</code> | instance name to access it from node itself |
-
-
-**Example**  
-
-```js
-// How to listen `swipe` event on element in JS?// <div id="myBlock"></div>const myBlock = document.getElementById("myBlock");onSwipe(myBlock, {  callback: ({ dist, dir, time }) => {    console.log(dir, dist, time); // swipe direction, swipe distant, swipe time    if(dir === "right") {      // logic for right swipe    }  }});// Or with custom events:onSwipe(myBlock);myBlock.addEventListener("swipe", (e) => console.debug(e.detail));// To destroy whole instance or remove listeners:myBlock._swipeCtrl.destroy(); // or other name given in `options.instanceName`;
-```
-
-<a name="onWindowLoad"></a>
-
-### onWindowLoad(cb)
-Runs callback when page has fully loaded
-
-**See**: https://developer.mozilla.org/en-US/docs/Web/API/Window/load_event  
-
-| Param | Type | Description |
-| --- | --- | --- |
-| cb | <code>function</code> | callback function |
-
-
-**Example**  
-
-```js
-// How to detect when whole page has loaded?const callback = () => console.log("Page loaded");onWindowLoad(callback);
-```
-
-<a name="onWindowResize"></a>
-
-### onWindowResize(cb, [delay])
-Runs callback when page has been resized
-
-**See**: https://developer.mozilla.org/en-US/docs/Web/API/Window/resize_event  
-
-| Param | Type | Default | Description |
-| --- | --- | --- | --- |
-| cb | <code>function</code> |  | callback function |
-| [delay] | <code>Number</code> | <code>300</code> | callback execution delay |
-
-
-**Example**  
-
-```js
-// How to detect when page has been resized and run callback once when resize ends?const callback = () => console.log("Page loaded");onWindowLoad(callback);
 ```
 
 
@@ -964,7 +964,7 @@ Checks if an object is empty
 **Example**  
 
 ```js
-// How to check if an object is empty?const obj = {};const isEmpty = isObjEmpty(obj);console.debug(isEmpty); // => true
+// How to check if an object is empty?const obj = {};const isEmpty = isObjEmpty(obj);console.log(isEmpty); // => true
 ```
 
 <a name="isObjHasOwnProp"></a>
@@ -983,7 +983,7 @@ Checks if object has own property
 **Example**  
 
 ```js
-// How to check if object has property without calling method directly?const obj = {  foo: "bar"};const isHasOwnProp = isObjHasOwnProp(obj, "foo");console.debug(isHasOwnProp); // => true
+// How to check if object has property without calling method directly?const obj = {  foo: "bar"};const isHasOwnProp = isObjHasOwnProp(obj, "foo");console.log(isHasOwnProp); // => true
 ```
 
 <a name="isObjPromise"></a>
@@ -1000,7 +1000,7 @@ Checks if an object is promise
 **Example**  
 
 ```js
-// How to check if an object is promise?const obj = new Promise();const isPromise = isObjPromise(obj);console.debug(isPromise); // => true
+// How to check if an object is promise?const obj = new Promise();const isPromise = isObjPromise(obj);console.log(isPromise); // => true
 ```
 
 

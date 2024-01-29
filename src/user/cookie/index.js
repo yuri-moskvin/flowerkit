@@ -10,7 +10,7 @@ import { getDocument } from "ssr-window";
  * // How to get value of Cookie?
  * setCookie("myCookieName", "myValue");
  * const savedValue = getCookie("myCookieName");
- * console.debug(savedValue); // => "myValue"
+ * console.log(savedValue); // => "myValue"
  */
 const getCookie = (name) => {
 

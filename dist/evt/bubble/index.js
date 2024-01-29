@@ -17,6 +17,6 @@ import ow from"ow";import{getDocument}from"ssr-window";import{isNode}from"../../
  * }
  *
  * // How to listen custom events? Use your listener before calling of bubble function.
- * document.addEventListener("myEvent", (e) => console.debug(e));
- */const bubble=(el=getDocument(),name,detail,params={})=>{ow(el,ow.object.validate((value=>({validator:isNode(value),message:`The object must be node`}))));ow(name,ow.string.not.empty);ow(params,ow.optional.object);const eventParams={cancelable:true,bubbles:true,detail:detail,...params};const event=new CustomEvent(name,eventParams);el.dispatchEvent(event)};export{bubble};
+ * document.addEventListener("myEvent", (e) => console.log(e));
+ */const bubble=(el=getDocument(),name,detail,params={})=>{ow(el,ow.object.validate((value=>({validator:isNode(value),message:()=>`The object must be node`}))));ow(name,ow.string.not.empty);ow(params,ow.optional.object);const eventParams={cancelable:true,bubbles:true,detail:detail,...params};if(typeof dispatchEvent==="function"&&typeof CustomEvent==="function"){const event=new CustomEvent(name,eventParams);el?.dispatchEvent(event)}};export{bubble};
 //# sourceMappingURL=index.js.map
