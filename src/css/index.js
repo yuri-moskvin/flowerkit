@@ -3,6 +3,7 @@ import { getCSSValue } from "./getCSSValue/index.js";
 import { getCSSVar } from "./getCSSVar/index.js";
 import { isMediaQuery } from "./isMediaQuery/index.js";
 import { isSelectorValid } from "./isSelectorValid/index.js";
+import { removeCSSVar } from "./removeCSSVar/index.js";
 import { setCSSVar } from "./setCSSVar/index.js";
 
 export {
@@ -11,5 +12,6 @@ export {
   getCSSValue,
   isMediaQuery,
   isSelectorValid,
-  setCSSVar
+  setCSSVar,
+  removeCSSVar
 };
