@@ -18,17 +18,7 @@ const getAsyncMap = async (arr, callback) => {
   ow(arr, ow.array);
   ow(callback, ow.function);
 
-  if (arr.length) {
-    return await Promise.all(arr.map(async (item, index, array) => {
-      try {
-        return await callback(item, index, array);
-      } catch (err) {
-        return Promise.reject(err);
-      }
-    }));
-  } else {
-    return Promise.reject(arr);
-  }
+  return await Promise.all(arr.map(callback));
 };
 
 export {

@@ -10,5 +10,5 @@ import ow from"ow";
  * const arr2 = [ 2, 3, 4, 5 ];
  * const intersection = getIntersection(arr1, arr2);
  * console.log(intersection); // => [ 2, 3 ]
- */const getIntersection=(arr1,arr2)=>{ow(arr1,ow.array);ow(arr1,ow.array);const setA=new Set(arr1);const setB=new Set(arr2);const intersection=new Set([...setA].filter((x=>setB.has(x))));return Array.from(intersection)};export{getIntersection};
+ */const getIntersection=(arr1,arr2)=>{ow(arr1,ow.array);ow(arr2,ow.array);return[...arr1].filter((val=>arr2.includes(val)))};export{getIntersection};
 //# sourceMappingURL=index.js.map

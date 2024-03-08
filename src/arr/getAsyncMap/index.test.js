@@ -24,7 +24,7 @@ describe(getAsyncMap.name, () => {
   });
 
   test("Checks for empty array", async () => {
-    await expect(getAsyncMap([], () => {})).rejects.toStrictEqual([]);
+    await expect(getAsyncMap([], () => {})).resolves.toStrictEqual([]);
   });
 
 });

@@ -8,7 +8,7 @@ import { getUrlWithQueryParams } from "../getUrlWithQueryParams/index.js";
 /**
  * Gets result of async fetch query to the server. Lightweight alternative for `axios` lib
  * @param props{Object=} - params
- * @param props.contentType{String=} - type of request content ("auto" (by default), "application/x-www-form-urlencoded", or "multipart/form-data")
+ * @param props.contentType{String=} - type of request content ("auto" (by default), "application/json", "application/x-www-form-urlencoded", or "multipart/form-data")
  * @param props.isBubble{Boolean=} - bubble a custom event with name "getFromServer" after success request and response in details event field
  * @param props.timeout{Number=} - query timeout
  * @param props.method{String=} - request method (`GET` (by default), `PUT`, `POST` or `DELETE`)

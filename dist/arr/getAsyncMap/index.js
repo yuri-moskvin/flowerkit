@@ -11,5 +11,5 @@ import ow from"ow";
  * const array = [ 1, 2, 3 ];
  * const result = await getAsyncMap(array, myAPIFn);
  * console.log(result); // => [ "success1", "success2, "success3" ]
- */const getAsyncMap=async(arr,callback)=>{ow(arr,ow.array);ow(callback,ow.function);if(arr.length)return await Promise.all(arr.map((async(item,index,array)=>{try{return await callback(item,index,array)}catch(err){return Promise.reject(err)}})));else return Promise.reject(arr)};export{getAsyncMap};
+ */const getAsyncMap=async(arr,callback)=>{ow(arr,ow.array);ow(callback,ow.function);return await Promise.all(arr.map(callback))};export{getAsyncMap};
 //# sourceMappingURL=index.js.map
