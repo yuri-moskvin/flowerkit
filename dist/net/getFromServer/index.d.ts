@@ -41,6 +41,8 @@
  * // How to GET some user id data from the server with promise?
  * getFromServer({ url: "/api/send", method: "GET" })
  *   .then(resp => console.log(resp.userId)) // GET "api/send" and return promise with response
+ *
+ * // By default `headers` contains key `"X-Requested-With" with "XMLHttpRequest" value` for legacy AJAX support
  */
 export function getFromServer(props?: any | undefined): Promise<any>;
 //# sourceMappingURL=index.d.ts.map

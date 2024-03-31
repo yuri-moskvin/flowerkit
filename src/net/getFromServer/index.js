@@ -48,6 +48,8 @@ import { getUrlWithQueryParams } from "../getUrlWithQueryParams/index.js";
  * // How to GET some user id data from the server with promise?
  * getFromServer({ url: "/api/send", method: "GET" })
  *   .then(resp => console.log(resp.userId)) // GET "api/send" and return promise with response
+ *
+ * // By default `headers` contains key `"X-Requested-With" with "XMLHttpRequest" value` for legacy AJAX support
  */
 const getFromServer = async (props = {}) => {
 
@@ -93,7 +95,9 @@ const getFromServer = async (props = {}) => {
     getResp,
     type = "json",
     url = getWindow().location.href || "./",
-    headers = {},
+    headers = {
+      "X-Requested-With": "XMLHttpRequest"
+    },
     allowedCodes = [],
     credentials = "same-origin",
     redirect = "follow",

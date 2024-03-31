@@ -282,6 +282,232 @@ Sets CSS3 variable to specific DOM node
 
 
 ___
+## DOM utils:
+
+  * [getElSiblings(el)](#getElSiblings) ⇒ <code>Array</code>
+  * [getElWrapper(el, str)](#getElWrapper) ⇒ <code>ChildNode</code>
+  * [getHTMLFromStr(str, type)](#getHTMLFromStr) ⇒ <code>NodeList</code>
+  * [getIndexOfEl(el)](#getIndexOfEl) ⇒ <code>number</code>
+  * [isNode(el)](#isNode) ⇒ <code>boolean</code>
+  * [removeChildNodes(el)](#removeChildNodes)
+
+<a name="getElSiblings"></a>
+
+### getElSiblings(el) ⇒ <code>Array</code>
+Gets array of all siblings of given node
+
+
+| Param | Type | Description |
+| --- | --- | --- |
+| el | <code>Node</code> \| <code>Element</code> \| <code>HTMLElement</code> | node |
+
+
+**Example**  
+
+```js
+// How to get all siblings of `li` DOM-element with specific ID?// <ul>//   <li id="item1">One</li>//   <li id="item2">Two</li>//   <li id="item3">Three</li>// <ul>const secondItem = document.getElementById("item2");getElSiblings(secondItem).filter(item => item !== secondItem) // [ li#item1, li#utem3 ]
+```
+
+<a name="getElWrapper"></a>
+
+### getElWrapper(el, str) ⇒ <code>ChildNode</code>
+Gets a wrapper for specific element
+
+
+| Param | Type | Description |
+| --- | --- | --- |
+| el | <code>HTMLElement</code> \| <code>Node</code> \| <code>Element</code> \| <code>Document</code> | DOM element |
+| str | <code>String</code> | string of wrapper HTML layout (supports nested blocks) |
+
+
+**Example**  
+
+```js
+// How to wrap content to the few nested `div` blocks?// <div id="block">My Element</div>const wrapperLayout = ` <div class="wrapper">   <div class="wrapper__inner"></div> </div>`;const el = document.getElementById("block");const wrapped = getElWrapper(el, wrapperLayout);console.log(wrapped.outerHTML); // => `<div class="wrapper"><div class="wrapper__inner"><div id="block">My Element</div></div></div>`
+```
+
+<a name="getHTMLFromStr"></a>
+
+### getHTMLFromStr(str, type) ⇒ <code>NodeList</code>
+Get parsed HTML from string and returns NodeList that include elements and text
+
+**See**: https://developer.mozilla.org/en-US/docs/Web/API/DOMParser  
+
+| Param | Type | Default | Description |
+| --- | --- | --- | --- |
+| str | <code>String</code> |  | source string |
+| type | <code>DOMParserSupportedType</code> | <code>text/html</code> | content type ("application/xhtml+xml", "application/xml", "image/svg+xml", "text/html" (by default) or "text/xml" |
+
+
+**Example**  
+
+```js
+// How to get parsed HTML elements from string?Array.from(getHTMLFromStr(`  <p>Hello world!</p>  <p>Hello world!</p>`)); // returns array of two paragraph nodes
+```
+
+<a name="getIndexOfEl"></a>
+
+### getIndexOfEl(el) ⇒ <code>number</code>
+Gets index of Node from relatively its siblings
+
+
+| Param | Type | Description |
+| --- | --- | --- |
+| el | <code>HTMLElement</code> \| <code>Node</code> \| <code>Element</code> \| <code>Document</code> | DOM element |
+
+
+**Example**  
+
+```js
+// How to get index of specific `li` element?// <ul>//   <li>0<li>//   <li id="myElement">1</li>//   <li>2</li>// </ul>const index = document.querySelector("li#myElement");console.log(index); // => 1
+```
+
+<a name="isNode"></a>
+
+### isNode(el) ⇒ <code>boolean</code>
+Checks whether the specified object is a DOM element
+
+
+| Param | Type | Description |
+| --- | --- | --- |
+| el | <code>\*</code> | source object |
+
+
+**Example**  
+
+```js
+// How to check if object is dom node?const isMyElNode = isNode(document.getElementById("test"));console.log(isMyElNode) // => boolean
+```
+
+<a name="removeChildNodes"></a>
+
+### removeChildNodes(el)
+Removes all child nodes of given node
+
+
+| Param | Type | Description |
+| --- | --- | --- |
+| el | <code>Node</code> \| <code>Element</code> \| <code>HTMLElement</code> \| <code>Document</code> | node |
+
+
+**Example**  
+
+```js
+// How to remove all child elements of a DOM node?// <div id="myBlock"><div>Block with child nodes</div></div>const myDiv = document.getElementById("myBlock");removeChildNodes(myDiv);console.log(Array.from(myDiv.children).length); // => 0
+```
+
+
+___
+## Event utils:
+
+  * [bubble(el, name, [detail], [params])](#bubble)
+  * [onDOMReady(cb)](#onDOMReady)
+  * [onSwipe(el, [props])](#onSwipe)
+  * [onWindowLoad(cb)](#onWindowLoad)
+  * [onWindowResize(cb, [delay])](#onWindowResize)
+
+<a name="bubble"></a>
+
+### bubble(el, name, [detail], [params])
+Creates a custom event that bubbles up through the DOM
+
+**See**: https://developer.mozilla.org/en-US/docs/Web/Events/Creating_and_triggering_events  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| el | <code>HTMLElement</code> \| <code>Node</code> \| <code>Element</code> \| <code>Document</code> | DOM element |
+| name | <code>String</code> | name of CustomEvent |
+| [detail] | <code>\*</code> | detail field of CustomEvent |
+| [params] | <code>Object</code> | other params of CustomEvent |
+
+
+**Example**  
+
+```js
+// How to create custom event with user data and bubble it on document element?bubble(document, "myEvent", { myData: "test" })// How to create custom event and bubble it on specific node?const myEl = document.querySelector("#myElement");if(myEl) {  bubble(myEl, "myEvent")}// How to listen custom events? Use your listener before calling of bubble function.document.addEventListener("myEvent", (e) => console.log(e));
+```
+
+<a name="onDOMReady"></a>
+
+### onDOMReady(cb)
+Runs callback when DOM tree can be manipulated
+
+**See**: https://developer.mozilla.org/en-US/docs/Web/API/Document/DOMContentLoaded_event  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| cb | <code>function</code> | callback function |
+
+
+**Example**  
+
+```js
+// How to check if DOM is ready?const callback = () => console.log("DOM Content Loaded");onDOMReady(callback);
+```
+
+<a name="onSwipe"></a>
+
+### onSwipe(el, [props])
+Adds custom `swipe` event on element.Works on desktop and mobile browsers.Supports speed, time and direction.Generates custom `swipe` event on element or uses your own callback.
+
+
+| Param | Type | Description |
+| --- | --- | --- |
+| el | <code>HTMLElement</code> \| <code>Node</code> \| <code>Element</code> \| <code>Document</code> | DOM element |
+| [props] | <code>Object</code> | swipe params |
+| [props.callback] | <code>function</code> | callback function after `swipe` |
+| [props.minDist] | <code>Number</code> | min distance for swipe in `px` |
+| [props.maxDist] | <code>Number</code> | max distance for swipe in `px` |
+| [props.minTime] | <code>Number</code> | min duration of swipe in `ms` |
+| [props.maxTime] | <code>Number</code> | max duration of swipe in `ms` |
+| [props.instanceName] | <code>String</code> | instance name to access it from node itself |
+
+
+**Example**  
+
+```js
+// How to listen `swipe` event on element in JS?// <div id="myBlock"></div>const myBlock = document.getElementById("myBlock");onSwipe(myBlock, {  callback: ({ dist, dir, time }) => {    console.log(dir, dist, time); // swipe direction, swipe distant, swipe time    if(dir === "right") {      // logic for right swipe    }  }});// Or with custom events:onSwipe(myBlock);myBlock.addEventListener("swipe", (e) => console.log(e.detail));// To destroy whole instance or remove listeners:myBlock._swipeCtrl.destroy(); // or other name given in `options.instanceName`;
+```
+
+<a name="onWindowLoad"></a>
+
+### onWindowLoad(cb)
+Runs callback when page has fully loaded
+
+**See**: https://developer.mozilla.org/en-US/docs/Web/API/Window/load_event  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| cb | <code>function</code> | callback function |
+
+
+**Example**  
+
+```js
+// How to detect when whole page has loaded?const callback = () => console.log("Page loaded");onWindowLoad(callback);
+```
+
+<a name="onWindowResize"></a>
+
+### onWindowResize(cb, [delay])
+Runs callback when page has been resized
+
+**See**: https://developer.mozilla.org/en-US/docs/Web/API/Window/resize_event  
+
+| Param | Type | Default | Description |
+| --- | --- | --- | --- |
+| cb | <code>function</code> |  | callback function |
+| [delay] | <code>Number</code> | <code>300</code> | callback execution delay |
+
+
+**Example**  
+
+```js
+// How to detect when page has been resized and run callback once when resize ends?const callback = () => console.log("Page loaded");onWindowLoad(callback);
+```
+
+
+___
 ## User utils:
 
   * [getCookie(name)](#getCookie) ⇒ <code>string</code> \| <code>undefined</code>
@@ -464,122 +690,6 @@ Gets a Promise that resolves after specific time
 
 
 ___
-## DOM utils:
-
-  * [getElSiblings(el)](#getElSiblings) ⇒ <code>Array</code>
-  * [getElWrapper(el, str)](#getElWrapper) ⇒ <code>ChildNode</code>
-  * [getHTMLFromStr(str, type)](#getHTMLFromStr) ⇒ <code>NodeList</code>
-  * [getIndexOfEl(el)](#getIndexOfEl) ⇒ <code>number</code>
-  * [isNode(el)](#isNode) ⇒ <code>boolean</code>
-  * [removeChildNodes(el)](#removeChildNodes)
-
-<a name="getElSiblings"></a>
-
-### getElSiblings(el) ⇒ <code>Array</code>
-Gets array of all siblings of given node
-
-
-| Param | Type | Description |
-| --- | --- | --- |
-| el | <code>Node</code> \| <code>Element</code> \| <code>HTMLElement</code> | node |
-
-
-**Example**  
-
-```js
-// How to get all siblings of `li` DOM-element with specific ID?// <ul>//   <li id="item1">One</li>//   <li id="item2">Two</li>//   <li id="item3">Three</li>// <ul>const secondItem = document.getElementById("item2");getElSiblings(secondItem).filter(item => item !== secondItem) // [ li#item1, li#utem3 ]
-```
-
-<a name="getElWrapper"></a>
-
-### getElWrapper(el, str) ⇒ <code>ChildNode</code>
-Gets a wrapper for specific element
-
-
-| Param | Type | Description |
-| --- | --- | --- |
-| el | <code>HTMLElement</code> \| <code>Node</code> \| <code>Element</code> \| <code>Document</code> | DOM element |
-| str | <code>String</code> | string of wrapper HTML layout (supports nested blocks) |
-
-
-**Example**  
-
-```js
-// How to wrap content to the few nested `div` blocks?// <div id="block">My Element</div>const wrapperLayout = ` <div class="wrapper">   <div class="wrapper__inner"></div> </div>`;const el = document.getElementById("block");const wrapped = getElWrapper(el, wrapperLayout);console.log(wrapped.outerHTML); // => `<div class="wrapper"><div class="wrapper__inner"><div id="block">My Element</div></div></div>`
-```
-
-<a name="getHTMLFromStr"></a>
-
-### getHTMLFromStr(str, type) ⇒ <code>NodeList</code>
-Get parsed HTML from string and returns NodeList that include elements and text
-
-**See**: https://developer.mozilla.org/en-US/docs/Web/API/DOMParser  
-
-| Param | Type | Default | Description |
-| --- | --- | --- | --- |
-| str | <code>String</code> |  | source string |
-| type | <code>DOMParserSupportedType</code> | <code>text/html</code> | content type ("application/xhtml+xml", "application/xml", "image/svg+xml", "text/html" (by default) or "text/xml" |
-
-
-**Example**  
-
-```js
-// How to get parsed HTML elements from string?Array.from(getHTMLFromStr(`  <p>Hello world!</p>  <p>Hello world!</p>`)); // returns array of two paragraph nodes
-```
-
-<a name="getIndexOfEl"></a>
-
-### getIndexOfEl(el) ⇒ <code>number</code>
-Gets index of Node from relatively its siblings
-
-
-| Param | Type | Description |
-| --- | --- | --- |
-| el | <code>HTMLElement</code> \| <code>Node</code> \| <code>Element</code> \| <code>Document</code> | DOM element |
-
-
-**Example**  
-
-```js
-// How to get index of specific `li` element?// <ul>//   <li>0<li>//   <li id="myElement">1</li>//   <li>2</li>// </ul>const index = document.querySelector("li#myElement");console.log(index); // => 1
-```
-
-<a name="isNode"></a>
-
-### isNode(el) ⇒ <code>boolean</code>
-Checks whether the specified object is a DOM element
-
-
-| Param | Type | Description |
-| --- | --- | --- |
-| el | <code>\*</code> | source object |
-
-
-**Example**  
-
-```js
-// How to check if object is dom node?const isMyElNode = isNode(document.getElementById("test"));console.log(isMyElNode) // => boolean
-```
-
-<a name="removeChildNodes"></a>
-
-### removeChildNodes(el)
-Removes all child nodes of given node
-
-
-| Param | Type | Description |
-| --- | --- | --- |
-| el | <code>Node</code> \| <code>Element</code> \| <code>HTMLElement</code> \| <code>Document</code> | node |
-
-
-**Example**  
-
-```js
-// How to remove all child elements of a DOM node?// <div id="myBlock"><div>Block with child nodes</div></div>const myDiv = document.getElementById("myBlock");removeChildNodes(myDiv);console.log(Array.from(myDiv.children).length); // => 0
-```
-
-
-___
 ## Network utils:
 
   * [getExternalScript([props])](#getExternalScript) ⇒ <code>Promise</code>
@@ -663,7 +773,7 @@ Gets result of async fetch query to the server. Lightweight alternative for `axi
 **Example**  
 
 ```js
-// How to POST data to the server?getFromServer({ url: "/api/send", method: "POST", data: { idUser: "123" } })  .then(resp => console.log(resp)) // POST "api/send" with JSON body// How to GET data from the server?getFromServer({ url: "/api/send", method: "GET", data: { idUser: "123" } })  .then(resp => console.log(resp)) // GET "/api/send/?idUser=123" with query params from "data" in url// How to POST data to the server with FormData?const myData = new FormData();getFromServer({ url: "/api/send", method: "POST", data: myData })  .then(resp => console.log(resp)) // POST "/api/send" with FormData body// How to GET some user id data from the server?const userId = await getFromServer({ url: "/api/send", method: "GET", getSuccessResp: (resp) => resp.userId }) // GET "api/send" and parse userId field from response// How to GET some user id data from the server with promise?getFromServer({ url: "/api/send", method: "GET" })  .then(resp => console.log(resp.userId)) // GET "api/send" and return promise with response
+// How to POST data to the server?getFromServer({ url: "/api/send", method: "POST", data: { idUser: "123" } })  .then(resp => console.log(resp)) // POST "api/send" with JSON body// How to GET data from the server?getFromServer({ url: "/api/send", method: "GET", data: { idUser: "123" } })  .then(resp => console.log(resp)) // GET "/api/send/?idUser=123" with query params from "data" in url// How to POST data to the server with FormData?const myData = new FormData();getFromServer({ url: "/api/send", method: "POST", data: myData })  .then(resp => console.log(resp)) // POST "/api/send" with FormData body// How to GET some user id data from the server?const userId = await getFromServer({ url: "/api/send", method: "GET", getSuccessResp: (resp) => resp.userId }) // GET "api/send" and parse userId field from response// How to GET some user id data from the server with promise?getFromServer({ url: "/api/send", method: "GET" })  .then(resp => console.log(resp.userId)) // GET "api/send" and return promise with response// By default `headers` contains key `"X-Requested-With" with "XMLHttpRequest" value` for legacy AJAX support
 ```
 
 <a name="getUrlWithQueryParams"></a>
@@ -682,160 +792,6 @@ Gets a URL string with updated query params from object or FormData instance
 
 ```js
 // How to set query params to URL string?const url = "https://example.com";getUrlWithQueryParams(url, { foo: 1 }); // "https://example.com/?foo=1"// How to update query params in URL string?const url = "/api/users/?page=1";getUrlWithQueryParams(url, { page: 2, limit: 100 }); // "/api/users/?page=2&limit=100"
-```
-
-
-___
-## Json utils:
-
-  * [getJSONFromStr(str, [reviver], [onError])](#getJSONFromStr) ⇒ <code>Object</code>
-  * [isJSON(str)](#isJSON) ⇒ <code>Boolean</code>
-
-<a name="getJSONFromStr"></a>
-
-### getJSONFromStr(str, [reviver], [onError]) ⇒ <code>Object</code>
-Gets safely parsed JSON from string
-
-**See**: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/JSON/parse  
-
-| Param | Type | Description |
-| --- | --- | --- |
-| str | <code>String</code> | source string |
-| [reviver] | <code>function</code> | reviver function |
-| [onError] | <code>function</code> | error callback |
-
-
-**Example**  
-
-```js
-// How convert string to JSON?const json = getJSONFromStr('{ "hello": "world" }');console.log(json.hello) // => "world"
-```
-
-<a name="isJSON"></a>
-
-### isJSON(str) ⇒ <code>Boolean</code>
-Checks if string is a valid JSON string
-
-
-| Param | Type | Description |
-| --- | --- | --- |
-| str | <code>String</code> | source String |
-
-
-**Example**  
-
-```js
-// How to check if string is a JSON?const str = '{ "hello": "world" }';const isStrJSON = isJSON(str);console.log(isStrJSON); // => true
-```
-
-
-___
-## Event utils:
-
-  * [bubble(el, name, [detail], [params])](#bubble)
-  * [onDOMReady(cb)](#onDOMReady)
-  * [onSwipe(el, [props])](#onSwipe)
-  * [onWindowLoad(cb)](#onWindowLoad)
-  * [onWindowResize(cb, [delay])](#onWindowResize)
-
-<a name="bubble"></a>
-
-### bubble(el, name, [detail], [params])
-Creates a custom event that bubbles up through the DOM
-
-**See**: https://developer.mozilla.org/en-US/docs/Web/Events/Creating_and_triggering_events  
-
-| Param | Type | Description |
-| --- | --- | --- |
-| el | <code>HTMLElement</code> \| <code>Node</code> \| <code>Element</code> \| <code>Document</code> | DOM element |
-| name | <code>String</code> | name of CustomEvent |
-| [detail] | <code>\*</code> | detail field of CustomEvent |
-| [params] | <code>Object</code> | other params of CustomEvent |
-
-
-**Example**  
-
-```js
-// How to create custom event with user data and bubble it on document element?bubble(document, "myEvent", { myData: "test" })// How to create custom event and bubble it on specific node?const myEl = document.querySelector("#myElement");if(myEl) {  bubble(myEl, "myEvent")}// How to listen custom events? Use your listener before calling of bubble function.document.addEventListener("myEvent", (e) => console.log(e));
-```
-
-<a name="onDOMReady"></a>
-
-### onDOMReady(cb)
-Runs callback when DOM tree can be manipulated
-
-**See**: https://developer.mozilla.org/en-US/docs/Web/API/Document/DOMContentLoaded_event  
-
-| Param | Type | Description |
-| --- | --- | --- |
-| cb | <code>function</code> | callback function |
-
-
-**Example**  
-
-```js
-// How to check if DOM is ready?const callback = () => console.log("DOM Content Loaded");onDOMReady(callback);
-```
-
-<a name="onSwipe"></a>
-
-### onSwipe(el, [props])
-Adds custom `swipe` event on element.Works on desktop and mobile browsers.Supports speed, time and direction.Generates custom `swipe` event on element or uses your own callback.
-
-
-| Param | Type | Description |
-| --- | --- | --- |
-| el | <code>HTMLElement</code> \| <code>Node</code> \| <code>Element</code> \| <code>Document</code> | DOM element |
-| [props] | <code>Object</code> | swipe params |
-| [props.callback] | <code>function</code> | callback function after `swipe` |
-| [props.minDist] | <code>Number</code> | min distance for swipe in `px` |
-| [props.maxDist] | <code>Number</code> | max distance for swipe in `px` |
-| [props.minTime] | <code>Number</code> | min duration of swipe in `ms` |
-| [props.maxTime] | <code>Number</code> | max duration of swipe in `ms` |
-| [props.instanceName] | <code>String</code> | instance name to access it from node itself |
-
-
-**Example**  
-
-```js
-// How to listen `swipe` event on element in JS?// <div id="myBlock"></div>const myBlock = document.getElementById("myBlock");onSwipe(myBlock, {  callback: ({ dist, dir, time }) => {    console.log(dir, dist, time); // swipe direction, swipe distant, swipe time    if(dir === "right") {      // logic for right swipe    }  }});// Or with custom events:onSwipe(myBlock);myBlock.addEventListener("swipe", (e) => console.log(e.detail));// To destroy whole instance or remove listeners:myBlock._swipeCtrl.destroy(); // or other name given in `options.instanceName`;
-```
-
-<a name="onWindowLoad"></a>
-
-### onWindowLoad(cb)
-Runs callback when page has fully loaded
-
-**See**: https://developer.mozilla.org/en-US/docs/Web/API/Window/load_event  
-
-| Param | Type | Description |
-| --- | --- | --- |
-| cb | <code>function</code> | callback function |
-
-
-**Example**  
-
-```js
-// How to detect when whole page has loaded?const callback = () => console.log("Page loaded");onWindowLoad(callback);
-```
-
-<a name="onWindowResize"></a>
-
-### onWindowResize(cb, [delay])
-Runs callback when page has been resized
-
-**See**: https://developer.mozilla.org/en-US/docs/Web/API/Window/resize_event  
-
-| Param | Type | Default | Description |
-| --- | --- | --- | --- |
-| cb | <code>function</code> |  | callback function |
-| [delay] | <code>Number</code> | <code>300</code> | callback execution delay |
-
-
-**Example**  
-
-```js
-// How to detect when page has been resized and run callback once when resize ends?const callback = () => console.log("Page loaded");onWindowLoad(callback);
 ```
 
 
@@ -1029,6 +985,50 @@ Checks if an object is promise
 
 ```js
 // How to check if an object is promise?const obj = new Promise();const isPromise = isObjPromise(obj);console.log(isPromise); // => true
+```
+
+
+___
+## Json utils:
+
+  * [getJSONFromStr(str, [reviver], [onError])](#getJSONFromStr) ⇒ <code>Object</code>
+  * [isJSON(str)](#isJSON) ⇒ <code>Boolean</code>
+
+<a name="getJSONFromStr"></a>
+
+### getJSONFromStr(str, [reviver], [onError]) ⇒ <code>Object</code>
+Gets safely parsed JSON from string
+
+**See**: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/JSON/parse  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| str | <code>String</code> | source string |
+| [reviver] | <code>function</code> | reviver function |
+| [onError] | <code>function</code> | error callback |
+
+
+**Example**  
+
+```js
+// How convert string to JSON?const json = getJSONFromStr('{ "hello": "world" }');console.log(json.hello) // => "world"
+```
+
+<a name="isJSON"></a>
+
+### isJSON(str) ⇒ <code>Boolean</code>
+Checks if string is a valid JSON string
+
+
+| Param | Type | Description |
+| --- | --- | --- |
+| str | <code>String</code> | source String |
+
+
+**Example**  
+
+```js
+// How to check if string is a JSON?const str = '{ "hello": "world" }';const isStrJSON = isJSON(str);console.log(isStrJSON); // => true
 ```
 
 
