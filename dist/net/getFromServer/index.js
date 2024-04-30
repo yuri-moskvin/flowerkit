@@ -11,7 +11,7 @@ import ow from"ow";import{getWindow,getDocument}from"ssr-window";import{bubble}f
  * @param props.data{Object|FormData=} - object of FormData instance for request
  * @param props.getSuccessResp{Function=} - callback for success response
  * @param props.getResp{Function=} - async callback for response (overrides default behavior)
- * @param props.type{String=} - type of response (`text`, `json` (by default) or `blob`)
+ * @param props.type{String=} - type of response (`text`, `json` (by default), `blob` or `arrayBuffer`)
  * @param props.url{String=} - request url
  * @param props.headers{Object=} - object of request headers
  * @param props.allowedCodes{Array=} - array of response allowed codes
@@ -42,7 +42,7 @@ import ow from"ow";import{getWindow,getDocument}from"ssr-window";import{bubble}f
  * // How to GET some user id data from the server with promise?
  * getFromServer({ url: "/api/send", method: "GET" })
  *   .then(resp => console.log(resp.userId)) // GET "api/send" and return promise with response
- */const getFromServer=async(props={})=>{ow(props,ow.object.exactShape({contentType:ow.optional.string.not.empty,timeout:ow.optional.number,method:ow.optional.string.not.empty,mode:ow.optional.string.not.empty,getSuccessResp:ow.optional.function,getResp:ow.optional.function,isBubble:ow.optional.boolean,type:ow.optional.string.not.empty,url:ow.optional.string.not.empty,headers:ow.optional.object,allowedCodes:ow.optional.array.validate((value=>({validator:value.length?value.every((item=>typeof item==="number")):true,message:()=>label=>`AllowedCodes must be non-empty array of numbers`}))),credentials:ow.optional.string,redirect:ow.optional.string,referrerPolicy:ow.optional.string,cache:ow.optional.string,fetchProps:ow.optional.object,signal:ow.optional.object.validate((value=>({validator:value instanceof AbortSignal,message:()=>label=>`"signal" prop must be instance of AbortSignal`}))),data:ow.optional.any([ow.null,ow.object.validate((value=>({validator:value===null||value instanceof FormData||typeof value==="object",message:()=>label=>`"data" prop must be instance of FormData, plain Object or null`})))])}));const{contentType:contentType="auto",isBubble:isBubble=true,timeout:timeout=12000,method:method="GET",mode:mode="cors",signal:signal=null,data:data=null,getSuccessResp:getSuccessResp=(resp=>resp),getResp:getResp,type:type="json",url:url=getWindow().location.href||"./",headers:headers={},allowedCodes:allowedCodes=[],credentials:credentials="same-origin",redirect:redirect="follow",referrerPolicy:referrerPolicy="no-referrer-when-downgrade",cache:cache="default",fetchProps:fetchProps={}}=props;let timer=null;const queries=[];
+ */const getFromServer=async(props={})=>{ow(props,ow.object.exactShape({contentType:ow.optional.string.not.empty,timeout:ow.optional.number,method:ow.optional.string.not.empty,mode:ow.optional.string.not.empty,getSuccessResp:ow.optional.function,getResp:ow.optional.function,isBubble:ow.optional.boolean,type:ow.optional.string.not.empty,url:ow.optional.string.not.empty,headers:ow.optional.object,allowedCodes:ow.optional.array.validate((value=>({validator:value.length?value.every((item=>typeof item==="number")):true,message:()=>label=>`AllowedCodes must be non-empty array of numbers`}))),credentials:ow.optional.string,redirect:ow.optional.string,referrerPolicy:ow.optional.string,cache:ow.optional.string,fetchProps:ow.optional.object,signal:ow.optional.object.validate((value=>({validator:value instanceof AbortSignal,message:()=>label=>`"signal" prop must be instance of AbortSignal`}))),data:ow.optional.any([ow.null,ow.object.validate((value=>({validator:value===null||value instanceof FormData||typeof value==="object",message:()=>label=>`"data" prop must be instance of FormData, plain Object or null`})))])}));const{contentType:contentType="auto",isBubble:isBubble=true,timeout:timeout=15000,method:method="GET",mode:mode="cors",signal:signal=null,data:data=null,getSuccessResp:getSuccessResp=(resp=>resp),getResp:getResp,type:type="json",url:url=getWindow().location.href||"./",headers:headers={},allowedCodes:allowedCodes=[],credentials:credentials="same-origin",redirect:redirect="follow",referrerPolicy:referrerPolicy="no-referrer-when-downgrade",cache:cache="default",fetchProps:fetchProps={}}=props;let timer=null;const queries=[];
 /**
    * Gets prepared request body
    * @private
@@ -70,7 +70,7 @@ import ow from"ow";import{getWindow,getDocument}from"ssr-window";import{bubble}f
    * @param resp{Response}
    * @private
    * @return {Promise}
-   */const getResponse=async resp=>{clearTimeout(timer);if(typeof getResp==="function")return await getResp(resp);else{const{ok:ok,status:status}=resp;if(ok||allowedCodes.length&&allowedCodes.includes(status))switch(type){case"json":return await resp.json();case"blob":return await resp.blob();default:return await resp.text()}else return await getReject(status)}};
+   */const getResponse=async resp=>{clearTimeout(timer);if(typeof getResp==="function")return await getResp(resp);else{const{ok:ok,status:status}=resp;if(ok||allowedCodes.length&&allowedCodes.includes(status))switch(type){case"arrayBuffer":return await resp.arrayBuffer();case"json":return await resp.json();case"blob":return await resp.blob();default:return await resp.text()}else return await getReject(resp)}};
 /**
    * Get headers
    * @private

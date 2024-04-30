@@ -13,6 +13,7 @@ const isJSON = (str) => {
     try {
       const json = JSON.parse(str);
       return typeof json === "object";
+      // eslint-disable-next-line no-unused-vars
     } catch (err) {
       return false;
     }

@@ -10,7 +10,7 @@
  * @param props.data{Object|FormData=} - object of FormData instance for request
  * @param props.getSuccessResp{Function=} - callback for success response
  * @param props.getResp{Function=} - async callback for response (overrides default behavior)
- * @param props.type{String=} - type of response (`text`, `json` (by default) or `blob`)
+ * @param props.type{String=} - type of response (`text`, `json` (by default), `blob` or `arrayBuffer`)
  * @param props.url{String=} - request url
  * @param props.headers{Object=} - object of request headers
  * @param props.allowedCodes{Array=} - array of response allowed codes

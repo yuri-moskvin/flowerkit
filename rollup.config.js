@@ -4,7 +4,7 @@ import terser from "@rollup/plugin-terser";
 import del from "rollup-plugin-delete";
 import filesize from "rollup-plugin-filesize";
 import path from "path";
-import packageFile from "./package.json" assert { type: "json" };
+import packageFile from "./package.json" with { type: "json" };
 
 const plugins = [
   del({

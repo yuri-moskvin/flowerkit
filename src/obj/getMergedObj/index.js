@@ -20,6 +20,7 @@ const getMergedObj = (target = {}, source = {}) => {
     let cloneObj;
     try {
       cloneObj = JSON.parse(JSON.stringify(obj));
+      // eslint-disable-next-line no-unused-vars
     } catch (err) {
       cloneObj = Object.assign({}, obj);
     }

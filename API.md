@@ -1,6 +1,21 @@
 # 🌸 FlowerKit: API Reference
 ___
+
+* [Array utils](#arr)
+* [User utils](#user)
+* [CSS utils](#css)
+* [DOM utils](#dom)
+* [Event utils](#evt)
+* [Function utils](#fn)
+* [Json utils](#json)
+* [Network utils](#net)
+* [Number utils](#num)
+* [Object utils](#obj)
+* [String utils](#str)
+
+___
 ## Array utils:
+<a name="arr"></a>
 
   * [getAsyncMap(arr, callback)](#getAsyncMap) ⇒ <code>Promise</code>
   * [getDiff(arr1, arr2)](#getDiff) ⇒ <code>Array</code>
@@ -139,6 +154,7 @@ Check if an object is iterable
 
 ___
 ## CSS utils:
+<a name="css"></a>
 
   * [getCSSTransformValues(el)](#getCSSTransformValues) ⇒ <code>Object</code>
   * [getCSSValue(el, prop)](#getCSSValue) ⇒ <code>string</code>
@@ -283,12 +299,32 @@ Sets CSS3 variable to specific DOM node
 
 ___
 ## User utils:
+<a name="user"></a>
 
+  * [deleteCookie(name)](#deleteCookie)
   * [getCookie(name)](#getCookie) ⇒ <code>string</code> \| <code>undefined</code>
   * [setCookie(name, value, [options])](#setCookie)
   * [getScrollbarWidth()](#getScrollbarWidth) ⇒ <code>number</code>
   * [isMobileDevice()](#isMobileDevice) ⇒ <code>boolean</code>
   * [isTouchDevice()](#isTouchDevice) ⇒ <code>boolean</code>
+
+<a name="deleteCookie"></a>
+
+### deleteCookie(name)
+Removes the Cookie value
+
+**See**: https://developer.mozilla.org/en-US/docs/Web/API/Document/cookie  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| name | <code>String</code> | name of Cookie |
+
+
+**Example**  
+
+```js
+// How to delete a Cookie?removeCookie("myCookieName");
+```
 
 <a name="getCookie"></a>
 
@@ -366,105 +402,8 @@ Checks if user devise has touchscreen
 
 
 ___
-## Function utils:
-
-  * [getCurryFn(fn, [arity])](#getCurryFn) ⇒ <code>function</code>
-  * [getDebouncedFn(cb, [wait], [isImmediate])](#getDebouncedFn) ⇒ <code>function</code>
-  * [isFnAsync(fn)](#isFnAsync) ⇒ <code>boolean</code>
-  * [isFnClass(fn)](#isFnClass) ⇒ <code>boolean</code>
-  * [wait([ms])](#wait) ⇒ <code>Promise.resolve</code>
-
-<a name="getCurryFn"></a>
-
-### getCurryFn(fn, [arity]) ⇒ <code>function</code>
-Evaluating functions with multiple arguments and decomposing them into a sequence of functions with a specific number of arguments
-
-
-| Param | Type | Description |
-| --- | --- | --- |
-| fn | <code>function</code> | source function |
-| [arity] | <code>Number</code> | arity of function |
-
-
-**Example**  
-
-```js
-// How to curry a function?function getSum(a, b) {  return a + b;}const getCurriedSum = getCurryFn(getSum);curriedSum(1)(2) // 3
-```
-
-<a name="getDebouncedFn"></a>
-
-### getDebouncedFn(cb, [wait], [isImmediate]) ⇒ <code>function</code>
-Gets a function that is executed no more than once in a specified period of time
-
-
-| Param | Type | Default | Description |
-| --- | --- | --- | --- |
-| cb | <code>function</code> |  | source function |
-| [wait] | <code>Number</code> | <code>250</code> | interval of execution |
-| [isImmediate] | <code>Boolean</code> | <code>false</code> | immediate execution |
-
-
-**Example**  
-
-```js
-// How to execute function no more than once per second?const fn = getDebouncedFn(alert, 1000);fn(1); // calls immediatelyfn(2); // ignoredsetTimeout(() => fn(3), 100); // ignoredsetTimeout(() => fn(4), 1100); // callssetTimeout(() => fn(5), 1500); // ignored
-```
-
-<a name="isFnAsync"></a>
-
-### isFnAsync(fn) ⇒ <code>boolean</code>
-Checks if function is async
-
-
-| Param | Type | Description |
-| --- | --- | --- |
-| fn | <code>\*</code> | source function |
-
-
-**Example**  
-
-```js
-// How to check if function is async?const fn = async () => {};const isAsync = isFnAsync(fn);console.log(isAsync); // => true
-```
-
-<a name="isFnClass"></a>
-
-### isFnClass(fn) ⇒ <code>boolean</code>
-Checks if a function is class or instance of class
-
-
-| Param | Type | Description |
-| --- | --- | --- |
-| fn | <code>\*</code> | source function |
-
-
-**Example**  
-
-```js
-// How to check if a function is ES6 Class?const fn = new Class();const isClass = isFnClass(fn);console.log(isClass); // => true
-```
-
-<a name="wait"></a>
-
-### wait([ms]) ⇒ <code>Promise.resolve</code>
-Gets a Promise that resolves after specific time
-
-
-| Param | Type | Default | Description |
-| --- | --- | --- | --- |
-| [ms] | <code>Number</code> | <code>0</code> | delay in ms |
-
-
-**Example**  
-
-```js
-// How to sleep/delay in JS?wait(3000).then(() => {  console.log("Runs after 3 sec!");})
-```
-
-
-___
 ## DOM utils:
+<a name="dom"></a>
 
   * [getElSiblings(el)](#getElSiblings) ⇒ <code>Array</code>
   * [getElWrapper(el, str)](#getElWrapper) ⇒ <code>ChildNode</code>
@@ -580,157 +519,8 @@ Removes all child nodes of given node
 
 
 ___
-## Network utils:
-
-  * [getExternalScript([props])](#getExternalScript) ⇒ <code>Promise</code>
-  * [getFormDataFromObj([obj], [fd], [setItem])](#getFormDataFromObj) ⇒ <code>FormData</code>
-  * [getFromServer([props])](#getFromServer) ⇒ <code>Promise</code>
-  * [getUrlWithQueryParams(uri, params)](#getUrlWithQueryParams) ⇒ <code>String</code>
-
-<a name="getExternalScript"></a>
-
-### getExternalScript([props]) ⇒ <code>Promise</code>
-Gets result of appending an async external script into the page
-
-
-| Param | Type | Description |
-| --- | --- | --- |
-| [props] | <code>Object</code> | options |
-| [props.isAsync] | <code>Boolean</code> | `async` attribute |
-| [props.isDefer] | <code>Boolean</code> | `defer` attribute |
-| props.src | <code>String</code> | script source |
-| props.appendTo | <code>Node</code> \| <code>HTMLElement</code> | element for script appending |
-| [props.id] | <code>String</code> | ID for script |
-| [props.crossorigin] | <code>String</code> | `crossorigin` attribute |
-| [props.type] | <code>String</code> | `type` attribute |
-
-
-**Example**  
-
-```js
-// How to load external CDN script asynchronously?getExternalScript({   src: "https://ajax.googleapis.com/ajax/libs/d3js/7.8.5/d3.min.js",   id: "d3"})  .then((script) => {    console.log("Script is loaded");  });
-```
-
-<a name="getFormDataFromObj"></a>
-
-### getFormDataFromObj([obj], [fd], [setItem]) ⇒ <code>FormData</code>
-Gets FormData from object
-
-
-| Param | Type | Description |
-| --- | --- | --- |
-| [obj] | <code>Object</code> | source object |
-| [fd] | <code>FormData</code> | FormData instance |
-| [setItem] | <code>function</code> | callback for each object key/value pair |
-
-
-**Example**  
-
-```js
-// How to convert object to FormData interface?const obj = {  test: 123,  boo: "foo"}getFormDataFromObj(obj); // FormData with "test" and "boo" keys// With custom callbackgetFormDataFromObj(obj, new FormData(), (name, value, fd) => {  if(name !== "test") {     fd.set(name, value);  }}); // FormData only with "boo" key
-```
-
-<a name="getFromServer"></a>
-
-### getFromServer([props]) ⇒ <code>Promise</code>
-Gets result of async fetch query to the server. Lightweight alternative for `axios` lib
-
-**See**: https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API  
-
-| Param | Type | Description |
-| --- | --- | --- |
-| [props] | <code>Object</code> | params |
-| [props.contentType] | <code>String</code> | type of request content ("auto" (by default), "application/json", "application/x-www-form-urlencoded", or "multipart/form-data") |
-| [props.isBubble] | <code>Boolean</code> | bubble a custom event with name "getFromServer" after success request and response in details event field |
-| [props.timeout] | <code>Number</code> | query timeout |
-| [props.method] | <code>String</code> | request method (`GET` (by default), `PUT`, `POST` or `DELETE`) |
-| [props.mode] | <code>RequestMode</code> | request mode |
-| [props.signal] | <code>AbortSignal</code> | instance of AbortSignal for request |
-| props.data | <code>Object</code> \| <code>FormData</code> | object of FormData instance for request |
-| [props.getSuccessResp] | <code>function</code> | callback for success response |
-| [props.getResp] | <code>function</code> | async callback for response (overrides default behavior) |
-| [props.type] | <code>String</code> | type of response (`text`, `json` (by default) or `blob`) |
-| [props.url] | <code>String</code> | request url |
-| [props.headers] | <code>Object</code> | object of request headers |
-| [props.allowedCodes] | <code>Array</code> | array of response allowed codes |
-| [props.credentials] | <code>RequestCredentials</code> | credentials value for request (`same-origin` by default) |
-| [props.redirect] | <code>RequestRedirect</code> | redirect value for request (`follow` by default) |
-| [props.cache] | <code>RequestCache</code> | cache value for request (`default` by default) |
-| [props.referrerPolicy] | <code>ReferrerPolicy</code> | referrerPolicy value for request (`no-referrer-when-downgrade` by default) |
-| [props.fetchProps] | <code>Object</code> | other `fetch` API options that overrides default behavior of `getFromServer` function |
-
-
-**Example**  
-
-```js
-// How to POST data to the server?getFromServer({ url: "/api/send", method: "POST", data: { idUser: "123" } })  .then(resp => console.log(resp)) // POST "api/send" with JSON body// How to GET data from the server?getFromServer({ url: "/api/send", method: "GET", data: { idUser: "123" } })  .then(resp => console.log(resp)) // GET "/api/send/?idUser=123" with query params from "data" in url// How to POST data to the server with FormData?const myData = new FormData();getFromServer({ url: "/api/send", method: "POST", data: myData })  .then(resp => console.log(resp)) // POST "/api/send" with FormData body// How to GET some user id data from the server?const userId = await getFromServer({ url: "/api/send", method: "GET", getSuccessResp: (resp) => resp.userId }) // GET "api/send" and parse userId field from response// How to GET some user id data from the server with promise?getFromServer({ url: "/api/send", method: "GET" })  .then(resp => console.log(resp.userId)) // GET "api/send" and return promise with response
-```
-
-<a name="getUrlWithQueryParams"></a>
-
-### getUrlWithQueryParams(uri, params) ⇒ <code>String</code>
-Gets a URL string with updated query params from object or FormData instance
-
-
-| Param | Type | Description |
-| --- | --- | --- |
-| uri | <code>String</code> | source URL |
-| params | <code>Object</code> \| <code>FormData</code> | query params as object or FormData |
-
-
-**Example**  
-
-```js
-// How to set query params to URL string?const url = "https://example.com";getUrlWithQueryParams(url, { foo: 1 }); // "https://example.com/?foo=1"// How to update query params in URL string?const url = "/api/users/?page=1";getUrlWithQueryParams(url, { page: 2, limit: 100 }); // "/api/users/?page=2&limit=100"
-```
-
-
-___
-## Json utils:
-
-  * [getJSONFromStr(str, [reviver], [onError])](#getJSONFromStr) ⇒ <code>Object</code>
-  * [isJSON(str)](#isJSON) ⇒ <code>Boolean</code>
-
-<a name="getJSONFromStr"></a>
-
-### getJSONFromStr(str, [reviver], [onError]) ⇒ <code>Object</code>
-Gets safely parsed JSON from string
-
-**See**: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/JSON/parse  
-
-| Param | Type | Description |
-| --- | --- | --- |
-| str | <code>String</code> | source string |
-| [reviver] | <code>function</code> | reviver function |
-| [onError] | <code>function</code> | error callback |
-
-
-**Example**  
-
-```js
-// How convert string to JSON?const json = getJSONFromStr('{ "hello": "world" }');console.log(json.hello) // => "world"
-```
-
-<a name="isJSON"></a>
-
-### isJSON(str) ⇒ <code>Boolean</code>
-Checks if string is a valid JSON string
-
-
-| Param | Type | Description |
-| --- | --- | --- |
-| str | <code>String</code> | source String |
-
-
-**Example**  
-
-```js
-// How to check if string is a JSON?const str = '{ "hello": "world" }';const isStrJSON = isJSON(str);console.log(isStrJSON); // => true
-```
-
-
-___
 ## Event utils:
+<a name="evt"></a>
 
   * [bubble(el, name, [detail], [params])](#bubble)
   * [onDOMReady(cb)](#onDOMReady)
@@ -840,7 +630,339 @@ Runs callback when page has been resized
 
 
 ___
+## Network utils:
+<a name="net"></a>
+
+  * [getExternalScript([props])](#getExternalScript) ⇒ <code>Promise</code>
+  * [getFormDataFromObj([obj], [fd], [setItem])](#getFormDataFromObj) ⇒ <code>FormData</code>
+  * [getFromServer([props])](#getFromServer) ⇒ <code>Promise</code>
+  * [getUrlWithQueryParams(uri, params)](#getUrlWithQueryParams) ⇒ <code>String</code>
+
+<a name="getExternalScript"></a>
+
+### getExternalScript([props]) ⇒ <code>Promise</code>
+Gets result of appending an async external script into the page
+
+
+| Param | Type | Description |
+| --- | --- | --- |
+| [props] | <code>Object</code> | options |
+| [props.isAsync] | <code>Boolean</code> | `async` attribute |
+| [props.isDefer] | <code>Boolean</code> | `defer` attribute |
+| props.src | <code>String</code> | script source |
+| props.appendTo | <code>Node</code> \| <code>HTMLElement</code> | element for script appending |
+| [props.id] | <code>String</code> | ID for script |
+| [props.crossorigin] | <code>String</code> | `crossorigin` attribute |
+| [props.type] | <code>String</code> | `type` attribute |
+
+
+**Example**  
+
+```js
+// How to load external CDN script asynchronously?getExternalScript({   src: "https://ajax.googleapis.com/ajax/libs/d3js/7.8.5/d3.min.js",   id: "d3"})  .then((script) => {    console.log("Script is loaded");  });
+```
+
+<a name="getFormDataFromObj"></a>
+
+### getFormDataFromObj([obj], [fd], [setItem]) ⇒ <code>FormData</code>
+Gets FormData from object
+
+
+| Param | Type | Description |
+| --- | --- | --- |
+| [obj] | <code>Object</code> | source object |
+| [fd] | <code>FormData</code> | FormData instance |
+| [setItem] | <code>function</code> | callback for each object key/value pair |
+
+
+**Example**  
+
+```js
+// How to convert object to FormData interface?const obj = {  test: 123,  boo: "foo"}getFormDataFromObj(obj); // FormData with "test" and "boo" keys// With custom callbackgetFormDataFromObj(obj, new FormData(), (name, value, fd) => {  if(name !== "test") {     fd.set(name, value);  }}); // FormData only with "boo" key
+```
+
+<a name="getFromServer"></a>
+
+### getFromServer([props]) ⇒ <code>Promise</code>
+Gets result of async fetch query to the server. Lightweight alternative for `axios` lib
+
+**See**: https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| [props] | <code>Object</code> | params |
+| [props.contentType] | <code>String</code> | type of request content ("auto" (by default), "application/json", "application/x-www-form-urlencoded", or "multipart/form-data") |
+| [props.isBubble] | <code>Boolean</code> | bubble a custom event with name "getFromServer" after success request and response in details event field |
+| [props.timeout] | <code>Number</code> | query timeout |
+| [props.method] | <code>String</code> | request method (`GET` (by default), `PUT`, `POST` or `DELETE`) |
+| [props.mode] | <code>RequestMode</code> | request mode |
+| [props.signal] | <code>AbortSignal</code> | instance of AbortSignal for request |
+| props.data | <code>Object</code> \| <code>FormData</code> | object of FormData instance for request |
+| [props.getSuccessResp] | <code>function</code> | callback for success response |
+| [props.getResp] | <code>function</code> | async callback for response (overrides default behavior) |
+| [props.type] | <code>String</code> | type of response (`text`, `json` (by default), `blob` or `arrayBuffer`) |
+| [props.url] | <code>String</code> | request url |
+| [props.headers] | <code>Object</code> | object of request headers |
+| [props.allowedCodes] | <code>Array</code> | array of response allowed codes |
+| [props.credentials] | <code>RequestCredentials</code> | credentials value for request (`same-origin` by default) |
+| [props.redirect] | <code>RequestRedirect</code> | redirect value for request (`follow` by default) |
+| [props.cache] | <code>RequestCache</code> | cache value for request (`default` by default) |
+| [props.referrerPolicy] | <code>ReferrerPolicy</code> | referrerPolicy value for request (`no-referrer-when-downgrade` by default) |
+| [props.fetchProps] | <code>Object</code> | other `fetch` API options that overrides default behavior of `getFromServer` function |
+
+
+**Example**  
+
+```js
+// How to POST data to the server?getFromServer({ url: "/api/send", method: "POST", data: { idUser: "123" } })  .then(resp => console.log(resp)) // POST "api/send" with JSON body// How to GET data from the server?getFromServer({ url: "/api/send", method: "GET", data: { idUser: "123" } })  .then(resp => console.log(resp)) // GET "/api/send/?idUser=123" with query params from "data" in url// How to POST data to the server with FormData?const myData = new FormData();getFromServer({ url: "/api/send", method: "POST", data: myData })  .then(resp => console.log(resp)) // POST "/api/send" with FormData body// How to GET some user id data from the server?const userId = await getFromServer({ url: "/api/send", method: "GET", getSuccessResp: (resp) => resp.userId }) // GET "api/send" and parse userId field from response// How to GET some user id data from the server with promise?getFromServer({ url: "/api/send", method: "GET" })  .then(resp => console.log(resp.userId)) // GET "api/send" and return promise with response
+```
+
+<a name="getUrlWithQueryParams"></a>
+
+### getUrlWithQueryParams(uri, params) ⇒ <code>String</code>
+Gets a URL string with updated query params from object or FormData instance
+
+
+| Param | Type | Description |
+| --- | --- | --- |
+| uri | <code>String</code> | source URL |
+| params | <code>Object</code> \| <code>FormData</code> | query params as object or FormData |
+
+
+**Example**  
+
+```js
+// How to set query params to URL string?const url = "https://example.com";getUrlWithQueryParams(url, { foo: 1 }); // "https://example.com/?foo=1"// How to update query params in URL string?const url = "/api/users/?page=1";getUrlWithQueryParams(url, { page: 2, limit: 100 }); // "/api/users/?page=2&limit=100"
+```
+
+
+___
+## Json utils:
+<a name="json"></a>
+
+  * [getJSONFromStr(str, [reviver], [onError])](#getJSONFromStr) ⇒ <code>Object</code>
+  * [isJSON(str)](#isJSON) ⇒ <code>Boolean</code>
+
+<a name="getJSONFromStr"></a>
+
+### getJSONFromStr(str, [reviver], [onError]) ⇒ <code>Object</code>
+Gets safely parsed JSON from string
+
+**See**: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/JSON/parse  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| str | <code>String</code> | source string |
+| [reviver] | <code>function</code> | reviver function |
+| [onError] | <code>function</code> | error callback |
+
+
+**Example**  
+
+```js
+// How convert string to JSON?const json = getJSONFromStr('{ "hello": "world" }');console.log(json.hello) // => "world"
+```
+
+<a name="isJSON"></a>
+
+### isJSON(str) ⇒ <code>Boolean</code>
+Checks if string is a valid JSON string
+
+
+| Param | Type | Description |
+| --- | --- | --- |
+| str | <code>String</code> | source String |
+
+
+**Example**  
+
+```js
+// How to check if string is a JSON?const str = '{ "hello": "world" }';const isStrJSON = isJSON(str);console.log(isStrJSON); // => true
+```
+
+
+___
+## Function utils:
+<a name="fn"></a>
+
+  * [getCurryFn(fn, [arity])](#getCurryFn) ⇒ <code>function</code>
+  * [getDebouncedFn(cb, [wait], [isImmediate])](#getDebouncedFn) ⇒ <code>function</code>
+  * [isFnAsync(fn)](#isFnAsync) ⇒ <code>boolean</code>
+  * [isFnClass(fn)](#isFnClass) ⇒ <code>boolean</code>
+  * [wait([ms])](#wait) ⇒ <code>Promise</code>
+
+<a name="getCurryFn"></a>
+
+### getCurryFn(fn, [arity]) ⇒ <code>function</code>
+Evaluating functions with multiple arguments and decomposing them into a sequence of functions with a specific number of arguments
+
+
+| Param | Type | Description |
+| --- | --- | --- |
+| fn | <code>function</code> | source function |
+| [arity] | <code>Number</code> | arity of function |
+
+
+**Example**  
+
+```js
+// How to curry a function?function getSum(a, b) {  return a + b;}const getCurriedSum = getCurryFn(getSum);curriedSum(1)(2) // 3
+```
+
+<a name="getDebouncedFn"></a>
+
+### getDebouncedFn(cb, [wait], [isImmediate]) ⇒ <code>function</code>
+Gets a function that is executed no more than once in a specified period of time
+
+
+| Param | Type | Default | Description |
+| --- | --- | --- | --- |
+| cb | <code>function</code> |  | source function |
+| [wait] | <code>Number</code> | <code>250</code> | interval of execution |
+| [isImmediate] | <code>Boolean</code> | <code>false</code> | immediate execution |
+
+
+**Example**  
+
+```js
+// How to execute function no more than once per second?const fn = getDebouncedFn(alert, 1000);fn(1); // calls immediatelyfn(2); // ignoredsetTimeout(() => fn(3), 100); // ignoredsetTimeout(() => fn(4), 1100); // callssetTimeout(() => fn(5), 1500); // ignored
+```
+
+<a name="isFnAsync"></a>
+
+### isFnAsync(fn) ⇒ <code>boolean</code>
+Checks if function is async
+
+
+| Param | Type | Description |
+| --- | --- | --- |
+| fn | <code>\*</code> | source function |
+
+
+**Example**  
+
+```js
+// How to check if function is async?const fn = async () => {};const isAsync = isFnAsync(fn);console.log(isAsync); // => true
+```
+
+<a name="isFnClass"></a>
+
+### isFnClass(fn) ⇒ <code>boolean</code>
+Checks if a function is class or instance of class
+
+
+| Param | Type | Description |
+| --- | --- | --- |
+| fn | <code>\*</code> | source function |
+
+
+**Example**  
+
+```js
+// How to check if a function is ES6 Class?const fn = new Class();const isClass = isFnClass(fn);console.log(isClass); // => true
+```
+
+<a name="wait"></a>
+
+### wait([ms]) ⇒ <code>Promise</code>
+Gets a Promise that resolves after specific time
+
+
+| Param | Type | Default | Description |
+| --- | --- | --- | --- |
+| [ms] | <code>Number</code> | <code>0</code> | delay in ms |
+
+
+**Example**  
+
+```js
+// How to sleep/delay in JS?wait(3000).then(() => {  console.log("Runs after 3 sec!");})
+```
+
+
+___
+## Number utils:
+<a name="num"></a>
+
+  * [getMaxFromArr(arr)](#getMaxFromArr) ⇒ <code>number</code>
+  * [getMinFromArr(arr)](#getMinFromArr) ⇒ <code>number</code>
+  * [getRandomIntFromInterval([min], [max])](#getRandomIntFromInterval) ⇒ <code>number</code>
+  * [getRounded(num, [places])](#getRounded) ⇒ <code>number</code>
+
+<a name="getMaxFromArr"></a>
+
+### getMaxFromArr(arr) ⇒ <code>number</code>
+Gets max number from Array
+
+
+| Param | Type | Description |
+| --- | --- | --- |
+| arr | <code>Array</code> | source Array of numbers |
+
+
+**Example**  
+
+```js
+// How to get max number from Array of numbers?const arr = [ 100, 200, 300 ];const max = getMaxFromArr(arr);console.log(max); // 300
+```
+
+<a name="getMinFromArr"></a>
+
+### getMinFromArr(arr) ⇒ <code>number</code>
+Gets min number from Array
+
+
+| Param | Type | Description |
+| --- | --- | --- |
+| arr | <code>Array</code> | source Array of numbers |
+
+
+**Example**  
+
+```js
+// How to get min number from Array of numbers?const arr = [ 100, 200, 300 ];const min = getMinFromArr(arr);console.log(min); // 100
+```
+
+<a name="getRandomIntFromInterval"></a>
+
+### getRandomIntFromInterval([min], [max]) ⇒ <code>number</code>
+Gets random integer between min and max value
+
+
+| Param | Type | Default | Description |
+| --- | --- | --- | --- |
+| [min] | <code>Number</code> | <code>1</code> | min value |
+| [max] | <code>Number</code> | <code>1000000000</code> | max value |
+
+
+**Example**  
+
+```js
+// How to generate random number between two numbers?const randomNumber = getRandomIntFromInterval(1, 10);console.log(randomNumber >= 1 && randomNumber <= 10); // => true
+```
+
+<a name="getRounded"></a>
+
+### getRounded(num, [places]) ⇒ <code>number</code>
+Gets rounded number to specific decimal places
+
+
+| Param | Type | Default | Description |
+| --- | --- | --- | --- |
+| num | <code>Number</code> |  | source number |
+| [places] | <code>Number</code> | <code>2</code> | decimal places |
+
+
+**Example**  
+
+```js
+// How to round number to 4 decimal places?const num = 0.00025;const rounded = getRounded(num, 4);console.log(rounded); // => 0.0003
+```
+
+
+___
 ## Object utils:
+<a name="obj"></a>
 
   * [getAllSamePropsFromObj(obj, prop)](#getAllSamePropsFromObj) ⇒ <code>Array</code>
   * [getCopyOfObj(obj)](#getCopyOfObj) ⇒ <code>Object</code> \| <code>Array</code>
@@ -1034,6 +1156,7 @@ Checks if an object is promise
 
 ___
 ## String utils:
+<a name="str"></a>
 
   * [getId([length])](#getId) ⇒ <code>string</code>
   * [getStrDeclination(num, [words])](#getStrDeclination) ⇒ <code>string</code>
@@ -1256,84 +1379,5 @@ Checks if string is URL address or valid pathname of URL address
 
 ```js
 // How to check if string is URL or pathname of URL?const isUrl = isStrUrl("myPage.php");console.log(isUrl); // => true
-```
-
-
-___
-## Number utils:
-
-  * [getMaxFromArr(arr)](#getMaxFromArr) ⇒ <code>number</code>
-  * [getMinFromArr(arr)](#getMinFromArr) ⇒ <code>number</code>
-  * [getRandomIntFromInterval([min], [max])](#getRandomIntFromInterval) ⇒ <code>number</code>
-  * [getRounded(num, [places])](#getRounded) ⇒ <code>number</code>
-
-<a name="getMaxFromArr"></a>
-
-### getMaxFromArr(arr) ⇒ <code>number</code>
-Gets max number from Array
-
-
-| Param | Type | Description |
-| --- | --- | --- |
-| arr | <code>Array</code> | source Array of numbers |
-
-
-**Example**  
-
-```js
-// How to get max number from Array of numbers?const arr = [ 100, 200, 300 ];const max = getMaxFromArr(arr);console.log(max); // 300
-```
-
-<a name="getMinFromArr"></a>
-
-### getMinFromArr(arr) ⇒ <code>number</code>
-Gets min number from Array
-
-
-| Param | Type | Description |
-| --- | --- | --- |
-| arr | <code>Array</code> | source Array of numbers |
-
-
-**Example**  
-
-```js
-// How to get min number from Array of numbers?const arr = [ 100, 200, 300 ];const min = getMinFromArr(arr);console.log(min); // 100
-```
-
-<a name="getRandomIntFromInterval"></a>
-
-### getRandomIntFromInterval([min], [max]) ⇒ <code>number</code>
-Gets random integer between min and max value
-
-
-| Param | Type | Default | Description |
-| --- | --- | --- | --- |
-| [min] | <code>Number</code> | <code>1</code> | min value |
-| [max] | <code>Number</code> | <code>1000000000</code> | max value |
-
-
-**Example**  
-
-```js
-// How to generate random number between two numbers?const randomNumber = getRandomIntFromInterval(1, 10);console.log(randomNumber >= 1 && randomNumber <= 10); // => true
-```
-
-<a name="getRounded"></a>
-
-### getRounded(num, [places]) ⇒ <code>number</code>
-Gets rounded number to specific decimal places
-
-
-| Param | Type | Default | Description |
-| --- | --- | --- | --- |
-| num | <code>Number</code> |  | source number |
-| [places] | <code>Number</code> | <code>2</code> | decimal places |
-
-
-**Example**  
-
-```js
-// How to round number to 4 decimal places?const num = 0.00025;const rounded = getRounded(num, 4);console.log(rounded); // => 0.0003
 ```
 

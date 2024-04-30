@@ -1,4 +1,4 @@
-import fetch from "node-fetch";
+import fetch, { Response } from "node-fetch";
 import { TextEncoder, TextDecoder } from "util";
 import { getFromServer } from "./index.js";
 
@@ -109,7 +109,7 @@ describe(getFromServer.name, () => {
         url: testUrl,
         method: "POST"
       })
-    ).rejects.toBe(404);
+    ).rejects.toBeInstanceOf(Response);
   });
 
 

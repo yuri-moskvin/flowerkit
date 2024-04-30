@@ -2,7 +2,7 @@ import ow from"ow";
 /**
  * Gets a Promise that resolves after specific time
  * @param ms{Number=} - delay in ms
- * @return {Promise.resolve}
+ * @return {Promise}
  * @example
  * // How to sleep/delay in JS?
  * wait(3000).then(() => {

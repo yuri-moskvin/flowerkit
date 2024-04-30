@@ -17,7 +17,7 @@ import { getUrlWithQueryParams } from "../getUrlWithQueryParams/index.js";
  * @param props.data{Object|FormData=} - object of FormData instance for request
  * @param props.getSuccessResp{Function=} - callback for success response
  * @param props.getResp{Function=} - async callback for response (overrides default behavior)
- * @param props.type{String=} - type of response (`text`, `json` (by default) or `blob`)
+ * @param props.type{String=} - type of response (`text`, `json` (by default), `blob` or `arrayBuffer`)
  * @param props.url{String=} - request url
  * @param props.headers{Object=} - object of request headers
  * @param props.allowedCodes{Array=} - array of response allowed codes
@@ -84,7 +84,7 @@ const getFromServer = async (props = {}) => {
   const {
     contentType = "auto",
     isBubble = true,
-    timeout = 12000,
+    timeout = 15000,
     method = "GET",
     mode = "cors",
     signal = null,
@@ -165,6 +165,8 @@ const getFromServer = async (props = {}) => {
       const { ok, status } = resp;
       if (ok || allowedCodes.length && allowedCodes.includes(status)) {
         switch (type) {
+          case "arrayBuffer":
+            return await resp.arrayBuffer();
           case "json":
             return await resp.json();
           case "blob":
@@ -173,7 +175,7 @@ const getFromServer = async (props = {}) => {
             return await resp.text();
         }
       } else {
-        return await getReject(status);
+        return await getReject(resp);
       }
     }
   };

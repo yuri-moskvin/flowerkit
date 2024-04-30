@@ -1,4 +1,4 @@
-import packageFile from "./package.json" assert { type: "json" };
+import packageFile from "./package.json" with { type: "json" };
 
 const esModules = Object.keys(packageFile.dependencies).join("|");
 
