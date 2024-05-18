@@ -11,7 +11,7 @@
  * }
  *
  * const getCurriedSum = getCurryFn(getSum);
- * curriedSum(1)(2) // 3
+ * curriedSum(1)(2); // 3
  */
 export function getCurryFn(fn: Function, arity?: number | undefined): Function;
 //# sourceMappingURL=index.d.ts.map

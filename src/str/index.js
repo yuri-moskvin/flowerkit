@@ -1,3 +1,4 @@
+import { getId } from "./getId/index.js";
 import { getStrDeclination } from "./getStrDeclination/index.js";
 import { getStrEscaped } from "./getStrEscaped/index.js";
 import { getStrUnescaped } from "./getStrUnescaped/index.js";
@@ -11,6 +12,7 @@ import { isStrInSnakeCase } from "./isStrInSnakeCase/index.js";
 import { isStrUrl } from "./isStrUrl/index.js";
 
 export {
+  getId,
   getStrWithThousandSeparator,
   getStrWithZeroFromNum,
   getStrWithCapitalized,

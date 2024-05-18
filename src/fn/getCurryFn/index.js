@@ -14,7 +14,7 @@ import ow from "ow";
  * }
  *
  * const getCurriedSum = getCurryFn(getSum);
- * curriedSum(1)(2) // 3
+ * curriedSum(1)(2); // 3
  */
 const getCurryFn = (fn, arity = fn.length) => {
 

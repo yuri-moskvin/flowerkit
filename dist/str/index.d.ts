@@ -1,3 +1,4 @@
+import { getId } from "./getId/index.js";
 import { getStrWithThousandSeparator } from "./getStrWithThousandSeparator/index.js";
 import { getStrWithZeroFromNum } from "./getStrWithZeroFromNum/index.js";
 import { getStrWithCapitalized } from "./getStrWithCapitalized/index.js";
@@ -9,5 +10,5 @@ import { isStrInSnakeCase } from "./isStrInSnakeCase/index.js";
 import { getStrEscaped } from "./getStrEscaped/index.js";
 import { getStrUnescaped } from "./getStrUnescaped/index.js";
 import { getWords } from "./getWords/index.js";
-export { getStrWithThousandSeparator, getStrWithZeroFromNum, getStrWithCapitalized, getStrDeclination, isStrUrl, isStrInCamelCase, isStrInKebabCase, isStrInSnakeCase, getStrEscaped, getStrUnescaped, getWords };
+export { getId, getStrWithThousandSeparator, getStrWithZeroFromNum, getStrWithCapitalized, getStrDeclination, isStrUrl, isStrInCamelCase, isStrInKebabCase, isStrInSnakeCase, getStrEscaped, getStrUnescaped, getWords };
 //# sourceMappingURL=index.d.ts.map

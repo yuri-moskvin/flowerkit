@@ -1,3 +1,8 @@
+### 1.0.6
+- getId/index.js: new util added;
+- API.md updated;
+- Development dependencies updated;
+
 ### 1.0.5
 - deleteCookie/index.js: new util added;
 - getFromServer/index.js: `arrayBuffer` response type added;

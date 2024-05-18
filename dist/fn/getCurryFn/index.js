@@ -12,6 +12,6 @@ import ow from"ow";
  * }
  *
  * const getCurriedSum = getCurryFn(getSum);
- * curriedSum(1)(2) // 3
+ * curriedSum(1)(2); // 3
  */const getCurryFn=(fn,arity=fn.length)=>{ow(fn,ow.function);ow(arity,ow.number);return function nextCurry(previousArguments){return function curried(nextArgument){const args=[...previousArguments,nextArgument];if(args.length>=arity)return fn(...args);else return nextCurry(args)}}([])};export{getCurryFn};
 //# sourceMappingURL=index.js.map
