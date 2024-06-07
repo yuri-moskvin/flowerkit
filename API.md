@@ -153,6 +153,110 @@ Check if an object is iterable
 
 
 ___
+## User utils:
+<a name="user"></a>
+
+  * [deleteCookie(name)](#deleteCookie)
+  * [getCookie(name)](#getCookie) ⇒ <code>string</code> \| <code>undefined</code>
+  * [setCookie(name, value, [options])](#setCookie)
+  * [getScrollbarWidth()](#getScrollbarWidth) ⇒ <code>number</code>
+  * [isMobileDevice()](#isMobileDevice) ⇒ <code>boolean</code>
+  * [isTouchDevice()](#isTouchDevice) ⇒ <code>boolean</code>
+
+<a name="deleteCookie"></a>
+
+### deleteCookie(name)
+Removes the Cookie value
+
+**See**: https://developer.mozilla.org/en-US/docs/Web/API/Document/cookie  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| name | <code>String</code> | name of Cookie |
+
+
+**Example**  
+
+```js
+// How to delete a Cookie?removeCookie("myCookieName");
+```
+
+<a name="getCookie"></a>
+
+### getCookie(name) ⇒ <code>string</code> \| <code>undefined</code>
+Gets the Cookie value
+
+**See**: https://developer.mozilla.org/en-US/docs/Web/API/Document/cookie  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| name | <code>String</code> | name of Cookie |
+
+
+**Example**  
+
+```js
+// How to get value of Cookie?setCookie("myCookieName", "myValue");const savedValue = getCookie("myCookieName");console.log(savedValue); // => "myValue"
+```
+
+<a name="setCookie"></a>
+
+### setCookie(name, value, [options])
+Sets the Cookie value
+
+**See**: https://developer.mozilla.org/en-US/docs/Web/API/Document/cookie  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| name | <code>String</code> | name of Cookie |
+| value | <code>String</code> | value of Cookie |
+| [options] | <code>Object</code> | options of Cookie |
+
+
+**Example**  
+
+```js
+// How to set Cookie for one day or other time?setCookie("myCookie", "value", { expires: 86400 }) // expires in sec
+```
+
+<a name="getScrollbarWidth"></a>
+
+### getScrollbarWidth() ⇒ <code>number</code>
+Gets width of user scrollbar
+
+
+**Example**  
+
+```js
+// How to get width of user scrollbar?const scrollbarWidth = getScrollBarWidth();console.log(scrollbarWidth); // => number
+```
+
+<a name="isMobileDevice"></a>
+
+### isMobileDevice() ⇒ <code>boolean</code>
+Checks  if the user is using a mobile browser
+
+
+**Example**  
+
+```js
+// How to detect mobile browser?const isMobile = isMobileDevice();console.log(isMobile); // => false
+```
+
+<a name="isTouchDevice"></a>
+
+### isTouchDevice() ⇒ <code>boolean</code>
+Checks if user devise has touchscreen
+
+
+**Example**  
+
+```js
+// How to check if user has touchscreen device?const isTouchEnabled = isTouchDevice();console.log(isTouchEnabled); // => false
+```
+
+
+___
 ## CSS utils:
 <a name="css"></a>
 
@@ -415,285 +519,113 @@ Removes all child nodes of given node
 
 
 ___
-## User utils:
-<a name="user"></a>
+## Event utils:
+<a name="evt"></a>
 
-  * [deleteCookie(name)](#deleteCookie)
-  * [getCookie(name)](#getCookie) ⇒ <code>string</code> \| <code>undefined</code>
-  * [setCookie(name, value, [options])](#setCookie)
-  * [getScrollbarWidth()](#getScrollbarWidth) ⇒ <code>number</code>
-  * [isMobileDevice()](#isMobileDevice) ⇒ <code>boolean</code>
-  * [isTouchDevice()](#isTouchDevice) ⇒ <code>boolean</code>
+  * [bubble(el, name, [detail], [params])](#bubble)
+  * [onDOMReady(cb)](#onDOMReady)
+  * [onSwipe(el, [props])](#onSwipe)
+  * [onWindowLoad(cb)](#onWindowLoad)
+  * [onWindowResize(cb, [delay])](#onWindowResize)
 
-<a name="deleteCookie"></a>
+<a name="bubble"></a>
 
-### deleteCookie(name)
-Removes the Cookie value
+### bubble(el, name, [detail], [params])
+Creates a custom event that bubbles up through the DOM
 
-**See**: https://developer.mozilla.org/en-US/docs/Web/API/Document/cookie  
-
-| Param | Type | Description |
-| --- | --- | --- |
-| name | <code>String</code> | name of Cookie |
-
-
-**Example**  
-
-```js
-// How to delete a Cookie?removeCookie("myCookieName");
-```
-
-<a name="getCookie"></a>
-
-### getCookie(name) ⇒ <code>string</code> \| <code>undefined</code>
-Gets the Cookie value
-
-**See**: https://developer.mozilla.org/en-US/docs/Web/API/Document/cookie  
+**See**: https://developer.mozilla.org/en-US/docs/Web/Events/Creating_and_triggering_events  
 
 | Param | Type | Description |
 | --- | --- | --- |
-| name | <code>String</code> | name of Cookie |
+| el | <code>HTMLElement</code> \| <code>Node</code> \| <code>Element</code> \| <code>Document</code> | DOM element |
+| name | <code>String</code> | name of CustomEvent |
+| [detail] | <code>\*</code> | detail field of CustomEvent |
+| [params] | <code>Object</code> | other params of CustomEvent |
 
 
 **Example**  
 
 ```js
-// How to get value of Cookie?setCookie("myCookieName", "myValue");const savedValue = getCookie("myCookieName");console.log(savedValue); // => "myValue"
+// How to create custom event with user data and bubble it on document element?bubble(document, "myEvent", { myData: "test" })// How to create custom event and bubble it on specific node?const myEl = document.querySelector("#myElement");if(myEl) {  bubble(myEl, "myEvent")}// How to listen custom events? Use your listener before calling of bubble function.document.addEventListener("myEvent", (e) => console.log(e));
 ```
 
-<a name="setCookie"></a>
+<a name="onDOMReady"></a>
 
-### setCookie(name, value, [options])
-Sets the Cookie value
+### onDOMReady(cb)
+Runs callback when DOM tree can be manipulated
 
-**See**: https://developer.mozilla.org/en-US/docs/Web/API/Document/cookie  
+**See**: https://developer.mozilla.org/en-US/docs/Web/API/Document/DOMContentLoaded_event  
 
 | Param | Type | Description |
 | --- | --- | --- |
-| name | <code>String</code> | name of Cookie |
-| value | <code>String</code> | value of Cookie |
-| [options] | <code>Object</code> | options of Cookie |
+| cb | <code>function</code> | callback function |
 
 
 **Example**  
 
 ```js
-// How to set Cookie for one day or other time?setCookie("myCookie", "value", { expires: 86400 }) // expires in sec
+// How to check if DOM is ready?const callback = () => console.log("DOM Content Loaded");onDOMReady(callback);
 ```
 
-<a name="getScrollbarWidth"></a>
+<a name="onSwipe"></a>
 
-### getScrollbarWidth() ⇒ <code>number</code>
-Gets width of user scrollbar
-
-
-**Example**  
-
-```js
-// How to get width of user scrollbar?const scrollbarWidth = getScrollBarWidth();console.log(scrollbarWidth); // => number
-```
-
-<a name="isMobileDevice"></a>
-
-### isMobileDevice() ⇒ <code>boolean</code>
-Checks  if the user is using a mobile browser
-
-
-**Example**  
-
-```js
-// How to detect mobile browser?const isMobile = isMobileDevice();console.log(isMobile); // => false
-```
-
-<a name="isTouchDevice"></a>
-
-### isTouchDevice() ⇒ <code>boolean</code>
-Checks if user devise has touchscreen
-
-
-**Example**  
-
-```js
-// How to check if user has touchscreen device?const isTouchEnabled = isTouchDevice();console.log(isTouchEnabled); // => false
-```
-
-
-___
-## Function utils:
-<a name="fn"></a>
-
-  * [getCurryFn(fn, [arity])](#getCurryFn) ⇒ <code>function</code>
-  * [getDebouncedFn(cb, [wait], [isImmediate])](#getDebouncedFn) ⇒ <code>function</code>
-  * [isFnAsync(fn)](#isFnAsync) ⇒ <code>boolean</code>
-  * [isFnClass(fn)](#isFnClass) ⇒ <code>boolean</code>
-  * [wait([ms])](#wait) ⇒ <code>Promise</code>
-
-<a name="getCurryFn"></a>
-
-### getCurryFn(fn, [arity]) ⇒ <code>function</code>
-Evaluating functions with multiple arguments and decomposing them into a sequence of functions with a specific number of arguments
+### onSwipe(el, [props])
+Adds custom `swipe` event on element.Works on desktop and mobile browsers.Supports speed, time and direction.Generates custom `swipe` event on element or uses your own callback.
 
 
 | Param | Type | Description |
 | --- | --- | --- |
-| fn | <code>function</code> | source function |
-| [arity] | <code>Number</code> | arity of function |
+| el | <code>HTMLElement</code> \| <code>Node</code> \| <code>Element</code> \| <code>Document</code> | DOM element |
+| [props] | <code>Object</code> | swipe params |
+| [props.callback] | <code>function</code> | callback function after `swipe` |
+| [props.minDist] | <code>Number</code> | min distance for swipe in `px` |
+| [props.maxDist] | <code>Number</code> | max distance for swipe in `px` |
+| [props.minTime] | <code>Number</code> | min duration of swipe in `ms` |
+| [props.maxTime] | <code>Number</code> | max duration of swipe in `ms` |
+| [props.instanceName] | <code>String</code> | instance name to access it from node itself |
 
 
 **Example**  
 
 ```js
-// How to curry a function?function getSum(a, b) {  return a + b;}const getCurriedSum = getCurryFn(getSum);curriedSum(1)(2); // 3
+// How to listen `swipe` event on element in JS?// <div id="myBlock"></div>const myBlock = document.getElementById("myBlock");onSwipe(myBlock, {  callback: ({ dist, dir, time }) => {    console.log(dir, dist, time); // swipe direction, swipe distant, swipe time    if(dir === "right") {      // logic for right swipe    }  }});// Or with custom events:onSwipe(myBlock);myBlock.addEventListener("swipe", (e) => console.log(e.detail));// To destroy whole instance or remove listeners:myBlock._swipeCtrl.destroy(); // or other name given in `options.instanceName`;
 ```
 
-<a name="getDebouncedFn"></a>
+<a name="onWindowLoad"></a>
 
-### getDebouncedFn(cb, [wait], [isImmediate]) ⇒ <code>function</code>
-Gets a function that is executed no more than once in a specified period of time
+### onWindowLoad(cb)
+Runs callback when page has fully loaded
 
+**See**: https://developer.mozilla.org/en-US/docs/Web/API/Window/load_event  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| cb | <code>function</code> | callback function |
+
+
+**Example**  
+
+```js
+// How to detect when whole page has loaded?const callback = () => console.log("Page loaded");onWindowLoad(callback);
+```
+
+<a name="onWindowResize"></a>
+
+### onWindowResize(cb, [delay])
+Runs callback when page has been resized
+
+**See**: https://developer.mozilla.org/en-US/docs/Web/API/Window/resize_event  
 
 | Param | Type | Default | Description |
 | --- | --- | --- | --- |
-| cb | <code>function</code> |  | source function |
-| [wait] | <code>Number</code> | <code>250</code> | interval of execution |
-| [isImmediate] | <code>Boolean</code> | <code>false</code> | immediate execution |
+| cb | <code>function</code> |  | callback function |
+| [delay] | <code>Number</code> | <code>300</code> | callback execution delay |
 
 
 **Example**  
 
 ```js
-// How to execute function no more than once per second?const fn = getDebouncedFn(alert, 1000);fn(1); // calls immediatelyfn(2); // ignoredsetTimeout(() => fn(3), 100); // ignoredsetTimeout(() => fn(4), 1100); // callssetTimeout(() => fn(5), 1500); // ignored
-```
-
-<a name="isFnAsync"></a>
-
-### isFnAsync(fn) ⇒ <code>boolean</code>
-Checks if function is async
-
-
-| Param | Type | Description |
-| --- | --- | --- |
-| fn | <code>\*</code> | source function |
-
-
-**Example**  
-
-```js
-// How to check if function is async?const fn = async () => {};const isAsync = isFnAsync(fn);console.log(isAsync); // => true
-```
-
-<a name="isFnClass"></a>
-
-### isFnClass(fn) ⇒ <code>boolean</code>
-Checks if a function is class or instance of class
-
-
-| Param | Type | Description |
-| --- | --- | --- |
-| fn | <code>\*</code> | source function |
-
-
-**Example**  
-
-```js
-// How to check if a function is ES6 Class?const fn = new Class();const isClass = isFnClass(fn);console.log(isClass); // => true
-```
-
-<a name="wait"></a>
-
-### wait([ms]) ⇒ <code>Promise</code>
-Gets a Promise that resolves after specific time
-
-
-| Param | Type | Default | Description |
-| --- | --- | --- | --- |
-| [ms] | <code>Number</code> | <code>0</code> | delay in ms |
-
-
-**Example**  
-
-```js
-// How to sleep/delay in JS?wait(3000).then(() => {  console.log("Runs after 3 sec!");})
-```
-
-
-___
-## Number utils:
-<a name="num"></a>
-
-  * [getMaxFromArr(arr)](#getMaxFromArr) ⇒ <code>number</code>
-  * [getMinFromArr(arr)](#getMinFromArr) ⇒ <code>number</code>
-  * [getRandomIntFromInterval([min], [max])](#getRandomIntFromInterval) ⇒ <code>number</code>
-  * [getRounded(num, [places])](#getRounded) ⇒ <code>number</code>
-
-<a name="getMaxFromArr"></a>
-
-### getMaxFromArr(arr) ⇒ <code>number</code>
-Gets max number from Array
-
-
-| Param | Type | Description |
-| --- | --- | --- |
-| arr | <code>Array</code> | source Array of numbers |
-
-
-**Example**  
-
-```js
-// How to get max number from Array of numbers?const arr = [ 100, 200, 300 ];const max = getMaxFromArr(arr);console.log(max); // 300
-```
-
-<a name="getMinFromArr"></a>
-
-### getMinFromArr(arr) ⇒ <code>number</code>
-Gets min number from Array
-
-
-| Param | Type | Description |
-| --- | --- | --- |
-| arr | <code>Array</code> | source Array of numbers |
-
-
-**Example**  
-
-```js
-// How to get min number from Array of numbers?const arr = [ 100, 200, 300 ];const min = getMinFromArr(arr);console.log(min); // 100
-```
-
-<a name="getRandomIntFromInterval"></a>
-
-### getRandomIntFromInterval([min], [max]) ⇒ <code>number</code>
-Gets random integer between min and max value
-
-
-| Param | Type | Default | Description |
-| --- | --- | --- | --- |
-| [min] | <code>Number</code> | <code>1</code> | min value |
-| [max] | <code>Number</code> | <code>1000000000</code> | max value |
-
-
-**Example**  
-
-```js
-// How to generate random number between two numbers?const randomNumber = getRandomIntFromInterval(1, 10);console.log(randomNumber >= 1 && randomNumber <= 10); // => true
-```
-
-<a name="getRounded"></a>
-
-### getRounded(num, [places]) ⇒ <code>number</code>
-Gets rounded number to specific decimal places
-
-
-| Param | Type | Default | Description |
-| --- | --- | --- | --- |
-| num | <code>Number</code> |  | source number |
-| [places] | <code>Number</code> | <code>2</code> | decimal places |
-
-
-**Example**  
-
-```js
-// How to round number to 4 decimal places?const num = 0.00025;const rounded = getRounded(num, 4);console.log(rounded); // => 0.0003
+// How to detect when page has been resized and run callback once when resize ends?const callback = () => console.log("Page loaded");onWindowLoad(callback);
 ```
 
 
@@ -805,13 +737,112 @@ Gets a URL string with updated query params from object or FormData instance
 
 
 ___
+## Function utils:
+<a name="fn"></a>
+
+  * [getCurryFn(fn, [arity])](#getCurryFn) ⇒ <code>function</code>
+  * [getDebouncedFn(cb, [wait], [isImmediate])](#getDebouncedFn) ⇒ <code>function</code>
+  * [isFnAsync(fn)](#isFnAsync) ⇒ <code>boolean</code>
+  * [isFnClass(fn)](#isFnClass) ⇒ <code>boolean</code>
+  * [wait([ms])](#wait) ⇒ <code>Promise</code>
+
+<a name="getCurryFn"></a>
+
+### getCurryFn(fn, [arity]) ⇒ <code>function</code>
+Evaluating functions with multiple arguments and decomposing them into a sequence of functions with a specific number of arguments
+
+
+| Param | Type | Description |
+| --- | --- | --- |
+| fn | <code>function</code> | source function |
+| [arity] | <code>Number</code> | arity of function |
+
+
+**Example**  
+
+```js
+// How to curry a function?function getSum(a, b) {  return a + b;}const getCurriedSum = getCurryFn(getSum);curriedSum(1)(2); // 3
+```
+
+<a name="getDebouncedFn"></a>
+
+### getDebouncedFn(cb, [wait], [isImmediate]) ⇒ <code>function</code>
+Gets a function that is executed no more than once in a specified period of time
+
+
+| Param | Type | Default | Description |
+| --- | --- | --- | --- |
+| cb | <code>function</code> |  | source function |
+| [wait] | <code>Number</code> | <code>250</code> | interval of execution |
+| [isImmediate] | <code>Boolean</code> | <code>false</code> | immediate execution |
+
+
+**Example**  
+
+```js
+// How to execute function no more than once per second?const fn = getDebouncedFn(alert, 1000);fn(1); // calls immediatelyfn(2); // ignoredsetTimeout(() => fn(3), 100); // ignoredsetTimeout(() => fn(4), 1100); // callssetTimeout(() => fn(5), 1500); // ignored
+```
+
+<a name="isFnAsync"></a>
+
+### isFnAsync(fn) ⇒ <code>boolean</code>
+Checks if function is async
+
+
+| Param | Type | Description |
+| --- | --- | --- |
+| fn | <code>\*</code> | source function |
+
+
+**Example**  
+
+```js
+// How to check if function is async?const fn = async () => {};const isAsync = isFnAsync(fn);console.log(isAsync); // => true
+```
+
+<a name="isFnClass"></a>
+
+### isFnClass(fn) ⇒ <code>boolean</code>
+Checks if a function is class or instance of class
+
+
+| Param | Type | Description |
+| --- | --- | --- |
+| fn | <code>\*</code> | source function |
+
+
+**Example**  
+
+```js
+// How to check if a function is ES6 Class?const fn = new Class();const isClass = isFnClass(fn);console.log(isClass); // => true
+```
+
+<a name="wait"></a>
+
+### wait([ms]) ⇒ <code>Promise</code>
+Gets a Promise that resolves after specific time
+
+
+| Param | Type | Default | Description |
+| --- | --- | --- | --- |
+| [ms] | <code>Number</code> | <code>0</code> | delay in ms |
+
+
+**Example**  
+
+```js
+// How to sleep/delay in JS?wait(3000).then(() => {  console.log("Runs after 3 sec!");})
+```
+
+
+___
 ## Object utils:
 <a name="obj"></a>
 
   * [getAllSamePropsFromObj(obj, prop)](#getAllSamePropsFromObj) ⇒ <code>Array</code>
   * [getCopyOfObj(obj)](#getCopyOfObj) ⇒ <code>Object</code> \| <code>Array</code>
   * [getMapFromObj([obj], [getFiltered])](#getMapFromObj) ⇒ <code>Map</code>
-  * [getMergedObj([target], [source])](#getMergedObj) ⇒ <code>Object</code>
+  * [getMergedObj([target], [source], [options])](#getMergedObj) ⇒ <code>Object</code>
   * [getObjFromFormData([fd])](#getObjFromFormData) ⇒ <code>Object</code>
   * [getObjLength(obj)](#getObjLength) ⇒ <code>number</code>
   * [getObjWithFallbacks(data, [rules], [fallbacks])](#getObjWithFallbacks) ⇒ <code>Object</code>
@@ -875,7 +906,7 @@ Gets a Map from object
 
 <a name="getMergedObj"></a>
 
-### getMergedObj([target], [source]) ⇒ <code>Object</code>
+### getMergedObj([target], [source], [options]) ⇒ <code>Object</code>
 Gets one deeply merged object from two objects
 
 
@@ -883,6 +914,8 @@ Gets one deeply merged object from two objects
 | --- | --- | --- |
 | [target] | <code>Object</code> | target object |
 | [source] | <code>Object</code> | source object |
+| [options] | <code>Object</code> | merge options |
+| [options.isMergeArrays] | <code>Boolean</code> | concat nested arrays or use target value |
 
 
 **Example**  
@@ -1227,117 +1260,6 @@ Checks if string is URL address or valid pathname of URL address
 
 
 ___
-## Event utils:
-<a name="evt"></a>
-
-  * [bubble(el, name, [detail], [params])](#bubble)
-  * [onDOMReady(cb)](#onDOMReady)
-  * [onSwipe(el, [props])](#onSwipe)
-  * [onWindowLoad(cb)](#onWindowLoad)
-  * [onWindowResize(cb, [delay])](#onWindowResize)
-
-<a name="bubble"></a>
-
-### bubble(el, name, [detail], [params])
-Creates a custom event that bubbles up through the DOM
-
-**See**: https://developer.mozilla.org/en-US/docs/Web/Events/Creating_and_triggering_events  
-
-| Param | Type | Description |
-| --- | --- | --- |
-| el | <code>HTMLElement</code> \| <code>Node</code> \| <code>Element</code> \| <code>Document</code> | DOM element |
-| name | <code>String</code> | name of CustomEvent |
-| [detail] | <code>\*</code> | detail field of CustomEvent |
-| [params] | <code>Object</code> | other params of CustomEvent |
-
-
-**Example**  
-
-```js
-// How to create custom event with user data and bubble it on document element?bubble(document, "myEvent", { myData: "test" })// How to create custom event and bubble it on specific node?const myEl = document.querySelector("#myElement");if(myEl) {  bubble(myEl, "myEvent")}// How to listen custom events? Use your listener before calling of bubble function.document.addEventListener("myEvent", (e) => console.log(e));
-```
-
-<a name="onDOMReady"></a>
-
-### onDOMReady(cb)
-Runs callback when DOM tree can be manipulated
-
-**See**: https://developer.mozilla.org/en-US/docs/Web/API/Document/DOMContentLoaded_event  
-
-| Param | Type | Description |
-| --- | --- | --- |
-| cb | <code>function</code> | callback function |
-
-
-**Example**  
-
-```js
-// How to check if DOM is ready?const callback = () => console.log("DOM Content Loaded");onDOMReady(callback);
-```
-
-<a name="onSwipe"></a>
-
-### onSwipe(el, [props])
-Adds custom `swipe` event on element.Works on desktop and mobile browsers.Supports speed, time and direction.Generates custom `swipe` event on element or uses your own callback.
-
-
-| Param | Type | Description |
-| --- | --- | --- |
-| el | <code>HTMLElement</code> \| <code>Node</code> \| <code>Element</code> \| <code>Document</code> | DOM element |
-| [props] | <code>Object</code> | swipe params |
-| [props.callback] | <code>function</code> | callback function after `swipe` |
-| [props.minDist] | <code>Number</code> | min distance for swipe in `px` |
-| [props.maxDist] | <code>Number</code> | max distance for swipe in `px` |
-| [props.minTime] | <code>Number</code> | min duration of swipe in `ms` |
-| [props.maxTime] | <code>Number</code> | max duration of swipe in `ms` |
-| [props.instanceName] | <code>String</code> | instance name to access it from node itself |
-
-
-**Example**  
-
-```js
-// How to listen `swipe` event on element in JS?// <div id="myBlock"></div>const myBlock = document.getElementById("myBlock");onSwipe(myBlock, {  callback: ({ dist, dir, time }) => {    console.log(dir, dist, time); // swipe direction, swipe distant, swipe time    if(dir === "right") {      // logic for right swipe    }  }});// Or with custom events:onSwipe(myBlock);myBlock.addEventListener("swipe", (e) => console.log(e.detail));// To destroy whole instance or remove listeners:myBlock._swipeCtrl.destroy(); // or other name given in `options.instanceName`;
-```
-
-<a name="onWindowLoad"></a>
-
-### onWindowLoad(cb)
-Runs callback when page has fully loaded
-
-**See**: https://developer.mozilla.org/en-US/docs/Web/API/Window/load_event  
-
-| Param | Type | Description |
-| --- | --- | --- |
-| cb | <code>function</code> | callback function |
-
-
-**Example**  
-
-```js
-// How to detect when whole page has loaded?const callback = () => console.log("Page loaded");onWindowLoad(callback);
-```
-
-<a name="onWindowResize"></a>
-
-### onWindowResize(cb, [delay])
-Runs callback when page has been resized
-
-**See**: https://developer.mozilla.org/en-US/docs/Web/API/Window/resize_event  
-
-| Param | Type | Default | Description |
-| --- | --- | --- | --- |
-| cb | <code>function</code> |  | callback function |
-| [delay] | <code>Number</code> | <code>300</code> | callback execution delay |
-
-
-**Example**  
-
-```js
-// How to detect when page has been resized and run callback once when resize ends?const callback = () => console.log("Page loaded");onWindowLoad(callback);
-```
-
-
-___
 ## Json utils:
 <a name="json"></a>
 
@@ -1379,5 +1301,85 @@ Checks if string is a valid JSON string
 
 ```js
 // How to check if string is a JSON?const str = '{ "hello": "world" }';const isStrJSON = isJSON(str);console.log(isStrJSON); // => true
+```
+
+
+___
+## Number utils:
+<a name="num"></a>
+
+  * [getMaxFromArr(arr)](#getMaxFromArr) ⇒ <code>number</code>
+  * [getMinFromArr(arr)](#getMinFromArr) ⇒ <code>number</code>
+  * [getRandomIntFromInterval([min], [max])](#getRandomIntFromInterval) ⇒ <code>number</code>
+  * [getRounded(num, [places])](#getRounded) ⇒ <code>number</code>
+
+<a name="getMaxFromArr"></a>
+
+### getMaxFromArr(arr) ⇒ <code>number</code>
+Gets max number from Array
+
+
+| Param | Type | Description |
+| --- | --- | --- |
+| arr | <code>Array</code> | source Array of numbers |
+
+
+**Example**  
+
+```js
+// How to get max number from Array of numbers?const arr = [ 100, 200, 300 ];const max = getMaxFromArr(arr);console.log(max); // 300
+```
+
+<a name="getMinFromArr"></a>
+
+### getMinFromArr(arr) ⇒ <code>number</code>
+Gets min number from Array
+
+
+| Param | Type | Description |
+| --- | --- | --- |
+| arr | <code>Array</code> | source Array of numbers |
+
+
+**Example**  
+
+```js
+// How to get min number from Array of numbers?const arr = [ 100, 200, 300 ];const min = getMinFromArr(arr);console.log(min); // 100
+```
+
+<a name="getRandomIntFromInterval"></a>
+
+### getRandomIntFromInterval([min], [max]) ⇒ <code>number</code>
+Gets random integer between min and max value
+
+
+| Param | Type | Default | Description |
+| --- | --- | --- | --- |
+| [min] | <code>Number</code> | <code>1</code> | min value |
+| [max] | <code>Number</code> | <code>1000000000</code> | max value |
+
+
+**Example**  
+
+```js
+// How to generate random number between two numbers?const randomNumber = getRandomIntFromInterval(1, 10);console.log(randomNumber >= 1 && randomNumber <= 10); // => true
+```
+
+<a name="getRounded"></a>
+
+### getRounded(num, [places]) ⇒ <code>number</code>
+Gets rounded number to specific decimal places
+
+
+| Param | Type | Default | Description |
+| --- | --- | --- | --- |
+| num | <code>Number</code> |  | source number |
+| [places] | <code>Number</code> | <code>2</code> | decimal places |
+
+
+**Example**  
+
+```js
+// How to round number to 4 decimal places?const num = 0.00025;const rounded = getRounded(num, 4);console.log(rounded); // => 0.0003
 ```
 

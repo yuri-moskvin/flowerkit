@@ -1,7 +1,11 @@
+import ow from "ow";
+
 /**
  * Gets one deeply merged object from two objects
  * @param target{Object=} - target object
  * @param source{Object=} - source object
+ * @param options{Object=} - merge options
+ * @param options.isMergeArrays{Boolean=} - concat nested arrays or use target value
  * @return {Object}
  * @example
  * // How to deeply merge two objects?
@@ -14,7 +18,14 @@
  * }
  * getMergedObj(targetObj, sourceObj) // => { first: [ "foo", "moo" ], boo: 12 }
  */
-const getMergedObj = (target = {}, source = {}) => {
+const getMergedObj = (target = {}, source = {}, options = {}) => {
+
+  ow(options, ow.object);
+
+  const settings = {
+    isMergeArrays: true,
+    ...options,
+  };
 
   target = ((obj) => {
     let cloneObj;
@@ -38,7 +49,7 @@ const getMergedObj = (target = {}, source = {}) => {
     const sourceValue = source[key];
     switch (true) {
       case Array.isArray(targetValue) && Array.isArray(sourceValue): {
-        target[key] = targetValue.concat(sourceValue);
+        target[key] = settings.isMergeArrays ? targetValue.concat(sourceValue) : targetValue;
         break;
       }
       case isObject(targetValue) && isObject(sourceValue): {

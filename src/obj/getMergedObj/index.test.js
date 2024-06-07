@@ -49,4 +49,34 @@ describe(getMergedObj.name, () => {
     });
   });
 
+  test("Checks for nested arrays", () => {
+    expect(getMergedObj({
+      hello: "world!",
+      deeply: {
+        hello: "world",
+        arr: [ 1, 2, 3 ]
+      }
+    }, {
+      deeply: {
+        arr: [ 4, 5, 6 ]
+      }
+    })).toStrictEqual({
+      hello: "world!",
+      deeply: {
+        hello: "world",
+        arr: [ 1, 2, 3, 4, 5, 6 ]
+      }
+    });
+
+    expect(getMergedObj({
+      hello: [ "a", "b", "c" ]
+    }, {
+      hello: [ "d", "e", "f" ]
+    }, {
+      isMergeArrays: false
+    })).toStrictEqual({
+      hello: [ "a", "b", "c" ]
+    });
+  });
+
 });
