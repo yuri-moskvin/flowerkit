@@ -160,6 +160,7 @@ ___
   * [getCookie(name)](#getCookie) ⇒ <code>string</code> \| <code>undefined</code>
   * [setCookie(name, value, [options])](#setCookie)
   * [getScrollbarWidth()](#getScrollbarWidth) ⇒ <code>number</code>
+  * [isAdblock()](#isAdblock) ⇒ <code>boolean</code>
   * [isMobileDevice()](#isMobileDevice) ⇒ <code>boolean</code>
   * [isTouchDevice()](#isTouchDevice) ⇒ <code>boolean</code>
 
@@ -229,6 +230,18 @@ Gets width of user scrollbar
 
 ```js
 // How to get width of user scrollbar?const scrollbarWidth = getScrollBarWidth();console.log(scrollbarWidth); // => number
+```
+
+<a name="isAdblock"></a>
+
+### isAdblock() ⇒ <code>boolean</code>
+Checks if the user has adblock
+
+
+**Example**  
+
+```js
+// How to detect if user has adblock in browser?const isAdblock = isAdblock();console.log(isAdblock); // => false
 ```
 
 <a name="isMobileDevice"></a>
@@ -630,6 +643,51 @@ Runs callback when page has been resized
 
 
 ___
+## Json utils:
+<a name="json"></a>
+
+  * [getJSONFromStr(str, [reviver], [onError])](#getJSONFromStr) ⇒ <code>Object</code>
+  * [isJSON(str)](#isJSON) ⇒ <code>Boolean</code>
+
+<a name="getJSONFromStr"></a>
+
+### getJSONFromStr(str, [reviver], [onError]) ⇒ <code>Object</code>
+Gets safely parsed JSON from string
+
+**See**: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/JSON/parse  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| str | <code>String</code> | source string |
+| [reviver] | <code>function</code> | reviver function |
+| [onError] | <code>function</code> | error callback |
+
+
+**Example**  
+
+```js
+// How convert string to JSON?const json = getJSONFromStr('{ "hello": "world" }');console.log(json.hello) // => "world"
+```
+
+<a name="isJSON"></a>
+
+### isJSON(str) ⇒ <code>Boolean</code>
+Checks if string is a valid JSON string
+
+
+| Param | Type | Description |
+| --- | --- | --- |
+| str | <code>String</code> | source String |
+
+
+**Example**  
+
+```js
+// How to check if string is a JSON?const str = '{ "hello": "world" }';const isStrJSON = isJSON(str);console.log(isStrJSON); // => true
+```
+
+
+___
 ## Network utils:
 <a name="net"></a>
 
@@ -733,105 +791,6 @@ Gets a URL string with updated query params from object or FormData instance
 
 ```js
 // How to set query params to URL string?const url = "https://example.com";getUrlWithQueryParams(url, { foo: 1 }); // "https://example.com/?foo=1"// How to update query params in URL string?const url = "/api/users/?page=1";getUrlWithQueryParams(url, { page: 2, limit: 100 }); // "/api/users/?page=2&limit=100"
-```
-
-
-___
-## Function utils:
-<a name="fn"></a>
-
-  * [getCurryFn(fn, [arity])](#getCurryFn) ⇒ <code>function</code>
-  * [getDebouncedFn(cb, [wait], [isImmediate])](#getDebouncedFn) ⇒ <code>function</code>
-  * [isFnAsync(fn)](#isFnAsync) ⇒ <code>boolean</code>
-  * [isFnClass(fn)](#isFnClass) ⇒ <code>boolean</code>
-  * [wait([ms])](#wait) ⇒ <code>Promise</code>
-
-<a name="getCurryFn"></a>
-
-### getCurryFn(fn, [arity]) ⇒ <code>function</code>
-Evaluating functions with multiple arguments and decomposing them into a sequence of functions with a specific number of arguments
-
-
-| Param | Type | Description |
-| --- | --- | --- |
-| fn | <code>function</code> | source function |
-| [arity] | <code>Number</code> | arity of function |
-
-
-**Example**  
-
-```js
-// How to curry a function?function getSum(a, b) {  return a + b;}const getCurriedSum = getCurryFn(getSum);curriedSum(1)(2); // 3
-```
-
-<a name="getDebouncedFn"></a>
-
-### getDebouncedFn(cb, [wait], [isImmediate]) ⇒ <code>function</code>
-Gets a function that is executed no more than once in a specified period of time
-
-
-| Param | Type | Default | Description |
-| --- | --- | --- | --- |
-| cb | <code>function</code> |  | source function |
-| [wait] | <code>Number</code> | <code>250</code> | interval of execution |
-| [isImmediate] | <code>Boolean</code> | <code>false</code> | immediate execution |
-
-
-**Example**  
-
-```js
-// How to execute function no more than once per second?const fn = getDebouncedFn(alert, 1000);fn(1); // calls immediatelyfn(2); // ignoredsetTimeout(() => fn(3), 100); // ignoredsetTimeout(() => fn(4), 1100); // callssetTimeout(() => fn(5), 1500); // ignored
-```
-
-<a name="isFnAsync"></a>
-
-### isFnAsync(fn) ⇒ <code>boolean</code>
-Checks if function is async
-
-
-| Param | Type | Description |
-| --- | --- | --- |
-| fn | <code>\*</code> | source function |
-
-
-**Example**  
-
-```js
-// How to check if function is async?const fn = async () => {};const isAsync = isFnAsync(fn);console.log(isAsync); // => true
-```
-
-<a name="isFnClass"></a>
-
-### isFnClass(fn) ⇒ <code>boolean</code>
-Checks if a function is class or instance of class
-
-
-| Param | Type | Description |
-| --- | --- | --- |
-| fn | <code>\*</code> | source function |
-
-
-**Example**  
-
-```js
-// How to check if a function is ES6 Class?const fn = new Class();const isClass = isFnClass(fn);console.log(isClass); // => true
-```
-
-<a name="wait"></a>
-
-### wait([ms]) ⇒ <code>Promise</code>
-Gets a Promise that resolves after specific time
-
-
-| Param | Type | Default | Description |
-| --- | --- | --- | --- |
-| [ms] | <code>Number</code> | <code>0</code> | delay in ms |
-
-
-**Example**  
-
-```js
-// How to sleep/delay in JS?wait(3000).then(() => {  console.log("Runs after 3 sec!");})
 ```
 
 
@@ -1080,7 +1039,7 @@ Gets the declension of a word depending on the number. Useful for Cyrillic words
 **Example**  
 
 ```js
-// How to get right declension of Cyrillic word?const words = [ "товар", "товара", "товаров" ]; // one, two, few or zerogetWordDeclination(2, words); // "товара"
+// How to get right declension of Cyrillic word?const words = [ "товар", "товара", "товаров" ]; // one, two, few or zerogetStrDeclination(2, words); // "товара"
 ```
 
 <a name="getStrEscaped"></a>
@@ -1260,47 +1219,101 @@ Checks if string is URL address or valid pathname of URL address
 
 
 ___
-## Json utils:
-<a name="json"></a>
+## Function utils:
+<a name="fn"></a>
 
-  * [getJSONFromStr(str, [reviver], [onError])](#getJSONFromStr) ⇒ <code>Object</code>
-  * [isJSON(str)](#isJSON) ⇒ <code>Boolean</code>
+  * [getCurryFn(fn, [arity])](#getCurryFn) ⇒ <code>function</code>
+  * [getDebouncedFn(cb, [wait], [isImmediate])](#getDebouncedFn) ⇒ <code>function</code>
+  * [isFnAsync(fn)](#isFnAsync) ⇒ <code>boolean</code>
+  * [isFnClass(fn)](#isFnClass) ⇒ <code>boolean</code>
+  * [wait([ms])](#wait) ⇒ <code>Promise</code>
 
-<a name="getJSONFromStr"></a>
+<a name="getCurryFn"></a>
 
-### getJSONFromStr(str, [reviver], [onError]) ⇒ <code>Object</code>
-Gets safely parsed JSON from string
+### getCurryFn(fn, [arity]) ⇒ <code>function</code>
+Evaluating functions with multiple arguments and decomposing them into a sequence of functions with a specific number of arguments
 
-**See**: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/JSON/parse  
 
 | Param | Type | Description |
 | --- | --- | --- |
-| str | <code>String</code> | source string |
-| [reviver] | <code>function</code> | reviver function |
-| [onError] | <code>function</code> | error callback |
+| fn | <code>function</code> | source function |
+| [arity] | <code>Number</code> | arity of function |
 
 
 **Example**  
 
 ```js
-// How convert string to JSON?const json = getJSONFromStr('{ "hello": "world" }');console.log(json.hello) // => "world"
+// How to curry a function?function getSum(a, b) {  return a + b;}const getCurriedSum = getCurryFn(getSum);curriedSum(1)(2); // 3
 ```
 
-<a name="isJSON"></a>
+<a name="getDebouncedFn"></a>
 
-### isJSON(str) ⇒ <code>Boolean</code>
-Checks if string is a valid JSON string
+### getDebouncedFn(cb, [wait], [isImmediate]) ⇒ <code>function</code>
+Gets a function that is executed no more than once in a specified period of time
 
 
-| Param | Type | Description |
-| --- | --- | --- |
-| str | <code>String</code> | source String |
+| Param | Type | Default | Description |
+| --- | --- | --- | --- |
+| cb | <code>function</code> |  | source function |
+| [wait] | <code>Number</code> | <code>250</code> | interval of execution |
+| [isImmediate] | <code>Boolean</code> | <code>false</code> | immediate execution |
 
 
 **Example**  
 
 ```js
-// How to check if string is a JSON?const str = '{ "hello": "world" }';const isStrJSON = isJSON(str);console.log(isStrJSON); // => true
+// How to execute function no more than once per second?const fn = getDebouncedFn(alert, 1000);fn(1); // calls immediatelyfn(2); // ignoredsetTimeout(() => fn(3), 100); // ignoredsetTimeout(() => fn(4), 1100); // callssetTimeout(() => fn(5), 1500); // ignored
+```
+
+<a name="isFnAsync"></a>
+
+### isFnAsync(fn) ⇒ <code>boolean</code>
+Checks if function is async
+
+
+| Param | Type | Description |
+| --- | --- | --- |
+| fn | <code>\*</code> | source function |
+
+
+**Example**  
+
+```js
+// How to check if function is async?const fn = async () => {};const isAsync = isFnAsync(fn);console.log(isAsync); // => true
+```
+
+<a name="isFnClass"></a>
+
+### isFnClass(fn) ⇒ <code>boolean</code>
+Checks if a function is class or instance of class
+
+
+| Param | Type | Description |
+| --- | --- | --- |
+| fn | <code>\*</code> | source function |
+
+
+**Example**  
+
+```js
+// How to check if a function is ES6 Class?const fn = new Class();const isClass = isFnClass(fn);console.log(isClass); // => true
+```
+
+<a name="wait"></a>
+
+### wait([ms]) ⇒ <code>Promise</code>
+Gets a Promise that resolves after specific time
+
+
+| Param | Type | Default | Description |
+| --- | --- | --- | --- |
+| [ms] | <code>Number</code> | <code>0</code> | delay in ms |
+
+
+**Example**  
+
+```js
+// How to sleep/delay in JS?wait(3000).then(() => {  console.log("Runs after 3 sec!");})
 ```
 
 

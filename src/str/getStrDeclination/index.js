@@ -8,7 +8,7 @@ import ow from "ow";
  * @example
  * // How to get right declension of Cyrillic word?
  * const words = [ "товар", "товара", "товаров" ]; // one, two, few or zero
- * getWordDeclination(2, words); // "товара"
+ * getStrDeclination(2, words); // "товара"
  *
  */
 const getStrDeclination = (num, words = []) => {

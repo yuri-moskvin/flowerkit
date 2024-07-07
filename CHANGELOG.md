@@ -1,3 +1,7 @@
+### 1.0.8
+- isAdblock/index.js: new util added;
+- Development dependencies updated;
+
 ### 1.0.7
 - getMergedObj/index.js: options for arrays added;
 - Development dependencies updated;
