@@ -10,7 +10,8 @@
  * @param props.maxDist{Number=} - max distance for swipe in `px`
  * @param props.minTime{Number=} - min duration of swipe in `ms`
  * @param props.maxTime{Number=} - max duration of swipe in `ms`
- * @param props.instanceName{String=} - instance name to access it from node itself
+ * @param isAutoInit{Boolean=} - attaches event immediately
+ * @return {{ handler: Object, addListener: Function, removeListener: Function }}
  * @example
  * // How to listen `swipe` event on element in JS?
  * // <div id="myBlock"></div>
@@ -27,8 +28,14 @@
  * onSwipe(myBlock);
  * myBlock.addEventListener("swipe", (e) => console.log(e.detail));
  *
- * // To destroy whole instance or remove listeners:
- * myBlock._swipeCtrl.destroy(); // or other name given in `options.instanceName`;
+ * // Or manually add/remove listeners:
+ * const { addListener, removeListener } = onSwipe(myBlock);
+ * addListener(); // adds swipe listeners manually
+ * removeListener(); // removes swipe listeners manually
  */
-export function onSwipe(el: HTMLElement | Node | Element | Document, props?: any | undefined): void;
+export function onSwipe(el: HTMLElement | Node | Element | Document, props?: any | undefined, isAutoInit?: boolean | undefined): {
+    handler: any;
+    addListener: Function;
+    removeListener: Function;
+};
 //# sourceMappingURL=index.d.ts.map

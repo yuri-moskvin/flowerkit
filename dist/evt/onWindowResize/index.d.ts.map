@@ -1,1 +1,1 @@
-{"version":3,"file":"index.d.ts","sourceRoot":"","sources":["../../../src/evt/onWindowResize/index.js"],"names":[],"mappings":"AAIA;;;;;;;;;KASK;AACL,qDAPgB,kBAAO,QActB"}
+{"version":3,"file":"index.d.ts","sourceRoot":"","sources":["../../../src/evt/onWindowResize/index.js"],"names":[],"mappings":"AAIA;;;;;;;;;;;;;;;;KAgBK;AACL,qDAdgB,kBAAO,eACF,mBAAQ,GAEjB;IAAE,OAAO,WAAW;IAAC,WAAW,WAAW;IAAC,cAAc,WAAU;CAAE,CA2CjF"}

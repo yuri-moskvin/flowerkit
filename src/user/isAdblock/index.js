@@ -14,7 +14,7 @@ const isAdblock = () => {
 
   const id = `adv_${getId()}`;
 
-  const css = `position: fixed; bottom: -100vh; left: -100vh; overflow: hidden;`;
+  const css = `position: fixed; bottom: -100vh; left: -100vh; overflow: hidden; pointer-events: none;`;
 
   if (!getDocument().getElementById(id)) {
     getDocument().body.insertAdjacentHTML("beforeend", `

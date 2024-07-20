@@ -20,7 +20,7 @@ import ow from "ow";
 const getDebouncedFn = (cb, wait = 250, isImmediate = false) => {
 
   ow(cb, ow.function);
-  ow(wait, ow.number.not.infinite);
+  ow(wait, ow.optional.number.not.infinite);
   ow(isImmediate, ow.optional.boolean);
 
   let timeout;

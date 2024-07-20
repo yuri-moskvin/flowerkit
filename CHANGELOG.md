@@ -1,3 +1,10 @@
+### 1.0.9
+- onWindowResize/index.js: now returns object;
+- onSwipe/index.js: now returns object;
+- onDOMReady/index.js: now returns object;
+- onWindowLoad/index.js: now returns object;
+- Development dependencies updated;
+
 ### 1.0.8
 - isAdblock/index.js: new util added;
 - Development dependencies updated;

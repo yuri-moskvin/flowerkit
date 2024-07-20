@@ -16,7 +16,8 @@ import { bubble } from "../bubble/index.js";
  * @param props.maxDist{Number=} - max distance for swipe in `px`
  * @param props.minTime{Number=} - min duration of swipe in `ms`
  * @param props.maxTime{Number=} - max duration of swipe in `ms`
- * @param props.instanceName{String=} - instance name to access it from node itself
+ * @param isAutoInit{Boolean=} - attaches event immediately
+ * @return {{ handler: Object, addListener: Function, removeListener: Function }}
  * @example
  * // How to listen `swipe` event on element in JS?
  * // <div id="myBlock"></div>
@@ -33,10 +34,12 @@ import { bubble } from "../bubble/index.js";
  * onSwipe(myBlock);
  * myBlock.addEventListener("swipe", (e) => console.log(e.detail));
  *
- * // To destroy whole instance or remove listeners:
- * myBlock._swipeCtrl.destroy(); // or other name given in `options.instanceName`;
+ * // Or manually add/remove listeners:
+ * const { addListener, removeListener } = onSwipe(myBlock);
+ * addListener(); // adds swipe listeners manually
+ * removeListener(); // removes swipe listeners manually
  */
-const onSwipe = (el, props = {}) => {
+const onSwipe = (el, props = {}, isAutoInit = true) => {
 
   ow(el, ow.object.validate(value => ({
     validator: isNode(value),
@@ -48,9 +51,10 @@ const onSwipe = (el, props = {}) => {
     maxDist: ow.optional.number.not.infinite,
     maxTime: ow.optional.number.not.infinite,
     minTime: ow.optional.number.not.infinite,
-    callback: ow.optional.function,
-    instanceName: ow.optional.string.not.empty
+    callback: ow.optional.function
   }));
+
+  ow(isAutoInit, ow.optional.boolean);
 
   const settings = {
     minDist: 60,
@@ -58,7 +62,6 @@ const onSwipe = (el, props = {}) => {
     maxTime: 700,
     minTime: 50,
     callback: null,
-    instanceName: "_swipeCtrl",
     ...props
   };
 
@@ -210,7 +213,7 @@ const onSwipe = (el, props = {}) => {
     }
   };
 
-  const listeners = {
+  const handler = {
     start: (e) => checkStart(e),
     end: (e) => checkEnd(e),
     move: (e) => checkMove(e)
@@ -220,34 +223,33 @@ const onSwipe = (el, props = {}) => {
     isMouse = true;
   }
 
-  /**
-   * Bind or remove listeners
-   * @param isBind{Boolean} - use `false` for remove
-   * @private
-   * myEl._swipeCtrl.listenerCtrl(false); // => removes instance event listeners
-   */
   const listenerCtrl = (isBind = true) => {
     const action = isBind ? "addEventListener" : "removeEventListener";
-    el[action](events.start, listeners.start);
-    el[action](events.move, listeners.move);
-    el[action](events.end, listeners.end);
+    el[action](events.start, handler.start);
+    el[action](events.move, handler.move);
+    el[action](events.end, handler.end);
     if (isSupport.pointer && isSupport.touch) {
-      el[action]("lostpointercapture", listeners.end);
-    }
-
-  };
-
-  listenerCtrl(true);
-
-  el[settings.instanceName] = {
-    swipeHandlers: listeners,
-    listenerCtrl,
-    destroy: () => {
-      listenerCtrl(false);
-      delete el[settings.instanceName];
+      el[action]("lostpointercapture", handler.end);
     }
   };
 
+  const addListener = () => {
+    listenerCtrl(true);
+  };
+
+  const removeListener = () => {
+    listenerCtrl(false);
+  };
+
+  if (isAutoInit) {
+    addListener();
+  }
+
+  return {
+    handler,
+    addListener,
+    removeListener
+  };
 };
 
 export {

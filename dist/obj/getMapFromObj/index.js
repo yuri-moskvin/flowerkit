@@ -12,5 +12,5 @@ import ow from"ow";
  * };
  * const targetMap = getMapFromObj(sourceObj, (key, value, index) => typeof value === "number");
  * console.log(targetMap); // => Map<"goodbye", 1>
- */const getMapFromObj=(obj={},getFiltered=((key,value,index)=>true))=>{ow(obj,ow.object);ow(getFiltered,ow.optional.function);const map=new Map;Object.entries(obj).forEach((([key,value],index)=>{if(getFiltered(key,value,index))map.set(key,value)}));return map};export{getMapFromObj};
+ */const getMapFromObj=(obj={},getFiltered=(key,value,index)=>true)=>{ow(obj,ow.object);ow(getFiltered,ow.optional.function);const map=new Map;Object.entries(obj).forEach((([key,value],index)=>{if(getFiltered(key,value,index))map.set(key,value)}));return map};export{getMapFromObj};
 //# sourceMappingURL=index.js.map

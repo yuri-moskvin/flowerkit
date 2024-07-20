@@ -1,10 +1,10 @@
 import ow from "ow";
-import { getDocument } from "ssr-window";
+import { getDocument, getWindow } from "ssr-window";
 import { isNode } from "../../dom/isNode/index.js";
 
 /**
  * Creates a custom event that bubbles up through the DOM
- * @param el{HTMLElement|Node|Element|Document} - DOM element
+ * @param el{HTMLElement|Node|Element|Document|Window} - DOM element
  * @param name{String} - name of CustomEvent
  * @param detail{*=} - detail field of CustomEvent
  * @param params{Object=} - other params of CustomEvent
@@ -25,8 +25,8 @@ import { isNode } from "../../dom/isNode/index.js";
 const bubble = (el = getDocument(), name, detail, params = {}) => {
 
   ow(el, ow.object.validate(value => ({
-    validator: isNode(value),
-    message: () => `The object must be node`
+    validator: isNode(value) || el === getWindow(),
+    message: () => `The object must be node or window`
   })));
 
   ow(name, ow.string.not.empty);

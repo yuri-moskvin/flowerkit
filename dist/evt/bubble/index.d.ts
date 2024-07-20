@@ -1,6 +1,6 @@
 /**
  * Creates a custom event that bubbles up through the DOM
- * @param el{HTMLElement|Node|Element|Document} - DOM element
+ * @param el{HTMLElement|Node|Element|Document|Window} - DOM element
  * @param name{String} - name of CustomEvent
  * @param detail{*=} - detail field of CustomEvent
  * @param params{Object=} - other params of CustomEvent
@@ -18,5 +18,5 @@
  * // How to listen custom events? Use your listener before calling of bubble function.
  * document.addEventListener("myEvent", (e) => console.log(e));
  */
-export function bubble(el: HTMLElement | Node | Element | Document, name: string, detail?: any | undefined, params?: any | undefined): void;
+export function bubble(el: HTMLElement | Node | Element | Document | Window, name: string, detail?: any | undefined, params?: any | undefined): void;
 //# sourceMappingURL=index.d.ts.map

@@ -18,15 +18,13 @@ describe(onSwipe.name, () => {
     const block = document.getElementById("swipe");
     const callback = jest.fn();
 
-    onSwipe(block, {
+    const { removeListener } = onSwipe(block, {
       callback,
       minDist: 0,
       maxDist: 0,
       maxTime: 0,
       minTime: 0,
     });
-
-    expect(block).toHaveProperty("_swipeCtrl");
 
     bubble(block, "mousedown", { _pageX: 50, _pageY: 0 });
 
@@ -40,9 +38,7 @@ describe(onSwipe.name, () => {
 
     expect(callback).toHaveBeenCalledTimes(1);
 
-    block._swipeCtrl.destroy();
-
-    expect(block).not.toHaveProperty("_swipeCtrl");
+    removeListener();
 
     bubble(block, "mousedown", { _pageX: 50, _pageY: 0 });
 

@@ -1,1 +1,1 @@
-{"version":3,"file":"index.d.ts","sourceRoot":"","sources":["../../../src/evt/onWindowLoad/index.js"],"names":[],"mappings":"AAGA;;;;;;;;KAQK;AACL,iDAKC"}
+{"version":3,"file":"index.d.ts","sourceRoot":"","sources":["../../../src/evt/onWindowLoad/index.js"],"names":[],"mappings":"AAGA;;;;;;;;;;KAUK;AACL,wDARqB,mBAAQ,GAEjB;IAAE,OAAO,WAAW;IAAC,WAAW,WAAW;IAAC,cAAc,WAAU;CAAE,CAqCjF"}

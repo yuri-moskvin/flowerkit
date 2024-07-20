@@ -15,5 +15,5 @@ import ow from"ow";
  * setTimeout(() => fn(3), 100); // ignored
  * setTimeout(() => fn(4), 1100); // calls
  * setTimeout(() => fn(5), 1500); // ignored
- */const getDebouncedFn=(cb,wait=250,isImmediate=false)=>{ow(cb,ow.function);ow(wait,ow.number.not.infinite);ow(isImmediate,ow.optional.boolean);let timeout;return function executedFunction(){const context=this;const args=arguments;const later=function(){timeout=null;if(!isImmediate)cb.apply(context,args)};const callNow=isImmediate&&!timeout;clearTimeout(timeout);timeout=setTimeout(later,wait);if(callNow)cb.apply(context,args)}};export{getDebouncedFn};
+ */const getDebouncedFn=(cb,wait=250,isImmediate=false)=>{ow(cb,ow.function);ow(wait,ow.optional.number.not.infinite);ow(isImmediate,ow.optional.boolean);let timeout;return function executedFunction(){const context=this;const args=arguments;const later=function(){timeout=null;if(!isImmediate)cb.apply(context,args)};const callNow=isImmediate&&!timeout;clearTimeout(timeout);timeout=setTimeout(later,wait);if(callNow)cb.apply(context,args)}};export{getDebouncedFn};
 //# sourceMappingURL=index.js.map

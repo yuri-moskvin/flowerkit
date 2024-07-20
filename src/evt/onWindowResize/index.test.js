@@ -8,15 +8,26 @@ describe(onWindowResize.name, () => {
     expect(() => onWindowResize(() => {}, null)).toThrow();
   });
 
-  test("Checks for correct resize callback with 500ms delay", () => {
-    const callback = jest.fn();
-    const delay = 500;
-    onWindowResize(callback, delay);
-    bubble(document, "resize");
-    expect(callback).not.toHaveBeenCalled();
+  test("Checks for removing listeners", () => {
+    jest.useFakeTimers();
+
+    const spy = jest.fn();
+    const callback = () => spy();
+    const delay = 0;
+
+    const { removeListener } = onWindowResize(callback, delay);
+
+    bubble(window, "resize");
+    expect(spy).toHaveBeenCalled();
+
     setTimeout(() => {
-      expect(callback).toHaveBeenCalled();
+      expect(spy).toHaveBeenCalledTimes(1);
+      removeListener();
+      bubble(window, "resize");
+      expect(spy).toHaveBeenCalledTimes(1);
     }, delay);
+
+    jest.runAllTimers();
   });
 
 });
