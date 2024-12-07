@@ -1,3 +1,11 @@
+### 1.0.10
+- getPureDate/index.js: new util added;
+- isValidDate/index.js: new util added;
+- isNonEmptyArr/index.js: new util added;
+- onWindowLoad/index.js: JSDoc updated;
+- onWindowResize/index.js: JSDoc updated;
+- Development dependencies updated;
+
 ### 1.0.9
 - onWindowResize/index.js: now returns object;
 - onSwipe/index.js: now returns object;

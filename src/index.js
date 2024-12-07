@@ -1,5 +1,6 @@
 import * as arrKit from "./arr/index.js";
 import * as cssKit from "./css/index.js";
+import * as dateKit from "./date/index.js";
 import * as domKit from "./dom/index.js";
 import * as evtKit from "./evt/index.js";
 import * as fnKit from "./fn/index.js";
@@ -21,5 +22,6 @@ export {
   netKit,
   numKit,
   objKit,
-  strKit
+  strKit,
+  dateKit
 };

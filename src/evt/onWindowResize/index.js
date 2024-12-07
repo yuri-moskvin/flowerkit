@@ -11,8 +11,8 @@ import { getDebouncedFn } from "../../fn/getDebouncedFn/index.js";
  * @return {{ handler: Function, addListener: Function, removeListener: Function }}
  * @example
  * // How to detect when page has been resized and run callback once when resize ends?
- * const callback = () => console.log("Page loaded");
- * onWindowLoad(callback);
+ * const callback = () => console.log("Page resized");
+ * onWindowResize(callback);
  *
  * // How to remove "resize" callback event listener?
  * const { removeListener, addListener } = onWindowResize(callback, 300, false);

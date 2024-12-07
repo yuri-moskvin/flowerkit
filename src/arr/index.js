@@ -5,6 +5,7 @@ import { getLastFromIterable } from "./getLastFromIterable/index.js";
 import { getUnion } from "./getUnion/index.js";
 import { isItemsEqual } from "./isItemsEqual/index.js";
 import { isIterable } from "./isIterable/index.js";
+import { isNonEmptyArr } from "./isNonEmptyArr/index.js";
 
 export {
   getAsyncMap,
@@ -13,5 +14,6 @@ export {
   isIterable,
   getIntersection,
   getUnion,
-  isItemsEqual
+  isItemsEqual,
+  isNonEmptyArr
 };

@@ -5,5 +5,6 @@ import { isIterable } from "./isIterable/index.js";
 import { getIntersection } from "./getIntersection/index.js";
 import { getUnion } from "./getUnion/index.js";
 import { isItemsEqual } from "./isItemsEqual/index.js";
-export { getAsyncMap, getDiff, getLastFromIterable, isIterable, getIntersection, getUnion, isItemsEqual };
+import { isNonEmptyArr } from "./isNonEmptyArr/index.js";
+export { getAsyncMap, getDiff, getLastFromIterable, isIterable, getIntersection, getUnion, isItemsEqual, isNonEmptyArr };
 //# sourceMappingURL=index.d.ts.map

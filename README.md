@@ -1,6 +1,6 @@
-# 🌸 FlowerKit: JS utils library
+# FlowerKit 🌸 JS utils library
 
-A collection of more than 60 often used utility JS functions that simplify frontend development. 
+More than 60 often used utility JS functions that simplify frontend development. 
 
 ## Usage
 
@@ -34,7 +34,8 @@ import { domKit, evtKit, /* ... */ } from "@web3r/flowerkit";
 - `@web3r/flowerkit/net` — for network features;
 - `@web3r/flowerkit/obj` — for objects;
 - `@web3r/flowerkit/str` — for strings;
-- `@web3r/flowerkit/user` — for common user features;
+- `@web3r/flowerkit/user` — for common client-side features;
+- `@web3r/flowerkit/date` — for Date constructor features;
 
 ## Top of frequent tasks
 
@@ -74,6 +75,18 @@ fn(2); // ignored
 setTimeout(() => fn(3), 100); // ignored
 setTimeout(() => fn(4), 1100); // calls
 setTimeout(() => fn(5), 1500); // ignored
+```
+
+### Throttle a function
+
+```js
+import { getThrottledFn } from "@web3r/flowerkit/fn";
+
+const fn = getThrottledFn(alert, 5000); // this function should only be able to execute once every 5 sec.
+
+fn(1); // calls immediately
+fn(2); // ignored
+setTimeout(() => fn(3), 5000); // calls
 ```
 
 ### Get length of an object keys
@@ -145,6 +158,18 @@ import { setCSSVar } from "@web3r/flowerkit/css";
 const block = document.getElementById("myBlock");
 setCSSVar(block, "myVar", 10);
 // <div id="myBlock" style="--myVar: 10"></div>
+```
+
+### Detecting an "invalid date" instance
+
+```js
+import { isValidDate } from "@web3r/flowerkit/date";
+
+const wrongDate = new Date("invalid_date");
+console.log(isValidDate(wrongDate)); // => false
+
+const validDate = new Date(0);
+console.log(isValidDate(validDate)); // => true
 ```
 
 ## API

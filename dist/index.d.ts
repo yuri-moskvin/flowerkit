@@ -9,5 +9,6 @@ import * as netKit from "./net/index.js";
 import * as numKit from "./num/index.js";
 import * as objKit from "./obj/index.js";
 import * as strKit from "./str/index.js";
-export { arrKit, userKit, cssKit, domKit, evtKit, fnKit, jsonKit, netKit, numKit, objKit, strKit };
+import * as dateKit from "./date/index.js";
+export { arrKit, userKit, cssKit, domKit, evtKit, fnKit, jsonKit, netKit, numKit, objKit, strKit, dateKit };
 //# sourceMappingURL=index.d.ts.map

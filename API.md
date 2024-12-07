@@ -1,4 +1,4 @@
-# 🌸 FlowerKit: API Reference
+# FlowerKit 🌸 API Reference
 ___
 
 * [Array utils](#arr)
@@ -12,6 +12,7 @@ ___
 * [Number utils](#num)
 * [Object utils](#obj)
 * [String utils](#str)
+* [Date utils](#date)
 
 ___
 ## Array utils:
@@ -24,6 +25,7 @@ ___
   * [getUnion(arr1, arr2)](#getUnion) ⇒ <code>Array</code>
   * [isItemsEqual(arr)](#isItemsEqual) ⇒ <code>boolean</code>
   * [isIterable(obj)](#isIterable) ⇒ <code>boolean</code>
+  * [isNonEmptyArr(arr)](#isNonEmptyArr) ⇒ <code>boolean</code>
 
 <a name="getAsyncMap"></a>
 
@@ -149,6 +151,23 @@ Check if an object is iterable
 
 ```js
 // How to check for iterability?const myDivs = document.querySelectAll("div");const isCanBeIterated = isIterable(myDivs);console.log(isCanBeIterated); // => true
+```
+
+<a name="isNonEmptyArr"></a>
+
+### isNonEmptyArr(arr) ⇒ <code>boolean</code>
+Check if an object is non-empty array
+
+
+| Param | Type |
+| --- | --- |
+| arr | <code>\*</code> | 
+
+
+**Example**  
+
+```js
+// How to check if array is valid (non-empty)?const myArr = [ 1, 2, 3 ];console.log(isNonEmptyArr(myArr)); // => trueconst myObj = "string";console.log(isNonEmptyArr(myObj)); // => false
 ```
 
 
@@ -387,7 +406,7 @@ Runs callback when page has fully loaded
 **Example**  
 
 ```js
-// How to detect when whole page has loaded?const callback = () => console.log("Page loaded");onWindowLoad(callback);
+// How to detect when whole page (window) has loaded?const callback = () => console.log("Page loaded");onWindowLoad(callback);
 ```
 
 <a name="onWindowResize"></a>
@@ -407,7 +426,124 @@ Runs callback when page has been resized
 **Example**  
 
 ```js
-// How to detect when page has been resized and run callback once when resize ends?const callback = () => console.log("Page loaded");onWindowLoad(callback);// How to remove "resize" callback event listener?const { removeListener, addListener } = onWindowResize(callback, 300, false);addListener(); // adds listener manuallyremoveListener(); // removes listener manually
+// How to detect when page has been resized and run callback once when resize ends?const callback = () => console.log("Page resized");onWindowResize(callback);// How to remove "resize" callback event listener?const { removeListener, addListener } = onWindowResize(callback, 300, false);addListener(); // adds listener manuallyremoveListener(); // removes listener manually
+```
+
+
+___
+## User utils:
+<a name="user"></a>
+
+  * [deleteCookie(name)](#deleteCookie)
+  * [getCookie(name)](#getCookie) ⇒ <code>string</code> \| <code>undefined</code>
+  * [setCookie(name, value, [options])](#setCookie)
+  * [getScrollbarWidth()](#getScrollbarWidth) ⇒ <code>number</code>
+  * [isAdblock()](#isAdblock) ⇒ <code>boolean</code>
+  * [isMobileDevice()](#isMobileDevice) ⇒ <code>boolean</code>
+  * [isTouchDevice()](#isTouchDevice) ⇒ <code>boolean</code>
+
+<a name="deleteCookie"></a>
+
+### deleteCookie(name)
+Removes the Cookie value
+
+**See**: https://developer.mozilla.org/en-US/docs/Web/API/Document/cookie  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| name | <code>String</code> | name of Cookie |
+
+
+**Example**  
+
+```js
+// How to delete a Cookie?removeCookie("myCookieName");
+```
+
+<a name="getCookie"></a>
+
+### getCookie(name) ⇒ <code>string</code> \| <code>undefined</code>
+Gets the Cookie value
+
+**See**: https://developer.mozilla.org/en-US/docs/Web/API/Document/cookie  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| name | <code>String</code> | name of Cookie |
+
+
+**Example**  
+
+```js
+// How to get value of Cookie?setCookie("myCookieName", "myValue");const savedValue = getCookie("myCookieName");console.log(savedValue); // => "myValue"
+```
+
+<a name="setCookie"></a>
+
+### setCookie(name, value, [options])
+Sets the Cookie value
+
+**See**: https://developer.mozilla.org/en-US/docs/Web/API/Document/cookie  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| name | <code>String</code> | name of Cookie |
+| value | <code>String</code> | value of Cookie |
+| [options] | <code>Object</code> | options of Cookie |
+
+
+**Example**  
+
+```js
+// How to set Cookie for one day or other time?setCookie("myCookie", "value", { expires: 86400 }) // expires in sec
+```
+
+<a name="getScrollbarWidth"></a>
+
+### getScrollbarWidth() ⇒ <code>number</code>
+Gets width of user scrollbar
+
+
+**Example**  
+
+```js
+// How to get width of user scrollbar?const scrollbarWidth = getScrollBarWidth();console.log(scrollbarWidth); // => number
+```
+
+<a name="isAdblock"></a>
+
+### isAdblock() ⇒ <code>boolean</code>
+Checks if the user has adblock
+
+
+**Example**  
+
+```js
+// How to detect if user has adblock in browser?const isAdblock = isAdblock();console.log(isAdblock); // => false
+```
+
+<a name="isMobileDevice"></a>
+
+### isMobileDevice() ⇒ <code>boolean</code>
+Checks  if the user is using a mobile browser
+
+
+**Example**  
+
+```js
+// How to detect mobile browser?const isMobile = isMobileDevice();console.log(isMobile); // => false
+```
+
+<a name="isTouchDevice"></a>
+
+### isTouchDevice() ⇒ <code>boolean</code>
+Checks if user devise has touchscreen
+
+
+**Example**  
+
+```js
+// How to check if user has touchscreen device?const isTouchEnabled = isTouchDevice();console.log(isTouchEnabled); // => false
 ```
 
 
@@ -525,123 +661,6 @@ Removes all child nodes of given node
 
 ```js
 // How to remove all child elements of a DOM node?// <div id="myBlock"><div>Block with child nodes</div></div>const myDiv = document.getElementById("myBlock");removeChildNodes(myDiv);console.log(Array.from(myDiv.children).length); // => 0
-```
-
-
-___
-## User utils:
-<a name="user"></a>
-
-  * [getScrollbarWidth()](#getScrollbarWidth) ⇒ <code>number</code>
-  * [isAdblock()](#isAdblock) ⇒ <code>boolean</code>
-  * [isMobileDevice()](#isMobileDevice) ⇒ <code>boolean</code>
-  * [isTouchDevice()](#isTouchDevice) ⇒ <code>boolean</code>
-  * [deleteCookie(name)](#deleteCookie)
-  * [getCookie(name)](#getCookie) ⇒ <code>string</code> \| <code>undefined</code>
-  * [setCookie(name, value, [options])](#setCookie)
-
-<a name="getScrollbarWidth"></a>
-
-### getScrollbarWidth() ⇒ <code>number</code>
-Gets width of user scrollbar
-
-
-**Example**  
-
-```js
-// How to get width of user scrollbar?const scrollbarWidth = getScrollBarWidth();console.log(scrollbarWidth); // => number
-```
-
-<a name="isAdblock"></a>
-
-### isAdblock() ⇒ <code>boolean</code>
-Checks if the user has adblock
-
-
-**Example**  
-
-```js
-// How to detect if user has adblock in browser?const isAdblock = isAdblock();console.log(isAdblock); // => false
-```
-
-<a name="isMobileDevice"></a>
-
-### isMobileDevice() ⇒ <code>boolean</code>
-Checks  if the user is using a mobile browser
-
-
-**Example**  
-
-```js
-// How to detect mobile browser?const isMobile = isMobileDevice();console.log(isMobile); // => false
-```
-
-<a name="isTouchDevice"></a>
-
-### isTouchDevice() ⇒ <code>boolean</code>
-Checks if user devise has touchscreen
-
-
-**Example**  
-
-```js
-// How to check if user has touchscreen device?const isTouchEnabled = isTouchDevice();console.log(isTouchEnabled); // => false
-```
-
-<a name="deleteCookie"></a>
-
-### deleteCookie(name)
-Removes the Cookie value
-
-**See**: https://developer.mozilla.org/en-US/docs/Web/API/Document/cookie  
-
-| Param | Type | Description |
-| --- | --- | --- |
-| name | <code>String</code> | name of Cookie |
-
-
-**Example**  
-
-```js
-// How to delete a Cookie?removeCookie("myCookieName");
-```
-
-<a name="getCookie"></a>
-
-### getCookie(name) ⇒ <code>string</code> \| <code>undefined</code>
-Gets the Cookie value
-
-**See**: https://developer.mozilla.org/en-US/docs/Web/API/Document/cookie  
-
-| Param | Type | Description |
-| --- | --- | --- |
-| name | <code>String</code> | name of Cookie |
-
-
-**Example**  
-
-```js
-// How to get value of Cookie?setCookie("myCookieName", "myValue");const savedValue = getCookie("myCookieName");console.log(savedValue); // => "myValue"
-```
-
-<a name="setCookie"></a>
-
-### setCookie(name, value, [options])
-Sets the Cookie value
-
-**See**: https://developer.mozilla.org/en-US/docs/Web/API/Document/cookie  
-
-| Param | Type | Description |
-| --- | --- | --- |
-| name | <code>String</code> | name of Cookie |
-| value | <code>String</code> | value of Cookie |
-| [options] | <code>Object</code> | options of Cookie |
-
-
-**Example**  
-
-```js
-// How to set Cookie for one day or other time?setCookie("myCookie", "value", { expires: 86400 }) // expires in sec
 ```
 
 
@@ -1029,150 +1048,6 @@ Checks if an object is promise
 
 
 ___
-## Json utils:
-<a name="json"></a>
-
-  * [getJSONFromStr(str, [reviver], [onError])](#getJSONFromStr) ⇒ <code>Object</code>
-  * [isJSON(str)](#isJSON) ⇒ <code>Boolean</code>
-
-<a name="getJSONFromStr"></a>
-
-### getJSONFromStr(str, [reviver], [onError]) ⇒ <code>Object</code>
-Gets safely parsed JSON from string
-
-**See**: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/JSON/parse  
-
-| Param | Type | Description |
-| --- | --- | --- |
-| str | <code>String</code> | source string |
-| [reviver] | <code>function</code> | reviver function |
-| [onError] | <code>function</code> | error callback |
-
-
-**Example**  
-
-```js
-// How convert string to JSON?const json = getJSONFromStr('{ "hello": "world" }');console.log(json.hello) // => "world"
-```
-
-<a name="isJSON"></a>
-
-### isJSON(str) ⇒ <code>Boolean</code>
-Checks if string is a valid JSON string
-
-
-| Param | Type | Description |
-| --- | --- | --- |
-| str | <code>String</code> | source String |
-
-
-**Example**  
-
-```js
-// How to check if string is a JSON?const str = '{ "hello": "world" }';const isStrJSON = isJSON(str);console.log(isStrJSON); // => true
-```
-
-
-___
-## Function utils:
-<a name="fn"></a>
-
-  * [getCurryFn(fn, [arity])](#getCurryFn) ⇒ <code>function</code>
-  * [getDebouncedFn(cb, [wait], [isImmediate])](#getDebouncedFn) ⇒ <code>function</code>
-  * [isFnAsync(fn)](#isFnAsync) ⇒ <code>boolean</code>
-  * [isFnClass(fn)](#isFnClass) ⇒ <code>boolean</code>
-  * [wait([ms])](#wait) ⇒ <code>Promise</code>
-
-<a name="getCurryFn"></a>
-
-### getCurryFn(fn, [arity]) ⇒ <code>function</code>
-Evaluating functions with multiple arguments and decomposing them into a sequence of functions with a specific number of arguments
-
-
-| Param | Type | Description |
-| --- | --- | --- |
-| fn | <code>function</code> | source function |
-| [arity] | <code>Number</code> | arity of function |
-
-
-**Example**  
-
-```js
-// How to curry a function?function getSum(a, b) {  return a + b;}const getCurriedSum = getCurryFn(getSum);curriedSum(1)(2); // 3
-```
-
-<a name="getDebouncedFn"></a>
-
-### getDebouncedFn(cb, [wait], [isImmediate]) ⇒ <code>function</code>
-Gets a function that is executed no more than once in a specified period of time
-
-
-| Param | Type | Default | Description |
-| --- | --- | --- | --- |
-| cb | <code>function</code> |  | source function |
-| [wait] | <code>Number</code> | <code>250</code> | interval of execution |
-| [isImmediate] | <code>Boolean</code> | <code>false</code> | immediate execution |
-
-
-**Example**  
-
-```js
-// How to execute function no more than once per second?const fn = getDebouncedFn(alert, 1000);fn(1); // calls immediatelyfn(2); // ignoredsetTimeout(() => fn(3), 100); // ignoredsetTimeout(() => fn(4), 1100); // callssetTimeout(() => fn(5), 1500); // ignored
-```
-
-<a name="isFnAsync"></a>
-
-### isFnAsync(fn) ⇒ <code>boolean</code>
-Checks if function is async
-
-
-| Param | Type | Description |
-| --- | --- | --- |
-| fn | <code>\*</code> | source function |
-
-
-**Example**  
-
-```js
-// How to check if function is async?const fn = async () => {};const isAsync = isFnAsync(fn);console.log(isAsync); // => true
-```
-
-<a name="isFnClass"></a>
-
-### isFnClass(fn) ⇒ <code>boolean</code>
-Checks if a function is class or instance of class
-
-
-| Param | Type | Description |
-| --- | --- | --- |
-| fn | <code>\*</code> | source function |
-
-
-**Example**  
-
-```js
-// How to check if a function is ES6 Class?const fn = new Class();const isClass = isFnClass(fn);console.log(isClass); // => true
-```
-
-<a name="wait"></a>
-
-### wait([ms]) ⇒ <code>Promise</code>
-Gets a Promise that resolves after specific time
-
-
-| Param | Type | Default | Description |
-| --- | --- | --- | --- |
-| [ms] | <code>Number</code> | <code>0</code> | delay in ms |
-
-
-**Example**  
-
-```js
-// How to sleep/delay in JS?wait(3000).then(() => {  console.log("Runs after 3 sec!");})
-```
-
-
-___
 ## String utils:
 <a name="str"></a>
 
@@ -1397,5 +1272,213 @@ Checks if string is URL address or valid pathname of URL address
 
 ```js
 // How to check if string is URL or pathname of URL?const isUrl = isStrUrl("myPage.php");console.log(isUrl); // => true
+```
+
+
+___
+## Function utils:
+<a name="fn"></a>
+
+  * [getCurryFn(fn, [arity])](#getCurryFn) ⇒ <code>function</code>
+  * [getDebouncedFn(cb, [wait], [isImmediate])](#getDebouncedFn) ⇒ <code>function</code>
+  * [getThrottledFn(func, [delay])](#getThrottledFn) ⇒ <code>\*</code>
+  * [isFnAsync(fn)](#isFnAsync) ⇒ <code>boolean</code>
+  * [isFnClass(fn)](#isFnClass) ⇒ <code>boolean</code>
+  * [wait([ms])](#wait) ⇒ <code>Promise</code>
+
+<a name="getCurryFn"></a>
+
+### getCurryFn(fn, [arity]) ⇒ <code>function</code>
+Evaluating functions with multiple arguments and decomposing them into a sequence of functions with a specific number of arguments
+
+
+| Param | Type | Description |
+| --- | --- | --- |
+| fn | <code>function</code> | source function |
+| [arity] | <code>Number</code> | arity of function |
+
+
+**Example**  
+
+```js
+// How to curry a function?function getSum(a, b) {  return a + b;}const getCurriedSum = getCurryFn(getSum);curriedSum(1)(2); // 3
+```
+
+<a name="getDebouncedFn"></a>
+
+### getDebouncedFn(cb, [wait], [isImmediate]) ⇒ <code>function</code>
+Gets a function that is executed no more than once in a specified period of time
+
+
+| Param | Type | Default | Description |
+| --- | --- | --- | --- |
+| cb | <code>function</code> |  | source function |
+| [wait] | <code>Number</code> | <code>250</code> | interval of execution |
+| [isImmediate] | <code>Boolean</code> | <code>false</code> | immediate execution |
+
+
+**Example**  
+
+```js
+// How to execute function no more than once per second?const fn = getDebouncedFn(alert, 1000);fn(1); // calls immediatelyfn(2); // ignoredsetTimeout(() => fn(3), 100); // ignoredsetTimeout(() => fn(4), 1100); // callssetTimeout(() => fn(5), 1500); // ignored
+```
+
+<a name="getThrottledFn"></a>
+
+### getThrottledFn(func, [delay]) ⇒ <code>\*</code>
+Gets a throttled function with specific delay
+
+
+| Param | Type | Default | Description |
+| --- | --- | --- | --- |
+| func | <code>function</code> |  | function |
+| [delay] | <code>Number</code> | <code>1000</code> | delay in ms, 1000 by default |
+
+
+**Example**  
+
+```js
+// How to implement function throttling?
+const getDataFromAPI = () => Promise.resolve([]);
+const getThrottledDataFromAPI = getThrottledFn(getDataFromAPI, 3000);
+getThrottledFn(); // => []
+```
+
+<a name="isFnAsync"></a>
+
+### isFnAsync(fn) ⇒ <code>boolean</code>
+Checks if function is async
+
+
+| Param | Type | Description |
+| --- | --- | --- |
+| fn | <code>\*</code> | source function |
+
+
+**Example**  
+
+```js
+// How to check if function is async?const fn = async () => {};const isAsync = isFnAsync(fn);console.log(isAsync); // => true
+```
+
+<a name="isFnClass"></a>
+
+### isFnClass(fn) ⇒ <code>boolean</code>
+Checks if a function is class or instance of class
+
+
+| Param | Type | Description |
+| --- | --- | --- |
+| fn | <code>\*</code> | source function |
+
+
+**Example**  
+
+```js
+// How to check if a function is ES6 Class?const fn = new Class();const isClass = isFnClass(fn);console.log(isClass); // => true
+```
+
+<a name="wait"></a>
+
+### wait([ms]) ⇒ <code>Promise</code>
+Gets a Promise that resolves after specific time
+
+
+| Param | Type | Default | Description |
+| --- | --- | --- | --- |
+| [ms] | <code>Number</code> | <code>0</code> | delay in ms |
+
+
+**Example**  
+
+```js
+// How to sleep/delay in JS?wait(3000).then(() => {  console.log("Runs after 3 sec!");})
+```
+
+
+___
+## Date utils:
+<a name="date"></a>
+
+  * [getPureDate([date])](#getPureDate) ⇒ <code>Date</code> \| <code>null</code>
+  * [isValidDate(date)](#isValidDate) ⇒ <code>boolean</code>
+
+<a name="getPureDate"></a>
+
+### getPureDate([date]) ⇒ <code>Date</code> \| <code>null</code>
+Gets a Date instance without time (hours, minutes, seconds and milliseconds)
+
+
+| Param | Type |
+| --- | --- |
+| [date] | <code>\*</code> | 
+
+
+**Example**  
+
+```js
+// How to get date without time e.g. hours, minutes, seconds and milliseconds?const dateWithTime = new Date();console.log(dateWithTime.getMilliseconds()); // => {number}const dateWithoutTime = getPureDate(dateWithTime);console.log(dateWithoutTime.getMilliseconds()); // => 0
+```
+
+<a name="isValidDate"></a>
+
+### isValidDate(date) ⇒ <code>boolean</code>
+Check if a Date instance is valid
+
+
+| Param | Type |
+| --- | --- |
+| date | <code>\*</code> | 
+
+
+**Example**  
+
+```js
+// How to detect an "invalid date" Date instance in JavaScript?const wrongDate = new Date("invalid_date");console.log(isValidDate(wrongDate)); // => falseconst validDate = new Date(0);console.log(isValidDate(validDate)); // => true
+```
+
+
+___
+## Json utils:
+<a name="json"></a>
+
+  * [getJSONFromStr(str, [reviver], [onError])](#getJSONFromStr) ⇒ <code>Object</code>
+  * [isJSON(str)](#isJSON) ⇒ <code>Boolean</code>
+
+<a name="getJSONFromStr"></a>
+
+### getJSONFromStr(str, [reviver], [onError]) ⇒ <code>Object</code>
+Gets safely parsed JSON from string
+
+**See**: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/JSON/parse  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| str | <code>String</code> | source string |
+| [reviver] | <code>function</code> | reviver function |
+| [onError] | <code>function</code> | error callback |
+
+
+**Example**  
+
+```js
+// How convert string to JSON?const json = getJSONFromStr('{ "hello": "world" }');console.log(json.hello) // => "world"
+```
+
+<a name="isJSON"></a>
+
+### isJSON(str) ⇒ <code>Boolean</code>
+Checks if string is a valid JSON string
+
+
+| Param | Type | Description |
+| --- | --- | --- |
+| str | <code>String</code> | source String |
+
+
+**Example**  
+
+```js
+// How to check if string is a JSON?const str = '{ "hello": "world" }';const isStrJSON = isJSON(str);console.log(isStrJSON); // => true
 ```
 

@@ -5,7 +5,7 @@
  * @see https://developer.mozilla.org/en-US/docs/Web/API/Window/load_event
  * @return {{ handler: Function, addListener: Function, removeListener: Function }}
  * @example
- * // How to detect when whole page has loaded?
+ * // How to detect when whole page (window) has loaded?
  * const callback = () => console.log("Page loaded");
  * onWindowLoad(callback);
  * */
