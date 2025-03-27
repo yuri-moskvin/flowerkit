@@ -1,3 +1,7 @@
+### 1.0.11
+- obj/getMergedObj.js: fix for nested arrays;
+- Dependencies updated;
+
 ### 1.0.10
 - getPureDate/index.js: new util added;
 - isValidDate/index.js: new util added;

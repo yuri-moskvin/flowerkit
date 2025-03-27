@@ -53,7 +53,7 @@ const getMergedObj = (target = {}, source = {}, options = {}) => {
         break;
       }
       case isObject(targetValue) && isObject(sourceValue): {
-        target[key] = getMergedObj(Object.assign({}, targetValue), sourceValue);
+        target[key] = getMergedObj(Object.assign({}, targetValue), sourceValue, settings);
         break;
       }
       default:

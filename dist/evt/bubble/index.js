@@ -1,4 +1,4 @@
-import ow from"ow";import{getWindow,getDocument}from"ssr-window";import{isNode}from"../../dom/isNode/index.js";
+import ow from"ow";import{getDocument,getWindow}from"ssr-window";import{isNode}from"../../dom/isNode/index.js";
 /**
  * Creates a custom event that bubbles up through the DOM
  * @param el{HTMLElement|Node|Element|Document|Window} - DOM element

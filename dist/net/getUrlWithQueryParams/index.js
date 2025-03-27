@@ -1,4 +1,4 @@
-import ow from"ow";import{getDocument,getWindow}from"ssr-window";import{getObjFromFormData}from"../../obj/getObjFromFormData/index.js";
+import ow from"ow";import{getWindow,getDocument}from"ssr-window";import{getObjFromFormData}from"../../obj/getObjFromFormData/index.js";
 /**
  * Gets a URL string with updated query params from object or FormData instance
  * @param uri{String} - source URL
