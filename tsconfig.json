@@ -1,10 +1,25 @@
 {
-  "include": [ "src/**/*" ],
+  "include": [ "src", "lib" ],
+  "exclude": [ "node_modules", "dist", "docs" ],
   "compilerOptions": {
-    "allowJs": true,
+    "types": [ "jest", "node" ],
+    "resolveJsonModule": true,
+    "resolvePackageJsonExports": true,
+    "resolvePackageJsonImports": true,
+    "target": "ESNext",
+    "module": "NodeNext",
+    "outDir": "./dist",
     "declaration": true,
+    "declarationDir": "./dist",
     "emitDeclarationOnly": true,
-    "outDir": "dist",
-    "declarationMap": true
+    "allowImportingTsExtensions": true,
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "strict": true,
+    "allowJs": false,
+    "moduleResolution": "nodenext",
+    "allowSyntheticDefaultImports": true,
+    "forceConsistentCasingInFileNames": true,
+    "isolatedModules": true
   }
 }

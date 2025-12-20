@@ -1,8 +1,8 @@
-# FlowerKit 🌸 JS utils library
+# FlowerKit 🌸 JS and TS utils frontend library
 
-More than 60 often used utility JS functions that simplify frontend development. 
+More than 70 commonly used utility functions for JavaScript and TypeScript that simplify frontend development.
 
-## Usage
+## Usage 🛠️
 
 ```js
 // tree-shakable ESM import
@@ -11,19 +11,23 @@ import { onSwipe, /* ... */ } from "@web3r/flowerkit/evt";
 
 // ESM import of whole utils packs
 import { domKit, evtKit, /* ... */ } from "@web3r/flowerkit";
+
+// CJS import
+const domKit = require("@web3r/flowerkit/dom");
 ```
 
-## Features
+## Features ✨
 
-- **Tree shaking**: appends only the necessary code in your bundle;
-- **Friendly names**: functions that return objects begin with the "get" prefix and for boolean values — "is";
-- **JSDoc**: each utility contains a detailed description and example of usage which are available in your IDE;
-- **Lightweight**: the entire library weighs no more than 30kb;
-- **Error catching**: immediate errors when passing invalid arguments;
+- **Tree shaking**: includes only the necessary code in your bundle;
+- **Friendly names**: functions that return objects begin with the "get" prefix, and functions that return boolean values begin with "is";
+- **JSDoc**: each utility includes a detailed description and usage examples, available in your IDE;
+- **Lightweight**: the entire library is no more than 30 KB;
+- **Error catching**: throws immediate errors when invalid arguments are passed;
 - **SSR friendly**: fallbacks for DOM `window` and `document` objects;
-- **TypeScript friendly**: types included for all functions.
+- **TypeScript friendly**: types included for all functions;
+- **ESM and CJS**: supports both types of modules;
 
-## Structure
+## Structure ☰
 
 - `@web3r/flowerkit/arr` — for arrays and array-like objects;
 - `@web3r/flowerkit/css` — for CSS from JS;
@@ -34,10 +38,10 @@ import { domKit, evtKit, /* ... */ } from "@web3r/flowerkit";
 - `@web3r/flowerkit/net` — for network features;
 - `@web3r/flowerkit/obj` — for objects;
 - `@web3r/flowerkit/str` — for strings;
-- `@web3r/flowerkit/user` — for common client-side features;
+- `@web3r/flowerkit/user` — for common client-side browser features;
 - `@web3r/flowerkit/date` — for Date constructor features;
 
-## Top of frequent tasks
+## Examples 💡
 
 ### Capitalize the first letter of a string
 
@@ -89,7 +93,7 @@ fn(2); // ignored
 setTimeout(() => fn(3), 5000); // calls
 ```
 
-### Get length of an object keys
+### Get the number of keys in an object
 
 ```js
 import { getObjLength } from "@web3r/flowerkit/obj";
@@ -102,7 +106,7 @@ const objLength = getObjLength(obj);
 console.log(objLength); // => 2
 ```
 
-### Deep clone of an object
+### Deep clone an object
 
 ```js
 import { getCopyOfObj } from "@web3r/flowerkit/obj";
@@ -150,7 +154,7 @@ const isCanBeIterated = isIterable(myDivs);
 console.log(isCanBeIterated); // => true
 ```
 
-### Set a CSS variable from JavaScript
+### Set a CSS3 variable from JavaScript
 
 ```js
 import { setCSSVar } from "@web3r/flowerkit/css";
@@ -160,7 +164,7 @@ setCSSVar(block, "myVar", 10);
 // <div id="myBlock" style="--myVar: 10"></div>
 ```
 
-### Detecting an "invalid date" instance
+### Detect an "invalid date" instance
 
 ```js
 import { isValidDate } from "@web3r/flowerkit/date";
@@ -172,6 +176,6 @@ const validDate = new Date(0);
 console.log(isValidDate(validDate)); // => true
 ```
 
-## API
+## API 🚀
 
-The library will allow you to quickly solve many other problems. See [API docs & examples](https://github.com/yuri-moskvin/flowerkit/blob/main/API.md).
+The library helps you solve many other problems. See [API docs & examples](https://github.com/yuri-moskvin/flowerkit/blob/main/docs/index.md).

@@ -1,0 +1,11 @@
+export { getAllSamePropsFromObj } from "./getAllSamePropsFromObj/index.ts";
+export { getCopyOfObj } from "./getCopyOfObj/index.ts";
+export { getMapFromObj } from "./getMapFromObj/index.ts";
+export { getMergedObj } from "./getMergedObj/index.ts";
+export { getObjFromFormData } from "./getObjFromFormData/index.ts";
+export { getObjLength } from "./getObjLength/index.ts";
+export { getObjWithFallbacks } from "./getObjWithFallbacks/index.ts";
+export { isObjEmpty } from "./isObjEmpty/index.ts";
+export { isObjHasOwnProp } from "./isObjHasOwnProp/index.ts";
+export { isObjPromise } from "./isObjPromise/index.ts";
+export { isObjPrototypeOf } from "./isObjPrototypeOf/index.ts";

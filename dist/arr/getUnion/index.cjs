@@ -1,0 +1,16 @@
+Object.defineProperty(exports,"__esModule",{value:true});
+/**
+ * Gets union Array of two given Arrays
+ * @template T
+ * @param {Array<T>} arr1 first source Array
+ * @param {Array<T>} arr2 sound source Array
+ * @returns {Array<T>}
+ * @throws {TypeError} getUnion: arr1 and arr2 must be arrays
+ * @example
+ * // How to merge two arrays in JavaScript and deduplicate items?
+ * const arr1 = [ 1, 2, 3 ];
+ * const arr2 = [ 2, 3, 4, 5 ];
+ * const union = getUnion(arr1, arr2);
+ * console.log(union); // => [ 1, 2, 3, 4, 5 ];
+ */const getUnion=(arr1,arr2)=>{if(!Array.isArray(arr1)||!Array.isArray(arr2))throw new TypeError("getUnion: arr1 and arr2 must be arrays");return[...new Set([...arr1,...arr2])]};exports.getUnion=getUnion;
+//# sourceMappingURL=index.cjs.map

@@ -1,0 +1,2 @@
+Object.defineProperty(exports,"__esModule",{value:true});var index=require("./getMaxFromArr/index.cjs");var index$1=require("./getMinFromArr/index.cjs");var index$2=require("./getRandomIntFromInterval/index.cjs");var index$3=require("./getRounded/index.cjs");exports.getMaxFromArr=index.getMaxFromArr;exports.getMinFromArr=index$1.getMinFromArr;exports.getRandomIntFromInterval=index$2.getRandomIntFromInterval;exports.getRounded=index$3.getRounded;
+//# sourceMappingURL=index.cjs.map
