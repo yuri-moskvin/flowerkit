@@ -1,3 +1,5 @@
+export type TIsStrInCamelCaseArgs = Parameters<typeof isStrInCamelCase>;
+export type TIsStrInCamelCaseReturn = ReturnType<typeof isStrInCamelCase>;
 /**
  * Checks if a string is in camelCase.
  * Rules:

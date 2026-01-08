@@ -1,7 +1,7 @@
 Object.defineProperty(exports,"__esModule",{value:true});
 /**
  * Removes all child nodes of given node
- * @param el{Node|Element|HTMLElement|Document} node
+ * @param el{Node} node
  * @throws {TypeError} removeChildNodes: el must be a Node
  * @example
  * // How to remove all child elements of a DOM node?

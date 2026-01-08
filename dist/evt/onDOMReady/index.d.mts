@@ -1,3 +1,5 @@
+export type TOnDOMReadyArgs = Parameters<typeof onDOMReady>;
+export type TOnDOMReadyReturn = ReturnType<typeof onDOMReady>;
 /**
  * Runs a callback when the DOM is ready (`DOMContentLoaded`).
  * If already ready, executes immediately.

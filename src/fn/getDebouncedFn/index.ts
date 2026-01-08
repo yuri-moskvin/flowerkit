@@ -1,3 +1,7 @@
+export type TGetDebouncedFnArgs = Parameters<typeof getDebouncedFn>;
+
+export type TGetDebouncedFnReturn = ReturnType<typeof getDebouncedFn>;
+
 /**
  * Returns a debounced version of a function that delays invoking `cb`
  * until after `wait` ms have elapsed since the last call.

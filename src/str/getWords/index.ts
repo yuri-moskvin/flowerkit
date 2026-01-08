@@ -1,3 +1,7 @@
+export type TGetWordsArgs = Parameters<typeof getWords>;
+
+export type TGetWordsReturn = ReturnType<typeof getWords>;
+
 /**
  * Splits a string into words:
  * Splits camelCase boundaries: "helloWorld" -> "hello World"

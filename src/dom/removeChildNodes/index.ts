@@ -1,6 +1,10 @@
+export type TRemoveChildNodesArgs = Parameters<typeof removeChildNodes>;
+
+export type TRemoveChildNodesReturn = ReturnType<typeof removeChildNodes>;
+
 /**
  * Removes all child nodes of given node
- * @param el{Node|Element|HTMLElement|Document} node
+ * @param el{Node} node
  * @throws {TypeError} removeChildNodes: el must be a Node
  * @example
  * // How to remove all child elements of a DOM node?

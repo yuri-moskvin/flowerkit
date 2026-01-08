@@ -1,3 +1,7 @@
+export type TIsFnClassArgs = Parameters<typeof isFnClass>;
+
+export type TIsFnClassReturn = ReturnType<typeof isFnClass>;
+
 /**
  * Checks if a function is a class or instance of class
  * @param fn{*} source function

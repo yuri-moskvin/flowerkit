@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.1.1
+- Dependencies updated.
+- Exported types added.
+
 ## 1.1.0
 - Sources moved to TypeScript.
 - `README.md` updated.

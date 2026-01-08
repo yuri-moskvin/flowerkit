@@ -2,6 +2,10 @@ import { getDocument, getWindow } from "ssr-window";
 import { wait } from "../../fn/wait/index.ts";
 import { getId } from "../../str/getId/index.ts";
 
+export type TIsAdblockArgs = Parameters<typeof isAdblock>;
+
+export type TIsAdblockReturn = ReturnType<typeof isAdblock>;
+
 /**
  * Detects if an ad-blocker likely hides known ad-related elements.
  * Implementation detail:

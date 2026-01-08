@@ -1,3 +1,5 @@
+export type TGetIndexOfElArgs = Parameters<typeof getIndexOfEl>;
+export type TGetIndexOfElReturn = ReturnType<typeof getIndexOfEl>;
 /**
  * Gets index of Node from relatively its siblings
  * @param el{HTMLElement|Node|Element|Document} DOM element

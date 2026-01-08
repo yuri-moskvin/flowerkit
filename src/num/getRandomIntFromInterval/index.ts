@@ -1,3 +1,7 @@
+export type TGetRandomIntFromIntervalArgs = Parameters<typeof getRandomIntFromInterval>;
+
+export type TGetRandomIntFromIntervalReturn = ReturnType<typeof getRandomIntFromInterval>;
+
 /**
  * Gets a random integer between min and max (inclusive)
  * @param {number} [min=1] Min value

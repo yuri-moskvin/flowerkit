@@ -18,6 +18,8 @@ type TCookieOptions = {
     samesite?: TSameSite;
 } & TCookieKV;
 export type { TCookieOptions };
+export type TSetCookieArgs = Parameters<typeof setCookie>;
+export type TSetCookieReturn = ReturnType<typeof setCookie>;
 /**
  * Sets a cookie.
  *

@@ -1,3 +1,7 @@
+export type TGetThrottledFnArgs = Parameters<typeof getThrottledFn>;
+
+export type TGetThrottledFnReturn = ReturnType<typeof getThrottledFn>;
+
 /**
  * Gets a throttled function with specific delay
  * @template {(...args: any[]) => any} T

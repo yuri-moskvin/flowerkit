@@ -1,3 +1,7 @@
+export type TIsObjEmptyArgs = Parameters<typeof isObjEmpty>;
+
+export type TIsObjEmptyReturn = ReturnType<typeof isObjEmpty>;
+
 /**
  * Checks if an object is empty
  * @param {Record<string, unknown>|unknown[]} obj Source object or array

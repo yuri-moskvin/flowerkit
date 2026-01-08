@@ -1,3 +1,5 @@
+export type TIsNodeArgs = Parameters<typeof isNode>;
+export type TIsNodeReturn = ReturnType<typeof isNode>;
 /**
  * Checks whether the specified object is a DOM element
  * @param el{any} source object

@@ -1,6 +1,8 @@
+export type TGetElWrapperArgs = Parameters<typeof getElWrapper>;
+export type TGetElWrapperReturn = ReturnType<typeof getElWrapper>;
 /**
  * Gets a wrapper for specific element
- * @param el{HTMLElement|Node|Element|Document} DOM element
+ * @param el{HTMLElement} DOM element
  * @param str{String} string of wrapper HTML layout (supports nested blocks)
  * @returns {HTMLElement}
  * @throws {TypeError} getElWrapper: el must be an HTMLElement

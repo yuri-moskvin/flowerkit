@@ -1,5 +1,9 @@
 import { parse } from "node-html-parser";
 
+export type TGetHTMLFromStrArgs = Parameters<typeof getHTMLFromStr>;
+
+export type TGetHTMLFromStrReturn = ReturnType<typeof getHTMLFromStr>;
+
 /**
  * Get parsed HTML from string and returns NodeList that include elements and text
  * @param str{String} source string

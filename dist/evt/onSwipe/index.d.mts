@@ -19,6 +19,8 @@ type TSupportedEvents = {
     end: "mouseup";
     leave: "mouseleave";
 };
+export type TOnSwipeArgs = Parameters<typeof onSwipe>;
+export type TOnSwipeReturn = ReturnType<typeof onSwipe>;
 /**
  * Adds a device-agnostic swipe detector for an element (pointer, touch, or mouse).
  * Dispatches a "swipe" `CustomEvent` or calls the provided callback.

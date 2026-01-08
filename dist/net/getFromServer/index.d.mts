@@ -26,6 +26,8 @@ type TGetFromServerProps<T> = {
     referrerPolicy?: ReferrerPolicy;
     fetchProps?: TFetchExtra;
 };
+export type TGetFromServerArgs = Parameters<typeof getFromServer>;
+export type TGetFromServerReturn = ReturnType<typeof getFromServer>;
 /**
  * Performs an HTTP request (`fetch`) with handy defaults, content-type handling,
  * query param building, and optional bubbling of a "getFromServer" event.

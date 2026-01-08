@@ -1,3 +1,7 @@
+export type TIsStrInKebabCaseArgs = Parameters<typeof isStrInKebabCase>;
+
+export type TIsStrInKebabCaseReturn = ReturnType<typeof isStrInKebabCase>;
+
 /**
  * Checks if a string is in kebab-case.
  * Rules:

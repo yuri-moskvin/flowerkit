@@ -5,6 +5,10 @@ const setItemFn: TSetItemFunction = (name = "", value, fd = new FormData()) => {
   fd.set(name, value?.toString?.() ?? String(value ?? ""));
 };
 
+export type TGetFormDataFromObjArgs = Parameters<typeof getFormDataFromObj>;
+
+export type TGetFormDataFromObjReturn = ReturnType<typeof getFormDataFromObj>;
+
 /**
  * Builds a FormData instance from a plain object.
  *

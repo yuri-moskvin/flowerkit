@@ -1,5 +1,7 @@
 type TBubbleTarget = Document | Window | Element | HTMLElement;
 type TBubbleParams<T = unknown> = CustomEventInit<T> & Record<string, unknown>;
+export type TBubbleArgs = Parameters<typeof bubble>;
+export type TBubbleReturn = ReturnType<typeof bubble>;
 /**
  * Dispatches a bubbling `CustomEvent` on the provided target.
  *

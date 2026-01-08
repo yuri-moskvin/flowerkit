@@ -1,3 +1,5 @@
+export type TIsAdblockArgs = Parameters<typeof isAdblock>;
+export type TIsAdblockReturn = ReturnType<typeof isAdblock>;
 /**
  * Detects if an ad-blocker likely hides known ad-related elements.
  * Implementation detail:

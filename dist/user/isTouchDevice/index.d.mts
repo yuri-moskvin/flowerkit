@@ -1,3 +1,5 @@
+export type TIsTouchDeviceArgs = Parameters<typeof isTouchDevice>;
+export type TIsTouchDeviceReturn = ReturnType<typeof isTouchDevice>;
 /**
  * Detects if the current device likely has a touch screen.
  * Avoids false positives from non-browser envs (like `jsdom`).

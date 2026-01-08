@@ -1,3 +1,7 @@
+export type TGetMaxFromArrArgs = Parameters<typeof getMaxFromArr>;
+
+export type TGetMaxFromArrReturn = ReturnType<typeof getMaxFromArr>;
+
 /**
  * Gets max number from an array of numbers
  * @param {number[]} arr Source array of numbers (must be non-empty)

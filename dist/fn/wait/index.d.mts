@@ -1,3 +1,5 @@
+export type TWaitArgs = Parameters<typeof wait>;
+export type TWaitReturn = ReturnType<typeof wait>;
 /**
  * Gets a `Promise` that resolves after specific time
  * @param {number} [ms=0] delay in ms

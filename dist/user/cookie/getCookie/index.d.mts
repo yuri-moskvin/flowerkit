@@ -1,3 +1,5 @@
+export type TGetCookieArgs = Parameters<typeof getCookie>;
+export type TGetCookieReturn = ReturnType<typeof getCookie>;
 /**
  * Retrieves a cookie value by name.
  *

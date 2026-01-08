@@ -1,6 +1,8 @@
+export type TGetCSSValueArgs = Parameters<typeof getCSSValue>;
+export type TGetCSSValueReturn = ReturnType<typeof getCSSValue>;
 /**
  * Gets a calculated CSS property of an DOM-element
- * @param el{HTMLElement|Node|Element|Document} DOM element
+ * @param el{HTMLElement} DOM element
  * @param prop{String} CSS property
  * @see https://developer.mozilla.org/en-US/docs/Web/API/Window/getComputedStyle
  * @returns {string}

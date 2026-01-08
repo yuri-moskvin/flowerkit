@@ -1,30 +1,14 @@
 {
   "name": "@web3r/flowerkit",
-  "version": "1.1.0",
-  "description": "A collection of more than 60 often used utility JS/TS functions that simplify frontend development.",
+  "version": "1.1.1",
+  "description": "A collection of more than 70 often used utility JS/TS functions that simplify frontend development.",
   "keywords": [
-    "adblock detect",
     "dom",
     "utils",
     "utilities",
     "utility",
     "js util",
-    "ts util",
-    "custom events",
-    "cookies",
-    "object",
-    "css vars",
-    "formData",
-    "parse html",
-    "deep merge",
-    "curry",
-    "onload",
-    "onresize",
-    "debounce",
-    "scrollbar",
-    "copy object",
-    "swipe event",
-    "date"
+    "ts util"
   ],
   "type": "module",
   "engines": {
@@ -167,7 +151,6 @@
     }
   },
   "files": [
-    "docs",
     "dist",
     "README.md",
     "CHANGELOG.md",
@@ -183,8 +166,8 @@
     "@babel/plugin-transform-runtime": "^7.28.5",
     "@babel/preset-env": "^7.28.5",
     "@babel/preset-typescript": "^7.28.5",
-    "@commitlint/cli": "^20.2.0",
-    "@commitlint/config-conventional": "^20.2.0",
+    "@commitlint/cli": "^20.3.0",
+    "@commitlint/config-conventional": "^20.3.0",
     "@commitlint/types": "^20.2.0",
     "@delement/eslint-config-master": "^1.2.0",
     "@jest/globals": "^30.2.0",
@@ -196,13 +179,13 @@
     "@rollup/plugin-typescript": "^12.3.0",
     "@stylistic/eslint-plugin-js": "^4.4.1",
     "@types/jest": "^30.0.0",
-    "commitlint": "^20.2.0",
+    "commitlint": "^20.3.0",
     "cross-env": "^10.1.0",
     "eslint": "^9.39.2",
     "eslint-plugin-import": "^2.32.0",
     "eslint-plugin-jsdoc": "^61.5.0",
     "fast-glob": "^3.3.3",
-    "globals": "^16.5.0",
+    "globals": "^17.0.0",
     "husky": "^9.1.7",
     "jest": "^30.2.0",
     "jest-environment-jsdom": "^30.2.0",
@@ -210,7 +193,7 @@
     "jiti": "^2.6.1",
     "lint-staged": "^16.2.7",
     "node-fetch": "^3.3.2",
-    "rollup": "^4.54.0",
+    "rollup": "^4.55.1",
     "rollup-plugin-copy": "^3.5.0",
     "rollup-plugin-delete": "^3.0.2",
     "rollup-plugin-filesize": "^10.0.0",
@@ -222,11 +205,11 @@
     "defaults"
   ],
   "dependencies": {
-    "node-html-parser": "^7.0.1",
+    "node-html-parser": "^7.0.2",
     "ssr-window": "^5.0.1"
   },
   "peerDependencies": {
-    "node-html-parser": "^7.0.1",
+    "node-html-parser": "^7.0.2",
     "ssr-window": "^5.0.1"
   }
 }

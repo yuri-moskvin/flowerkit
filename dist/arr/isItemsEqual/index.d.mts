@@ -1,3 +1,5 @@
+export type TIsItemsEqualArgs = Parameters<typeof isItemsEqual>;
+export type TIsItemsEqualReturn = ReturnType<typeof isItemsEqual>;
 /**
  * Checks if items of given Array is same
  * @template T

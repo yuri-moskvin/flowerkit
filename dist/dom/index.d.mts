@@ -1,4 +1,10 @@
-export { default as getElSiblings } from "./getElSiblings/index.ts";
+export type { TGetElSiblingsArgs, TGetElSiblingsReturn } from "./getElSiblings/index.ts";
+export type { TGetElWrapperArgs, TGetElWrapperReturn } from "./getElWrapper/index.ts";
+export type { TGetHTMLFromStrArgs, TGetHTMLFromStrReturn } from "./getHTMLFromStr/index.ts";
+export type { TGetIndexOfElArgs, TGetIndexOfElReturn } from "./getIndexOfEl/index.ts";
+export type { TIsNodeArgs, TIsNodeReturn } from "./isNode/index.ts";
+export type { TRemoveChildNodesArgs, TRemoveChildNodesReturn } from "./removeChildNodes/index.ts";
+export { getElSiblings } from "./getElSiblings/index.ts";
 export { getElWrapper } from "./getElWrapper/index.ts";
 export { getHTMLFromStr } from "./getHTMLFromStr/index.ts";
 export { getIndexOfEl } from "./getIndexOfEl/index.ts";

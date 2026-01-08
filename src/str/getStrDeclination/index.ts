@@ -1,3 +1,7 @@
+export type TGetStrDeclinationArgs = Parameters<typeof getStrDeclination>;
+
+export type TGetStrDeclinationReturn = ReturnType<typeof getStrDeclination>;
+
 /**
  * Returns the correct word form (declension) depending on the number.
  * Commonly used for Cyrillic languages (one, few, many).

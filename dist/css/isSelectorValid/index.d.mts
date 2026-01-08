@@ -1,3 +1,5 @@
+export type TIsSelectorValidArgs = Parameters<typeof isSelectorValid>;
+export type TIsSelectorValidReturn = ReturnType<typeof isSelectorValid>;
 /**
  * Checks if string is valid CSS selector
  * @param str{String} source selector

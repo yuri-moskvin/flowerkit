@@ -1,3 +1,7 @@
+export type TIsJSONArgs = Parameters<typeof isJSON>;
+
+export type TIsJSONReturn = ReturnType<typeof isJSON>;
+
 /**
  * Checks if a string is a valid JSON string
  * @param {string} str source String

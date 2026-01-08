@@ -1,3 +1,7 @@
+export type TGetObjLengthArgs = Parameters<typeof getObjLength>;
+
+export type TGetObjLengthReturn = ReturnType<typeof getObjLength>;
+
 /**
  * Gets a length of given object
  * @param {Record<string, unknown>|unknown[]} [obj={}] Source Object or Array

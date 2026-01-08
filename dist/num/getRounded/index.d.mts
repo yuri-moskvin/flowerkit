@@ -1,3 +1,5 @@
+export type TGetRoundedArgs = Parameters<typeof getRounded>;
+export type TGetRoundedReturn = ReturnType<typeof getRounded>;
 /**
  * Rounds a number to specific decimal places
  * @param {number} num Source number

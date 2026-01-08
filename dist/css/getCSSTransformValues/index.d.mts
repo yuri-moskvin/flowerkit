@@ -1,3 +1,5 @@
+export type TGetCSSTransformValuesArgs = Parameters<typeof getCSSTransformValues>;
+export type TGetCSSTransformValuesReturn = ReturnType<typeof getCSSTransformValues>;
 /**
  * Gets an object with `x`, `y`, `z` values of CSS3 transform
  * @param el{HTMLElement|Node|Element|Document} DOM element

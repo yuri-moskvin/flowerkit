@@ -1,3 +1,5 @@
+export type TGetDiffArgs = Parameters<typeof getDiff>;
+export type TGetDiffReturn = ReturnType<typeof getDiff>;
 /**
  * Gets an Array of difference between two given Arrays
  * @template T

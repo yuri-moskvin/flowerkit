@@ -1,5 +1,7 @@
 type TFormDataEntryValue = string | File;
 type TFormDataReturn = Record<string, TFormDataEntryValue | TFormDataEntryValue[]>;
+export type TGetObjFromFormDataArgs = Parameters<typeof getObjFromFormData>;
+export type TGetObjFromFormDataReturn = ReturnType<typeof getObjFromFormData>;
 /**
  * Gets an object from `FormData` interface
  * @param {FormData} [fd=new FormData()] Source `FormData` instance

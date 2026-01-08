@@ -1,5 +1,9 @@
 import { getRandomIntFromInterval } from "../../num/getRandomIntFromInterval/index.ts";
 
+export type TGetIdArgs = Parameters<typeof getId>;
+
+export type TGetIdReturn = ReturnType<typeof getId>;
+
 /**
  * Gets unique string ID.
  * @param length{Number=} length of ID

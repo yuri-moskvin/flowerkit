@@ -1,3 +1,7 @@
+export type TIsObjPrototypeOfArgs = Parameters<typeof isObjPrototypeOf>;
+
+export type TIsObjPrototypeOfReturn = ReturnType<typeof isObjPrototypeOf>;
+
 /**
  * Checks whether a given object exists in the prototype chain of another value.
  *

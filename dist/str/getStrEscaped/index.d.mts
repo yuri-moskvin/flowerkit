@@ -1,3 +1,5 @@
+export type TGetStrEscapedArgs = Parameters<typeof getStrEscaped>;
+export type TGetStrEscapedReturn = ReturnType<typeof getStrEscaped>;
 /**
  * Escapes special HTML characters to their corresponding entities.
  * Escaped: `& < > " '`

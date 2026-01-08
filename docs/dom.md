@@ -2,16 +2,44 @@
 ___
 ## Usage
 ```ts
-import { getElWrapper, getHTMLFromStr, getIndexOfEl, isNode, removeChildNodes } from "@web3r/flowerkit/dom";
+import { getElSiblings, getElWrapper, getHTMLFromStr, getIndexOfEl, isNode, removeChildNodes } from "@web3r/flowerkit/dom";
 ```
 ___
 ## Functions
 
+- [getElSiblings](#getelsiblings)
 - [getElWrapper](#getelwrapper)
 - [getHTMLFromStr](#gethtmlfromstr)
 - [getIndexOfEl](#getindexofel)
 - [isNode](#isnode)
 - [removeChildNodes](#removechildnodes)
+
+### getElSiblings
+
+Gets an array of all siblings of given node
+
+| Function | Type |
+| ---------- | ---------- |
+| `getElSiblings` | `(el: HTMLElement) => ChildNode[]` |
+
+Parameters:
+
+* `el`: node
+
+
+Examples:
+
+```ts
+// How to get all siblings of `li` DOM-element with specific ID?
+// <ul>
+//   <li id="item1">One</li>
+//   <li id="item2">Two</li>
+//   <li id="item3">Three</li>
+// <ul>
+const secondItem = document.getElementById("item2");
+getElSiblings(secondItem).filter(item => item !== secondItem) // [ li#item1, li#utem3 ]
+```
+
 
 ### getElWrapper
 

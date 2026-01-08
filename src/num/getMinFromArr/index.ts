@@ -1,3 +1,7 @@
+export type TGetMinFromArrArgs = Parameters<typeof getMinFromArr>;
+
+export type TGetMinFromArrReturn = ReturnType<typeof getMinFromArr>;
+
 /**
  * Gets min number from an array of numbers
  * @param {number[]} arr Source array of numbers (must be non-empty)

@@ -1,3 +1,5 @@
+export type TGetAsyncMapArgs = Parameters<typeof getAsyncMap>;
+export type TGetAsyncMapReturn = ReturnType<typeof getAsyncMap>;
 /**
  * Gets an aggregated result of async operation for each element of given Array
  * @template T,U

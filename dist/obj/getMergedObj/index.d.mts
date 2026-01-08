@@ -1,3 +1,5 @@
+export type TGetMergedObjArgs = Parameters<typeof getMergedObj>;
+export type TGetMergedObjReturn = ReturnType<typeof getMergedObj>;
 /**
  * Gets one deeply merged object from two objects
  * @template TTarget,TSource

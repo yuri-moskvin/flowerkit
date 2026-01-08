@@ -1,3 +1,5 @@
+export type TOnWindowLoadArgs = Parameters<typeof onWindowLoad>;
+export type TOnWindowLoadReturn = ReturnType<typeof onWindowLoad>;
 /**
  * Runs a callback when the window load event fires.
  * Executes immediately if already loaded.

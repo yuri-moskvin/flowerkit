@@ -1,3 +1,5 @@
+export type TOnWindowResizeArgs = Parameters<typeof onWindowResize>;
+export type TOnWindowResizeReturn = ReturnType<typeof onWindowResize>;
 /**
  * Runs a callback on window resize. If `delay` is provided, the callback is debounced.
  *

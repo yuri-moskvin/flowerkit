@@ -1,3 +1,5 @@
+export type TGetPureDateArgs = Parameters<typeof getPureDate>;
+export type TGetPureDateReturn = ReturnType<typeof getPureDate>;
 /**
  * Gets a Date instance without time (hours, minutes, seconds, and milliseconds)
  * @param date{*=}

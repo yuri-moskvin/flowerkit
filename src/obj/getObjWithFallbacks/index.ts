@@ -8,6 +8,10 @@ type TRulesSchema<TInput extends Record<string, unknown>, TOutput extends Record
   };
 };
 
+export type TGetObjWithFallbacksArgs = Parameters<typeof getObjWithFallbacks>;
+
+export type TGetObjWithFallbacksReturn = ReturnType<typeof getObjWithFallbacks>;
+
 const validateRulesSchema = <TInput extends Record<string, unknown>, TOutput extends Record<string, unknown>>(
   rules: TRulesSchema<TInput, TOutput>
 ): void => {

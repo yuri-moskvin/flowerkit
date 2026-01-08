@@ -1,3 +1,7 @@
+export type TGetCopyOfObjArgs = Parameters<typeof getCopyOfObj>;
+
+export type TGetCopyOfObjReturn = ReturnType<typeof getCopyOfObj>;
+
 /**
  * Gets a deep copy/clone of an object/array without a reference to the original object
  * @param obj{Object|Array} source object (array)

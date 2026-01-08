@@ -1,3 +1,5 @@
+export type TGetUnionArgs = Parameters<typeof getUnion>;
+export type TGetUnionReturn = ReturnType<typeof getUnion>;
 /**
  * Gets union Array of two given Arrays
  * @template T

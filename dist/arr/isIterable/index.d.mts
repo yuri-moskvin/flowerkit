@@ -1,3 +1,5 @@
+export type TIsIterableArgs = Parameters<typeof isIterable>;
+export type TIsIterableReturn = ReturnType<typeof isIterable>;
 /**
  * Check if an object is iterable
  * @param obj{any}

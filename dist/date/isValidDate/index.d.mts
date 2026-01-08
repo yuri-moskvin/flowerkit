@@ -1,3 +1,5 @@
+export type TIsValidDateArgs = Parameters<typeof isValidDate>;
+export type TIsValidDateReturn = ReturnType<typeof isValidDate>;
 /**
  * Check if a Date instance is valid
  * @param date{*}

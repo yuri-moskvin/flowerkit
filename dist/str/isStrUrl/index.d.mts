@@ -1,3 +1,5 @@
+export type TIsStrUrlArgs = Parameters<typeof isStrUrl>;
+export type TIsStrUrlReturn = ReturnType<typeof isStrUrl>;
 /**
  * Heuristically checks if a string looks like a URL or URL pathname. This is a permissive regex-based check and not a full URL validator.
  *

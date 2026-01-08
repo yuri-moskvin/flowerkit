@@ -1,3 +1,5 @@
+export type TGetMapFromObjArgs = Parameters<typeof getMapFromObj>;
+export type TGetMapFromObjReturn = ReturnType<typeof getMapFromObj>;
 /**
  * Gets a Map from object
  * @template K,V

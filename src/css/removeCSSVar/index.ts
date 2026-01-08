@@ -1,6 +1,10 @@
 
 import { getDocument } from "ssr-window";
 
+export type TRemoveCSSVarArgs = Parameters<typeof removeCSSVar>;
+
+export type TRemoveCSSVarReturn = ReturnType<typeof removeCSSVar>;
+
 /**
  * Removes CSS3 variable from specific DOM node
  * @param el{HTMLElement|Node|Element|Document=} DOM element

@@ -1,7 +1,7 @@
 Object.defineProperty(exports,"__esModule",{value:true});
 /**
  * Escapes special HTML characters to their corresponding entities.
- * Escaped: `& < > " '`
+ * Escaped: `& < > " '` 
  * @param {string} str Source string
  * @returns {string} Escaped string safe for HTML text context
  * @throws {TypeError} If str is not a string

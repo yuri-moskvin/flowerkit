@@ -1,3 +1,7 @@
+export type TIsStrInSnakeCaseArgs = Parameters<typeof isStrInSnakeCase>;
+
+export type TIsStrInSnakeCaseReturn = ReturnType<typeof isStrInSnakeCase>;
+
 /**
  * Checks if a string is in snake_case.
  * Rules:

@@ -1,6 +1,10 @@
 import { getWindow } from "ssr-window";
 import { getDebouncedFn } from "../../fn/getDebouncedFn/index.ts";
 
+export type TOnWindowResizeArgs = Parameters<typeof onWindowResize>;
+
+export type TOnWindowResizeReturn = ReturnType<typeof onWindowResize>;
+
 /**
  * Runs a callback on window resize. If `delay` is provided, the callback is debounced.
  *

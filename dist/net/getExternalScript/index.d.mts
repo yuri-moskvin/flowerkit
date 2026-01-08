@@ -7,6 +7,8 @@ type TGetExternalScriptProps = {
     crossorigin?: string;
     type?: string;
 };
+export type TGetExternalScriptArgs = Parameters<typeof getExternalScript>;
+export type TGetExternalScriptReturn = ReturnType<typeof getExternalScript>;
 /**
  * Appends an external script to the page and resolves when it's loaded.
  *

@@ -1,4 +1,6 @@
 type TQueryParams = Record<string, string | number | boolean | null> | FormData;
+export type TGetUrlWithQueryParamsArgs = Parameters<typeof getUrlWithQueryParams>;
+export type TGetUrlWithQueryParamsReturn = ReturnType<typeof getUrlWithQueryParams>;
 /**
  * Returns a URL string with updated query parameters from an object or `FormData`.
  *

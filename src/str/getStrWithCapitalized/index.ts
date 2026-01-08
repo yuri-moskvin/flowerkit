@@ -1,3 +1,7 @@
+export type TGetStrWithCapitalizedArgs = Parameters<typeof getStrWithCapitalized>;
+
+export type TGetStrWithCapitalizedReturn = ReturnType<typeof getStrWithCapitalized>;
+
 /**
  * Gets a string with uppercase first letter
  * @param str{string} source string

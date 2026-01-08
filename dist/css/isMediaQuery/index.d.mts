@@ -1,3 +1,5 @@
+export type TIsMediaQueryArgs = Parameters<typeof isMediaQuery>;
+export type TIsMediaQueryReturn = ReturnType<typeof isMediaQuery>;
 /**
  * Gets a result of testing of a CSS media query
  * @param str{String} source media query string

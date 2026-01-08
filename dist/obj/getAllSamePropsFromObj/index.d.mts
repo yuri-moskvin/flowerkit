@@ -1,3 +1,5 @@
+export type TGetAllSamePropsFromObjArgs = Parameters<typeof getAllSamePropsFromObj>;
+export type TGetAllSamePropsFromObjReturn = ReturnType<typeof getAllSamePropsFromObj>;
 /**
  * Gets all values inside an object by the specified key, including deeply nested objects
  * @template T

@@ -1,3 +1,5 @@
+export type TSetCSSVarArgs = Parameters<typeof setCSSVar>;
+export type TSetCSSVarReturn = ReturnType<typeof setCSSVar>;
 /**
  * Sets CSS3 variable to specific DOM node
  * @param el{HTMLElement=} DOM element

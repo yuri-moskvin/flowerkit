@@ -7,6 +7,8 @@ type TRulesSchema<TInput extends Record<string, unknown>, TOutput extends Record
         getValue?: (value: TInput[K], fallback: unknown) => unknown;
     };
 };
+export type TGetObjWithFallbacksArgs = Parameters<typeof getObjWithFallbacks>;
+export type TGetObjWithFallbacksReturn = ReturnType<typeof getObjWithFallbacks>;
 /**
  * Gets an object with fixed keys and values
  * @template TInput,TOutput

@@ -1,3 +1,7 @@
+export type TIsFnAsyncArgs = Parameters<typeof isFnAsync>;
+
+export type TIsFnAsyncReturn = ReturnType<typeof isFnAsync>;
+
 /**
  * Checks if a function is async
  * @param {*} fn source function

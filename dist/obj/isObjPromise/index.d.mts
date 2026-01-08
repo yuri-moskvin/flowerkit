@@ -1,3 +1,5 @@
+export type TIsObjPromiseArgs = Parameters<typeof isObjPromise>;
+export type TIsObjPromiseReturn = ReturnType<typeof isObjPromise>;
 /**
  * Checks if an object is promise
  * @param obj{*} source object

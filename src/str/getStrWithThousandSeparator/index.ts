@@ -1,3 +1,7 @@
+export type TGetStrWithThousandSeparatorArgs = Parameters<typeof getStrWithThousandSeparator>;
+
+export type TGetStrWithThousandSeparatorReturn = ReturnType<typeof getStrWithThousandSeparator>;
+
 /**
  * Gets a formatted string with thousands separators from given number. This is a simple formatter for integer parts and does not handle locales or decimals.
  *

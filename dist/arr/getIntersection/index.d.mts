@@ -1,3 +1,5 @@
+export type TGetIntersectionArgs = Parameters<typeof getIntersection>;
+export type TGetIntersectionReturn = ReturnType<typeof getIntersection>;
 /**
  * Gets Array of intersection of two given Arrays
  * @template T

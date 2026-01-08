@@ -1,3 +1,5 @@
+export type TIsNonEmptyArrArgs = Parameters<typeof isNonEmptyArr>;
+export type TIsNonEmptyArrReturn = ReturnType<typeof isNonEmptyArr>;
 /**
  * Check if an object is non-empty array
  * @template T

@@ -1,7 +1,7 @@
 import{getCSSValue}from"../getCSSValue/index.mjs";
 /**
  * Gets value of CSS variable
- * @param el{HTMLElement|Node|Element|Document} source DOM element
+ * @param el{HTMLElement} source DOM element
  * @param variable{String} variable name
  * @param isNumberFormat{Boolean=} whether to return a number rather than a string
  * @see https://developer.mozilla.org/en-US/docs/Web/CSS/Using_CSS_custom_properties

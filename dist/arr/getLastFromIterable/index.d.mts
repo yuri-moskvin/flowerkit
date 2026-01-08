@@ -1,3 +1,5 @@
+export type TGetLastFromIterableArgs = Parameters<typeof getLastFromIterable>;
+export type TGetLastFromIterableReturn = ReturnType<typeof getLastFromIterable>;
 /**
  * Gets the last element of an iterable object such as Array, NodeList, HTMLCollection, etc.
  * @template T

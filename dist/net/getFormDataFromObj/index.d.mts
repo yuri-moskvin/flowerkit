@@ -1,5 +1,7 @@
 type TSourceObject = Record<string, unknown>;
 type TSetItemFunction = (name: string, value: unknown, fd: FormData) => void;
+export type TGetFormDataFromObjArgs = Parameters<typeof getFormDataFromObj>;
+export type TGetFormDataFromObjReturn = ReturnType<typeof getFormDataFromObj>;
 /**
  * Builds a FormData instance from a plain object.
  *

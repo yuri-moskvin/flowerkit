@@ -1,3 +1,5 @@
+export type TGetJSONFromStrArgs = Parameters<typeof getJSONFromStr>;
+export type TGetJSONFromStrReturn = ReturnType<typeof getJSONFromStr>;
 /**
  * Safely parses a JSON string.
  *

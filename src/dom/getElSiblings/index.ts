@@ -1,6 +1,10 @@
+export type TGetElSiblingsArgs = Parameters<typeof getElSiblings>;
+
+export type TGetElSiblingsReturn = ReturnType<typeof getElSiblings>;
+
 /**
  * Gets an array of all siblings of given node
- * @param el{Node|Element|HTMLElement} node
+ * @param el{HTMLElement} node
  * @returns {Array}
  * @throws {TypeError} getElSiblings: el must be an HTMLElement
  * @example
@@ -13,7 +17,7 @@
  * const secondItem = document.getElementById("item2");
  * getElSiblings(secondItem).filter(item => item !== secondItem) // [ li#item1, li#utem3 ]
  */
-const getElSiblings = (el: HTMLElement): Array<ChildNode> => {
+export const getElSiblings = (el: HTMLElement): Array<ChildNode> => {
   if (!el || typeof (el as any).nodeType !== "number") {
     throw new TypeError("getElSiblings: el must be an HTMLElement");
   }
@@ -28,4 +32,5 @@ const getElSiblings = (el: HTMLElement): Array<ChildNode> => {
   }
   return siblings;
 };
+
 export default getElSiblings;

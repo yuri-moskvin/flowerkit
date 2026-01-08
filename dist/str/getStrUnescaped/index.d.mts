@@ -1,3 +1,5 @@
+export type TGetStrUnescapedArgs = Parameters<typeof getStrUnescaped>;
+export type TGetStrUnescapedReturn = ReturnType<typeof getStrUnescaped>;
 /**
  * Unescapes HTML entities back to their characters.
  * Unescaped: `&amp; &lt; &gt; &quot; &#39;`

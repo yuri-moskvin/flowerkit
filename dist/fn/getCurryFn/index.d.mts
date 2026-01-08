@@ -1,3 +1,5 @@
+export type TGetCurryFnArgs = Parameters<typeof getCurryFn>;
+export type TGetCurryFnReturn = ReturnType<typeof getCurryFn>;
 /**
  * Curries a function, transforming it into a sequence of unary functions.
  * Collects arguments one by one until `arity` is reached, then invokes `fn`.

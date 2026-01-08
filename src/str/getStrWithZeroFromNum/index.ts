@@ -1,3 +1,7 @@
+export type TGetStrWithZeroFromNumArgs = Parameters<typeof getStrWithZeroFromNum>;
+
+export type TGetStrWithZeroFromNumReturn = ReturnType<typeof getStrWithZeroFromNum>;
+
 /**
  * Pads a number with leading zeros to match the desired digit count. Preserves sign for negative numbers.
  *

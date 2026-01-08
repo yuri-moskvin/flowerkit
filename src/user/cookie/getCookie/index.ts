@@ -1,5 +1,9 @@
 import { getDocument } from "ssr-window";
 
+export type TGetCookieArgs = Parameters<typeof getCookie>;
+
+export type TGetCookieReturn = ReturnType<typeof getCookie>;
+
 /**
  * Retrieves a cookie value by name.
  *

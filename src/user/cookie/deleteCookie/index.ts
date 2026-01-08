@@ -1,5 +1,9 @@
 import { setCookie } from "../setCookie/index.ts";
 
+export type TDeleteCookieArgs = Parameters<typeof deleteCookie>;
+
+export type TDeleteCookieReturn = ReturnType<typeof deleteCookie>;
+
 /**
  * Deletes a cookie by setting its expiry to a past date.
  *

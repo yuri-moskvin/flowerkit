@@ -1,7 +1,7 @@
 Object.defineProperty(exports,"__esModule",{value:true});var ssrWindow=require("ssr-window");
 /**
  * Gets a wrapper for specific element
- * @param el{HTMLElement|Node|Element|Document} DOM element
+ * @param el{HTMLElement} DOM element
  * @param str{String} string of wrapper HTML layout (supports nested blocks)
  * @returns {HTMLElement}
  * @throws {TypeError} getElWrapper: el must be an HTMLElement

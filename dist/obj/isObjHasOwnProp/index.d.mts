@@ -1,3 +1,5 @@
+export type TIsObjHasOwnPropArgs = Parameters<typeof isObjHasOwnProp>;
+export type TIsObjHasOwnPropReturn = ReturnType<typeof isObjHasOwnProp>;
 /**
  * Checks if an object has own property
  * @param {object} obj Source object
