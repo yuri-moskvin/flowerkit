@@ -1,3 +1,5 @@
+import assert from "node:assert";
+import { describe, test } from "node:test";
 import { isFnClass } from "./index.ts";
 
 describe(isFnClass.name, () => {
@@ -5,23 +7,23 @@ describe(isFnClass.name, () => {
   test("Checks for classes or its instances", () => {
     class Foo {}
     const instance = new Foo();
-    expect(isFnClass(Foo as any)).toBe(true);
-    expect(isFnClass(instance as any)).toBe(true);
+    assert.strictEqual(isFnClass(Foo as any), true);
+    assert.strictEqual(isFnClass(instance as any), true);
   });
 
   test("Checks for other types", () => {
-    expect(isFnClass(null as any)).toBe(false);
-    expect(isFnClass(1 as any)).toBe(false);
-    expect(isFnClass({} as any)).toBe(false);
+    assert.strictEqual(isFnClass(null as any), false);
+    assert.strictEqual(isFnClass(1 as any), false);
+    assert.strictEqual(isFnClass({} as any), false);
   });
 
   test("Checks for default functions", () => {
     const fn = function() {};
     const asyncFn = async function() {};
     const bindFn = fn.bind(undefined);
-    expect(isFnClass(fn as any)).toBe(false);
-    expect(isFnClass(asyncFn as any)).toBe(false);
-    expect(isFnClass(bindFn as any)).toBe(false);
+    assert.strictEqual(isFnClass(fn as any), false);
+    assert.strictEqual(isFnClass(asyncFn as any), false);
+    assert.strictEqual(isFnClass(bindFn as any), false);
   });
 
 });

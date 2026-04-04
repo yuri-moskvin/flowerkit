@@ -1,23 +1,26 @@
+import assert from "node:assert";
+import { describe, test } from "node:test";
 import { getPureDate } from "./index.ts";
 
 describe(getPureDate.name, () => {
-
   test("Gets pure date", () => {
-
     const stamp = new Date();
-    expect(getPureDate(stamp)?.getHours()).toBe(0);
-    expect(getPureDate(stamp)?.getSeconds()).toBe(0);
-    expect(getPureDate(stamp)?.getMinutes()).toBe(0);
-    expect(getPureDate(stamp)?.getMilliseconds()).toBe(0);
+    const pureDate = getPureDate(stamp);
+
+    assert.strictEqual(pureDate?.getHours(), 0);
+    assert.strictEqual(pureDate?.getSeconds(), 0);
+    assert.strictEqual(pureDate?.getMinutes(), 0);
+    assert.strictEqual(pureDate?.getMilliseconds(), 0);
 
     const wrongStamp = new Date("");
-    expect(getPureDate(wrongStamp)).toBe(null);
+    assert.strictEqual(getPureDate(wrongStamp), null);
 
     const toDate = new Date().getTime();
-    expect(getPureDate(toDate)?.getHours()).toBe(0);
-    expect(getPureDate(toDate)?.getSeconds()).toBe(0);
-    expect(getPureDate(toDate)?.getMinutes()).toBe(0);
-    expect(getPureDate(toDate)?.getMilliseconds()).toBe(0);
-  });
+    const pureDateFromTimestamp = getPureDate(toDate);
 
+    assert.strictEqual(pureDateFromTimestamp?.getHours(), 0);
+    assert.strictEqual(pureDateFromTimestamp?.getSeconds(), 0);
+    assert.strictEqual(pureDateFromTimestamp?.getMinutes(), 0);
+    assert.strictEqual(pureDateFromTimestamp?.getMilliseconds(), 0);
+  });
 });

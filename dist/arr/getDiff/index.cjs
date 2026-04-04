@@ -12,5 +12,5 @@ Object.defineProperty(exports,"__esModule",{value:true});
  * const arr2 = [ 3, 4, 5, 6 ];
  * const diff = getDiff(arr1, arr2);
  * console.log(diff); // => [ 1, 2, 4, 5, 6 ]
- */const getDiff=(arr1,arr2)=>{if(!Array.isArray(arr1)||!Array.isArray(arr2))throw new TypeError("getDiff: arr1 and arr2 must be arrays");const all=arr1.concat(arr2);return all.filter(((val,_index,arr)=>arr.indexOf(val)===arr.lastIndexOf(val)))};exports.getDiff=getDiff;
+ */const getDiff=(arr1,arr2)=>{if(!Array.isArray(arr1)||!Array.isArray(arr2))throw new TypeError("getDiff: arr1 and arr2 must be arrays");const all=arr1.concat(arr2);return all.filter((val,_index,arr)=>arr.indexOf(val)===arr.lastIndexOf(val))};exports.getDiff=getDiff;
 //# sourceMappingURL=index.cjs.map

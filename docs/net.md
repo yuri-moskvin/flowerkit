@@ -2,7 +2,11 @@
 ___
 ## Usage
 ```ts
+// import functions
 import { getExternalScript, getFormDataFromObj, getUrlWithQueryParams, getFromServer, getObjFromFormData } from "@web3r/flowerkit/net";
+
+// import types
+import type { TGetExternalScriptArgs, TGetExternalScriptReturn, TGetFormDataFromObjArgs, TGetFormDataFromObjReturn, TGetUrlWithQueryParamsArgs, TGetUrlWithQueryParamsReturn, TGetFromServerArgs, TGetFromServerReturn, TGetObjFromFormDataArgs, TGetObjFromFormDataReturn } from "@web3r/flowerkit/net";
 ```
 ___
 ## Functions
@@ -97,16 +101,34 @@ query param building, and optional bubbling of a "getFromServer" event.
 
 | Function | Type |
 | ---------- | ---------- |
-| `getFromServer` | `<T = unknown>(props?: TGetFromServerProps<T>) => Promise<T>` |
+| `getFromServer` | `<T = unknown>(props?: TGetFromServerArgs<T>) => Promise<T>` |
 
 Parameters:
 
-* `props`: Request parameters
+* `props`: Request parameters (all optional).
+* `props.url`: The URL to request. Defaults to current window location or './'.
+* `props.contentType`: Content type header. If "auto", sets based on data/method.
+* `props.isBubble`: Whether to bubble a "getFromServer" event after success.
+* `props.timeout`: Timeout in milliseconds (use Infinity to disable).
+* `props.method`: HTTP method.
+* `props.mode`: Fetch mode.
+* `props.signal`: AbortSignal for cancellation.
+* `props.data`: Request data. For GET-like methods, appended as query params.
+* `props.getSuccessResp`: Transform function for successful response. Defaults to identity function.
+* `props.getResp`: Custom response parser. If provided, overrides `type`.
+* `props.type`: Response body parsing type (used when `getResp` not provided).
+* `props.headers`: Additional headers.
+* `props.allowedCodes`: Array of HTTP status codes to treat as success even if not 2xx.
+* `props.credentials`: Credentials mode.
+* `props.redirect`: Redirect mode.
+* `props.cache`: Cache mode.
+* `props.referrerPolicy`: Referrer policy.
+* `props.fetchProps`: Additional fetch options.
 
 
 Returns:
 
-Promise with parsed response (type depends on `type` option)
+Promise with parsed response (type depends on `type` option).
 
 References:
 
@@ -147,4 +169,78 @@ getObjFromFormData(fd); // { test: "val" }
 ```
 
 
+
+
+## Types
+
+- [TGetExternalScriptArgs](#tgetexternalscriptargs)
+- [TGetExternalScriptReturn](#tgetexternalscriptreturn)
+- [TGetFormDataFromObjArgs](#tgetformdatafromobjargs)
+- [TGetFormDataFromObjReturn](#tgetformdatafromobjreturn)
+- [TGetUrlWithQueryParamsArgs](#tgeturlwithqueryparamsargs)
+- [TGetUrlWithQueryParamsReturn](#tgeturlwithqueryparamsreturn)
+- [TGetFromServerArgs](#tgetfromserverargs)
+- [TGetFromServerReturn](#tgetfromserverreturn)
+- [TGetObjFromFormDataArgs](#tgetobjfromformdataargs)
+- [TGetObjFromFormDataReturn](#tgetobjfromformdatareturn)
+
+### TGetExternalScriptArgs
+
+| Type | Type |
+| ---------- | ---------- |
+| `TGetExternalScriptArgs` | `Parameters<typeof getExternalScript>` |
+
+### TGetExternalScriptReturn
+
+| Type | Type |
+| ---------- | ---------- |
+| `TGetExternalScriptReturn` | `ReturnType<typeof getExternalScript>` |
+
+### TGetFormDataFromObjArgs
+
+| Type | Type |
+| ---------- | ---------- |
+| `TGetFormDataFromObjArgs` | `Parameters<typeof getFormDataFromObj>` |
+
+### TGetFormDataFromObjReturn
+
+| Type | Type |
+| ---------- | ---------- |
+| `TGetFormDataFromObjReturn` | `ReturnType<typeof getFormDataFromObj>` |
+
+### TGetUrlWithQueryParamsArgs
+
+| Type | Type |
+| ---------- | ---------- |
+| `TGetUrlWithQueryParamsArgs` | `Parameters<typeof getUrlWithQueryParams>` |
+
+### TGetUrlWithQueryParamsReturn
+
+| Type | Type |
+| ---------- | ---------- |
+| `TGetUrlWithQueryParamsReturn` | `ReturnType<typeof getUrlWithQueryParams>` |
+
+### TGetFromServerArgs
+
+| Type | Type |
+| ---------- | ---------- |
+| `TGetFromServerArgs` | `{ contentType?: "auto" or "application/json" or "application/x-www-form-urlencoded" or "multipart/form-data"; isBubble?: boolean; timeout?: number; method?: "GET" or "PUT" or "POST" or "DELETE" or "HEAD" or "CONNECT" or "OPTIONS" or "TRACE"; mode?: RequestMode; signal?: AbortSignal or null; data?: Record<string, unknown> or FormData or null; getSuccessResp?: (data: T) => T; getResp?: <T = unknown>(resp: Response) => Promise<T>; type?: "text" or "json" or "blob" or "arrayBuffer"; url?: string; headers?: Record<string, string>; allowedCodes?: number[]; credentials?: RequestCredentials; redirect?: RequestRedirect; cache?: RequestCache; referrerPolicy?: ReferrerPolicy; fetchProps?: Omit<RequestInit, "method" or "headers" or "body" or "signal" or "mode" or "credentials" or "redirect" or "cache" or "referrerPolicy">; }` |
+
+### TGetFromServerReturn
+
+| Type | Type |
+| ---------- | ---------- |
+| `TGetFromServerReturn` | `ReturnType<typeof getFromServer>` |
+
+### TGetObjFromFormDataArgs
+
+| Type | Type |
+| ---------- | ---------- |
+| `TGetObjFromFormDataArgs` | `Parameters<typeof getObjFromFormData>` |
+
+### TGetObjFromFormDataReturn
+
+| Type | Type |
+| ---------- | ---------- |
+| `TGetObjFromFormDataReturn` | `ReturnType<typeof getObjFromFormData>` |
 

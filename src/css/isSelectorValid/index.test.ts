@@ -1,24 +1,30 @@
+import assert from "node:assert";
+import { describe, test } from "node:test";
 import { isSelectorValid } from "./index.ts";
 
 describe(isSelectorValid.name, () => {
-
   test("Checks for invalid args", () => {
-    expect(() => isSelectorValid(0 as any)).toThrow();
-    expect(() => isSelectorValid(null as any)).toThrow();
+    assert.throws(() =>
+      // @ts-expect-error testing invalid selector argument
+      isSelectorValid(0)
+    );
+    assert.throws(() =>
+      // @ts-expect-error testing invalid selector argument
+      isSelectorValid(null)
+    );
   });
 
   test("Checks for wrong selectors", () => {
-    expect(isSelectorValid("0el")).toBe(false);
-    expect(isSelectorValid("..el")).toBe(false);
+    assert.strictEqual(isSelectorValid("0el"), false);
+    assert.strictEqual(isSelectorValid("..el"), false);
   });
 
   test("Checks for valid CSS selectors", () => {
-    expect(isSelectorValid("el")).toBe(true);
-    expect(isSelectorValid("[data-attr]")).toBe(true);
-    expect(isSelectorValid("#id")).toBe(true);
-    expect(isSelectorValid("div.test")).toBe(true);
-    expect(isSelectorValid("div + div")).toBe(true);
-    expect(isSelectorValid("p.class[data-test-attr='value']")).toBe(true);
+    assert.strictEqual(isSelectorValid("el"), true);
+    assert.strictEqual(isSelectorValid("[data-attr]"), true);
+    assert.strictEqual(isSelectorValid("#id"), true);
+    assert.strictEqual(isSelectorValid("div.test"), true);
+    assert.strictEqual(isSelectorValid("div + div"), true);
+    assert.strictEqual(isSelectorValid("p.class[data-test-attr='value']"), true);
   });
-
 });

@@ -1,3 +1,6 @@
+import { getWindow } from "ssr-window";
+import assert from "node:assert";
+import { describe, test } from "node:test";
 import { getUrlWithQueryParams } from "./index.ts";
 
 describe(getUrlWithQueryParams.name, () => {
@@ -5,23 +8,32 @@ describe(getUrlWithQueryParams.name, () => {
   const fd = new FormData();
   fd.append("foo", "123");
 
+  const fallbackUrl: string = getWindow().location.href;
+
   test("Checks for invalid args", () => {
-    expect(() => getUrlWithQueryParams(0 as any)).toThrow();
-    expect(() => getUrlWithQueryParams("" as any, null as any)).toThrow();
+    assert.throws(() =>
+      getUrlWithQueryParams(0 as unknown as string)
+    );
+    assert.throws(() =>
+      getUrlWithQueryParams(
+        "",
+        null as unknown as FormData
+      )
+    );
   });
 
   test("Checks for empty URL", () => {
-    expect(getUrlWithQueryParams("", { foo: 123 } as any)).toBe("http://localhost/?foo=123");
-    expect(getUrlWithQueryParams("", fd)).toBe("http://localhost/?foo=123");
+    assert.strictEqual(getUrlWithQueryParams("", { foo: 123 }), `${fallbackUrl}?foo=123`);
+    assert.strictEqual(getUrlWithQueryParams("", fd), `${fallbackUrl}?foo=123`);
   });
 
   test("Checks for parts of URL", () => {
-    expect(getUrlWithQueryParams("/api/users/?test=1", fd)).toBe("http://localhost/api/users/?test=1&foo=123");
-    expect(getUrlWithQueryParams("/api/users/?test=1", { test: 2 })).toBe("http://localhost/api/users/?test=2");
+    assert.strictEqual(getUrlWithQueryParams("/api/users/?test=1", fd), `${fallbackUrl}api/users/?test=1&foo=123`);
+    assert.strictEqual(getUrlWithQueryParams("/api/users/?test=1", { test: 2 }), `${fallbackUrl}api/users/?test=2`);
   });
 
   test("Checks for valid URL", () => {
-    expect(getUrlWithQueryParams("https://google.com/?test=1", { foo: 123 })).toBe("https://google.com/?test=1&foo=123");
+    assert.strictEqual(getUrlWithQueryParams("https://google.com/?test=1", { foo: 123 }), "https://google.com/?test=1&foo=123");
   });
 
 });

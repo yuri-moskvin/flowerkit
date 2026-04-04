@@ -2,7 +2,11 @@
 ___
 ## Usage
 ```ts
+// import functions
 import { isValidDate, getPureDate } from "@web3r/flowerkit/date";
+
+// import types
+import type { TIsValidDateArgs, TIsValidDateReturn, TGetPureDateArgs, TGetPureDateReturn } from "@web3r/flowerkit/date";
 ```
 ___
 ## Functions
@@ -49,4 +53,36 @@ console.log(dateWithoutTime.getMilliseconds()); // => 0
 ```
 
 
+
+
+## Types
+
+- [TIsValidDateArgs](#tisvaliddateargs)
+- [TIsValidDateReturn](#tisvaliddatereturn)
+- [TGetPureDateArgs](#tgetpuredateargs)
+- [TGetPureDateReturn](#tgetpuredatereturn)
+
+### TIsValidDateArgs
+
+| Type | Type |
+| ---------- | ---------- |
+| `TIsValidDateArgs` | `Parameters<typeof isValidDate>` |
+
+### TIsValidDateReturn
+
+| Type | Type |
+| ---------- | ---------- |
+| `TIsValidDateReturn` | `ReturnType<typeof isValidDate>` |
+
+### TGetPureDateArgs
+
+| Type | Type |
+| ---------- | ---------- |
+| `TGetPureDateArgs` | `Parameters<typeof getPureDate>` |
+
+### TGetPureDateReturn
+
+| Type | Type |
+| ---------- | ---------- |
+| `TGetPureDateReturn` | `ReturnType<typeof getPureDate>` |
 

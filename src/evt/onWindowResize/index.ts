@@ -42,13 +42,9 @@ export const onWindowResize = (
     throw new TypeError("onWindowResize: isAutoInit must be a boolean");
   }
 
+  const fn = delay ? getDebouncedFn<typeof cb>(cb, delay) : cb;
   const handler = (e: Event): void => {
-    if (delay) {
-      const fn = getDebouncedFn<typeof cb>(cb, delay);
-      fn(e);
-    } else {
-      cb(e);
-    }
+    fn(e);
   };
 
   const addListener = (): void => {

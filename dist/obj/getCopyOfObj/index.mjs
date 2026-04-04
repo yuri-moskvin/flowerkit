@@ -12,5 +12,5 @@
  * copy.value = 2;
  * console.log(originalObject.value === copy.value) // false
  */
-const getCopyOfObj=obj=>{if(obj===null||typeof obj!=="object"||obj instanceof Date)return obj;const objCopy=Array.isArray(obj)?[]:{};return Object.keys(obj).reduce(((nestedObj,key)=>{nestedObj[key]=getCopyOfObj(obj[key]);return nestedObj}),objCopy)};export{getCopyOfObj};
+const getCopyOfObj=obj=>{if(obj===null||typeof obj!=="object"||obj instanceof Date)return obj;const objCopy=Array.isArray(obj)?[]:{};return Object.keys(obj).reduce((nestedObj,key)=>{nestedObj[key]=getCopyOfObj(obj[key]);return nestedObj},objCopy)};export{getCopyOfObj};
 //# sourceMappingURL=index.mjs.map

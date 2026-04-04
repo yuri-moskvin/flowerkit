@@ -1,4 +1,4 @@
-import { deleteCookie } from "./deleteCookie/index.ts";
-import { getCookie } from "./getCookie/index.ts";
-import { setCookie } from "./setCookie/index.ts";
+import { deleteCookie } from "./deleteCookie/index.d.mts";
+import { getCookie } from "./getCookie/index.d.mts";
+import { setCookie } from "./setCookie/index.d.mts";
 export { deleteCookie, getCookie, setCookie, };

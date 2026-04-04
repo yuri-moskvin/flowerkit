@@ -1,10 +1,18 @@
+import assert from "node:assert";
+import { describe, test } from "node:test";
 import { getIndexOfEl } from "./index.ts";
 
 describe(getIndexOfEl.name, () => {
 
   test("Checks for invalid args", () => {
-    expect(() => getIndexOfEl("moo" as any)).toThrow();
-    expect(() => getIndexOfEl(null as any)).toThrow();
+    assert.throws(() =>
+      // @ts-expect-error testing invalid el argument
+      getIndexOfEl("moo")
+    );
+    assert.throws(() =>
+      // @ts-expect-error testing invalid el argument
+      getIndexOfEl(null)
+    );
   });
 
   test("Checks for correct el index", () => {
@@ -19,7 +27,7 @@ describe(getIndexOfEl.name, () => {
        Text 3
      <ul>
   `;
-    expect(getIndexOfEl(document.querySelector("#item3")!)).toBe(2);
+    assert.strictEqual(getIndexOfEl(document.querySelector("#item3")!), 2);
   });
 
 });

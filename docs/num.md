@@ -2,7 +2,11 @@
 ___
 ## Usage
 ```ts
+// import functions
 import { getMaxFromArr, getMinFromArr, getRandomIntFromInterval, getRounded } from "@web3r/flowerkit/num";
+
+// import types
+import type { TGetMaxFromArrArgs, TGetMaxFromArrReturn, TGetMinFromArrArgs, TGetMinFromArrReturn, TGetRandomIntFromIntervalArgs, TGetRandomIntFromIntervalReturn, TGetRoundedArgs, TGetRoundedReturn } from "@web3r/flowerkit/num";
 ```
 ___
 ## Functions
@@ -121,4 +125,64 @@ console.log(rounded); // => 0.0003
 ```
 
 
+
+
+## Types
+
+- [TGetMaxFromArrArgs](#tgetmaxfromarrargs)
+- [TGetMaxFromArrReturn](#tgetmaxfromarrreturn)
+- [TGetMinFromArrArgs](#tgetminfromarrargs)
+- [TGetMinFromArrReturn](#tgetminfromarrreturn)
+- [TGetRandomIntFromIntervalArgs](#tgetrandomintfromintervalargs)
+- [TGetRandomIntFromIntervalReturn](#tgetrandomintfromintervalreturn)
+- [TGetRoundedArgs](#tgetroundedargs)
+- [TGetRoundedReturn](#tgetroundedreturn)
+
+### TGetMaxFromArrArgs
+
+| Type | Type |
+| ---------- | ---------- |
+| `TGetMaxFromArrArgs` | `Parameters<typeof getMaxFromArr>` |
+
+### TGetMaxFromArrReturn
+
+| Type | Type |
+| ---------- | ---------- |
+| `TGetMaxFromArrReturn` | `ReturnType<typeof getMaxFromArr>` |
+
+### TGetMinFromArrArgs
+
+| Type | Type |
+| ---------- | ---------- |
+| `TGetMinFromArrArgs` | `Parameters<typeof getMinFromArr>` |
+
+### TGetMinFromArrReturn
+
+| Type | Type |
+| ---------- | ---------- |
+| `TGetMinFromArrReturn` | `ReturnType<typeof getMinFromArr>` |
+
+### TGetRandomIntFromIntervalArgs
+
+| Type | Type |
+| ---------- | ---------- |
+| `TGetRandomIntFromIntervalArgs` | `Parameters<typeof getRandomIntFromInterval>` |
+
+### TGetRandomIntFromIntervalReturn
+
+| Type | Type |
+| ---------- | ---------- |
+| `TGetRandomIntFromIntervalReturn` | `ReturnType<typeof getRandomIntFromInterval>` |
+
+### TGetRoundedArgs
+
+| Type | Type |
+| ---------- | ---------- |
+| `TGetRoundedArgs` | `Parameters<typeof getRounded>` |
+
+### TGetRoundedReturn
+
+| Type | Type |
+| ---------- | ---------- |
+| `TGetRoundedReturn` | `ReturnType<typeof getRounded>` |
 

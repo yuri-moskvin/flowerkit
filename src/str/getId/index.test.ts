@@ -1,11 +1,14 @@
-
+import assert from "node:assert";
+import { describe, test } from "node:test";
 import { getId } from "./index.ts";
 
 describe(getId.name, () => {
 
   test("Checks for invalid args", () => {
-    expect(() => getId(0 as any)).toThrow();
-    expect(() => getId(Infinity)).toThrow();
+    assert.throws(() =>
+      getId(0)
+    );
+    assert.throws(() => getId(Infinity));
   });
 
   test("Checks for 1000 cases", () => {
@@ -14,9 +17,9 @@ describe(getId.name, () => {
     for (let i = 0; i < count; i++) {
       storageIds.add(getId());
     }
-    expect(storageIds.size === count).toBe(true);
-    expect(getId(16).length).toBe(16);
-    expect(getId() !== getId()).toBe(true);
+    assert.strictEqual(storageIds.size === count, true);
+    assert.strictEqual(getId(16).length, 16);
+    assert.strictEqual(getId() !== getId(), true);
   });
 
 });

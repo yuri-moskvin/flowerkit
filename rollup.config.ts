@@ -1,17 +1,24 @@
-import babel from "@rollup/plugin-babel";
-import commonjs from "@rollup/plugin-commonjs";
-import json from "@rollup/plugin-json";
-import resolve from "@rollup/plugin-node-resolve";
-import terser from "@rollup/plugin-terser";
-import ts from "@rollup/plugin-typescript";
+import { babel } from "@rollup/plugin-babel";
+import * as commonjsModule from "@rollup/plugin-commonjs";
+import * as jsonModule from "@rollup/plugin-json";
+import { nodeResolve } from "@rollup/plugin-node-resolve";
+import * as terserModule from "@rollup/plugin-terser";
+import * as tsModule from "@rollup/plugin-typescript";
 import type {
   RollupOptions, OutputOptions, InputOption, Plugin,
 } from "rollup";
-import copy from "rollup-plugin-copy";
+import * as copyModule from "rollup-plugin-copy";
 import del from "rollup-plugin-delete";
 import path from "path";
 import { fileURLToPath } from "url";
+import { getFactory } from "./lib/utils/index.ts";
 import pkg from "./package.json" with { type: "json" };
+
+const commonjs = getFactory(commonjsModule);
+const json = getFactory(jsonModule);
+const terser = getFactory(terserModule);
+const ts = getFactory(tsModule);
+const copy = getFactory(copyModule);
 
 // Current dir
 const __dirname = fileURLToPath(new URL(".", import.meta.url));
@@ -62,7 +69,7 @@ const plugins: Plugin[] = [
     targets: `${dist}/*`,
   }),
   json(),
-  resolve({
+  nodeResolve({
     extensions,
     browser: true,
     preferBuiltins: true,
@@ -79,6 +86,7 @@ const plugins: Plugin[] = [
     compilerOptions: {
       declaration: true,
       declarationDir: dist,
+      rootDir: path.resolve(__dirname, "./src"),
     },
   }),
   copy({
@@ -86,13 +94,13 @@ const plugins: Plugin[] = [
     flatten: true,
     copySync: true,
     targets: [
-      { // существующие src/package/**/*.d.ts => dist/**/*.d.mts
-        src: "src/package/**/*.d.ts",
+      { // src/**/*.d.ts => dist/**/*.d.mts
+        src: "src/**/*.d.ts",
         dest: "dist",
-        rename: (name, extension, fullPath) => {
-          return fullPath.replaceAll("src\/package\/", "");
+        rename: (name: string, extension: string, fullPath: string) => {
+          return fullPath.replaceAll("src", "");
         },
-        transform: (contents) => contents.toString().replaceAll(".d.ts", ".d.mts"),
+        transform: (contents: Buffer) => contents.toString().replaceAll(".d.ts", ".d.mts"),
       },
     ],
   }),
@@ -101,11 +109,11 @@ const plugins: Plugin[] = [
     flatten: false,
     copySync: true,
     targets: [
-      { // генерируемые dist/**/*.d.ts => dist/**/*.d.mts
+      { // dist/**/*.d.ts => dist/**/*.d.mts
         src: "dist/**/*.d.ts",
         dest: "dist",
-        rename: (name) => `${name}.mts`,
-        transform: (contents) => contents.toString().replaceAll(".d.ts", ".d.mts"),
+        rename: (name: string) => `${name}.mts`,
+        transform: (contents: Buffer) => contents.toString().replaceAll(".d.ts", ".d.mts"),
       },
     ],
   }),
@@ -193,7 +201,7 @@ export default async function getConfig(
         dir: dist,
         esModule: true,
         preserveModules: true,
-        preserveModulesRoot: "src/package",
+        preserveModulesRoot: "src",
         strict: false,
         sourcemap: true,
         sourcemapPathTransform: () => "",

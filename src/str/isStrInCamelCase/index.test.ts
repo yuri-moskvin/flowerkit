@@ -1,24 +1,32 @@
+import assert from "node:assert";
+import { describe, test } from "node:test";
 import { isStrInCamelCase } from "./index.ts";
 
 describe(isStrInCamelCase.name, () => {
 
   test("Checks for invalid args", () => {
-    expect(() => isStrInCamelCase(1 as any)).toThrow();
-    expect(() => isStrInCamelCase(null as any)).toThrow();
+    assert.throws(() =>
+      // @ts-expect-error testing invalid str argument
+      isStrInCamelCase(1)
+    );
+    assert.throws(() =>
+      // @ts-expect-error testing invalid str argument
+      isStrInCamelCase(null)
+    );
   });
 
   test("Checks strings in different cases", () => {
-    expect(isStrInCamelCase("not_Camel")).toBe(false);
-    expect(isStrInCamelCase(".class")).toBe(false);
-    expect(isStrInCamelCase("000")).toBe(false);
-    expect(isStrInCamelCase("camel Case test")).toBe(false);
-    expect(isStrInCamelCase("word")).toBe(false);
-    expect(isStrInCamelCase("Word")).toBe(false);
-    expect(isStrInCamelCase("WORD")).toBe(false);
+    assert.strictEqual(isStrInCamelCase("not_Camel"), false);
+    assert.strictEqual(isStrInCamelCase(".class"), false);
+    assert.strictEqual(isStrInCamelCase("000"), false);
+    assert.strictEqual(isStrInCamelCase("camel Case test"), false);
+    assert.strictEqual(isStrInCamelCase("word"), false);
+    assert.strictEqual(isStrInCamelCase("Word"), false);
+    assert.strictEqual(isStrInCamelCase("WORD"), false);
   });
 
   test("Check valid camelCase", () => {
-    expect(isStrInCamelCase("abcDef")).toBe(true);
+    assert.strictEqual(isStrInCamelCase("abcDef"), true);
   });
 
 });

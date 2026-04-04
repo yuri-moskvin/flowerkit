@@ -2,7 +2,11 @@
 ___
 ## Usage
 ```ts
+// import functions
 import { getElSiblings, getElWrapper, getHTMLFromStr, getIndexOfEl, isNode, removeChildNodes } from "@web3r/flowerkit/dom";
+
+// import types
+import type { TGetElSiblingsArgs, TGetElSiblingsReturn, TGetElWrapperArgs, TGetElWrapperReturn, TGetHTMLFromStrArgs, TGetHTMLFromStrReturn, TGetIndexOfElArgs, TGetIndexOfElReturn, TIsNodeArgs, TIsNodeReturn, TRemoveChildNodesArgs, TRemoveChildNodesReturn } from "@web3r/flowerkit/dom";
 ```
 ___
 ## Functions
@@ -173,4 +177,92 @@ console.log(Array.from(myDiv.children).length); // => 0
 ```
 
 
+
+
+## Types
+
+- [TGetElSiblingsArgs](#tgetelsiblingsargs)
+- [TGetElSiblingsReturn](#tgetelsiblingsreturn)
+- [TGetElWrapperArgs](#tgetelwrapperargs)
+- [TGetElWrapperReturn](#tgetelwrapperreturn)
+- [TGetHTMLFromStrArgs](#tgethtmlfromstrargs)
+- [TGetHTMLFromStrReturn](#tgethtmlfromstrreturn)
+- [TGetIndexOfElArgs](#tgetindexofelargs)
+- [TGetIndexOfElReturn](#tgetindexofelreturn)
+- [TIsNodeArgs](#tisnodeargs)
+- [TIsNodeReturn](#tisnodereturn)
+- [TRemoveChildNodesArgs](#tremovechildnodesargs)
+- [TRemoveChildNodesReturn](#tremovechildnodesreturn)
+
+### TGetElSiblingsArgs
+
+| Type | Type |
+| ---------- | ---------- |
+| `TGetElSiblingsArgs` | `Parameters<typeof getElSiblings>` |
+
+### TGetElSiblingsReturn
+
+| Type | Type |
+| ---------- | ---------- |
+| `TGetElSiblingsReturn` | `ReturnType<typeof getElSiblings>` |
+
+### TGetElWrapperArgs
+
+| Type | Type |
+| ---------- | ---------- |
+| `TGetElWrapperArgs` | `Parameters<typeof getElWrapper>` |
+
+### TGetElWrapperReturn
+
+| Type | Type |
+| ---------- | ---------- |
+| `TGetElWrapperReturn` | `ReturnType<typeof getElWrapper>` |
+
+### TGetHTMLFromStrArgs
+
+| Type | Type |
+| ---------- | ---------- |
+| `TGetHTMLFromStrArgs` | `Parameters<typeof getHTMLFromStr>` |
+
+### TGetHTMLFromStrReturn
+
+| Type | Type |
+| ---------- | ---------- |
+| `TGetHTMLFromStrReturn` | `ReturnType<typeof getHTMLFromStr>` |
+
+### TGetIndexOfElArgs
+
+| Type | Type |
+| ---------- | ---------- |
+| `TGetIndexOfElArgs` | `Parameters<typeof getIndexOfEl>` |
+
+### TGetIndexOfElReturn
+
+| Type | Type |
+| ---------- | ---------- |
+| `TGetIndexOfElReturn` | `ReturnType<typeof getIndexOfEl>` |
+
+### TIsNodeArgs
+
+| Type | Type |
+| ---------- | ---------- |
+| `TIsNodeArgs` | `Parameters<typeof isNode>` |
+
+### TIsNodeReturn
+
+| Type | Type |
+| ---------- | ---------- |
+| `TIsNodeReturn` | `ReturnType<typeof isNode>` |
+
+### TRemoveChildNodesArgs
+
+| Type | Type |
+| ---------- | ---------- |
+| `TRemoveChildNodesArgs` | `Parameters<typeof removeChildNodes>` |
+
+### TRemoveChildNodesReturn
+
+| Type | Type |
+| ---------- | ---------- |
+| `TRemoveChildNodesReturn` | `ReturnType<typeof removeChildNodes>` |
 

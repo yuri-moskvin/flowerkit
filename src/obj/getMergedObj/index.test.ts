@@ -1,18 +1,20 @@
+import assert from "node:assert";
+import { describe, test } from "node:test";
 import { getMergedObj } from "./index.ts";
 
 describe(getMergedObj.name, () => {
 
   test("Checks for non-object", () => {
-    expect(getMergedObj(123 as any, {} as any)).toStrictEqual({});
-    expect(getMergedObj(123 as any, "1" as any)).toStrictEqual("1");
+    assert.deepStrictEqual(getMergedObj(123 as any, {} as any), {});
+    assert.deepStrictEqual(getMergedObj(123 as any, "1" as any), "1");
   });
 
   test("Checks for empty object", () => {
-    expect(getMergedObj({}, {})).toStrictEqual({});
+    assert.deepStrictEqual(getMergedObj({}, {}), {});
   });
 
   test("Checks for nested objects", () => {
-    expect(getMergedObj({
+    assert.deepStrictEqual(getMergedObj({
       hello: "world!",
       deeply: {
         hello: "world",
@@ -21,36 +23,36 @@ describe(getMergedObj.name, () => {
       deeply: {
         world: "hello",
       },
-    })).toStrictEqual({
+    }), {
       hello: "world!",
       deeply: {
         hello: "world",
         world: "hello",
       },
     });
-    expect(getMergedObj({
+    assert.deepStrictEqual(getMergedObj({
       first: 1,
       next: 2,
     }, {
       first: 1,
       next: 3,
-    })).toStrictEqual({
+    }), {
       first: 1,
       next: 3,
     });
-    expect(getMergedObj({
+    assert.deepStrictEqual(getMergedObj({
       first: [ "foo" ],
     }, {
       first: [ "moo" ],
       boo: 12,
-    })).toStrictEqual({
+    }), {
       first: [ "foo", "moo" ],
       boo: 12,
     });
   });
 
   test("Checks for nested arrays", () => {
-    expect(getMergedObj({
+    assert.deepStrictEqual(getMergedObj({
       hello: "world!",
       deeply: {
         hello: "world",
@@ -60,7 +62,7 @@ describe(getMergedObj.name, () => {
       deeply: {
         arr: [ 4, 5, 6 ],
       },
-    })).toStrictEqual({
+    }), {
       hello: "world!",
       deeply: {
         hello: "world",
@@ -68,7 +70,7 @@ describe(getMergedObj.name, () => {
       },
     });
 
-    expect(getMergedObj({
+    assert.deepStrictEqual(getMergedObj({
       hi: 1,
       hello: [ "a", "b", "c" ],
       deepArray: {
@@ -81,7 +83,7 @@ describe(getMergedObj.name, () => {
       },
     }, {
       isMergeArrays: false,
-    })).toStrictEqual({
+    }), {
       hi: 1,
       hello: [ "a", "b", "c" ],
       deepArray: {
@@ -89,23 +91,23 @@ describe(getMergedObj.name, () => {
       },
     });
 
-    expect(getMergedObj({
+    assert.deepStrictEqual(getMergedObj({
       arr: [ 1, 2, 3 ],
     }, {
       arr: [ 0 ],
     }, {
       isMergeArrays: false,
-    })).toStrictEqual({
+    }), {
       arr: [ 1, 2, 3 ],
     });
 
-    expect(getMergedObj({
+    assert.deepStrictEqual(getMergedObj({
       arr: [ 1, 2, 3 ],
     }, {
       arr: [ 0 ],
     }, {
       isMergeArrays: true,
-    })).toStrictEqual({
+    }), {
       arr: [ 1, 2, 3, 0 ],
     });
 

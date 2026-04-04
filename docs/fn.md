@@ -2,7 +2,11 @@
 ___
 ## Usage
 ```ts
+// import functions
 import { getCurryFn, getDebouncedFn, getThrottledFn, isFnAsync, isFnClass, wait } from "@web3r/flowerkit/fn";
+
+// import types
+import type { TGetCurryFnArgs, TGetCurryFnReturn, TGetDebouncedFnArgs, TGetDebouncedFnReturn, TGetThrottledFnArgs, TGetThrottledFnReturn, TIsFnAsyncArgs, TIsFnAsyncReturn, TIsFnClassArgs, TIsFnClassReturn, TWaitArgs, TWaitReturn } from "@web3r/flowerkit/fn";
 ```
 ___
 ## Functions
@@ -156,4 +160,92 @@ wait(3000).finally(() => {
 ```
 
 
+
+
+## Types
+
+- [TGetCurryFnArgs](#tgetcurryfnargs)
+- [TGetCurryFnReturn](#tgetcurryfnreturn)
+- [TGetDebouncedFnArgs](#tgetdebouncedfnargs)
+- [TGetDebouncedFnReturn](#tgetdebouncedfnreturn)
+- [TGetThrottledFnArgs](#tgetthrottledfnargs)
+- [TGetThrottledFnReturn](#tgetthrottledfnreturn)
+- [TIsFnAsyncArgs](#tisfnasyncargs)
+- [TIsFnAsyncReturn](#tisfnasyncreturn)
+- [TIsFnClassArgs](#tisfnclassargs)
+- [TIsFnClassReturn](#tisfnclassreturn)
+- [TWaitArgs](#twaitargs)
+- [TWaitReturn](#twaitreturn)
+
+### TGetCurryFnArgs
+
+| Type | Type |
+| ---------- | ---------- |
+| `TGetCurryFnArgs` | `Parameters<typeof getCurryFn>` |
+
+### TGetCurryFnReturn
+
+| Type | Type |
+| ---------- | ---------- |
+| `TGetCurryFnReturn` | `ReturnType<typeof getCurryFn>` |
+
+### TGetDebouncedFnArgs
+
+| Type | Type |
+| ---------- | ---------- |
+| `TGetDebouncedFnArgs` | `Parameters<typeof getDebouncedFn>` |
+
+### TGetDebouncedFnReturn
+
+| Type | Type |
+| ---------- | ---------- |
+| `TGetDebouncedFnReturn` | `ReturnType<typeof getDebouncedFn>` |
+
+### TGetThrottledFnArgs
+
+| Type | Type |
+| ---------- | ---------- |
+| `TGetThrottledFnArgs` | `Parameters<typeof getThrottledFn>` |
+
+### TGetThrottledFnReturn
+
+| Type | Type |
+| ---------- | ---------- |
+| `TGetThrottledFnReturn` | `ReturnType<typeof getThrottledFn>` |
+
+### TIsFnAsyncArgs
+
+| Type | Type |
+| ---------- | ---------- |
+| `TIsFnAsyncArgs` | `Parameters<typeof isFnAsync>` |
+
+### TIsFnAsyncReturn
+
+| Type | Type |
+| ---------- | ---------- |
+| `TIsFnAsyncReturn` | `ReturnType<typeof isFnAsync>` |
+
+### TIsFnClassArgs
+
+| Type | Type |
+| ---------- | ---------- |
+| `TIsFnClassArgs` | `Parameters<typeof isFnClass>` |
+
+### TIsFnClassReturn
+
+| Type | Type |
+| ---------- | ---------- |
+| `TIsFnClassReturn` | `ReturnType<typeof isFnClass>` |
+
+### TWaitArgs
+
+| Type | Type |
+| ---------- | ---------- |
+| `TWaitArgs` | `Parameters<typeof wait>` |
+
+### TWaitReturn
+
+| Type | Type |
+| ---------- | ---------- |
+| `TWaitReturn` | `ReturnType<typeof wait>` |
 

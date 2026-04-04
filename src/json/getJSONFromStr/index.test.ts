@@ -1,16 +1,27 @@
+import assert from "node:assert";
+import { describe, test } from "node:test";
 import { getJSONFromStr } from "./index.ts";
 
 describe(getJSONFromStr.name, () => {
 
   test("Checks for invalid args", () => {
-    expect(() => getJSONFromStr(false as any)).toThrow();
-    expect(() => getJSONFromStr('{ "hello": "world" }', 0 as any)).toThrow();
+    assert.throws(() =>
+      // @ts-expect-error testing invalid str argument
+      getJSONFromStr(false)
+    );
+    assert.throws(() =>
+      getJSONFromStr(
+        '{ "hello": "world" }',
+        // @ts-expect-error testing invalid fallback argument
+        0
+      )
+    );
   });
 
   test("Checks for strings", () => {
-    expect(getJSONFromStr("")).toStrictEqual({});
-    expect(getJSONFromStr('{ "hello": "world" }')).toStrictEqual({ hello: "world" });
-    expect(getJSONFromStr('{ "broken": "str')).toStrictEqual({});
+    assert.deepStrictEqual(getJSONFromStr(""), {});
+    assert.deepStrictEqual(getJSONFromStr('{ "hello": "world" }'), { hello: "world" });
+    assert.deepStrictEqual(getJSONFromStr('{ "broken": "str'), {});
   });
 
 });

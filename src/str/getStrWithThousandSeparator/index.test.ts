@@ -1,19 +1,27 @@
+import assert from "node:assert";
+import { describe, test } from "node:test";
 import { getStrWithThousandSeparator } from "./index.ts";
 
 describe(getStrWithThousandSeparator.name, () => {
 
   test("Checks for invalid args", () => {
-    expect(() => getStrWithThousandSeparator("moo" as any)).toThrow();
-    expect(() => getStrWithThousandSeparator(null as any)).toThrow();
+    assert.throws(() =>
+      // @ts-expect-error testing invalid num argument
+      getStrWithThousandSeparator("moo")
+    );
+    assert.throws(() =>
+      // @ts-expect-error testing invalid num argument
+      getStrWithThousandSeparator(null)
+    );
   });
 
   test("Checks for large numbers", () => {
-    expect(getStrWithThousandSeparator(1_000_000)).toBe("1 000 000");
-    expect(getStrWithThousandSeparator(1_000_000_000)).toBe("1 000 000 000");
+    assert.strictEqual(getStrWithThousandSeparator(1_000_000), "1 000 000");
+    assert.strictEqual(getStrWithThousandSeparator(1_000_000_000), "1 000 000 000");
   });
 
   test("Checks for custom separator", () => {
-    expect(getStrWithThousandSeparator(1000, ",")).toBe("1,000");
+    assert.strictEqual(getStrWithThousandSeparator(1000, ","), "1,000");
   });
 
 });

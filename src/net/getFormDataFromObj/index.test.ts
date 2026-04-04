@@ -1,11 +1,29 @@
+import assert from "node:assert";
+import { describe, test } from "node:test";
 import { getFormDataFromObj } from "./index.ts";
 
 describe(getFormDataFromObj.name, () => {
 
   test("Checks for invalid args", () => {
-    expect(() => getFormDataFromObj("moo" as any)).toThrow();
-    expect(() => getFormDataFromObj({}, function() {} as any)).toThrow();
-    expect(() => getFormDataFromObj({}, new FormData(), true as any)).toThrow();
+    assert.throws(() =>
+      // @ts-expect-error testing invalid obj argument
+      getFormDataFromObj("moo")
+    );
+    assert.throws(() =>
+      getFormDataFromObj(
+        {},
+        // @ts-expect-error testing invalid fd argument
+        function() {}
+      )
+    );
+    assert.throws(() =>
+      getFormDataFromObj(
+        {},
+        new FormData(),
+        // @ts-expect-error testing invalid callback argument
+        true
+      )
+    );
   });
 
   test("Checks for correct FormData transform", () => {
@@ -21,11 +39,11 @@ describe(getFormDataFromObj.name, () => {
         fd.set(name, value as string);
       }
     });
-    expect(fd1).toBeInstanceOf(FormData);
-    expect(fd1.get("test")).toBe("123");
-    expect(fd1.get("boo")).toBe("foo");
-    expect(fd2.get("boo")).toBe("foo");
-    expect(fd2.has("test")).toBe(false);
+    assert.ok(fd1 instanceof FormData);
+    assert.strictEqual(fd1.get("test"), "123");
+    assert.strictEqual(fd1.get("boo"), "foo");
+    assert.strictEqual(fd2.get("boo"), "foo");
+    assert.strictEqual(fd2.has("test"), false);
   });
 
 });

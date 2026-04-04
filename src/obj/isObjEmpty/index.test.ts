@@ -1,12 +1,19 @@
-
+import assert from "node:assert";
+import { describe, test } from "node:test";
 import { isObjEmpty } from "./index.ts";
 
 describe(isObjEmpty.name, () => {
 
   test("Checks for invalid args", () => {
-    expect(() => isObjEmpty("moo" as any)).toThrow();
-    expect(() => isObjEmpty(1 as any)).toThrow();
-    expect(() => isObjEmpty(null as any)).toThrow();
+    assert.throws(() =>
+      isObjEmpty("moo")
+    );
+    assert.throws(() =>
+      isObjEmpty(1)
+    );
+    assert.throws(() =>
+      isObjEmpty(null)
+    );
   });
 
   test("Checks for plain objects", () => {
@@ -15,15 +22,15 @@ describe(isObjEmpty.name, () => {
       key2: "value2",
     };
     const obj2 = {};
-    expect(isObjEmpty(obj1)).toBe(false);
-    expect(isObjEmpty(obj2)).toBe(true);
+    assert.strictEqual(isObjEmpty(obj1), false);
+    assert.strictEqual(isObjEmpty(obj2), true);
   });
 
   test("Checks for arrays", () => {
     const arr1 = [ 1, 2 ];
     const arr2: any[] = [];
-    expect(isObjEmpty(arr1 as any)).toBe(false);
-    expect(isObjEmpty(arr2 as any)).toBe(true);
+    assert.strictEqual(isObjEmpty(arr1 as any), false);
+    assert.strictEqual(isObjEmpty(arr2 as any), true);
   });
 
 

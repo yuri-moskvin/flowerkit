@@ -1,27 +1,34 @@
+import assert from "node:assert";
+import { describe, test, mock } from "node:test";
 import { getDebouncedFn } from "./index.ts";
 
 describe(getDebouncedFn.name, () => {
 
   test("Checks for invalid args", () => {
-    expect(() => getDebouncedFn("" as any)).toThrow();
-    expect(() => getDebouncedFn(() => {}, null as any)).toThrow();
+    assert.throws(() =>
+      // @ts-expect-error testing invalid fn argument
+      getDebouncedFn("")
+    );
+    assert.throws(() =>
+      getDebouncedFn(
+        () => {},
+        // @ts-expect-error testing invalid delay argument
+        null
+      )
+    );
   });
 
-  test("Checks for calling of debounced fn with 1000ms delay", () => {
-
-    jest.useFakeTimers();
-
-    const fn = jest.fn();
-    const debouncedFn = getDebouncedFn(fn, 1000);
+  test("Checks for calling of debounced fn with 1000ms delay", async () => {
+    const fn = mock.fn();
+    const debouncedFn = getDebouncedFn(fn, 100);
 
     debouncedFn();
 
-    jest.advanceTimersByTime(500);
+    await new Promise((resolve) => setTimeout(resolve, 50));
     debouncedFn();
-    expect(fn).not.toHaveBeenCalled();
+    assert.strictEqual(fn.mock.callCount(), 0);
 
-    jest.runAllTimers();
-
-    expect(fn).toHaveBeenCalledTimes(1);
+    await new Promise((resolve) => setTimeout(resolve, 150));
+    assert.strictEqual(fn.mock.callCount(), 1);
   });
 });

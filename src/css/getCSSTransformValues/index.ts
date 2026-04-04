@@ -25,6 +25,7 @@ export const getCSSTransformValues = (el: HTMLElement): { x: number; y: number; 
   const style = getWindow().getComputedStyle(el);
   const matrix = style.transform;
 
+  // eslint-disable-next-line no-nested-ternary
   const matrixType = matrix === "none" ? "none" : matrix.includes("3d") ? "3d" : "2d";
 
   const getValues = (index: number) => {

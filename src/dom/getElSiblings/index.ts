@@ -32,5 +32,3 @@ export const getElSiblings = (el: HTMLElement): Array<ChildNode> => {
   }
   return siblings;
 };
-
-export default getElSiblings;

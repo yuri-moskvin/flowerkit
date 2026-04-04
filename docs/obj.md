@@ -2,7 +2,11 @@
 ___
 ## Usage
 ```ts
+// import functions
 import { getAllSamePropsFromObj, getCopyOfObj, getMapFromObj, isObjHasOwnProp, getMergedObj, getObjFromFormData, getObjLength, getObjWithFallbacks, isObjEmpty, isObjPromise, isObjPrototypeOf } from "@web3r/flowerkit/obj";
+
+// import types
+import type { TGetAllSamePropsFromObjArgs, TGetAllSamePropsFromObjReturn, TGetCopyOfObjArgs, TGetCopyOfObjReturn, TGetMapFromObjArgs, TGetMapFromObjReturn, TIsObjHasOwnPropArgs, TIsObjHasOwnPropReturn, TGetMergedObjArgs, TGetMergedObjReturn, TGetObjFromFormDataArgs, TGetObjFromFormDataReturn, TGetObjLengthArgs, TGetObjLengthReturn, TGetObjWithFallbacksArgs, TGetObjWithFallbacksReturn, TIsObjEmptyArgs, TIsObjEmptyReturn, TIsObjPromiseArgs, TIsObjPromiseReturn, TIsObjPrototypeOfArgs, TIsObjPrototypeOfReturn } from "@web3r/flowerkit/obj";
 ```
 ___
 ## Functions
@@ -350,4 +354,162 @@ isObjPrototypeOf(Object.prototype, 123); // => false
 ```
 
 
+
+
+## Types
+
+- [TGetAllSamePropsFromObjArgs](#tgetallsamepropsfromobjargs)
+- [TGetAllSamePropsFromObjReturn](#tgetallsamepropsfromobjreturn)
+- [TGetCopyOfObjArgs](#tgetcopyofobjargs)
+- [TGetCopyOfObjReturn](#tgetcopyofobjreturn)
+- [TGetMapFromObjArgs](#tgetmapfromobjargs)
+- [TGetMapFromObjReturn](#tgetmapfromobjreturn)
+- [TIsObjHasOwnPropArgs](#tisobjhasownpropargs)
+- [TIsObjHasOwnPropReturn](#tisobjhasownpropreturn)
+- [TGetMergedObjArgs](#tgetmergedobjargs)
+- [TGetMergedObjReturn](#tgetmergedobjreturn)
+- [TGetObjFromFormDataArgs](#tgetobjfromformdataargs)
+- [TGetObjFromFormDataReturn](#tgetobjfromformdatareturn)
+- [TGetObjLengthArgs](#tgetobjlengthargs)
+- [TGetObjLengthReturn](#tgetobjlengthreturn)
+- [TGetObjWithFallbacksArgs](#tgetobjwithfallbacksargs)
+- [TGetObjWithFallbacksReturn](#tgetobjwithfallbacksreturn)
+- [TIsObjEmptyArgs](#tisobjemptyargs)
+- [TIsObjEmptyReturn](#tisobjemptyreturn)
+- [TIsObjPromiseArgs](#tisobjpromiseargs)
+- [TIsObjPromiseReturn](#tisobjpromisereturn)
+- [TIsObjPrototypeOfArgs](#tisobjprototypeofargs)
+- [TIsObjPrototypeOfReturn](#tisobjprototypeofreturn)
+
+### TGetAllSamePropsFromObjArgs
+
+| Type | Type |
+| ---------- | ---------- |
+| `TGetAllSamePropsFromObjArgs` | `Parameters<typeof getAllSamePropsFromObj>` |
+
+### TGetAllSamePropsFromObjReturn
+
+| Type | Type |
+| ---------- | ---------- |
+| `TGetAllSamePropsFromObjReturn` | `ReturnType<typeof getAllSamePropsFromObj>` |
+
+### TGetCopyOfObjArgs
+
+| Type | Type |
+| ---------- | ---------- |
+| `TGetCopyOfObjArgs` | `Parameters<typeof getCopyOfObj>` |
+
+### TGetCopyOfObjReturn
+
+| Type | Type |
+| ---------- | ---------- |
+| `TGetCopyOfObjReturn` | `ReturnType<typeof getCopyOfObj>` |
+
+### TGetMapFromObjArgs
+
+| Type | Type |
+| ---------- | ---------- |
+| `TGetMapFromObjArgs` | `Parameters<typeof getMapFromObj>` |
+
+### TGetMapFromObjReturn
+
+| Type | Type |
+| ---------- | ---------- |
+| `TGetMapFromObjReturn` | `ReturnType<typeof getMapFromObj>` |
+
+### TIsObjHasOwnPropArgs
+
+| Type | Type |
+| ---------- | ---------- |
+| `TIsObjHasOwnPropArgs` | `Parameters<typeof isObjHasOwnProp>` |
+
+### TIsObjHasOwnPropReturn
+
+| Type | Type |
+| ---------- | ---------- |
+| `TIsObjHasOwnPropReturn` | `ReturnType<typeof isObjHasOwnProp>` |
+
+### TGetMergedObjArgs
+
+| Type | Type |
+| ---------- | ---------- |
+| `TGetMergedObjArgs` | `Parameters<typeof getMergedObj>` |
+
+### TGetMergedObjReturn
+
+| Type | Type |
+| ---------- | ---------- |
+| `TGetMergedObjReturn` | `ReturnType<typeof getMergedObj>` |
+
+### TGetObjFromFormDataArgs
+
+| Type | Type |
+| ---------- | ---------- |
+| `TGetObjFromFormDataArgs` | `Parameters<typeof getObjFromFormData>` |
+
+### TGetObjFromFormDataReturn
+
+| Type | Type |
+| ---------- | ---------- |
+| `TGetObjFromFormDataReturn` | `ReturnType<typeof getObjFromFormData>` |
+
+### TGetObjLengthArgs
+
+| Type | Type |
+| ---------- | ---------- |
+| `TGetObjLengthArgs` | `Parameters<typeof getObjLength>` |
+
+### TGetObjLengthReturn
+
+| Type | Type |
+| ---------- | ---------- |
+| `TGetObjLengthReturn` | `ReturnType<typeof getObjLength>` |
+
+### TGetObjWithFallbacksArgs
+
+| Type | Type |
+| ---------- | ---------- |
+| `TGetObjWithFallbacksArgs` | `Parameters<typeof getObjWithFallbacks>` |
+
+### TGetObjWithFallbacksReturn
+
+| Type | Type |
+| ---------- | ---------- |
+| `TGetObjWithFallbacksReturn` | `ReturnType<typeof getObjWithFallbacks>` |
+
+### TIsObjEmptyArgs
+
+| Type | Type |
+| ---------- | ---------- |
+| `TIsObjEmptyArgs` | `Parameters<typeof isObjEmpty>` |
+
+### TIsObjEmptyReturn
+
+| Type | Type |
+| ---------- | ---------- |
+| `TIsObjEmptyReturn` | `ReturnType<typeof isObjEmpty>` |
+
+### TIsObjPromiseArgs
+
+| Type | Type |
+| ---------- | ---------- |
+| `TIsObjPromiseArgs` | `Parameters<typeof isObjPromise>` |
+
+### TIsObjPromiseReturn
+
+| Type | Type |
+| ---------- | ---------- |
+| `TIsObjPromiseReturn` | `ReturnType<typeof isObjPromise>` |
+
+### TIsObjPrototypeOfArgs
+
+| Type | Type |
+| ---------- | ---------- |
+| `TIsObjPrototypeOfArgs` | `Parameters<typeof isObjPrototypeOf>` |
+
+### TIsObjPrototypeOfReturn
+
+| Type | Type |
+| ---------- | ---------- |
+| `TIsObjPrototypeOfReturn` | `ReturnType<typeof isObjPrototypeOf>` |
 

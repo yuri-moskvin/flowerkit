@@ -1,6 +1,10 @@
 import fs from "fs";
+import assert from "node:assert";
+import { describe, test } from "node:test";
 import path from "path";
+import { fileURLToPath } from "url";
 
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const SRC_DIR = path.resolve(__dirname);
 
 const FOLDERS = [
@@ -77,24 +81,14 @@ describe("Exports coverage for src folders", () => {
       const indexFilePath = path.join(folderPath, "index.ts");
 
       // eslint-disable-next-line security/detect-non-literal-fs-filename
-      expect(fs.existsSync(folderPath)).toBe(true);
+      assert.strictEqual(fs.existsSync(folderPath), true);
       // eslint-disable-next-line security/detect-non-literal-fs-filename
-      expect(fs.existsSync(indexFilePath)).toBe(true);
+      assert.strictEqual(fs.existsSync(indexFilePath), true);
 
       const expected = getExpectedFunctionsCount(folderPath);
       const actual = getActualExportCount(indexFilePath);
 
-      expect({
-        folder,
-        expected,
-        actual,
-      }).toEqual({
-        folder,
-        expected,
-        actual,
-      });
-
-      expect(actual).toBe(expected);
+      assert.strictEqual(actual, expected);
     });
   }
 });

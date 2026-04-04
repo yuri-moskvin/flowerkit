@@ -2,7 +2,11 @@
 ___
 ## Usage
 ```ts
+// import functions
 import { getCSSTransformValues, getCSSValue, getCSSVar, isMediaQuery, isSelectorValid, removeCSSVar, setCSSVar } from "@web3r/flowerkit/css";
+
+// import types
+import type { TGetCSSTransformValuesArgs, TGetCSSTransformValuesReturn, TGetCSSValueArgs, TGetCSSValueReturn, TGetCSSVarArgs, TGetCSSVarReturn, TIsMediaQueryArgs, TIsMediaQueryReturn, TIsSelectorValidArgs, TIsSelectorValidReturn, TRemoveCSSVarArgs, TRemoveCSSVarReturn, TSetCSSVarArgs, TSetCSSVarReturn } from "@web3r/flowerkit/css";
 ```
 ___
 ## Functions
@@ -218,4 +222,106 @@ setCSSVar(block, "myVar", 10);
 ```
 
 
+
+
+## Types
+
+- [TGetCSSTransformValuesArgs](#tgetcsstransformvaluesargs)
+- [TGetCSSTransformValuesReturn](#tgetcsstransformvaluesreturn)
+- [TGetCSSValueArgs](#tgetcssvalueargs)
+- [TGetCSSValueReturn](#tgetcssvaluereturn)
+- [TGetCSSVarArgs](#tgetcssvarargs)
+- [TGetCSSVarReturn](#tgetcssvarreturn)
+- [TIsMediaQueryArgs](#tismediaqueryargs)
+- [TIsMediaQueryReturn](#tismediaqueryreturn)
+- [TIsSelectorValidArgs](#tisselectorvalidargs)
+- [TIsSelectorValidReturn](#tisselectorvalidreturn)
+- [TRemoveCSSVarArgs](#tremovecssvarargs)
+- [TRemoveCSSVarReturn](#tremovecssvarreturn)
+- [TSetCSSVarArgs](#tsetcssvarargs)
+- [TSetCSSVarReturn](#tsetcssvarreturn)
+
+### TGetCSSTransformValuesArgs
+
+| Type | Type |
+| ---------- | ---------- |
+| `TGetCSSTransformValuesArgs` | `Parameters<typeof getCSSTransformValues>` |
+
+### TGetCSSTransformValuesReturn
+
+| Type | Type |
+| ---------- | ---------- |
+| `TGetCSSTransformValuesReturn` | `ReturnType<typeof getCSSTransformValues>` |
+
+### TGetCSSValueArgs
+
+| Type | Type |
+| ---------- | ---------- |
+| `TGetCSSValueArgs` | `Parameters<typeof getCSSValue>` |
+
+### TGetCSSValueReturn
+
+| Type | Type |
+| ---------- | ---------- |
+| `TGetCSSValueReturn` | `ReturnType<typeof getCSSValue>` |
+
+### TGetCSSVarArgs
+
+| Type | Type |
+| ---------- | ---------- |
+| `TGetCSSVarArgs` | `Parameters<typeof getCSSVar>` |
+
+### TGetCSSVarReturn
+
+| Type | Type |
+| ---------- | ---------- |
+| `TGetCSSVarReturn` | `ReturnType<typeof getCSSVar>` |
+
+### TIsMediaQueryArgs
+
+| Type | Type |
+| ---------- | ---------- |
+| `TIsMediaQueryArgs` | `Parameters<typeof isMediaQuery>` |
+
+### TIsMediaQueryReturn
+
+| Type | Type |
+| ---------- | ---------- |
+| `TIsMediaQueryReturn` | `ReturnType<typeof isMediaQuery>` |
+
+### TIsSelectorValidArgs
+
+| Type | Type |
+| ---------- | ---------- |
+| `TIsSelectorValidArgs` | `Parameters<typeof isSelectorValid>` |
+
+### TIsSelectorValidReturn
+
+| Type | Type |
+| ---------- | ---------- |
+| `TIsSelectorValidReturn` | `ReturnType<typeof isSelectorValid>` |
+
+### TRemoveCSSVarArgs
+
+| Type | Type |
+| ---------- | ---------- |
+| `TRemoveCSSVarArgs` | `Parameters<typeof removeCSSVar>` |
+
+### TRemoveCSSVarReturn
+
+| Type | Type |
+| ---------- | ---------- |
+| `TRemoveCSSVarReturn` | `ReturnType<typeof removeCSSVar>` |
+
+### TSetCSSVarArgs
+
+| Type | Type |
+| ---------- | ---------- |
+| `TSetCSSVarArgs` | `Parameters<typeof setCSSVar>` |
+
+### TSetCSSVarReturn
+
+| Type | Type |
+| ---------- | ---------- |
+| `TSetCSSVarReturn` | `ReturnType<typeof setCSSVar>` |
 

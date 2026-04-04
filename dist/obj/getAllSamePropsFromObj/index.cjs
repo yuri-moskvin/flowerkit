@@ -28,5 +28,5 @@ Object.defineProperty(exports,"__esModule",{value:true});
  *   }
  * }
  * getAllSamePropsFromObj<string | number>(myObj, "a") // [ "value 1", 1, "value 3", "value 4" ]
- */const getAllSamePropsFromObj=(obj,prop)=>{if(typeof prop!=="string"||!prop)throw new TypeError("getAllSamePropsFromObj: prop must be a non-empty string");if(obj===null||typeof obj!=="object")throw new TypeError("getAllSamePropsFromObj: obj must be an object");const res=[];JSON.stringify(obj,((key,value)=>{if(key===prop)res.push(value);return value}));return res};exports.getAllSamePropsFromObj=getAllSamePropsFromObj;
+ */const getAllSamePropsFromObj=(obj,prop)=>{if(typeof prop!=="string"||!prop)throw new TypeError("getAllSamePropsFromObj: prop must be a non-empty string");if(obj===null||typeof obj!=="object")throw new TypeError("getAllSamePropsFromObj: obj must be an object");const res=[];JSON.stringify(obj,(key,value)=>{if(key===prop)res.push(value);return value});return res};exports.getAllSamePropsFromObj=getAllSamePropsFromObj;
 //# sourceMappingURL=index.cjs.map

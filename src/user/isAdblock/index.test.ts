@@ -1,3 +1,5 @@
+import assert from "node:assert";
+import { describe, test } from "node:test";
 import { isAdblock } from "./index.ts";
 
 describe(isAdblock.name, () => {
@@ -6,9 +8,9 @@ describe(isAdblock.name, () => {
 
     const isAb = isAdblock();
 
-    expect(!!document.body.querySelector(".ad_box")).toBeTruthy();
+    assert.ok(!!document.body.querySelector(".ad_box"));
 
-    expect(typeof isAb).toBe("boolean");
+    assert.strictEqual(typeof isAb, "boolean");
   });
 
 });

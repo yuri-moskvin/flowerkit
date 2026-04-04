@@ -164,8 +164,9 @@ export const onSwipe = <TDetail extends {
     dir = "none";
     swipeType = "none";
     dist = 0;
-    startX = (event.pageX ?? (e as unknown as { detail?: { _pageX?: number; }; })?.detail?._pageX ?? 0);
-    startY = (event.pageY ?? (e as unknown as { detail?: { _pageY?: number; }; })?.detail?._pageY ?? 0);
+    const ce = e as CustomEvent<{ _pageX?: number; _pageY?: number; }>;
+    startX = (event.pageX ?? ce?.detail?._pageX ?? 0);
+    startY = (event.pageY ?? ce?.detail?._pageY ?? 0);
     startTime = Date.now();
     if (isMouse) {
       isMouseDown = true;
@@ -177,8 +178,9 @@ export const onSwipe = <TDetail extends {
       return;
     }
     const event: any = eventsUnify(e);
-    distX = (event.pageX ?? (e as any)?.detail?._pageX ?? 0) - startX;
-    distY = (event.pageY ?? (e as any)?.detail?._pageY ?? 0) - startY;
+    const ce = e as CustomEvent<{ _pageX?: number; _pageY?: number; }>;
+    distX = (event.pageX ?? ce?.detail?._pageX ?? 0) - startX;
+    distY = (event.pageY ?? ce?.detail?._pageY ?? 0) - startY;
     if (Math.abs(distX) > Math.abs(distY)) {
       dir = (distX < 0) ? "left" : "right";
     } else {

@@ -1,25 +1,32 @@
-
+import assert from "node:assert";
+import { describe, test } from "node:test";
 import { isStrInKebabCase } from "./index.ts";
 
 describe(isStrInKebabCase.name, () => {
 
   test("Checks for invalid args", () => {
-    expect(() => isStrInKebabCase(1 as any)).toThrow();
-    expect(() => isStrInKebabCase(null as any)).toThrow();
+    assert.throws(() =>
+      // @ts-expect-error testing invalid str argument
+      isStrInKebabCase(1)
+    );
+    assert.throws(() =>
+      // @ts-expect-error testing invalid str argument
+      isStrInKebabCase(null)
+    );
   });
 
   test("Checks strings in different cases", () => {
-    expect(isStrInKebabCase("not_kebab")).toBe(false);
-    expect(isStrInKebabCase(".class")).toBe(false);
-    expect(isStrInKebabCase("000")).toBe(false);
-    expect(isStrInKebabCase("kebab-Case-test")).toBe(false);
-    expect(isStrInKebabCase("KEBAB-CASE-TEST")).toBe(false);
-    expect(isStrInKebabCase("---")).toBe(false);
-    expect(isStrInKebabCase("-wrong-kebab")).toBe(false);
+    assert.strictEqual(isStrInKebabCase("not_kebab"), false);
+    assert.strictEqual(isStrInKebabCase(".class"), false);
+    assert.strictEqual(isStrInKebabCase("000"), false);
+    assert.strictEqual(isStrInKebabCase("kebab-Case-test"), false);
+    assert.strictEqual(isStrInKebabCase("KEBAB-CASE-TEST"), false);
+    assert.strictEqual(isStrInKebabCase("---"), false);
+    assert.strictEqual(isStrInKebabCase("-wrong-kebab"), false);
   });
 
   test("Check valid kebab-case", () => {
-    expect(isStrInKebabCase("good-kebab")).toBe(true);
+    assert.strictEqual(isStrInKebabCase("good-kebab"), true);
   });
 
 });

@@ -1,3 +1,5 @@
+import assert from "node:assert";
+import { describe, test } from "node:test";
 import { isObjPromise } from "./index.ts";
 
 describe(isObjPromise.name, () => {
@@ -7,17 +9,17 @@ describe(isObjPromise.name, () => {
     const fn = function() {};
     const str = "str";
     const nullish = null;
-    expect(isObjPromise(nullish as any)).toBe(false);
-    expect(isObjPromise(str as any)).toBe(false);
-    expect(isObjPromise(fn as any)).toBe(false);
-    expect(isObjPromise(obj as any)).toBe(false);
+    assert.strictEqual(isObjPromise(nullish as any), false);
+    assert.strictEqual(isObjPromise(str as any), false);
+    assert.strictEqual(isObjPromise(fn as any), false);
+    assert.strictEqual(isObjPromise(obj as any), false);
   });
 
   test("Checks for Promised-based objects", () => {
     const asyncFn = async () => {};
     const prom = new Promise(() => {});
-    expect(isObjPromise(asyncFn as any)).toBe(false);
-    expect(isObjPromise(prom as any)).toBe(true);
+    assert.strictEqual(isObjPromise(asyncFn as any), false);
+    assert.strictEqual(isObjPromise(prom as any), true);
   });
 
 });

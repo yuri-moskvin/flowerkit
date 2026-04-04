@@ -1,16 +1,18 @@
+import assert from "node:assert";
+import { describe, test } from "node:test";
 import { isJSON } from "./index.ts";
 
 describe(isJSON.name, () => {
 
   test("Checks for invalid args", () => {
-    expect(isJSON(1 as any)).toBe(false);
-    expect(isJSON(null as any)).toBe(false);
+    assert.strictEqual(isJSON(1 as any), false);
+    assert.strictEqual(isJSON(null as any), false);
   });
 
   test("Checks for strings", () => {
     const str = '{ "hello": "world" }';
     const brokenStr = "{ hello }";
-    expect(isJSON(str)).toBe(true);
-    expect(isJSON(brokenStr)).toBe(false);
+    assert.strictEqual(isJSON(str), true);
+    assert.strictEqual(isJSON(brokenStr), false);
   });
 });

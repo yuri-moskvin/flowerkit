@@ -1,3 +1,5 @@
+import assert from "node:assert";
+import { describe, test } from "node:test";
 import { getCopyOfObj } from "./index.ts";
 
 describe(getCopyOfObj.name, () => {
@@ -5,14 +7,14 @@ describe(getCopyOfObj.name, () => {
   test("Checks for Date instance", () => {
     const stamp = new Date();
     const copy = getCopyOfObj(stamp as any);
-    expect(stamp === copy).toBe(true);
+    assert.strictEqual(stamp === copy, true);
   });
 
   test("Checks for other types", () => {
     const number = 1;
     const str = "1";
-    expect(number === getCopyOfObj(number as any)).toBe(true);
-    expect(str === getCopyOfObj(str as any)).toBe(true);
+    assert.strictEqual(number === getCopyOfObj(number as any), true);
+    assert.strictEqual(str === getCopyOfObj(str as any), true);
   });
 
   test("Checks for nested objects", () => {
@@ -31,8 +33,8 @@ describe(getCopyOfObj.name, () => {
     const copy2: any = obj2;
     copy2.a = "boo";
 
-    expect((obj1 as any).a).not.toBe((copy1 as any).a);
-    expect(obj2.a).toBe(copy2.a);
+    assert.notStrictEqual((obj1 as any).a, (copy1 as any).a);
+    assert.strictEqual(obj2.a, copy2.a);
   });
 
 });

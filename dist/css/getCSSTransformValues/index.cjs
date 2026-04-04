@@ -11,5 +11,7 @@ Object.defineProperty(exports,"__esModule",{value:true});var ssrWindow=require("
  * const block = document.getElementById("block");
  * const values = getCSSTransformValues(block);
  * console.log(values); // => { x: 10, y: 15, z: 35 }
- */const getCSSTransformValues=el=>{if(!el||typeof el.style!=="object")throw new TypeError("getCSSTransformValues: el must be an HTMLElement");const style=ssrWindow.getWindow().getComputedStyle(el);const matrix=style.transform;const matrixType=matrix==="none"?"none":matrix.includes("3d")?"3d":"2d";const getValues=index=>{const val=matrix.match(/matrix.*\((.+)\)/);return val?val[1].split(", ")[index]:0};switch(matrixType){case"2d":return{x:getValues(4),y:getValues(5),z:0};case"3d":return{x:getValues(12),y:getValues(13),z:getValues(14)};case"none":default:return{x:0,y:0,z:0}}};exports.getCSSTransformValues=getCSSTransformValues;
+ */const getCSSTransformValues=el=>{if(!el||typeof el.style!=="object")throw new TypeError("getCSSTransformValues: el must be an HTMLElement");const style=ssrWindow.getWindow().getComputedStyle(el);const matrix=style.transform;
+// eslint-disable-next-line no-nested-ternary
+const matrixType=matrix==="none"?"none":matrix.includes("3d")?"3d":"2d";const getValues=index=>{const val=matrix.match(/matrix.*\((.+)\)/);return val?val[1].split(", ")[index]:0};switch(matrixType){case"2d":return{x:getValues(4),y:getValues(5),z:0};case"3d":return{x:getValues(12),y:getValues(13),z:getValues(14)};case"none":default:return{x:0,y:0,z:0}}};exports.getCSSTransformValues=getCSSTransformValues;
 //# sourceMappingURL=index.cjs.map

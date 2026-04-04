@@ -1,5 +1,13 @@
 # Changelog
 
+## 1.1.2
+- Dependencies updated.
+- `getElSiblings/index.ts`: Fixed export.
+- API docs updated.
+- Migration from `jest` to Node test runner.
+- `tsx` dropped.
+- Typed versions for `fn` and `dom` fixed.
+
 ## 1.1.1
 - Dependencies updated.
 - Exported types added.

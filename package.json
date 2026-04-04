@@ -1,6 +1,6 @@
 {
   "name": "@web3r/flowerkit",
-  "version": "1.1.1",
+  "version": "1.1.2",
   "description": "A collection of more than 70 often used utility JS/TS functions that simplify frontend development.",
   "keywords": [
     "dom",
@@ -15,13 +15,14 @@
     "node": ">=24"
   },
   "scripts": {
-    "build": "cross-env NODE_OPTIONS=\"--import=tsx --no-warnings --no-deprecation\" rollup --c",
-    "test": "jest",
-    "prebuild": "cross-env NODE_OPTIONS=\"--import=tsx --no-warnings --no-deprecation\" eslint ./src && jest",
-    "postbuild": "cross-env NODE_OPTIONS=\"--import=tsx --no-warnings --no-deprecation\" node ./lib/scripts/docs.ts && node ./lib/scripts/removeFiles.ts",
+    "build": "rollup --c",
+    "prebuild": "npm run lint && npm run typecheck && npm run test",
+    "postbuild": "node ./lib/scripts/docs.ts && node ./lib/scripts/removeFiles.ts",
+    "test": "cross-env NODE_OPTIONS=\"--import=global-jsdom/register\" node --test",
     "prepare": "husky",
     "lint-staged": "lint-staged",
-    "lint": "eslint ./src --fix"
+    "lint": "eslint ./src --fix",
+    "typecheck": "tsc -p tsconfig.json --noEmit"
   },
   "repository": {
     "type": "git",
@@ -55,13 +56,13 @@
         "./dist/css/index.d.mts"
       ],
       "dom": [
-        "./dist/css/index.d.mts"
+        "./dist/dom/index.d.mts"
       ],
       "evt": [
         "./dist/evt/index.d.mts"
       ],
       "fn": [
-        "./dist/evt/index.d.mts"
+        "./dist/fn/index.d.mts"
       ],
       "json": [
         "./dist/json/index.d.mts"
@@ -160,46 +161,50 @@
   "license": "MIT",
   "private": false,
   "devDependencies": {
-    "@babel/core": "^7.28.5",
-    "@babel/eslint-parser": "^7.28.5",
-    "@babel/plugin-syntax-import-attributes": "^7.27.1",
-    "@babel/plugin-transform-runtime": "^7.28.5",
-    "@babel/preset-env": "^7.28.5",
+    "@babel/core": "^7.29.0",
+    "@babel/plugin-transform-runtime": "^7.29.0",
+    "@babel/preset-env": "^7.29.2",
     "@babel/preset-typescript": "^7.28.5",
-    "@commitlint/cli": "^20.3.0",
-    "@commitlint/config-conventional": "^20.3.0",
-    "@commitlint/types": "^20.2.0",
-    "@delement/eslint-config-master": "^1.2.0",
-    "@jest/globals": "^30.2.0",
-    "@rollup/plugin-babel": "^6.1.0",
-    "@rollup/plugin-commonjs": "^29.0.0",
+    "@commitlint/cli": "^20.5.0",
+    "@commitlint/config-conventional": "^20.5.0",
+    "@commitlint/types": "^20.5.0",
+    "@eslint/compat": "^2.0.3",
+    "@jest/globals": "^30.3.0",
+    "@rollup/plugin-babel": "^7.0.0",
+    "@rollup/plugin-commonjs": "^29.0.2",
     "@rollup/plugin-json": "^6.1.0",
     "@rollup/plugin-node-resolve": "^16.0.3",
-    "@rollup/plugin-terser": "^0.4.4",
+    "@rollup/plugin-terser": "^1.0.0",
     "@rollup/plugin-typescript": "^12.3.0",
+    "@stylistic/eslint-plugin": "^5.10.0",
     "@stylistic/eslint-plugin-js": "^4.4.1",
-    "@types/jest": "^30.0.0",
-    "commitlint": "^20.3.0",
+    "@types/eslint": "^9.6.1",
+    "@types/eslint-plugin-security": "^3.0.1",
+    "@types/jsdom": "^28.0.1",
+    "@typescript-eslint/eslint-plugin": "^8.58.0",
+    "@typescript-eslint/parser": "^8.58.0",
+    "commitlint": "^20.5.0",
     "cross-env": "^10.1.0",
-    "eslint": "^9.39.2",
+    "eslint": "^10.1.0",
+    "eslint-import-resolver-typescript": "^4.4.4",
     "eslint-plugin-import": "^2.32.0",
-    "eslint-plugin-jsdoc": "^61.5.0",
+    "eslint-plugin-jsdoc": "^62.9.0",
+    "eslint-plugin-promise": "^7.2.1",
+    "eslint-plugin-security": "^4.0.0",
+    "eslint-plugin-sort-exports": "^0.9.1",
     "fast-glob": "^3.3.3",
-    "globals": "^17.0.0",
+    "global-jsdom": "^29.0.0",
+    "globals": "^17.4.0",
     "husky": "^9.1.7",
-    "jest": "^30.2.0",
-    "jest-environment-jsdom": "^30.2.0",
-    "jest-esbuild": "^0.4.0",
-    "jiti": "^2.6.1",
-    "lint-staged": "^16.2.7",
-    "node-fetch": "^3.3.2",
-    "rollup": "^4.55.1",
+    "jsdom": "^29.0.1",
+    "lint-staged": "^16.4.0",
+    "patch-package": "^8.0.1",
+    "rollup": "^4.60.1",
     "rollup-plugin-copy": "^3.5.0",
     "rollup-plugin-delete": "^3.0.2",
-    "rollup-plugin-filesize": "^10.0.0",
     "tsdoc-markdown": "^1.4.1",
-    "tsx": "^4.21.0",
-    "typescript": "^5.9.3"
+    "tslib": "^2.8.1",
+    "typescript": "^6.0.2"
   },
   "browserslist": [
     "defaults"
@@ -211,5 +216,10 @@
   "peerDependencies": {
     "node-html-parser": "^7.0.2",
     "ssr-window": "^5.0.1"
+  },
+  "overrides": {
+    "eslint": "^10.1.0",
+    "serialize-javascript": ">=7.0.3",
+    "typescript": "^6.0.2"
   }
 }

@@ -2,7 +2,11 @@
 ___
 ## Usage
 ```ts
+// import functions
 import { bubble, onDOMReady, onSwipe, onWindowLoad, onWindowResize } from "@web3r/flowerkit/evt";
+
+// import types
+import type { TBubbleArgs, TBubbleReturn, TOnDOMReadyArgs, TOnDOMReadyReturn, TOnSwipeArgs, TOnSwipeReturn, TOnWindowLoadArgs, TOnWindowLoadReturn, TOnWindowResizeArgs, TOnWindowResizeReturn } from "@web3r/flowerkit/evt";
 ```
 ___
 ## Functions
@@ -19,7 +23,7 @@ Dispatches a bubbling `CustomEvent` on the provided target.
 
 | Function | Type |
 | ---------- | ---------- |
-| `bubble` | `<T = unknown>(el: TBubbleTarget or undefined, name: string, detail?: T or undefined, params?: TBubbleParams<T>) => void` |
+| `bubble` | `<T = unknown>(el: Document or Window or Element or HTMLElement or undefined, name: string, detail?: T or undefined, params?: CustomEventInit<T> and Record<...>) => void` |
 
 Parameters:
 
@@ -134,4 +138,78 @@ onWindowResize(() => console.log("resized"));
 ```
 
 
+
+
+## Types
+
+- [TBubbleArgs](#tbubbleargs)
+- [TBubbleReturn](#tbubblereturn)
+- [TOnDOMReadyArgs](#tondomreadyargs)
+- [TOnDOMReadyReturn](#tondomreadyreturn)
+- [TOnSwipeArgs](#tonswipeargs)
+- [TOnSwipeReturn](#tonswipereturn)
+- [TOnWindowLoadArgs](#tonwindowloadargs)
+- [TOnWindowLoadReturn](#tonwindowloadreturn)
+- [TOnWindowResizeArgs](#tonwindowresizeargs)
+- [TOnWindowResizeReturn](#tonwindowresizereturn)
+
+### TBubbleArgs
+
+| Type | Type |
+| ---------- | ---------- |
+| `TBubbleArgs` | `Parameters<typeof bubble>` |
+
+### TBubbleReturn
+
+| Type | Type |
+| ---------- | ---------- |
+| `TBubbleReturn` | `ReturnType<typeof bubble>` |
+
+### TOnDOMReadyArgs
+
+| Type | Type |
+| ---------- | ---------- |
+| `TOnDOMReadyArgs` | `Parameters<typeof onDOMReady>` |
+
+### TOnDOMReadyReturn
+
+| Type | Type |
+| ---------- | ---------- |
+| `TOnDOMReadyReturn` | `ReturnType<typeof onDOMReady>` |
+
+### TOnSwipeArgs
+
+| Type | Type |
+| ---------- | ---------- |
+| `TOnSwipeArgs` | `Parameters<typeof onSwipe>` |
+
+### TOnSwipeReturn
+
+| Type | Type |
+| ---------- | ---------- |
+| `TOnSwipeReturn` | `ReturnType<typeof onSwipe>` |
+
+### TOnWindowLoadArgs
+
+| Type | Type |
+| ---------- | ---------- |
+| `TOnWindowLoadArgs` | `Parameters<typeof onWindowLoad>` |
+
+### TOnWindowLoadReturn
+
+| Type | Type |
+| ---------- | ---------- |
+| `TOnWindowLoadReturn` | `ReturnType<typeof onWindowLoad>` |
+
+### TOnWindowResizeArgs
+
+| Type | Type |
+| ---------- | ---------- |
+| `TOnWindowResizeArgs` | `Parameters<typeof onWindowResize>` |
+
+### TOnWindowResizeReturn
+
+| Type | Type |
+| ---------- | ---------- |
+| `TOnWindowResizeReturn` | `ReturnType<typeof onWindowResize>` |
 

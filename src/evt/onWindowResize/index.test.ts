@@ -1,33 +1,53 @@
+import { getWindow } from "ssr-window";
+import assert from "node:assert";
+import {
+  describe, test, mock, before,
+} from "node:test";
 import { onWindowResize } from "./index.ts";
 import { bubble } from "../bubble/index.ts";
 
 describe(onWindowResize.name, () => {
 
-  test("Checks for invalid args", () => {
-    expect(() => onWindowResize(null as any)).toThrow();
-    expect(() => onWindowResize(() => {}, null as any)).toThrow();
+  before(() => {
+    if (typeof window !== "undefined") {
+      if (window.CustomEvent !== (globalThis as any).CustomEvent) {
+        (globalThis as any).CustomEvent = window.CustomEvent;
+      }
+      if (typeof (globalThis as any).dispatchEvent === "undefined") {
+        (globalThis as any).dispatchEvent = () => true;
+      }
+    }
   });
 
-  test("Checks for removing listeners", () => {
-    jest.useFakeTimers();
+  test("Checks for invalid args", () => {
+    assert.throws(() =>
+      // @ts-expect-error testing invalid callback argument
+      onWindowResize(null)
+    );
+    assert.throws(() =>
+      onWindowResize(
+        () => {},
+        // @ts-expect-error testing invalid delay argument
+        null
+      )
+    );
+  });
 
-    const spy = jest.fn();
+  test("Checks for removing listeners", async () => {
+    const spy = mock.fn();
     const callback = () => spy();
     const delay = 0;
 
     const { removeListener } = onWindowResize(callback, delay);
 
-    bubble(window as any, "resize");
-    expect(spy).toHaveBeenCalled();
+    bubble(getWindow(), "resize");
+    assert.strictEqual(spy.mock.callCount() > 0, true);
 
-    setTimeout(() => {
-      expect(spy).toHaveBeenCalledTimes(1);
-      removeListener();
-      bubble(window as any, "resize");
-      expect(spy).toHaveBeenCalledTimes(1);
-    }, delay);
-
-    jest.runAllTimers();
+    await new Promise((resolve) => setTimeout(resolve, delay + 10));
+    assert.strictEqual(spy.mock.callCount(), 1);
+    removeListener();
+    bubble(getWindow(), "resize");
+    assert.strictEqual(spy.mock.callCount(), 1);
   });
 
 });

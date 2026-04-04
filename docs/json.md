@@ -2,7 +2,11 @@
 ___
 ## Usage
 ```ts
+// import functions
 import { getJSONFromStr, isJSON } from "@web3r/flowerkit/json";
+
+// import types
+import type { TGetJSONFromStrArgs, TGetJSONFromStrReturn, TIsJSONArgs, TIsJSONReturn } from "@web3r/flowerkit/json";
 ```
 ___
 ## Functions
@@ -66,4 +70,36 @@ console.log(isStrJSON); // => true
 ```
 
 
+
+
+## Types
+
+- [TGetJSONFromStrArgs](#tgetjsonfromstrargs)
+- [TGetJSONFromStrReturn](#tgetjsonfromstrreturn)
+- [TIsJSONArgs](#tisjsonargs)
+- [TIsJSONReturn](#tisjsonreturn)
+
+### TGetJSONFromStrArgs
+
+| Type | Type |
+| ---------- | ---------- |
+| `TGetJSONFromStrArgs` | `Parameters<typeof getJSONFromStr>` |
+
+### TGetJSONFromStrReturn
+
+| Type | Type |
+| ---------- | ---------- |
+| `TGetJSONFromStrReturn` | `ReturnType<typeof getJSONFromStr>` |
+
+### TIsJSONArgs
+
+| Type | Type |
+| ---------- | ---------- |
+| `TIsJSONArgs` | `Parameters<typeof isJSON>` |
+
+### TIsJSONReturn
+
+| Type | Type |
+| ---------- | ---------- |
+| `TIsJSONReturn` | `ReturnType<typeof isJSON>` |
 

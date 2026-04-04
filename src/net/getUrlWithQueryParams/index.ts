@@ -33,14 +33,17 @@ export const getUrlWithQueryParams = (
     params = getObjFromFormData(params) as Record<string, string | number | boolean | null>;
   }
 
-  const a = getDocument().createElement("a");
+  const a: HTMLAnchorElement = getDocument().createElement("a");
   a.href = uri;
 
   Object.entries(params)
     .forEach(([ key, value ]) => {
       // eslint-disable-next-line security/detect-non-literal-regexp
       const regex = new RegExp(`${key}((?:\\[[^\\]]*\\])?)(=|$)(.*)`, "i");
-      let queryParams = a.search.replace(/^\?/, "").split("&").filter(Boolean);
+      let queryParams = (a.search || "")
+        .replace(/^\?/, "")
+        .split("&")
+        .filter(Boolean);
       let paramFound = false;
 
       queryParams = queryParams.map((param: string) => {

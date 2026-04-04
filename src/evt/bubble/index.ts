@@ -1,8 +1,5 @@
 import { getDocument } from "ssr-window";
 
-type TBubbleTarget = Document | Window | Element | HTMLElement;
-type TBubbleParams<T = unknown> = CustomEventInit<T> & Record<string, unknown>;
-
 export type TBubbleArgs = Parameters<typeof bubble>;
 
 export type TBubbleReturn = ReturnType<typeof bubble>;
@@ -30,10 +27,10 @@ export type TBubbleReturn = ReturnType<typeof bubble>;
  * if (el) bubble(el, "myEvent");
  */
 export const bubble = <T = unknown>(
-  el: TBubbleTarget = getDocument(),
+  el: Document | Window | Element | HTMLElement = getDocument(),
   name: string,
   detail?: T,
-  params: TBubbleParams<T> = {}
+  params: CustomEventInit<T> & Record<string, unknown> = {}
 ): void => {
   const isTarget = el && typeof (el as any).dispatchEvent === "function";
   if (!isTarget) {

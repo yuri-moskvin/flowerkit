@@ -1,25 +1,32 @@
-
+import assert from "node:assert";
+import { describe, test } from "node:test";
 import { isStrInSnakeCase } from "./index.ts";
 
 describe(isStrInSnakeCase.name, () => {
 
   test("Checks for invalid args", () => {
-    expect(() => isStrInSnakeCase(1 as any)).toThrow();
-    expect(() => isStrInSnakeCase(null as any)).toThrow();
+    assert.throws(() =>
+      // @ts-expect-error testing invalid str argument
+      isStrInSnakeCase(1)
+    );
+    assert.throws(() =>
+      // @ts-expect-error testing invalid str argument
+      isStrInSnakeCase(null)
+    );
   });
 
   test("Checks strings in different cases", () => {
-    expect(isStrInSnakeCase("not-snake")).toBe(false);
-    expect(isStrInSnakeCase(".class")).toBe(false);
-    expect(isStrInSnakeCase("000")).toBe(false);
-    expect(isStrInSnakeCase("snake_Case_test")).toBe(false);
-    expect(isStrInSnakeCase("SNAKE_CASE_TEST")).toBe(false);
-    expect(isStrInSnakeCase("---")).toBe(false);
-    expect(isStrInSnakeCase("-wrong_snake")).toBe(false);
+    assert.strictEqual(isStrInSnakeCase("not-snake"), false);
+    assert.strictEqual(isStrInSnakeCase(".class"), false);
+    assert.strictEqual(isStrInSnakeCase("000"), false);
+    assert.strictEqual(isStrInSnakeCase("snake_Case_test"), false);
+    assert.strictEqual(isStrInSnakeCase("SNAKE_CASE_TEST"), false);
+    assert.strictEqual(isStrInSnakeCase("---"), false);
+    assert.strictEqual(isStrInSnakeCase("-wrong_snake"), false);
   });
 
   test("Checks valid snake_case", () => {
-    expect(isStrInSnakeCase("good_snake")).toBe(true);
+    assert.strictEqual(isStrInSnakeCase("good_snake"), true);
   });
 
 });

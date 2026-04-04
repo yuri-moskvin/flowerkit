@@ -1,13 +1,23 @@
+import assert from "node:assert";
+import { describe, test, beforeEach } from "node:test";
 import { isIterable } from "./index.ts";
 
 describe(isIterable.name, () => {
 
-  test("Checks for iterator", () => {
-    expect(isIterable(12 as any)).toBe(false);
-    expect(isIterable([])).toBe(true);
-    expect(isIterable(new Map())).toBe(true);
-    expect(isIterable({})).toBe(false);
-    expect(isIterable(document.forms)).toBe(true);
+  beforeEach(() => {
+    document.body.innerHTML = "";
   });
 
+  test("Checks for iterator", () => {
+    assert.strictEqual(isIterable(12 as any), false);
+    assert.strictEqual(isIterable([]), true);
+    assert.strictEqual(isIterable(new Map()), true);
+    assert.strictEqual(isIterable({}), false);
+
+    // Setup DOM for HTMLFormControlsCollection test
+    if (typeof document !== "undefined") {
+      document.body.innerHTML = '<form><input name="test" /></form>';
+      assert.strictEqual(isIterable(document.forms), true);
+    }
+  });
 });

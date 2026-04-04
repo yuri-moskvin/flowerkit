@@ -1,5 +1,3 @@
-type TBubbleTarget = Document | Window | Element | HTMLElement;
-type TBubbleParams<T = unknown> = CustomEventInit<T> & Record<string, unknown>;
 export type TBubbleArgs = Parameters<typeof bubble>;
 export type TBubbleReturn = ReturnType<typeof bubble>;
 /**
@@ -24,5 +22,4 @@ export type TBubbleReturn = ReturnType<typeof bubble>;
  * const el = document.querySelector("#myElement");
  * if (el) bubble(el, "myEvent");
  */
-export declare const bubble: <T = unknown>(el: TBubbleTarget | undefined, name: string, detail?: T, params?: TBubbleParams<T>) => void;
-export {};
+export declare const bubble: <T = unknown>(el: (Document | Window | Element | HTMLElement) | undefined, name: string, detail?: T, params?: CustomEventInit<T> & Record<string, unknown>) => void;

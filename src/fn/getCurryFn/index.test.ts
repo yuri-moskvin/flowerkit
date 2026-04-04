@@ -1,11 +1,24 @@
+import assert from "node:assert";
+import { describe, test } from "node:test";
 import { getCurryFn } from "./index.ts";
 
 
 describe(getCurryFn.name, () => {
 
   test("Checks for invalid args", () => {
-    expect(() => getCurryFn(null as any, 1)).toThrow();
-    expect(() => getCurryFn((() => {}) as any, false as any)).toThrow();
+    assert.throws(() =>
+      getCurryFn(
+        // @ts-expect-error testing invalid fn argument
+        null, 1
+      )
+    );
+    assert.throws(() =>
+      getCurryFn(
+        (() => {}),
+        // @ts-expect-error testing invalid count argument
+        false
+      )
+    );
   });
 
   test("Checks for correct curry", () => {
@@ -13,8 +26,8 @@ describe(getCurryFn.name, () => {
     const fn1 = getCurryFn(origFn as any, 1);
     const fn2 = getCurryFn(origFn as any, 2);
 
-    expect(fn1(1)).toBe(1);
-    expect(fn2(1)(2)).toBe(3);
+    assert.strictEqual(fn1(1), 1);
+    assert.strictEqual(fn2(1)(2), 3);
   });
 
 });

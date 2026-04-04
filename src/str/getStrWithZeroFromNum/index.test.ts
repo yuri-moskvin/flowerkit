@@ -1,24 +1,31 @@
-
+import assert from "node:assert";
+import { describe, test } from "node:test";
 import { getStrWithZeroFromNum } from "./index.ts";
 
 describe(getStrWithZeroFromNum.name, () => {
 
   test("Checks for invalid args", () => {
-    expect(() => getStrWithZeroFromNum("123" as any)).toThrow();
-    expect(() => getStrWithZeroFromNum(null as any)).toThrow();
+    assert.throws(() =>
+      // @ts-expect-error testing invalid num argument
+      getStrWithZeroFromNum("123")
+    );
+    assert.throws(() =>
+      // @ts-expect-error testing invalid num argument
+      getStrWithZeroFromNum(null)
+    );
   });
 
   test("Checks for numbers", () => {
-    expect(getStrWithZeroFromNum(123)).toBe("123");
-    expect(getStrWithZeroFromNum(1)).toBe("01");
-    expect(getStrWithZeroFromNum(-100)).toBe("-100");
-    expect(getStrWithZeroFromNum(-1)).toBe("-01");
-    expect(getStrWithZeroFromNum(-10)).toBe("-10");
-    expect(getStrWithZeroFromNum(0)).toBe("00");
+    assert.strictEqual(getStrWithZeroFromNum(123), "123");
+    assert.strictEqual(getStrWithZeroFromNum(1), "01");
+    assert.strictEqual(getStrWithZeroFromNum(-100), "-100");
+    assert.strictEqual(getStrWithZeroFromNum(-1), "-01");
+    assert.strictEqual(getStrWithZeroFromNum(-10), "-10");
+    assert.strictEqual(getStrWithZeroFromNum(0), "00");
   });
 
   test("Checks for custom leading count of numbers", () => {
-    expect(getStrWithZeroFromNum(-10, 5)).toBe("-00010");
+    assert.strictEqual(getStrWithZeroFromNum(-10, 5), "-00010");
   });
 
 });

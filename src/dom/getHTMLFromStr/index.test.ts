@@ -1,15 +1,29 @@
+import assert from "node:assert";
+import { describe, test } from "node:test";
 import { getHTMLFromStr } from "./index.ts";
 
 describe(getHTMLFromStr.name, () => {
 
   test("Checks for invalid args", () => {
-    expect(() => getHTMLFromStr(false as any)).toThrow();
-    expect(() => getHTMLFromStr("")).toThrow();
-    expect(() => getHTMLFromStr(null as any)).toThrow();
-    expect(() => getHTMLFromStr("<p>Hello world!</p>", "bad/type" as any)).toThrow();
+    assert.throws(() =>
+      // @ts-expect-error testing invalid str argument
+      getHTMLFromStr(false)
+    );
+    assert.throws(() => getHTMLFromStr(""));
+    assert.throws(() =>
+      // @ts-expect-error testing invalid str argument
+      getHTMLFromStr(null)
+    );
+    assert.throws(() =>
+      getHTMLFromStr(
+        "<p>Hello world!</p>",
+        // @ts-expect-error testing invalid type argument
+        "bad/type"
+      )
+    );
   });
 
   test("Checks for correct HTML parsing", () => {
-    expect(getHTMLFromStr(`<p>Hello world!</p><p>Hello world!</p>`).length).toBe(2);
+    assert.strictEqual(getHTMLFromStr(`<p>Hello world!</p><p>Hello world!</p>`).length, 2);
   });
 });

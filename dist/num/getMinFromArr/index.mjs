@@ -9,5 +9,5 @@
  * const min = getMinFromArr(arr);
  * console.log(min); // 100
  */
-const getMinFromArr=arr=>{const isValid=Array.isArray(arr)&&arr.length>0&&arr.every((v=>typeof v==="number"&&(Number.isFinite(v)||v===Infinity||v===-Infinity)));if(!isValid)throw new TypeError("getMinFromArr: expected a non-empty array of numbers");return arr.reduce(((p,v)=>p<v?p:v))};export{getMinFromArr};
+const getMinFromArr=arr=>{const isValid=Array.isArray(arr)&&arr.length>0&&arr.every(v=>typeof v==="number"&&(Number.isFinite(v)||v===Infinity||v===-Infinity));if(!isValid)throw new TypeError("getMinFromArr: expected a non-empty array of numbers");return arr.reduce((p,v)=>p<v?p:v)};export{getMinFromArr};
 //# sourceMappingURL=index.mjs.map

@@ -1,20 +1,22 @@
+import assert from "node:assert";
+import { describe, test } from "node:test";
 import { getRounded } from "./index.ts";
 
 describe(getRounded.name, () => {
 
   test("Checks for invalid args", () => {
-    expect(() => getRounded(NaN)).toThrow();
-    expect(() => getRounded(10, -1)).toThrow();
-    expect(() => getRounded(10, Infinity)).toThrow();
+    assert.throws(() => getRounded(NaN));
+    assert.throws(() => getRounded(10, -1));
+    assert.throws(() => getRounded(10, Infinity));
   });
 
   test("Checks for problematic rounding cases", () => {
-    expect(getRounded(10.999, 1)).toBe(11);
-    expect(getRounded(10.0999, 2)).toBe(10.1);
-    expect(getRounded(10.0999, 0)).toBe(10);
-    expect(getRounded(-10.005, 1)).toBe(-10);
-    expect(getRounded(0.00025, 4)).toBe(0.0003);
-    expect(getRounded(10.299999, 3)).toBe(10.3);
+    assert.strictEqual(getRounded(10.999, 1), 11);
+    assert.strictEqual(getRounded(10.0999, 2), 10.1);
+    assert.strictEqual(getRounded(10.0999, 0), 10);
+    assert.strictEqual(getRounded(-10.005, 1), -10);
+    assert.strictEqual(getRounded(0.00025, 4), 0.0003);
+    assert.strictEqual(getRounded(10.299999, 3), 10.3);
   });
 
 });

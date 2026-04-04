@@ -1,8 +1,8 @@
 {
-  "include": [ "src", "lib" ],
+  "include": [ "src", "lib", "commitlint.config.ts", "rollup.config.ts", "eslint.config.ts", ".d.ts" ],
   "exclude": [ "node_modules", "dist", "docs" ],
   "compilerOptions": {
-    "types": [ "jest", "node" ],
+    "types": [ "node" ],
     "resolveJsonModule": true,
     "resolvePackageJsonExports": true,
     "resolvePackageJsonImports": true,

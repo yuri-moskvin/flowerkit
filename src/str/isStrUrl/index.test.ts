@@ -1,28 +1,35 @@
-
+import assert from "node:assert";
+import { describe, test } from "node:test";
 import { isStrUrl } from "./index.ts";
 
 describe(isStrUrl.name, () => {
 
   test("Checks for invalid args", () => {
-    expect(() => isStrUrl(123 as any)).toThrow();
-    expect(() => isStrUrl(null as any)).toThrow();
+    assert.throws(() =>
+      // @ts-expect-error testing invalid str argument
+      isStrUrl(123)
+    );
+    assert.throws(() =>
+      // @ts-expect-error testing invalid str argument
+      isStrUrl(null)
+    );
   });
 
   test("Checks for different valid paths of URL", () => {
-    expect(isStrUrl("google.com/test/?query")).toBe(true);
-    expect(isStrUrl("www.test.com")).toBe(true);
-    expect(isStrUrl("www.test")).toBe(true);
-    expect(isStrUrl("request.php")).toBe(true);
-    expect(isStrUrl("google.html")).toBe(true);
-    expect(isStrUrl("google.html?query=test")).toBe(true);
-    expect(isStrUrl("google.html:9900?query=test")).toBe(true);
+    assert.strictEqual(isStrUrl("google.com/test/?query"), true);
+    assert.strictEqual(isStrUrl("www.test.com"), true);
+    assert.strictEqual(isStrUrl("www.test"), true);
+    assert.strictEqual(isStrUrl("request.php"), true);
+    assert.strictEqual(isStrUrl("google.html"), true);
+    assert.strictEqual(isStrUrl("google.html?query=test"), true);
+    assert.strictEqual(isStrUrl("google.html:9900?query=test"), true);
   });
 
   test("Checks for invalid strings", () => {
-    expect(isStrUrl("")).toBe(false);
-    expect(isStrUrl("123")).toBe(false);
-    expect(isStrUrl("str.")).toBe(false);
-    expect(isStrUrl("str.a")).toBe(false);
+    assert.strictEqual(isStrUrl(""), false);
+    assert.strictEqual(isStrUrl("123"), false);
+    assert.strictEqual(isStrUrl("str."), false);
+    assert.strictEqual(isStrUrl("str.a"), false);
   });
 
 });

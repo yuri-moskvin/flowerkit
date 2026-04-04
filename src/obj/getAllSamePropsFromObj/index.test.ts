@@ -1,15 +1,26 @@
-
+import assert from "node:assert";
+import { describe, test } from "node:test";
 import { getAllSamePropsFromObj } from "./index.ts";
 
 describe(getAllSamePropsFromObj.name, () => {
 
   test("Checks for invalid args", () => {
-    expect(() => getAllSamePropsFromObj("moo" as any, "test")).toThrow();
-    expect(() => getAllSamePropsFromObj({} as any, 1 as any)).toThrow();
+    assert.throws(() =>
+      getAllSamePropsFromObj(
+        "moo" as unknown as Record<string, unknown>,
+        "test"
+      )
+    );
+    assert.throws(() =>
+      getAllSamePropsFromObj(
+        {},
+        1 as unknown as string
+      )
+    );
   });
 
   test("Checks for nested objects", () => {
-    expect(getAllSamePropsFromObj({
+    assert.deepStrictEqual(getAllSamePropsFromObj({
       someProp1: {
         a: "value 1",
         b: 2,
@@ -26,7 +37,7 @@ describe(getAllSamePropsFromObj.name, () => {
           a: "value 4",
         },
       },
-    }, "a")).toStrictEqual([ "value 1", 1, "value 3", "value 4" ]);
+    }, "a"), [ "value 1", 1, "value 3", "value 4" ]);
   });
 
 });

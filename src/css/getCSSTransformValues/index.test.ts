@@ -1,10 +1,16 @@
+import assert from "node:assert";
+import { describe, test } from "node:test";
 import { getCSSTransformValues } from "./index.ts";
 
 describe(getCSSTransformValues.name, () => {
-
   test("Checks for invalid args", () => {
-    expect(() => getCSSTransformValues("test" as any)).toThrow();
-    expect(() => getCSSTransformValues(null as any)).toThrow();
+    assert.throws(() =>
+      // @ts-expect-error testing invalid el argument
+      getCSSTransformValues("test")
+    );
+    assert.throws(() =>
+      // @ts-expect-error testing invalid el argument
+      getCSSTransformValues(null)
+    );
   });
-
 });

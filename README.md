@@ -2,9 +2,11 @@
 
 More than 70 commonly used utility functions for JavaScript and TypeScript that simplify frontend development.
 
+[![npm](https://img.shields.io/npm/v/@web3r/flowerkit)](https://www.npmjs.com/package/@web3r/flowerkit)
+
 ## Usage 🛠️
 
-```js
+```ts
 // tree-shakable ESM import
 import { isNode, /* ... */ } from "@web3r/flowerkit/dom";
 import { onSwipe, /* ... */ } from "@web3r/flowerkit/evt";
@@ -14,6 +16,9 @@ import { domKit, evtKit, /* ... */ } from "@web3r/flowerkit";
 
 // CJS import
 const domKit = require("@web3r/flowerkit/dom");
+
+// types
+import type { TGetCurryFnArgs, TGetCurryFnReturn, /* ... */ } from "@web3r/flowerkit/fn";
 ```
 
 ## Features ✨
@@ -26,6 +31,7 @@ const domKit = require("@web3r/flowerkit/dom");
 - **SSR friendly**: fallbacks for DOM `window` and `document` objects;
 - **TypeScript friendly**: types included for all functions;
 - **ESM and CJS**: supports both types of modules;
+- **Safe**: zero vulnerabilities.
 
 ## Structure ☰
 

@@ -1,17 +1,28 @@
+import assert from "node:assert";
+import { describe, test } from "node:test";
 import { getWords } from "./index.ts";
 
 describe(getWords.name, () => {
 
   test("Checks for invalid args", () => {
-    expect(() => getWords(null as any)).toThrow();
-    expect(() => getWords(1 as any)).toThrow();
-    expect(() => getWords([] as any)).toThrow();
+    assert.throws(() =>
+      // @ts-expect-error testing invalid str argument
+      getWords(null)
+    );
+    assert.throws(() =>
+      // @ts-expect-error testing invalid str argument
+      getWords(1)
+    );
+    assert.throws(() =>
+      // @ts-expect-error testing invalid str argument
+      getWords([])
+    );
   });
 
   test("Checks for strings", () => {
-    expect(getWords("helloWorld! what's_up?")).toStrictEqual([ "hello", "World", "what", "s", "up" ]);
-    expect(getWords("24324word1#4234word2")).toStrictEqual([ "word", "word" ]);
-    expect(getWords("")).toStrictEqual([]);
+    assert.deepStrictEqual(getWords("helloWorld! what's_up?"), [ "hello", "World", "what", "s", "up" ]);
+    assert.deepStrictEqual(getWords("24324word1#4234word2"), [ "word", "word" ]);
+    assert.deepStrictEqual(getWords(""), []);
   });
 
 });

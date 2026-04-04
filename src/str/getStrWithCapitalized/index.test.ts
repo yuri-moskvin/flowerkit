@@ -1,19 +1,26 @@
-
+import assert from "node:assert";
+import { describe, test } from "node:test";
 import { getStrWithCapitalized } from "./index.ts";
 
 describe(getStrWithCapitalized.name, () => {
 
   test("Checks for invalid args", () => {
-    expect(() => getStrWithCapitalized(1 as any)).toThrow();
-    expect(() => getStrWithCapitalized(null as any)).toThrow();
+    assert.throws(() =>
+      // @ts-expect-error testing invalid str argument
+      getStrWithCapitalized(1)
+    );
+    assert.throws(() =>
+      // @ts-expect-error testing invalid str argument
+      getStrWithCapitalized(null)
+    );
   });
 
   test("Checks for strings", () => {
-    expect(getStrWithCapitalized("hello world")).toBe("Hello world");
-    expect(getStrWithCapitalized("1")).toBe("1");
-    expect(getStrWithCapitalized("")).toBe("");
-    expect(getStrWithCapitalized("aB")).toBe("AB");
-    expect(getStrWithCapitalized(" abc")).toBe("Abc");
+    assert.strictEqual(getStrWithCapitalized("hello world"), "Hello world");
+    assert.strictEqual(getStrWithCapitalized("1"), "1");
+    assert.strictEqual(getStrWithCapitalized(""), "");
+    assert.strictEqual(getStrWithCapitalized("aB"), "AB");
+    assert.strictEqual(getStrWithCapitalized(" abc"), "Abc");
   });
 
 });

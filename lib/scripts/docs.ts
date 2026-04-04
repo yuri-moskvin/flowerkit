@@ -2,7 +2,7 @@ import fg from "fast-glob";
 import { buildDocumentation, documentationToMarkdown } from "tsdoc-markdown";
 import fs from "fs/promises";
 import path from "path";
-import { getFolders } from "../utils/getFolders.ts";
+import { getFolders } from "../utils/index.ts";
 
 const src = path.resolve(process.cwd(), "./src");
 const output = path.resolve(process.cwd(), "./docs");
@@ -55,7 +55,7 @@ const entities = await getFolders(src)
       ],
       options: {
         explore: true,
-        types: false,
+        types: true,
       },
     })
       .filter(({ fileName }) => {
@@ -73,8 +73,12 @@ const entities = await getFolders(src)
 await Promise.all(entities.map(({ name, docs }) => {
   return new Promise(async (resolve: (value: { name: string; link: string; }) => void, reject) => {
     const title = `# ⚙️ ${getDocName(name)} utils pack API`;
-    const names = docs.map(({ name }) => name);
-    const subtitle = `## Usage\n${getCodeMarkdown(`import { ${names.join(", ")} } from "@web3r/flowerkit/${name}";`)}`;
+    const importNames = docs.map(({ name }) => name);
+
+    const functions = importNames.filter((name) => !name.startsWith("T"));
+    const types = importNames.filter((name) => name.startsWith("T"));
+
+    const subtitle = `## Usage\n${getCodeMarkdown(`// import functions\nimport { ${functions.join(", ")} } from "@web3r/flowerkit/${name}";\n\n// import types\nimport type { ${types.join(", ")} } from "@web3r/flowerkit/${name}";`)}`;
 
     // fix examples
     docs

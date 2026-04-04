@@ -100,6 +100,7 @@ export const getObjWithFallbacks = <
         getValue,
         fallback,
         output = key?.toString() ?? "",
+        // eslint-disable-next-line no-nested-ternary
         type = (Array.isArray(value) ? "array" : (value === null ? "object" : typeof value)) as TRuleType,
       } = rule;
 

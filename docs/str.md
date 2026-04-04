@@ -2,7 +2,11 @@
 ___
 ## Usage
 ```ts
+// import functions
 import { getId, getStrDeclination, getStrEscaped, getStrUnescaped, getStrWithCapitalized, getStrWithThousandSeparator, getStrWithZeroFromNum, getWords, isStrInCamelCase, isStrInKebabCase, isStrInSnakeCase, isStrUrl } from "@web3r/flowerkit/str";
+
+// import types
+import type { TGetIdArgs, TGetIdReturn, TGetStrDeclinationArgs, TGetStrDeclinationReturn, TGetStrEscapedArgs, TGetStrEscapedReturn, TGetStrUnescapedArgs, TGetStrUnescapedReturn, TGetStrWithCapitalizedArgs, TGetStrWithCapitalizedReturn, TGetStrWithThousandSeparatorArgs, TGetStrWithThousandSeparatorReturn, TGetStrWithZeroFromNumArgs, TGetStrWithZeroFromNumReturn, TGetWordsArgs, TGetWordsReturn, TIsStrInCamelCaseArgs, TIsStrInCamelCaseReturn, TIsStrInKebabCaseArgs, TIsStrInKebabCaseReturn, TIsStrInSnakeCaseArgs, TIsStrInSnakeCaseReturn, TIsStrUrlArgs, TIsStrUrlReturn } from "@web3r/flowerkit/str";
 ```
 ___
 ## Functions
@@ -331,4 +335,176 @@ isStrUrl("file.php"); // true
 ```
 
 
+
+
+## Types
+
+- [TGetIdArgs](#tgetidargs)
+- [TGetIdReturn](#tgetidreturn)
+- [TGetStrDeclinationArgs](#tgetstrdeclinationargs)
+- [TGetStrDeclinationReturn](#tgetstrdeclinationreturn)
+- [TGetStrEscapedArgs](#tgetstrescapedargs)
+- [TGetStrEscapedReturn](#tgetstrescapedreturn)
+- [TGetStrUnescapedArgs](#tgetstrunescapedargs)
+- [TGetStrUnescapedReturn](#tgetstrunescapedreturn)
+- [TGetStrWithCapitalizedArgs](#tgetstrwithcapitalizedargs)
+- [TGetStrWithCapitalizedReturn](#tgetstrwithcapitalizedreturn)
+- [TGetStrWithThousandSeparatorArgs](#tgetstrwiththousandseparatorargs)
+- [TGetStrWithThousandSeparatorReturn](#tgetstrwiththousandseparatorreturn)
+- [TGetStrWithZeroFromNumArgs](#tgetstrwithzerofromnumargs)
+- [TGetStrWithZeroFromNumReturn](#tgetstrwithzerofromnumreturn)
+- [TGetWordsArgs](#tgetwordsargs)
+- [TGetWordsReturn](#tgetwordsreturn)
+- [TIsStrInCamelCaseArgs](#tisstrincamelcaseargs)
+- [TIsStrInCamelCaseReturn](#tisstrincamelcasereturn)
+- [TIsStrInKebabCaseArgs](#tisstrinkebabcaseargs)
+- [TIsStrInKebabCaseReturn](#tisstrinkebabcasereturn)
+- [TIsStrInSnakeCaseArgs](#tisstrinsnakecaseargs)
+- [TIsStrInSnakeCaseReturn](#tisstrinsnakecasereturn)
+- [TIsStrUrlArgs](#tisstrurlargs)
+- [TIsStrUrlReturn](#tisstrurlreturn)
+
+### TGetIdArgs
+
+| Type | Type |
+| ---------- | ---------- |
+| `TGetIdArgs` | `Parameters<typeof getId>` |
+
+### TGetIdReturn
+
+| Type | Type |
+| ---------- | ---------- |
+| `TGetIdReturn` | `ReturnType<typeof getId>` |
+
+### TGetStrDeclinationArgs
+
+| Type | Type |
+| ---------- | ---------- |
+| `TGetStrDeclinationArgs` | `Parameters<typeof getStrDeclination>` |
+
+### TGetStrDeclinationReturn
+
+| Type | Type |
+| ---------- | ---------- |
+| `TGetStrDeclinationReturn` | `ReturnType<typeof getStrDeclination>` |
+
+### TGetStrEscapedArgs
+
+| Type | Type |
+| ---------- | ---------- |
+| `TGetStrEscapedArgs` | `Parameters<typeof getStrEscaped>` |
+
+### TGetStrEscapedReturn
+
+| Type | Type |
+| ---------- | ---------- |
+| `TGetStrEscapedReturn` | `ReturnType<typeof getStrEscaped>` |
+
+### TGetStrUnescapedArgs
+
+| Type | Type |
+| ---------- | ---------- |
+| `TGetStrUnescapedArgs` | `Parameters<typeof getStrUnescaped>` |
+
+### TGetStrUnescapedReturn
+
+| Type | Type |
+| ---------- | ---------- |
+| `TGetStrUnescapedReturn` | `ReturnType<typeof getStrUnescaped>` |
+
+### TGetStrWithCapitalizedArgs
+
+| Type | Type |
+| ---------- | ---------- |
+| `TGetStrWithCapitalizedArgs` | `Parameters<typeof getStrWithCapitalized>` |
+
+### TGetStrWithCapitalizedReturn
+
+| Type | Type |
+| ---------- | ---------- |
+| `TGetStrWithCapitalizedReturn` | `ReturnType<typeof getStrWithCapitalized>` |
+
+### TGetStrWithThousandSeparatorArgs
+
+| Type | Type |
+| ---------- | ---------- |
+| `TGetStrWithThousandSeparatorArgs` | `Parameters<typeof getStrWithThousandSeparator>` |
+
+### TGetStrWithThousandSeparatorReturn
+
+| Type | Type |
+| ---------- | ---------- |
+| `TGetStrWithThousandSeparatorReturn` | `ReturnType<typeof getStrWithThousandSeparator>` |
+
+### TGetStrWithZeroFromNumArgs
+
+| Type | Type |
+| ---------- | ---------- |
+| `TGetStrWithZeroFromNumArgs` | `Parameters<typeof getStrWithZeroFromNum>` |
+
+### TGetStrWithZeroFromNumReturn
+
+| Type | Type |
+| ---------- | ---------- |
+| `TGetStrWithZeroFromNumReturn` | `ReturnType<typeof getStrWithZeroFromNum>` |
+
+### TGetWordsArgs
+
+| Type | Type |
+| ---------- | ---------- |
+| `TGetWordsArgs` | `Parameters<typeof getWords>` |
+
+### TGetWordsReturn
+
+| Type | Type |
+| ---------- | ---------- |
+| `TGetWordsReturn` | `ReturnType<typeof getWords>` |
+
+### TIsStrInCamelCaseArgs
+
+| Type | Type |
+| ---------- | ---------- |
+| `TIsStrInCamelCaseArgs` | `Parameters<typeof isStrInCamelCase>` |
+
+### TIsStrInCamelCaseReturn
+
+| Type | Type |
+| ---------- | ---------- |
+| `TIsStrInCamelCaseReturn` | `ReturnType<typeof isStrInCamelCase>` |
+
+### TIsStrInKebabCaseArgs
+
+| Type | Type |
+| ---------- | ---------- |
+| `TIsStrInKebabCaseArgs` | `Parameters<typeof isStrInKebabCase>` |
+
+### TIsStrInKebabCaseReturn
+
+| Type | Type |
+| ---------- | ---------- |
+| `TIsStrInKebabCaseReturn` | `ReturnType<typeof isStrInKebabCase>` |
+
+### TIsStrInSnakeCaseArgs
+
+| Type | Type |
+| ---------- | ---------- |
+| `TIsStrInSnakeCaseArgs` | `Parameters<typeof isStrInSnakeCase>` |
+
+### TIsStrInSnakeCaseReturn
+
+| Type | Type |
+| ---------- | ---------- |
+| `TIsStrInSnakeCaseReturn` | `ReturnType<typeof isStrInSnakeCase>` |
+
+### TIsStrUrlArgs
+
+| Type | Type |
+| ---------- | ---------- |
+| `TIsStrUrlArgs` | `Parameters<typeof isStrUrl>` |
+
+### TIsStrUrlReturn
+
+| Type | Type |
+| ---------- | ---------- |
+| `TIsStrUrlReturn` | `ReturnType<typeof isStrUrl>` |
 

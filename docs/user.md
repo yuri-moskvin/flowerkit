@@ -2,7 +2,11 @@
 ___
 ## Usage
 ```ts
+// import functions
 import { setCookie, deleteCookie, getCookie, getScrollbarWidth, isAdblock, isMobileDevice, isTouchDevice } from "@web3r/flowerkit/user";
+
+// import types
+import type { TSetCookieArgs, TSetCookieReturn, TDeleteCookieArgs, TDeleteCookieReturn, TGetCookieArgs, TGetCookieReturn, TGetScrollbarWidthArgs, TGetScrollbarWidthReturn, TIsAdblockArgs, TIsAdblockReturn, TIsMobileDeviceArgs, TIsMobileDeviceReturn, TIsTouchDeviceArgs, TIsTouchDeviceReturn } from "@web3r/flowerkit/user";
 ```
 ___
 ## Functions
@@ -183,4 +187,106 @@ const isTouchScreen = isTouchDevice(); // {boolean}
 ```
 
 
+
+
+## Types
+
+- [TSetCookieArgs](#tsetcookieargs)
+- [TSetCookieReturn](#tsetcookiereturn)
+- [TDeleteCookieArgs](#tdeletecookieargs)
+- [TDeleteCookieReturn](#tdeletecookiereturn)
+- [TGetCookieArgs](#tgetcookieargs)
+- [TGetCookieReturn](#tgetcookiereturn)
+- [TGetScrollbarWidthArgs](#tgetscrollbarwidthargs)
+- [TGetScrollbarWidthReturn](#tgetscrollbarwidthreturn)
+- [TIsAdblockArgs](#tisadblockargs)
+- [TIsAdblockReturn](#tisadblockreturn)
+- [TIsMobileDeviceArgs](#tismobiledeviceargs)
+- [TIsMobileDeviceReturn](#tismobiledevicereturn)
+- [TIsTouchDeviceArgs](#tistouchdeviceargs)
+- [TIsTouchDeviceReturn](#tistouchdevicereturn)
+
+### TSetCookieArgs
+
+| Type | Type |
+| ---------- | ---------- |
+| `TSetCookieArgs` | `Parameters<typeof setCookie>` |
+
+### TSetCookieReturn
+
+| Type | Type |
+| ---------- | ---------- |
+| `TSetCookieReturn` | `ReturnType<typeof setCookie>` |
+
+### TDeleteCookieArgs
+
+| Type | Type |
+| ---------- | ---------- |
+| `TDeleteCookieArgs` | `Parameters<typeof deleteCookie>` |
+
+### TDeleteCookieReturn
+
+| Type | Type |
+| ---------- | ---------- |
+| `TDeleteCookieReturn` | `ReturnType<typeof deleteCookie>` |
+
+### TGetCookieArgs
+
+| Type | Type |
+| ---------- | ---------- |
+| `TGetCookieArgs` | `Parameters<typeof getCookie>` |
+
+### TGetCookieReturn
+
+| Type | Type |
+| ---------- | ---------- |
+| `TGetCookieReturn` | `ReturnType<typeof getCookie>` |
+
+### TGetScrollbarWidthArgs
+
+| Type | Type |
+| ---------- | ---------- |
+| `TGetScrollbarWidthArgs` | `Parameters<typeof getScrollbarWidth>` |
+
+### TGetScrollbarWidthReturn
+
+| Type | Type |
+| ---------- | ---------- |
+| `TGetScrollbarWidthReturn` | `ReturnType<typeof getScrollbarWidth>` |
+
+### TIsAdblockArgs
+
+| Type | Type |
+| ---------- | ---------- |
+| `TIsAdblockArgs` | `Parameters<typeof isAdblock>` |
+
+### TIsAdblockReturn
+
+| Type | Type |
+| ---------- | ---------- |
+| `TIsAdblockReturn` | `ReturnType<typeof isAdblock>` |
+
+### TIsMobileDeviceArgs
+
+| Type | Type |
+| ---------- | ---------- |
+| `TIsMobileDeviceArgs` | `Parameters<typeof isMobileDevice>` |
+
+### TIsMobileDeviceReturn
+
+| Type | Type |
+| ---------- | ---------- |
+| `TIsMobileDeviceReturn` | `ReturnType<typeof isMobileDevice>` |
+
+### TIsTouchDeviceArgs
+
+| Type | Type |
+| ---------- | ---------- |
+| `TIsTouchDeviceArgs` | `Parameters<typeof isTouchDevice>` |
+
+### TIsTouchDeviceReturn
+
+| Type | Type |
+| ---------- | ---------- |
+| `TIsTouchDeviceReturn` | `ReturnType<typeof isTouchDevice>` |
 

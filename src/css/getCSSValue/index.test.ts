@@ -1,16 +1,35 @@
+import assert from "node:assert";
+import { describe, test, beforeEach } from "node:test";
 import { getCSSValue } from "./index.ts";
 
 describe(getCSSValue.name, () => {
+  // Reset the DOM before each test
+  beforeEach(() => {
+    if (typeof document !== "undefined") {
+      document.body.style.textAlign = "";
+    }
+  });
 
   test("Checks for invalid args", () => {
-    expect(() => getCSSValue("moo" as any, "test")).toThrow();
-    expect(() => getCSSValue(document as any, true as any)).toThrow();
+    assert.throws(() =>
+      getCSSValue(
+        // @ts-expect-error testing invalid el argument
+        "moo", "test"
+      )
+    );
+    assert.throws(() =>
+      getCSSValue(
+        // @ts-expect-error testing invalid el argument
+        document,
+        true
+      )
+    );
   });
 
   test("Checks for prop values", () => {
-    expect(getCSSValue(document.body, "font-size")).toBe("");
-    document.body.style.textAlign = "center";
-    expect(getCSSValue(document.body, "text-align")).toBe("center");
-  });
+    assert.strictEqual(getCSSValue(document.body, "font-size"), "");
 
+    document.body.style.textAlign = "center";
+    assert.strictEqual(getCSSValue(document.body, "text-align"), "center");
+  });
 });

@@ -1,17 +1,25 @@
+import assert from "node:assert";
+import { describe, test } from "node:test";
 import { onDOMReady } from "./index.ts";
 
 describe(onDOMReady.name, () => {
 
   test("Checks for invalid args", () => {
-    expect(() => onDOMReady(1 as any)).toThrow();
-    expect(() => onDOMReady(null as any)).toThrow();
+    assert.throws(() =>
+      // @ts-expect-error testing invalid callback argument
+      onDOMReady(1)
+    );
+    assert.throws(() =>
+      // @ts-expect-error testing invalid callback argument
+      onDOMReady(null)
+    );
   });
 
   test("Checks for correct DOMContentLoaded callback", () => {
     let isReady = false;
     const getReady = () => isReady = true;
     onDOMReady(getReady);
-    expect(isReady).toBe(true);
+    assert.strictEqual(isReady, true);
   });
 
 });

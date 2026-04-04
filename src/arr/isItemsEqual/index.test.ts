@@ -1,21 +1,27 @@
+import assert from "node:assert";
+import { describe, test } from "node:test";
 import { isItemsEqual } from "./index.ts";
 
 describe(isItemsEqual.name, () => {
-
   test("Checks for invalid args", () => {
-    expect(() => isItemsEqual({} as any)).toThrow();
-    expect(() => isItemsEqual(null as any)).toThrow();
+    assert.throws(() =>
+      // @ts-expect-error testing invalid array argument
+      isItemsEqual({})
+    );
+    assert.throws(() =>
+      // @ts-expect-error testing invalid array argument
+      isItemsEqual(null)
+    );
   });
 
   test("Checks for equivalency", () => {
-    expect(isItemsEqual([ 1, 2, 3 ])).toBe(false);
-    expect(isItemsEqual([ 1, 1, 1 ])).toBe(true);
-    expect(isItemsEqual([ {}, {} ])).toBe(false);
-    expect(isItemsEqual([ null, undefined ])).toBe(false);
+    assert.strictEqual(isItemsEqual([ 1, 2, 3 ]), false);
+    assert.strictEqual(isItemsEqual([ 1, 1, 1 ]), true);
+    assert.strictEqual(isItemsEqual([ {}, {} ]), false);
+    assert.strictEqual(isItemsEqual([ null, undefined ]), false);
   });
 
   test("Checks for empty arr", () => {
-    expect(isItemsEqual([])).toBe(true);
+    assert.strictEqual(isItemsEqual([]), true);
   });
-
 });

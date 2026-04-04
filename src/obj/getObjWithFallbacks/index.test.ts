@@ -1,3 +1,5 @@
+import assert from "node:assert";
+import { describe, test } from "node:test";
 import { getObjWithFallbacks } from "./index.ts";
 
 describe(getObjWithFallbacks.name, () => {
@@ -9,14 +11,34 @@ describe(getObjWithFallbacks.name, () => {
   const data = Object.fromEntries(types.map((type) => [ type, undefined ]));
 
   test("Checks for invalid args", () => {
-    expect(() => getObjWithFallbacks(123 as any, {} as any)).toThrow();
-    expect(() => getObjWithFallbacks({}, null as any)).toThrow();
-    expect(() => getObjWithFallbacks({}, { prop: "123" } as any)).toThrow();
-    expect(() => getObjWithFallbacks({}, { prop: { type: 1 } } as any)).toThrow();
+    assert.throws(() =>
+      getObjWithFallbacks(
+        123 as unknown as Parameters<typeof getObjWithFallbacks>[0],
+        {} as unknown as Parameters<typeof getObjWithFallbacks>[1]
+      )
+    );
+    assert.throws(() =>
+      getObjWithFallbacks(
+        {},
+        null as unknown as Parameters<typeof getObjWithFallbacks>[1]
+      )
+    );
+    assert.throws(() =>
+      getObjWithFallbacks(
+        {},
+        { prop: "123" } as unknown as Parameters<typeof getObjWithFallbacks>[1]
+      )
+    );
+    assert.throws(() =>
+      getObjWithFallbacks(
+        {},
+        { prop: { type: 1 } } as unknown as Parameters<typeof getObjWithFallbacks>[1]
+      )
+    );
   });
 
   test("Checks for default fallbacks", () => {
-    expect(getObjWithFallbacks(data as any, rules as any)).toStrictEqual({
+    assert.deepStrictEqual(getObjWithFallbacks(data as any, rules as any), {
       object: {},
       array: [],
       string: "",
@@ -26,7 +48,7 @@ describe(getObjWithFallbacks.name, () => {
   });
 
   test("Checks for custom types", () => {
-    expect(getObjWithFallbacks({
+    assert.deepStrictEqual(getObjWithFallbacks({
       nullishProp: null,
       wrongNumberProp: "1,11",
       tryToNumber: "1.11",
@@ -40,7 +62,7 @@ describe(getObjWithFallbacks.name, () => {
       tryToNumber: {
         type: "number",
       },
-    })).toStrictEqual({
+    }), {
       nullishProp: "",
       wrongNumberProp: 0,
       tryToNumber: 1.11,
@@ -48,17 +70,17 @@ describe(getObjWithFallbacks.name, () => {
   });
 
   test("Checks without rules prop", () => {
-    expect(getObjWithFallbacks({
+    assert.deepStrictEqual(getObjWithFallbacks({
       prop1: 1,
       prop2: 2,
-    })).toStrictEqual({
+    }), {
       prop1: 1,
       prop2: 2,
     });
   });
 
   test("Checks for custom fallbacks", () => {
-    expect(getObjWithFallbacks({
+    assert.deepStrictEqual(getObjWithFallbacks({
       string: null,
       number: [],
     } as any, {
@@ -70,7 +92,7 @@ describe(getObjWithFallbacks.name, () => {
         type: "number",
         fallback: -1,
       },
-    })).toStrictEqual({
+    }), {
       string: "custom string",
       number: -1,
     });

@@ -16,4 +16,3 @@ export type TGetElSiblingsReturn = ReturnType<typeof getElSiblings>;
  * getElSiblings(secondItem).filter(item => item !== secondItem) // [ li#item1, li#utem3 ]
  */
 export declare const getElSiblings: (el: HTMLElement) => Array<ChildNode>;
-export default getElSiblings;

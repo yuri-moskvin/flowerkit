@@ -1,15 +1,22 @@
+import assert from "node:assert";
+import { describe, test } from "node:test";
 import { getRandomIntFromInterval } from "./index.ts";
 
 describe(getRandomIntFromInterval.name, () => {
 
   test("Checks for invalid args", () => {
-    expect(() => getRandomIntFromInterval(false as any, 10)).toThrow();
+    assert.throws(() =>
+      getRandomIntFromInterval(
+        // @ts-expect-error testing invalid min argument
+        false, 10
+      )
+    );
   });
 
   test("Checks for valid numbers", () => {
     const random = getRandomIntFromInterval(1, 10);
-    expect(getRandomIntFromInterval(0, 0)).toBe(0);
-    expect(random >= 1 && random <= 10).toBe(true);
+    assert.strictEqual(getRandomIntFromInterval(0, 0), 0);
+    assert.strictEqual(random >= 1 && random <= 10, true);
   });
 
 });
