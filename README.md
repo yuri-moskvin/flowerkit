@@ -1,61 +1,85 @@
-# FlowerKit 🌸 JS and TS utils frontend library
+﻿# FlowerKit 🌸 Tree-shakable JavaScript and TypeScript Utility Library
 
-More than 70 commonly used utility functions for JavaScript and TypeScript that simplify frontend development.
+More than 70 frontend-focused utilities for JavaScript and TypeScript: DOM, events, arrays, objects, strings, date, JSON, and network helpers.
 
 [![npm](https://img.shields.io/npm/v/@web3r/flowerkit)](https://www.npmjs.com/package/@web3r/flowerkit)
+[![npm downloads](https://img.shields.io/npm/dw/@web3r/flowerkit)](https://www.npmjs.com/package/@web3r/flowerkit)
 
-## Usage 🛠️
+## Install
+
+```bash
+npm i @web3r/flowerkit
+# or
+pnpm add @web3r/flowerkit
+# or
+yarn add @web3r/flowerkit
+```
+
+## Quick Start
 
 ```ts
-// tree-shakable ESM import
-import { isNode, /* ... */ } from "@web3r/flowerkit/dom";
-import { onSwipe, /* ... */ } from "@web3r/flowerkit/evt";
+import { isNode } from "@web3r/flowerkit/dom";
+import { getDebouncedFn } from "@web3r/flowerkit/fn";
+import { getMergedObj } from "@web3r/flowerkit/obj";
 
-// ESM import of whole utils packs
-import { domKit, evtKit, /* ... */ } from "@web3r/flowerkit";
+const debouncedLog = getDebouncedFn((value: string) => console.log(value), 300);
+debouncedLog("hello");
 
-// CJS import
+const result = getMergedObj({ first: [ "foo" ] }, { first: [ "bar" ], ok: true });
+console.log(result); // => { first: [ "foo", "bar" ], ok: true }
+
+console.log(isNode(document.body)); // => true
+```
+
+## Usage
+
+```ts
+// tree-shakable ESM imports from subpaths
+import { isNode } from "@web3r/flowerkit/dom";
+import { onSwipe } from "@web3r/flowerkit/evt";
+
+// import whole kits
+import { domKit, evtKit } from "@web3r/flowerkit";
+
+// CJS
 const domKit = require("@web3r/flowerkit/dom");
 
 // types
-import type { TGetCurryFnArgs, TGetCurryFnReturn, /* ... */ } from "@web3r/flowerkit/fn";
+import type { TGetCurryFnArgs, TGetCurryFnReturn } from "@web3r/flowerkit/fn";
 ```
 
-## Features ✨
+## Features
 
-- **Tree shaking**: includes only the necessary code in your bundle;
-- **Friendly names**: functions that return objects begin with the "get" prefix, and functions that return boolean values begin with "is";
-- **JSDoc**: each utility includes a detailed description and usage examples, available in your IDE;
-- **Lightweight**: the entire library is no more than 30 KB;
-- **Error catching**: throws immediate errors when invalid arguments are passed;
-- **SSR friendly**: fallbacks for DOM `window` and `document` objects;
-- **TypeScript friendly**: types included for all functions;
-- **ESM and CJS**: supports both types of modules;
-- **Safe**: zero vulnerabilities.
+- Tree-shakable subpath imports for smaller bundles
+- TypeScript types for all exported functions
+- Works in browser and SSR environments
+- ESM and CJS support
+- JSDoc on utilities with usage examples
+- Input validation with clear runtime errors
 
-## Structure ☰
+## Structure
 
-- `@web3r/flowerkit/arr` — for arrays and array-like objects;
-- `@web3r/flowerkit/css` — for CSS from JS;
-- `@web3r/flowerkit/dom` — for DOM and Nodes;
-- `@web3r/flowerkit/evt` — for events;
-- `@web3r/flowerkit/fn` — for functions;
-- `@web3r/flowerkit/json` — for JSON;
-- `@web3r/flowerkit/net` — for network features;
-- `@web3r/flowerkit/obj` — for objects;
-- `@web3r/flowerkit/str` — for strings;
-- `@web3r/flowerkit/user` — for common client-side browser features;
-- `@web3r/flowerkit/date` — for Date constructor features;
+- `@web3r/flowerkit/arr` - arrays and iterable helpers
+- `@web3r/flowerkit/css` - CSS utilities from JavaScript
+- `@web3r/flowerkit/date` - Date helpers
+- `@web3r/flowerkit/dom` - DOM and Node helpers
+- `@web3r/flowerkit/evt` - event helpers
+- `@web3r/flowerkit/fn` - function helpers (curry, debounce, throttle)
+- `@web3r/flowerkit/json` - JSON helpers
+- `@web3r/flowerkit/net` - network helpers
+- `@web3r/flowerkit/obj` - object helpers
+- `@web3r/flowerkit/str` - string helpers
+- `@web3r/flowerkit/user` - browser/user environment helpers
 
-## Examples 💡
+## Examples
 
 ### Capitalize the first letter of a string
 
 ```js
-import { getStringWithCapitalizedFirstLetter } from "@web3r/flowerkit/str";
+import { getStrWithCapitalized } from "@web3r/flowerkit/str";
 
 const str = "hello world";
-const upperStr = getStringWithCapitalizedFirstLetter(str);
+const upperStr = getStrWithCapitalized(str);
 console.log(upperStr); // => "Hello world"
 ```
 
@@ -69,7 +93,7 @@ function getSum(a, b) {
 }
 
 const getCurriedSum = getCurryFn(getSum);
-curriedSum(1)(2); // 3
+console.log(getCurriedSum(1)(2)); // => 3
 ```
 
 ### Debounce a function
@@ -78,13 +102,12 @@ curriedSum(1)(2); // 3
 import { getDebouncedFn } from "@web3r/flowerkit/fn";
 
 const fn = getDebouncedFn(alert, 1000);
+fn(1);
+fn(2);
 
-fn(1); // calls immediately
-fn(2); // ignored
-
-setTimeout(() => fn(3), 100); // ignored
-setTimeout(() => fn(4), 1100); // calls
-setTimeout(() => fn(5), 1500); // ignored
+// only the last call within 1000ms is executed
+setTimeout(() => fn(3), 100);
+setTimeout(() => fn(4), 1100);
 ```
 
 ### Throttle a function
@@ -92,8 +115,7 @@ setTimeout(() => fn(5), 1500); // ignored
 ```js
 import { getThrottledFn } from "@web3r/flowerkit/fn";
 
-const fn = getThrottledFn(alert, 5000); // this function should only be able to execute once every 5 sec.
-
+const fn = getThrottledFn(alert, 5000);
 fn(1); // calls immediately
 fn(2); // ignored
 setTimeout(() => fn(3), 5000); // calls
@@ -104,12 +126,18 @@ setTimeout(() => fn(3), 5000); // calls
 ```js
 import { getObjLength } from "@web3r/flowerkit/obj";
 
-const obj = {
-  key1: "value1",
-  key2: "value2"
-};
-const objLength = getObjLength(obj);
-console.log(objLength); // => 2
+const obj = { key1: "value1", key2: "value2" };
+console.log(getObjLength(obj)); // => 2
+```
+
+### Compare objects by keys and values
+
+```js
+import { isObjEqual } from "@web3r/flowerkit/obj";
+
+const a = { foo: { bar: 1 } };
+const b = { foo: { bar: 1 } };
+console.log(isObjEqual(a, b)); // => true
 ```
 
 ### Deep clone an object
@@ -117,13 +145,11 @@ console.log(objLength); // => 2
 ```js
 import { getCopyOfObj } from "@web3r/flowerkit/obj";
 
-const originalObject = {
-  value: 1,
-}
+const originalObject = { value: 1 };
 const copy = getCopyOfObj(originalObject);
 
 copy.value = 2;
-console.log(originalObject.value === copy.value) // false
+console.log(originalObject.value === copy.value); // => false
 ```
 
 ### Merge two objects
@@ -131,36 +157,30 @@ console.log(originalObject.value === copy.value) // false
 ```js
 import { getMergedObj } from "@web3r/flowerkit/obj";
 
-const targetObj = {
-  first: [ "foo" ],
-}
-const sourceObj = {
-  first: [ "moo" ],
-  boo: 12
-}
-getMergedObj(targetObj, sourceObj) // => { first: [ "foo", "moo" ], boo: 12 }
+const targetObj = { first: [ "foo" ] };
+const sourceObj = { first: [ "moo" ], boo: 12 };
+console.log(getMergedObj(targetObj, sourceObj)); // => { first: [ "foo", "moo" ], boo: 12 }
 ```
 
-### Generates a random ID
+### Generate a random ID
 
 ```js
 import { getId } from "@web3r/flowerkit/str";
 
 const uniqueId = getId(100);
-console.log(uniqueId.length); // 100
+console.log(uniqueId.length); // => 100
 ```
 
-### Checks if an object is iterable
+### Check if a value is iterable
 
 ```js
 import { isIterable } from "@web3r/flowerkit/arr";
 
-const myDivs = document.querySelectAll("div");
-const isCanBeIterated = isIterable(myDivs);
-console.log(isCanBeIterated); // => true
+const myDivs = document.querySelectorAll("div");
+console.log(isIterable(myDivs)); // => true
 ```
 
-### Set a CSS3 variable from JavaScript
+### Set a CSS variable from JavaScript
 
 ```js
 import { setCSSVar } from "@web3r/flowerkit/css";
@@ -170,7 +190,7 @@ setCSSVar(block, "myVar", 10);
 // <div id="myBlock" style="--myVar: 10"></div>
 ```
 
-### Detect an "invalid date" instance
+### Detect an invalid Date instance
 
 ```js
 import { isValidDate } from "@web3r/flowerkit/date";
@@ -182,6 +202,6 @@ const validDate = new Date(0);
 console.log(isValidDate(validDate)); // => true
 ```
 
-## API 🚀
+## API
 
-The library helps you solve many other problems. See [API docs & examples](https://github.com/yuri-moskvin/flowerkit/blob/main/docs/index.md).
+See full [API docs and examples](https://github.com/yuri-moskvin/flowerkit/blob/main/docs/index.md).

@@ -5,16 +5,16 @@ import { getObjFromFormData } from "../../obj/getObjFromFormData/index.ts";
 import { getFormDataFromObj } from "../getFormDataFromObj/index.ts";
 import { getUrlWithQueryParams } from "../getUrlWithQueryParams/index.ts";
 
-export type TGetFromServerArgs<T> = {
+export type TGetFromServerArgs<TResp = unknown, TSuccess = TResp> = {
   contentType?: "auto" | "application/json" | "application/x-www-form-urlencoded" | "multipart/form-data";
   isBubble?: boolean;
   timeout?: number;
-  method?: "GET" | "PUT" | "POST" | "DELETE" | "HEAD" | "CONNECT" | "OPTIONS" | "TRACE";
+  method?: "GET" | "PUT" | "POST" | "DELETE" | "HEAD" | "CONNECT" | "OPTIONS" | "TRACE" | "PATCH";
   mode?: RequestMode;
   signal?: AbortSignal | null;
   data?: Record<string, unknown> | FormData | null;
-  getSuccessResp?: (data: T) => T;
-  getResp?: <T = unknown>(resp: Response) => Promise<T>;
+  getSuccessResp?: (data: TResp) => TSuccess;
+  getResp?: (resp: Response) => Promise<TResp>;
   type?: "text" | "json" | "blob" | "arrayBuffer";
   url?: string;
   headers?: Record<string, string>;
@@ -56,11 +56,14 @@ export type TGetFromServerReturn = ReturnType<typeof getFromServer>;
  * @throws {TypeError} getFromServer: url must be a string
  * @throws {TypeError} getFromServer: allowedCodes must be an array of integers
  * @throws {TypeError} getFromServer: data must be a plain object, FormData, or null
+ * @throws {TypeError} getFromServer: timeout must be a non-negative number or Infinity
  * @see https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API
  * @example
  * const user = await getFromServer<{ userId: number }>({ url: "/api/user?id=1", method: "GET" });
  */
-export const getFromServer = async <T = unknown>(props: TGetFromServerArgs<T> = {}): Promise<T> => {
+export const getFromServer = async <TResp = unknown, TSuccess = TResp>(
+  props: TGetFromServerArgs<TResp, TSuccess> = {}
+): Promise<TSuccess> => {
   const {
     contentType = "auto",
     isBubble = true,
@@ -69,7 +72,6 @@ export const getFromServer = async <T = unknown>(props: TGetFromServerArgs<T> = 
     mode = "cors",
     signal = null,
     data = null,
-    getSuccessResp = ((resp: T) => resp),
     getResp,
     type = "json",
     url = getWindow().location.href || "./",
@@ -82,6 +84,25 @@ export const getFromServer = async <T = unknown>(props: TGetFromServerArgs<T> = 
     fetchProps = {},
   } = props;
 
+  const getSuccessResp = props.getSuccessResp ?? ((resp: TResp) => resp as unknown as TSuccess);
+  const methodNormalized = String(method).toUpperCase() as Uppercase<typeof method>;
+  const methodsWithBody = new Set([
+    "POST",
+    "PUT",
+    "DELETE",
+    "PATCH",
+  ]);
+  const methodsNoBody = new Set([
+    "GET",
+    "HEAD",
+    "CONNECT",
+    "OPTIONS",
+    "TRACE",
+  ]);
+  const isFormData = (v: unknown): v is FormData => typeof FormData !== "undefined" && v instanceof FormData;
+  const isPlainObject = (v: unknown): v is Record<string, unknown> => {
+    return Object.prototype.toString.call(v) === "[object Object]";
+  };
 
   if (typeof url !== "string") {
     throw new TypeError("getFromServer: url must be a string");
@@ -91,47 +112,64 @@ export const getFromServer = async <T = unknown>(props: TGetFromServerArgs<T> = 
     throw new TypeError("getFromServer: allowedCodes must be an array of integers");
   }
 
-  if (data !== null && typeof data !== "object") {
+  if (typeof timeout !== "number" || (Number.isFinite(timeout) && timeout < 0) || Number.isNaN(timeout)) {
+    throw new TypeError("getFromServer: timeout must be a non-negative number or Infinity");
+  }
+
+  if (data !== null && !isFormData(data) && !isPlainObject(data)) {
     throw new TypeError("getFromServer: data must be a plain object, FormData, or null");
   }
 
   let timer: ReturnType<typeof setTimeout> | null = null;
-  const queries: Array<Promise<any>> = [];
+  let isTimedOut = false;
+  const requestController = new AbortController();
+  const externalAbortListener = (): void => {
+    requestController.abort();
+  };
+  if (signal) {
+    if (signal.aborted) {
+      externalAbortListener();
+    } else {
+      signal.addEventListener("abort", externalAbortListener, { once: true });
+    }
+  }
 
-  const isPost = method.toUpperCase() === "POST";
-  const isFormData = (v: unknown): v is FormData => typeof FormData !== "undefined" && v instanceof FormData;
+  const getDataAsObject = (): Record<string, unknown> => {
+    return isFormData(data) ? getObjFromFormData(data) : (data ?? {});
+  };
 
   /**
    * Produces request body based on contentType and data
    * @private
-   * @returns {null | FormData | string}
+   * @returns {BodyInit | null}
    */
-  const getBody = (): FormData | string | null => {
+  const getBody = (): BodyInit | null => {
+    if (!methodsWithBody.has(methodNormalized)) {
+      return null;
+    }
+
     switch (true) {
-      case contentType === "application/json" && isPost:
-        return JSON.stringify(isFormData(data) ? getObjFromFormData(data) : (data || {}));
-      case [ "application/x-www-form-urlencoded", "multipart/form-data", "auto" ].includes(contentType) && isPost:
+      case contentType === "application/json":
+        return JSON.stringify(getDataAsObject());
+      case contentType === "application/x-www-form-urlencoded": {
+        const params = new URLSearchParams();
+        Object.entries(getDataAsObject())
+          .forEach(([ key, value ]) => {
+            params.set(key, String(value ?? ""));
+          });
+        return params.toString();
+      }
+      case contentType === "multipart/form-data":
         return isFormData(data)
           ? data
-          : getFormDataFromObj((data || {}) as Record<string, unknown>);
+          : getFormDataFromObj(getDataAsObject());
+      case contentType === "auto":
+        return isFormData(data)
+          ? data
+          : getFormDataFromObj(getDataAsObject());
       default:
         return null;
     }
-  };
-
-  /**
-   * Reject helper
-   * @private
-   */
-  const getReject = <E = unknown>(reason: E): Promise<never> => Promise.reject(reason);
-
-  /**
-   * Timeout helper
-   * @private
-   */
-  const setTimer = (cb: (code: number) => void): ReturnType<typeof setTimeout> => {
-    timer = setTimeout(() => cb(408), timeout);
-    return timer;
   };
 
   /**
@@ -139,8 +177,7 @@ export const getFromServer = async <T = unknown>(props: TGetFromServerArgs<T> = 
    * @private
    */
   const getUrl = (): string => {
-    const methodsNoBody: TGetFromServerArgs<T>["method"][] = [ "GET", "HEAD", "CONNECT", "OPTIONS", "TRACE" ];
-    return (methodsNoBody.includes(method) && data !== null)
+    return (methodsNoBody.has(methodNormalized) && data !== null)
       ? getUrlWithQueryParams(
         url, isFormData(data)
           ? data
@@ -153,23 +190,20 @@ export const getFromServer = async <T = unknown>(props: TGetFromServerArgs<T> = 
    * Response parser
    * @private
    */
-  const getResponse = async (resp: Response): Promise<T> => {
-    if (timer) {
-      clearTimeout(timer);
-    }
+  const getResponse = async (resp: Response): Promise<TResp> => {
     if (typeof getResp === "function") {
-      return await getResp(resp) as T;
+      return await getResp(resp);
     }
     const { ok, status } = resp;
     if (ok || (allowedCodes.length > 0 && allowedCodes.includes(status))) {
       switch (type) {
-        case "arrayBuffer": return await resp.arrayBuffer() as unknown as T;
-        case "json": return await resp.json() as T;
-        case "blob": return await resp.blob() as unknown as T;
-        default: return await resp.text() as unknown as T;
+        case "arrayBuffer": return await resp.arrayBuffer() as unknown as TResp;
+        case "json": return await resp.json() as TResp;
+        case "blob": return await resp.blob() as unknown as TResp;
+        default: return await resp.text() as unknown as TResp;
       }
     }
-    return await getReject(resp);
+    throw resp;
   };
 
   /**
@@ -178,38 +212,60 @@ export const getFromServer = async <T = unknown>(props: TGetFromServerArgs<T> = 
    */
   const getHeaders = (): Record<string, string> => {
     const result: Record<string, string> = { ...(headers || {}) };
-    if (contentType !== "auto") {
+    if (contentType === "multipart/form-data") {
+      Object.keys(result).forEach((key) => {
+        if (key.toLowerCase() === "content-type") {
+          delete result[key];
+        }
+      });
+      return result;
+    }
+    if ([ "application/json", "application/x-www-form-urlencoded" ].includes(contentType)) {
       result["Content-Type"] = contentType;
     }
     return result;
   };
 
+  if (timeout && timeout !== Infinity) {
+    timer = setTimeout(() => {
+      isTimedOut = true;
+      requestController.abort();
+    }, timeout);
+  }
+
   const fetchParams: RequestInit = {
-    method,
-    body: getBody() as BodyInit | null,
+    ...fetchProps,
+    method: methodNormalized,
+    body: getBody(),
     mode,
-    signal: (signal ?? undefined) as AbortSignal | undefined,
+    signal: requestController.signal,
     credentials,
     redirect,
     cache,
     referrerPolicy,
     headers: getHeaders(),
-    ...fetchProps,
   };
 
-  queries.push(fetch(getUrl(), fetchParams));
+  try {
+    const resp = await fetch(getUrl(), fetchParams);
+    const parsed = await getResponse(resp);
 
-  if (timeout && timeout !== Infinity) {
-    queries.push(new Promise<never>((_resolve, reject) => setTimer(reject as (code: number) => void)));
+    if (isBubble && typeof window !== "undefined") {
+      bubble(getDocument(), getFromServer.name, parsed);
+    }
+
+    return getSuccessResp(parsed);
+  } catch (error) {
+    if (isTimedOut) {
+      throw 408;
+    }
+    throw error;
+  } finally {
+    if (timer) {
+      clearTimeout(timer);
+    }
+    if (signal) {
+      signal.removeEventListener("abort", externalAbortListener);
+    }
   }
-
-  return await Promise.race(queries).then(
-    (resp: Response) =>
-      getResponse(resp).then((parsed) => {
-        if (isBubble && typeof window !== "undefined") {
-          bubble(getDocument(), getFromServer.name, parsed);
-        }
-        return getSuccessResp(parsed);
-      }), (reject) => getReject(reject)
-  );
 };

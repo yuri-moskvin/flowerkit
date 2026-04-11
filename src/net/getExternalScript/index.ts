@@ -7,6 +7,7 @@ type TGetExternalScriptProps = {
   appendTo?: Node | HTMLElement;
   id?: string;
   crossorigin?: string;
+  integrity?: string;
   type?: string;
 };
 
@@ -24,6 +25,7 @@ export type TGetExternalScriptReturn = ReturnType<typeof getExternalScript>;
  * @param {Node|HTMLElement} [props.appendTo=document.body] Element to append the script to
  * @param {string} [props.id] Script element id
  * @param {string} [props.crossorigin] `crossorigin` attribute
+ * @param {string} [props.integrity] `integrity` attribute
  * @param {string} [props.type] `type` attribute
  * @returns {Promise<HTMLScriptElement>} Promise that resolves to the created script element
  * @example
@@ -39,6 +41,7 @@ export const getExternalScript = (props: TGetExternalScriptProps): Promise<HTMLS
     appendTo = getDocument().body,
     id,
     crossorigin,
+    integrity,
   } = props ?? ({} as TGetExternalScriptProps);
 
   if (typeof src !== "string" || !src) {
@@ -46,6 +49,9 @@ export const getExternalScript = (props: TGetExternalScriptProps): Promise<HTMLS
   }
   if (!!crossorigin && typeof crossorigin !== "string") {
     return Promise.reject(new TypeError("getExternalScript: props.crossorigin must be a string if provided"));
+  }
+  if (!!integrity && typeof integrity !== "string") {
+    return Promise.reject(new TypeError("getExternalScript: props.integrity must be a string if provided"));
   }
   if (!appendTo || typeof (appendTo as any).appendChild !== "function") {
     return Promise.reject(new TypeError("getExternalScript: props.appendTo must be a Node/HTMLElement if provided"));
@@ -63,6 +69,9 @@ export const getExternalScript = (props: TGetExternalScriptProps): Promise<HTMLS
     }
     if (crossorigin) {
       (script as any).crossorigin = crossorigin;
+    }
+    if (integrity) {
+      script.integrity = integrity;
     }
     if (type) {
       script.type = type;

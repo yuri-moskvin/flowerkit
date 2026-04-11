@@ -1,66 +1,73 @@
 # Changelog
 
+## 1.1.3
+- `getExternalScript/index.ts`: Added a new `integrity` prop.
+- `getFromServer`: Added `data` support for `PUT` and `DELETE` methods, fixed timeout-based `fetch` abort, and removed the hardcoded `Content-Type: multipart/form-data` header.
+- `isObjEqual/index.ts`:  Added a new utility.
+- Updated `README.md`.
+- Updated dependencies.
+
 ## 1.1.2
-- Dependencies updated.
+- Updated dependencies.
 - `getElSiblings/index.ts`: Fixed export.
-- API docs updated.
-- Migration from `jest` to Node test runner.
-- `tsx` dropped.
-- Typed versions for `fn` and `dom` fixed.
+- Updated API docs.
+- Migrated from `jest` to the Node test runner.
+- Dropped `tsx`.
+- Type declarations for `fn` and `dom` fixed.
 
 ## 1.1.1
-- Dependencies updated.
-- Exported types added.
+- Updated dependencies.
+- Added exported types.
 
 ## 1.1.0
 - Sources moved to TypeScript.
 - `README.md` updated.
-- New API docs.
-- Dependencies updated.
-- JSDoc updated.
-- CommonJS (CJS) support added.
+- Added new API docs.
+- Updated dependencies.
+- Updated JSDoc.
+- Added CommonJS (CJS) support.
 
 ## 1.0.11
-- `obj/getMergedObj.js`: Fixed handling of nested arrays.
-- Dependencies updated.
+- `getMergedObj/index.js`: Fixed handling of nested arrays.
+- Updated dependencies.
 
 ## 1.0.10
-- `getPureDate/index.js`: Added new util.
-- `isValidDate/index.js`: Added new util.
-- `isNonEmptyArr/index.js`: Added new util.
-- `onWindowLoad/index.js`: JSDoc updated.
-- `onWindowResize/index.js`: JSDoc updated.
-- Development dependencies updated.
+- `getPureDate/index.js`: Added a new utility.
+- `isValidDate/index.js`: Added a new utility.
+- `isNonEmptyArr/index.js`: Added a new utility.
+- `onWindowLoad/index.js`: Updated JSDoc.
+- `onWindowResize/index.js`: Updated JSDoc.
+- Updated development dependencies.
 
 ## 1.0.9
-- `nWindowResize/index.js`: Now returns an object.
+- `onWindowResize/index.js`: Now returns an object.
 - `onSwipe/index.js`: Now returns an object.
 - `onDOMReady/index.js`: Now returns an object.
 - `onWindowLoad/index.js`: Now returns an object.
-- Development dependencies updated.
+- Updated development dependencies.
 
 ## 1.0.8
-- `isAdblock/index.js`: Added new util.
-- Development dependencies updated.
+- `isAdblock/index.js`: Added a new utility.
+- Updated development dependencies.
 
 ## 1.0.7
-- `getMergedObj/index.js`: Options for arrays added.
-- Development dependencies updated.
+- `getMergedObj/index.js`: Added options for arrays.
+- Updated development dependencies.
 
 ## 1.0.6
-- `getId/index.js`: Added new util.
-- `API.md` updated.
-- Development dependencies updated.
+- `getId/index.js`: Added a new utility.
+- Updated `API.md`.
+- Updated development dependencies.
 
 ## 1.0.5
-- `deleteCookie/index.js`: Added new util.
-- `getFromServer/index.js`: `arrayBuffer` response type added.
-- `API.md` updated.
-- Development dependencies updated.
+- `deleteCookie/index.js`: Added a new utility.
+- `getFromServer/index.js`: Added `arrayBuffer` response type.
+- Updated `API.md`.
+- Updated development dependencies.
 
 ## 1.0.3
 - `getAsyncMap/index.js`: Removed unnecessary try/catch.
-- `API.md` created.
+- Created `API.md`.
 
 ## 1.0.0
 - Initial release.

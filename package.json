@@ -1,14 +1,28 @@
 {
   "name": "@web3r/flowerkit",
-  "version": "1.1.2",
-  "description": "A collection of more than 70 often used utility JS/TS functions that simplify frontend development.",
+  "version": "1.1.3",
+  "description": "Tree-shakable JavaScript and TypeScript utility library for frontend/browser apps: DOM, events, arrays, objects, strings, date, JSON, and network helpers (ESM/CJS, SSR-friendly).",
   "keywords": [
-    "dom",
+    "javascript",
+    "typescript",
     "utils",
-    "utilities",
     "utility",
-    "js util",
-    "ts util"
+    "frontend",
+    "browser",
+    "dom",
+    "events",
+    "array",
+    "object",
+    "string",
+    "date",
+    "json",
+    "debounce",
+    "throttle",
+    "formdata",
+    "ssr",
+    "tree-shaking",
+    "esm",
+    "cjs"
   ],
   "type": "module",
   "engines": {
@@ -168,7 +182,7 @@
     "@commitlint/cli": "^20.5.0",
     "@commitlint/config-conventional": "^20.5.0",
     "@commitlint/types": "^20.5.0",
-    "@eslint/compat": "^2.0.3",
+    "@eslint/compat": "^2.0.5",
     "@jest/globals": "^30.3.0",
     "@rollup/plugin-babel": "^7.0.0",
     "@rollup/plugin-commonjs": "^29.0.2",
@@ -181,11 +195,11 @@
     "@types/eslint": "^9.6.1",
     "@types/eslint-plugin-security": "^3.0.1",
     "@types/jsdom": "^28.0.1",
-    "@typescript-eslint/eslint-plugin": "^8.58.0",
-    "@typescript-eslint/parser": "^8.58.0",
+    "@typescript-eslint/eslint-plugin": "^8.58.1",
+    "@typescript-eslint/parser": "^8.58.1",
     "commitlint": "^20.5.0",
     "cross-env": "^10.1.0",
-    "eslint": "^10.1.0",
+    "eslint": "^10.2.0",
     "eslint-import-resolver-typescript": "^4.4.4",
     "eslint-plugin-import": "^2.32.0",
     "eslint-plugin-jsdoc": "^62.9.0",
@@ -196,7 +210,7 @@
     "global-jsdom": "^29.0.0",
     "globals": "^17.4.0",
     "husky": "^9.1.7",
-    "jsdom": "^29.0.1",
+    "jsdom": "^29.0.2",
     "lint-staged": "^16.4.0",
     "patch-package": "^8.0.1",
     "rollup": "^4.60.1",
@@ -210,15 +224,15 @@
     "defaults"
   ],
   "dependencies": {
-    "node-html-parser": "^7.0.2",
+    "node-html-parser": "^7.1.0",
     "ssr-window": "^5.0.1"
   },
   "peerDependencies": {
-    "node-html-parser": "^7.0.2",
+    "node-html-parser": "^7.1.0",
     "ssr-window": "^5.0.1"
   },
   "overrides": {
-    "eslint": "^10.1.0",
+    "eslint": "^10.2.0",
     "serialize-javascript": ">=7.0.3",
     "typescript": "^6.0.2"
   }

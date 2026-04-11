@@ -27,33 +27,26 @@ import{getWindow,getDocument}from"ssr-window";import{bubble}from"../../evt/bubbl
  * @throws {TypeError} getFromServer: url must be a string
  * @throws {TypeError} getFromServer: allowedCodes must be an array of integers
  * @throws {TypeError} getFromServer: data must be a plain object, FormData, or null
+ * @throws {TypeError} getFromServer: timeout must be a non-negative number or Infinity
  * @see https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API
  * @example
  * const user = await getFromServer<{ userId: number }>({ url: "/api/user?id=1", method: "GET" });
- */const getFromServer=async(props={})=>{const{contentType:contentType="auto",isBubble:isBubble=true,timeout:timeout=15000,method:method="GET",mode:mode="cors",signal:signal=null,data:data=null,getSuccessResp:getSuccessResp=resp=>resp,getResp:getResp,type:type="json",url:url=getWindow().location.href||"./",headers:headers={},allowedCodes:allowedCodes=[],credentials:credentials="same-origin",redirect:redirect="follow",referrerPolicy:referrerPolicy="no-referrer-when-downgrade",cache:cache="default",fetchProps:fetchProps={}}=props;if(typeof url!=="string")throw new TypeError("getFromServer: url must be a string");if(!Array.isArray(allowedCodes)||!allowedCodes.every(c=>Number.isInteger(c)))throw new TypeError("getFromServer: allowedCodes must be an array of integers");if(data!==null&&typeof data!=="object")throw new TypeError("getFromServer: data must be a plain object, FormData, or null");let timer=null;const queries=[];const isPost=method.toUpperCase()==="POST";const isFormData=v=>typeof FormData!=="undefined"&&v instanceof FormData;
+ */const getFromServer=async(props={})=>{const{contentType:contentType="auto",isBubble:isBubble=true,timeout:timeout=15000,method:method="GET",mode:mode="cors",signal:signal=null,data:data=null,getResp:getResp,type:type="json",url:url=getWindow().location.href||"./",headers:headers={},allowedCodes:allowedCodes=[],credentials:credentials="same-origin",redirect:redirect="follow",referrerPolicy:referrerPolicy="no-referrer-when-downgrade",cache:cache="default",fetchProps:fetchProps={}}=props;const getSuccessResp=props.getSuccessResp??(resp=>resp);const methodNormalized=String(method).toUpperCase();const methodsWithBody=new Set(["POST","PUT","DELETE","PATCH"]);const methodsNoBody=new Set(["GET","HEAD","CONNECT","OPTIONS","TRACE"]);const isFormData=v=>typeof FormData!=="undefined"&&v instanceof FormData;const isPlainObject=v=>Object.prototype.toString.call(v)==="[object Object]";if(typeof url!=="string")throw new TypeError("getFromServer: url must be a string");if(!Array.isArray(allowedCodes)||!allowedCodes.every(c=>Number.isInteger(c)))throw new TypeError("getFromServer: allowedCodes must be an array of integers");if(typeof timeout!=="number"||Number.isFinite(timeout)&&timeout<0||Number.isNaN(timeout))throw new TypeError("getFromServer: timeout must be a non-negative number or Infinity");if(data!==null&&!isFormData(data)&&!isPlainObject(data))throw new TypeError("getFromServer: data must be a plain object, FormData, or null");let timer=null;let isTimedOut=false;const requestController=new AbortController;const externalAbortListener=()=>{requestController.abort()};if(signal)if(signal.aborted)externalAbortListener();else signal.addEventListener("abort",externalAbortListener,{once:true});const getDataAsObject=()=>isFormData(data)?getObjFromFormData(data):data??{};
 /**
    * Produces request body based on contentType and data
    * @private
-   * @returns {null | FormData | string}
-   */const getBody=()=>{switch(true){case contentType==="application/json"&&isPost:return JSON.stringify(isFormData(data)?getObjFromFormData(data):data||{});case["application/x-www-form-urlencoded","multipart/form-data","auto"].includes(contentType)&&isPost:return isFormData(data)?data:getFormDataFromObj(data||{});default:return null}};
-/**
-   * Reject helper
-   * @private
-   */const getReject=reason=>Promise.reject(reason);
-/**
-   * Timeout helper
-   * @private
-   */const setTimer=cb=>{timer=setTimeout(()=>cb(408),timeout);return timer};
+   * @returns {BodyInit | null}
+   */const getBody=()=>{if(!methodsWithBody.has(methodNormalized))return null;switch(true){case contentType==="application/json":return JSON.stringify(getDataAsObject());case contentType==="application/x-www-form-urlencoded":{const params=new URLSearchParams;Object.entries(getDataAsObject()).forEach(([key,value])=>{params.set(key,String(value??""))});return params.toString()}case contentType==="multipart/form-data":return isFormData(data)?data:getFormDataFromObj(getDataAsObject());case contentType==="auto":return isFormData(data)?data:getFormDataFromObj(getDataAsObject());default:return null}};
 /**
    * URL builder (adds query params for GET-like methods)
    * @private
-   */const getUrl=()=>{const methodsNoBody=["GET","HEAD","CONNECT","OPTIONS","TRACE"];return methodsNoBody.includes(method)&&data!==null?getUrlWithQueryParams(url,isFormData(data)?data:data):url};
+   */const getUrl=()=>methodsNoBody.has(methodNormalized)&&data!==null?getUrlWithQueryParams(url,isFormData(data)?data:data):url;
 /**
    * Response parser
    * @private
-   */const getResponse=async resp=>{if(timer)clearTimeout(timer);if(typeof getResp==="function")return await getResp(resp);const{ok:ok,status:status}=resp;if(ok||allowedCodes.length>0&&allowedCodes.includes(status))switch(type){case"arrayBuffer":return await resp.arrayBuffer();case"json":return await resp.json();case"blob":return await resp.blob();default:return await resp.text()}return await getReject(resp)};
+   */const getResponse=async resp=>{if(typeof getResp==="function")return await getResp(resp);const{ok:ok,status:status}=resp;if(ok||allowedCodes.length>0&&allowedCodes.includes(status))switch(type){case"arrayBuffer":return await resp.arrayBuffer();case"json":return await resp.json();case"blob":return await resp.blob();default:return await resp.text()}throw resp};
 /**
    * Headers builder
    * @private
-   */const getHeaders=()=>{const result={...headers||{}};if(contentType!=="auto")result["Content-Type"]=contentType;return result};const fetchParams={method:method,body:getBody(),mode:mode,signal:signal??void 0,credentials:credentials,redirect:redirect,cache:cache,referrerPolicy:referrerPolicy,headers:getHeaders(),...fetchProps};queries.push(fetch(getUrl(),fetchParams));if(timeout&&timeout!==Infinity)queries.push(new Promise((_resolve,reject)=>setTimer(reject)));return await Promise.race(queries).then(resp=>getResponse(resp).then(parsed=>{if(isBubble&&typeof window!=="undefined")bubble(getDocument(),getFromServer.name,parsed);return getSuccessResp(parsed)}),reject=>getReject(reject))};export{getFromServer};
+   */const getHeaders=()=>{const result={...headers||{}};if(contentType==="multipart/form-data"){Object.keys(result).forEach(key=>{if(key.toLowerCase()==="content-type")delete result[key]});return result}if(["application/json","application/x-www-form-urlencoded"].includes(contentType))result["Content-Type"]=contentType;return result};if(timeout&&timeout!==Infinity)timer=setTimeout(()=>{isTimedOut=true;requestController.abort()},timeout);const fetchParams={...fetchProps,method:methodNormalized,body:getBody(),mode:mode,signal:requestController.signal,credentials:credentials,redirect:redirect,cache:cache,referrerPolicy:referrerPolicy,headers:getHeaders()};try{const resp=await fetch(getUrl(),fetchParams);const parsed=await getResponse(resp);if(isBubble&&typeof window!=="undefined")bubble(getDocument(),getFromServer.name,parsed);return getSuccessResp(parsed)}catch(error){if(isTimedOut)throw 408;throw error}finally{if(timer)clearTimeout(timer);if(signal)signal.removeEventListener("abort",externalAbortListener)}};export{getFromServer};
 //# sourceMappingURL=index.mjs.map

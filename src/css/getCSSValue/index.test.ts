@@ -27,7 +27,7 @@ describe(getCSSValue.name, () => {
   });
 
   test("Checks for prop values", () => {
-    assert.strictEqual(getCSSValue(document.body, "font-size"), "");
+    assert.strictEqual(getCSSValue(document.body, "font-size"), "medium");
 
     document.body.style.textAlign = "center";
     assert.strictEqual(getCSSValue(document.body, "text-align"), "center");

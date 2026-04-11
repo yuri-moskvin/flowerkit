@@ -3,10 +3,10 @@ ___
 ## Usage
 ```ts
 // import functions
-import { getAllSamePropsFromObj, getCopyOfObj, getMapFromObj, isObjHasOwnProp, getMergedObj, getObjFromFormData, getObjLength, getObjWithFallbacks, isObjEmpty, isObjPromise, isObjPrototypeOf } from "@web3r/flowerkit/obj";
+import { getAllSamePropsFromObj, getCopyOfObj, getMapFromObj, isObjHasOwnProp, getMergedObj, getObjFromFormData, getObjLength, getObjWithFallbacks, isObjEmpty, isObjEqual, isObjPromise, isObjPrototypeOf } from "@web3r/flowerkit/obj";
 
 // import types
-import type { TGetAllSamePropsFromObjArgs, TGetAllSamePropsFromObjReturn, TGetCopyOfObjArgs, TGetCopyOfObjReturn, TGetMapFromObjArgs, TGetMapFromObjReturn, TIsObjHasOwnPropArgs, TIsObjHasOwnPropReturn, TGetMergedObjArgs, TGetMergedObjReturn, TGetObjFromFormDataArgs, TGetObjFromFormDataReturn, TGetObjLengthArgs, TGetObjLengthReturn, TGetObjWithFallbacksArgs, TGetObjWithFallbacksReturn, TIsObjEmptyArgs, TIsObjEmptyReturn, TIsObjPromiseArgs, TIsObjPromiseReturn, TIsObjPrototypeOfArgs, TIsObjPrototypeOfReturn } from "@web3r/flowerkit/obj";
+import type { TGetAllSamePropsFromObjArgs, TGetAllSamePropsFromObjReturn, TGetCopyOfObjArgs, TGetCopyOfObjReturn, TGetMapFromObjArgs, TGetMapFromObjReturn, TIsObjHasOwnPropArgs, TIsObjHasOwnPropReturn, TGetMergedObjArgs, TGetMergedObjReturn, TGetObjFromFormDataArgs, TGetObjFromFormDataReturn, TGetObjLengthArgs, TGetObjLengthReturn, TGetObjWithFallbacksArgs, TGetObjWithFallbacksReturn, TIsObjEmptyArgs, TIsObjEmptyReturn, TIsObjEqualArgs, TIsObjEqualReturn, TIsObjPromiseArgs, TIsObjPromiseReturn, TIsObjPrototypeOfArgs, TIsObjPrototypeOfReturn } from "@web3r/flowerkit/obj";
 ```
 ___
 ## Functions
@@ -20,6 +20,7 @@ ___
 - [getObjLength](#getobjlength)
 - [getObjWithFallbacks](#getobjwithfallbacks)
 - [isObjEmpty](#isobjempty)
+- [isObjEqual](#isobjequal)
 - [isObjPromise](#isobjpromise)
 - [isObjPrototypeOf](#isobjprototypeof)
 
@@ -290,6 +291,35 @@ console.log(isEmpty); // => true
 ```
 
 
+### isObjEqual
+
+Checks if two objects are deeply equal by keys and values (not by reference)
+
+| Function | Type |
+| ---------- | ---------- |
+| `isObjEqual` | `(obj1: unknown, obj2: unknown) => boolean` |
+
+Parameters:
+
+* `obj1`: First object
+* `obj2`: Second object
+
+
+Returns:
+
+True if objects are deeply equal
+
+Examples:
+
+```ts
+// How to compare two objects by content?
+const a = { foo: { bar: 1 } };
+const b = { foo: { bar: 1 } };
+const isEqual = isObjEqual(a, b);
+console.log(isEqual); // => true
+```
+
+
 ### isObjPromise
 
 Checks if an object is promise
@@ -376,6 +406,8 @@ isObjPrototypeOf(Object.prototype, 123); // => false
 - [TGetObjWithFallbacksReturn](#tgetobjwithfallbacksreturn)
 - [TIsObjEmptyArgs](#tisobjemptyargs)
 - [TIsObjEmptyReturn](#tisobjemptyreturn)
+- [TIsObjEqualArgs](#tisobjequalargs)
+- [TIsObjEqualReturn](#tisobjequalreturn)
 - [TIsObjPromiseArgs](#tisobjpromiseargs)
 - [TIsObjPromiseReturn](#tisobjpromisereturn)
 - [TIsObjPrototypeOfArgs](#tisobjprototypeofargs)
@@ -488,6 +520,18 @@ isObjPrototypeOf(Object.prototype, 123); // => false
 | Type | Type |
 | ---------- | ---------- |
 | `TIsObjEmptyReturn` | `ReturnType<typeof isObjEmpty>` |
+
+### TIsObjEqualArgs
+
+| Type | Type |
+| ---------- | ---------- |
+| `TIsObjEqualArgs` | `Parameters<typeof isObjEqual>` |
+
+### TIsObjEqualReturn
+
+| Type | Type |
+| ---------- | ---------- |
+| `TIsObjEqualReturn` | `ReturnType<typeof isObjEqual>` |
 
 ### TIsObjPromiseArgs
 

@@ -34,6 +34,7 @@ Parameters:
 * `props.appendTo`: Element to append the script to
 * `props.id`: Script element id
 * `props.crossorigin`: `crossorigin` attribute
+* `props.integrity`: `integrity` attribute
 * `props.type`: `type` attribute
 
 
@@ -101,7 +102,7 @@ query param building, and optional bubbling of a "getFromServer" event.
 
 | Function | Type |
 | ---------- | ---------- |
-| `getFromServer` | `<T = unknown>(props?: TGetFromServerArgs<T>) => Promise<T>` |
+| `getFromServer` | `<TResp = unknown, TSuccess = TResp>(props?: TGetFromServerArgs<TResp, TSuccess>) => Promise<TSuccess>` |
 
 Parameters:
 
@@ -224,7 +225,7 @@ getObjFromFormData(fd); // { test: "val" }
 
 | Type | Type |
 | ---------- | ---------- |
-| `TGetFromServerArgs` | `{ contentType?: "auto" or "application/json" or "application/x-www-form-urlencoded" or "multipart/form-data"; isBubble?: boolean; timeout?: number; method?: "GET" or "PUT" or "POST" or "DELETE" or "HEAD" or "CONNECT" or "OPTIONS" or "TRACE"; mode?: RequestMode; signal?: AbortSignal or null; data?: Record<string, unknown> or FormData or null; getSuccessResp?: (data: T) => T; getResp?: <T = unknown>(resp: Response) => Promise<T>; type?: "text" or "json" or "blob" or "arrayBuffer"; url?: string; headers?: Record<string, string>; allowedCodes?: number[]; credentials?: RequestCredentials; redirect?: RequestRedirect; cache?: RequestCache; referrerPolicy?: ReferrerPolicy; fetchProps?: Omit<RequestInit, "method" or "headers" or "body" or "signal" or "mode" or "credentials" or "redirect" or "cache" or "referrerPolicy">; }` |
+| `TGetFromServerArgs` | `{ contentType?: "auto" or "application/json" or "application/x-www-form-urlencoded" or "multipart/form-data"; isBubble?: boolean; timeout?: number; method?: "GET" or "PUT" or "POST" or "DELETE" or "HEAD" or "CONNECT" or "OPTIONS" or "TRACE" or "PATCH"; mode?: RequestMode; signal?: AbortSignal or null; data?: Record<string, unknown> or FormData or null; getSuccessResp?: (data: TResp) => TSuccess; getResp?: (resp: Response) => Promise<TResp>; type?: "text" or "json" or "blob" or "arrayBuffer"; url?: string; headers?: Record<string, string>; allowedCodes?: number[]; credentials?: RequestCredentials; redirect?: RequestRedirect; cache?: RequestCache; referrerPolicy?: ReferrerPolicy; fetchProps?: Omit<RequestInit, "method" or "headers" or "body" or "signal" or "mode" or "credentials" or "redirect" or "cache" or "referrerPolicy">; }` |
 
 ### TGetFromServerReturn
 

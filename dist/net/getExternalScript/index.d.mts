@@ -5,6 +5,7 @@ type TGetExternalScriptProps = {
     appendTo?: Node | HTMLElement;
     id?: string;
     crossorigin?: string;
+    integrity?: string;
     type?: string;
 };
 export type TGetExternalScriptArgs = Parameters<typeof getExternalScript>;
@@ -19,6 +20,7 @@ export type TGetExternalScriptReturn = ReturnType<typeof getExternalScript>;
  * @param {Node|HTMLElement} [props.appendTo=document.body] Element to append the script to
  * @param {string} [props.id] Script element id
  * @param {string} [props.crossorigin] `crossorigin` attribute
+ * @param {string} [props.integrity] `integrity` attribute
  * @param {string} [props.type] `type` attribute
  * @returns {Promise<HTMLScriptElement>} Promise that resolves to the created script element
  * @example

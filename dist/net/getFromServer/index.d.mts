@@ -1,13 +1,13 @@
-export type TGetFromServerArgs<T> = {
+export type TGetFromServerArgs<TResp = unknown, TSuccess = TResp> = {
     contentType?: "auto" | "application/json" | "application/x-www-form-urlencoded" | "multipart/form-data";
     isBubble?: boolean;
     timeout?: number;
-    method?: "GET" | "PUT" | "POST" | "DELETE" | "HEAD" | "CONNECT" | "OPTIONS" | "TRACE";
+    method?: "GET" | "PUT" | "POST" | "DELETE" | "HEAD" | "CONNECT" | "OPTIONS" | "TRACE" | "PATCH";
     mode?: RequestMode;
     signal?: AbortSignal | null;
     data?: Record<string, unknown> | FormData | null;
-    getSuccessResp?: (data: T) => T;
-    getResp?: <T = unknown>(resp: Response) => Promise<T>;
+    getSuccessResp?: (data: TResp) => TSuccess;
+    getResp?: (resp: Response) => Promise<TResp>;
     type?: "text" | "json" | "blob" | "arrayBuffer";
     url?: string;
     headers?: Record<string, string>;
@@ -47,8 +47,9 @@ export type TGetFromServerReturn = ReturnType<typeof getFromServer>;
  * @throws {TypeError} getFromServer: url must be a string
  * @throws {TypeError} getFromServer: allowedCodes must be an array of integers
  * @throws {TypeError} getFromServer: data must be a plain object, FormData, or null
+ * @throws {TypeError} getFromServer: timeout must be a non-negative number or Infinity
  * @see https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API
  * @example
  * const user = await getFromServer<{ userId: number }>({ url: "/api/user?id=1", method: "GET" });
  */
-export declare const getFromServer: <T = unknown>(props?: TGetFromServerArgs<T>) => Promise<T>;
+export declare const getFromServer: <TResp = unknown, TSuccess = TResp>(props?: TGetFromServerArgs<TResp, TSuccess>) => Promise<TSuccess>;

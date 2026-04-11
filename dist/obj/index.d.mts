@@ -6,6 +6,7 @@ export type { TGetObjFromFormDataArgs, TGetObjFromFormDataReturn } from "./getOb
 export type { TGetObjLengthArgs, TGetObjLengthReturn } from "./getObjLength/index.d.mts";
 export type { TGetObjWithFallbacksArgs, TGetObjWithFallbacksReturn } from "./getObjWithFallbacks/index.d.mts";
 export type { TIsObjEmptyArgs, TIsObjEmptyReturn } from "./isObjEmpty/index.d.mts";
+export type { TIsObjEqualArgs, TIsObjEqualReturn } from "./isObjEqual/index.d.mts";
 export type { TIsObjHasOwnPropArgs, TIsObjHasOwnPropReturn } from "./isObjHasOwnProp/index.d.mts";
 export type { TIsObjPromiseArgs, TIsObjPromiseReturn } from "./isObjPromise/index.d.mts";
 export type { TIsObjPrototypeOfArgs, TIsObjPrototypeOfReturn } from "./isObjPrototypeOf/index.d.mts";
@@ -17,6 +18,7 @@ export { getObjFromFormData } from "./getObjFromFormData/index.d.mts";
 export { getObjLength } from "./getObjLength/index.d.mts";
 export { getObjWithFallbacks } from "./getObjWithFallbacks/index.d.mts";
 export { isObjEmpty } from "./isObjEmpty/index.d.mts";
+export { isObjEqual } from "./isObjEqual/index.d.mts";
 export { isObjHasOwnProp } from "./isObjHasOwnProp/index.d.mts";
 export { isObjPromise } from "./isObjPromise/index.d.mts";
 export { isObjPrototypeOf } from "./isObjPrototypeOf/index.d.mts";
