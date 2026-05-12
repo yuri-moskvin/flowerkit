@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.1.4
+- Created `AGENTS.md` with repository-specific workflow instructions for coding agents.
+- Updated dependencies.
+
 ## 1.1.3
 - `getExternalScript/index.ts`: Added a new `integrity` prop.
 - `getFromServer`: Added `data` support for `PUT` and `DELETE` methods, fixed timeout-based `fetch` abort, and removed the hardcoded `Content-Type: multipart/form-data` header.
