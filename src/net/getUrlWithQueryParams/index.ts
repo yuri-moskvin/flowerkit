@@ -25,7 +25,7 @@ export const getUrlWithQueryParams = (
     uri = getWindow().location.href;
   }
 
-  if (typeof params !== "object") {
+  if (!params || typeof params !== "object") {
     throw new TypeError("getUrlWithQueryParams: params must be an object");
   }
 
@@ -36,30 +36,11 @@ export const getUrlWithQueryParams = (
   const a: HTMLAnchorElement = getDocument().createElement("a");
   a.href = uri;
 
-  Object.entries(params)
-    .forEach(([ key, value ]) => {
-      // eslint-disable-next-line security/detect-non-literal-regexp
-      const regex = new RegExp(`${key}((?:\\[[^\\]]*\\])?)(=|$)(.*)`, "i");
-      let queryParams = (a.search || "")
-        .replace(/^\?/, "")
-        .split("&")
-        .filter(Boolean);
-      let paramFound = false;
-
-      queryParams = queryParams.map((param: string) => {
-        if (regex.test(param)) {
-          paramFound = true;
-          return `${key}=${value}`;
-        }
-        return param;
-      });
-
-      if (!paramFound) {
-        queryParams.push(`${key}=${value}`);
-      }
-
-      a.search = queryParams.length ? `?${queryParams.join("&")}` : "";
-    });
+  const searchParams = new URLSearchParams(a.search);
+  Object.entries(params).forEach(([ key, value ]) => {
+    searchParams.set(key, String(value));
+  });
+  a.search = searchParams.toString();
 
   return a.href;
 };

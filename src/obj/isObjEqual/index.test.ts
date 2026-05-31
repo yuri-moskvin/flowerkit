@@ -48,4 +48,37 @@ describe(isObjEqual.name, () => {
     assert.strictEqual(isObjEqual(obj1, obj3), false);
   });
 
+  test("Checks for Map and Set values", () => {
+    const mapA = new Map<string, unknown>([ [ "a", 1 ], [ "b", { nested: true } ] ]);
+    const mapB = new Map<string, unknown>([ [ "a", 1 ], [ "b", { nested: true } ] ]);
+    const mapC = new Map<string, unknown>([ [ "a", 1 ] ]);
+    const mapD = new Map<string, unknown>([ [ "a", 2 ] ]);
+
+    assert.strictEqual(
+      isObjEqual(mapA, mapB),
+      true
+    );
+
+    assert.strictEqual(
+      isObjEqual(mapC, mapD),
+      false
+    );
+
+    assert.strictEqual(
+      isObjEqual(
+        new Set([ "a", "b", { nested: 1 } ]),
+        new Set([ "b", "a", { nested: 1 } ])
+      ),
+      true
+    );
+
+    assert.strictEqual(
+      isObjEqual(
+        new Set([ "a", { nested: 1 } ]),
+        new Set([ "a", { nested: 2 } ])
+      ),
+      false
+    );
+  });
+
 });

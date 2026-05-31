@@ -152,6 +152,7 @@ Type naming conventions enforced by ESLint:
 
 ## Known Gotchas
 - On PowerShell, `npm` can fail due to `npm.ps1` policy; use `npm.cmd`.
+- `rg` (ripgrep) may be unavailable in some Windows environments. If `rg` is missing from `PATH`, use PowerShell fallbacks (`Get-ChildItem` + `Select-String`) instead of failing commands.
 - `dist/` is tracked (not ignored). Release-related changes may require committing `dist` updates.
 - `docs/` are generated; manual edits may be overwritten by `postbuild`.
 - There are two similar implementations:
@@ -163,12 +164,16 @@ Type naming conventions enforced by ESLint:
 ## Fast Navigation Shortcuts
 - List utility files:
   - `rg --files src`
+  - Fallback: `Get-ChildItem -Recurse -File src | ForEach-Object { $_.FullName }`
 - Find exported symbols in kit indexes:
   - `rg "^export (type )?\{" src/*/index.ts`
+  - Fallback: `Get-ChildItem -File src/*/index.ts | Select-String -Pattern "^export (type )?\{"`
 - Find all tests:
   - `rg --files src | rg "index\.test\.ts$"`
+  - Fallback: `Get-ChildItem -Recurse -File src -Filter index.test.ts | ForEach-Object { $_.FullName }`
 - Find SSR-window usage:
   - `rg "ssr-window" src`
+  - Fallback: `Get-ChildItem -Recurse -File src | Select-String -Pattern "ssr-window"`
 
 ## Definition of Done (for most code tasks)
 - Behavior implemented in `src`.

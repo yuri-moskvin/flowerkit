@@ -1,5 +1,13 @@
 # Changelog
 
+## 1.1.5
+- `isObjEqual/index.ts`: Fixed deep comparison for `Map` and `Set` values.
+- `getUrlWithQueryParams/index.ts`: Fixed validation for `null` params.
+- `getUrlWithQueryParams/index.ts`: Switched query param updates to `URLSearchParams` for correct value encoding.
+- Added regression tests for the fixes above.
+- Updated `AGENTS.md`.
+- Updated dependencies.
+
 ## 1.1.4
 - Created `AGENTS.md` with repository-specific workflow instructions for coding agents.
 - Updated dependencies.

@@ -19,7 +19,7 @@ describe(getUrlWithQueryParams.name, () => {
         "",
         null as unknown as FormData
       )
-    );
+    , TypeError);
   });
 
   test("Checks for empty URL", () => {
@@ -34,6 +34,13 @@ describe(getUrlWithQueryParams.name, () => {
 
   test("Checks for valid URL", () => {
     assert.strictEqual(getUrlWithQueryParams("https://google.com/?test=1", { foo: 123 }), "https://google.com/?test=1&foo=123");
+  });
+
+  test("Checks query value encoding", () => {
+    assert.strictEqual(
+      getUrlWithQueryParams("https://example.com", { foo: "1&x=2" }),
+      "https://example.com/?foo=1%26x%3D2"
+    );
   });
 
 });

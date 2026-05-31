@@ -69,6 +69,39 @@ export const isObjEqual = (obj1: unknown, obj2: unknown): boolean => {
         && value1.flags === value2.flags;
     }
 
+    if (value1 instanceof Map || value2 instanceof Map) {
+      if (!(value1 instanceof Map) || !(value2 instanceof Map) || value1.size !== value2.size) {
+        return false;
+      }
+      for (const [ key, mapValue1 ] of value1.entries()) {
+        if (!value2.has(key)) {
+          return false;
+        }
+        const mapValue2 = value2.get(key);
+        if (!deepCompare(mapValue1, mapValue2, visitedValue1, visitedValue2)) {
+          return false;
+        }
+      }
+      return true;
+    }
+
+    if (value1 instanceof Set || value2 instanceof Set) {
+      if (!(value1 instanceof Set) || !(value2 instanceof Set) || value1.size !== value2.size) {
+        return false;
+      }
+      const value2Items = [ ...value2.values() ];
+      for (const setItem1 of value1.values()) {
+        const matchIndex = value2Items.findIndex((setItem2) =>
+          deepCompare(setItem1, setItem2, visitedValue1, visitedValue2)
+        );
+        if (matchIndex === -1) {
+          return false;
+        }
+        value2Items.splice(matchIndex, 1);
+      }
+      return true;
+    }
+
     const value1Keys = Reflect.ownKeys(value1);
     const value2Keys = Reflect.ownKeys(value2);
 
