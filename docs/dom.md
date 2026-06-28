@@ -77,17 +77,23 @@ console.log(wrapped.outerHTML); // => `<div class="wrapper"><div class="wrapper_
 
 ### getHTMLFromStr
 
-Get parsed HTML from string and returns NodeList that include elements and text
+Get parsed HTML from string and return NodeList that includes elements and text
 
 | Function | Type |
 | ---------- | ---------- |
-| `getHTMLFromStr` | `(str?: string, type?: DOMParserSupportedType) => NodeList` |
+| `getHTMLFromStr` | `(str?: string, type?: DOMParserSupportedType) => Promise<NodeList>` |
 
 Parameters:
 
-* `str`: source string
-* `type`: content type ("application/xhtml+xml", "application/xml", "image/svg+xml", "text/html" (by default) or "text/xml"
+* `str`: - source string
+* `type`: - content type:
+"application/xhtml+xml", "application/xml", "image/svg+xml",
+"text/html" (default), or "text/xml"
 
+
+Returns:
+
+Promise resolving to NodeList, or rejecting with TypeError on invalid arguments.
 
 References:
 
@@ -98,10 +104,11 @@ Examples:
 
 ```ts
 // How to get parsed HTML elements from string?
-Array.from(getHTMLFromStr(`
+const nodes = await getHTMLFromStr(`
   <p>Hello world!</p>
   <p>Hello world!</p>
-`)); // returns array of two paragraph nodes
+`);
+const elements = Array.from(nodes); // array of two paragraph nodes
 ```
 
 

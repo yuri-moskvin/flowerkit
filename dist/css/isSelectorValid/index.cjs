@@ -1,7 +1,7 @@
 Object.defineProperty(exports,"__esModule",{value:true});var ssrWindow=require("ssr-window");
 /**
  * Checks if string is valid CSS selector
- * @param str{String} source selector
+ * @param str{string} source selector
  * @returns {boolean}
  * @throws {TypeError} isSelectorValid: str must be a string
  * @see https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_selectors

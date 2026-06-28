@@ -3,8 +3,8 @@ export type TGetCSSVarReturn = ReturnType<typeof getCSSVar>;
 /**
  * Gets value of CSS variable
  * @param el{HTMLElement} source DOM element
- * @param variable{String} variable name
- * @param isNumberFormat{Boolean=} whether to return a number rather than a string
+ * @param variable{string} variable name
+ * @param isNumberFormat{boolean=} whether to return a number rather than a string
  * @see https://developer.mozilla.org/en-US/docs/Web/CSS/Using_CSS_custom_properties
  * @returns {string|number}
  * @throws {TypeError} getCSSVar: el must be an HTMLElement

@@ -121,11 +121,10 @@ const plugins: Plugin[] = [
     targets: pkg.browserslist,
     minified: false,
     babelHelpers: "runtime",
+    inputSourceMap: false,
     plugins: [
       [
-        "@babel/plugin-transform-runtime", {
-          useESModules: true,
-        },
+        "@babel/plugin-transform-runtime", {},
       ],
     ],
     exclude: [ "node_modules/**" ],

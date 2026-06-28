@@ -3,7 +3,7 @@ export type TRemoveCSSVarReturn = ReturnType<typeof removeCSSVar>;
 /**
  * Removes CSS3 variable from specific DOM node
  * @param el{HTMLElement|Node|Element|Document=} DOM element
- * @param variable{String} variable name
+ * @param variable{string} variable name
  * @see https://developer.mozilla.org/en-US/docs/Web/CSS/Using_CSS_custom_properties
  * @throws {TypeError} removeCSSVar: el must be an HTMLElement
  * @throws {TypeError} removeCSSVar: variable must be a non-empty string

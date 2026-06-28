@@ -2,8 +2,8 @@ Object.defineProperty(exports,"__esModule",{value:true});var ssrWindow=require("
 /**
  * Sets CSS3 variable to specific DOM node
  * @param el{HTMLElement=} DOM element
- * @param variable{String} variable name
- * @param value{String|Number|Boolean=} variable value
+ * @param variable{string} variable name
+ * @param value{string|number|boolean=} variable value
  * @see https://developer.mozilla.org/en-US/docs/Web/CSS/Using_CSS_custom_properties
  * @returns {void}
  * @throws {TypeError} setCSSVar: el must be an HTMLElement

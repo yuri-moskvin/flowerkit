@@ -1,7 +1,7 @@
 import{getWindow}from"ssr-window";
 /**
  * Gets a result of testing of a CSS media query
- * @param str{String} source media query string
+ * @param str{string} source media query string
  * @returns {boolean}
  * @throws {TypeError} isMediaQuery: str must be a string
  * @see https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_media_queries/Testing_media_queries

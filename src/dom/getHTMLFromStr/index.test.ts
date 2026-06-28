@@ -5,16 +5,16 @@ import { getHTMLFromStr } from "./index.ts";
 describe(getHTMLFromStr.name, () => {
 
   test("Checks for invalid args", () => {
-    assert.throws(() =>
+    assert.rejects(() =>
       // @ts-expect-error testing invalid str argument
       getHTMLFromStr(false)
     );
-    assert.throws(() => getHTMLFromStr(""));
-    assert.throws(() =>
+    assert.rejects(() => getHTMLFromStr(""));
+    assert.rejects(() =>
       // @ts-expect-error testing invalid str argument
       getHTMLFromStr(null)
     );
-    assert.throws(() =>
+    assert.rejects(() =>
       getHTMLFromStr(
         "<p>Hello world!</p>",
         // @ts-expect-error testing invalid type argument
@@ -23,7 +23,8 @@ describe(getHTMLFromStr.name, () => {
     );
   });
 
-  test("Checks for correct HTML parsing", () => {
-    assert.strictEqual(getHTMLFromStr(`<p>Hello world!</p><p>Hello world!</p>`).length, 2);
+  test("Checks for correct HTML parsing", async () => {
+    const nodeList = await getHTMLFromStr(`<p>Hello world!</p><p>Hello world!</p>`);
+    assert.strictEqual(nodeList.length, 2);
   });
 });

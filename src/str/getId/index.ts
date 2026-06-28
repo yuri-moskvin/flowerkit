@@ -6,7 +6,7 @@ export type TGetIdReturn = ReturnType<typeof getId>;
 
 /**
  * Gets unique string ID.
- * @param length{Number=} length of ID
+ * @param length{number=} length of ID
  * @returns {string}
  * @throws {TypeError} getId: length must be a positive finite integer
  * @example

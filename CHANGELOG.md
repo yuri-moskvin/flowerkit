@@ -1,5 +1,10 @@
 # Changelog
 
+## 1.1.6
+- `getHTMLFromStr/index.ts`: Replaced static `node-html-parser` import with dynamic `await import()` to prevent it from being bundled in browser environments; function is now async and returns `Promise<NodeList>`.
+- Updated dependencies.
+- Updated some JSDoc params.
+
 ## 1.1.5
 - `isObjEqual/index.ts`: Fixed deep comparison for `Map` and `Set` values.
 - `getUrlWithQueryParams/index.ts`: Fixed validation for `null` params.

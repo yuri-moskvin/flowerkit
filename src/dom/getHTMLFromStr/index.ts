@@ -1,35 +1,47 @@
-import { parse } from "node-html-parser";
-
 export type TGetHTMLFromStrArgs = Parameters<typeof getHTMLFromStr>;
-
 export type TGetHTMLFromStrReturn = ReturnType<typeof getHTMLFromStr>;
 
 /**
- * Get parsed HTML from string and returns NodeList that include elements and text
- * @param str{String} source string
- * @param type{DOMParserSupportedType} content type ("application/xhtml+xml", "application/xml", "image/svg+xml", "text/html" (by default) or "text/xml"
- * @returns {NodeList}
- * @throws {TypeError} getHTMLFromStr: str must be a non-empty string
- * @throws {TypeError} getHTMLFromStr: type must be a supported DOMParser type
+ * Get parsed HTML from string and return NodeList that includes elements and text
+ * @param str{string} - source string
+ * @param {DOMParserSupportedType}type - content type:
+ *   "application/xhtml+xml", "application/xml", "image/svg+xml",
+ *   "text/html" (default), or "text/xml"
+ * @returns {Promise<NodeList>} Promise resolving to NodeList, or rejecting with TypeError on invalid arguments.
  * @see https://developer.mozilla.org/en-US/docs/Web/API/DOMParser
  * @example
  * // How to get parsed HTML elements from string?
- * Array.from(getHTMLFromStr(`
+ * const nodes = await getHTMLFromStr(`
  *   <p>Hello world!</p>
  *   <p>Hello world!</p>
- * `)); // returns array of two paragraph nodes
+ * `);
+ * const elements = Array.from(nodes); // array of two paragraph nodes
  */
-export const getHTMLFromStr = (str: string = "", type: DOMParserSupportedType = "text/html"): NodeList => {
+export const getHTMLFromStr = async (
+  str: string = "",
+  type: DOMParserSupportedType = "text/html"
+): Promise<NodeList> => {
+
   if (typeof str !== "string" || str.length === 0) {
     throw new TypeError("getHTMLFromStr: str must be a non-empty string");
   }
-  const allowed: DOMParserSupportedType[] = [ "application/xhtml+xml", "application/xml", "image/svg+xml", "text/html", "text/xml" ];
+
+  const allowed: DOMParserSupportedType[] = [
+    "application/xhtml+xml",
+    "application/xml",
+    "image/svg+xml",
+    "text/html",
+    "text/xml",
+  ];
+
   if (!allowed.includes(type)) {
     throw new TypeError("getHTMLFromStr: type must be a supported DOMParser type");
   }
+
   if (typeof DOMParser === "undefined") {
+    const { parse } = await import("node-html-parser");
     return (parse(str) as unknown as HTMLElement).querySelectorAll("*");
-  } else {
-    return new DOMParser().parseFromString(str, type).body.childNodes;
   }
+
+  return new DOMParser().parseFromString(str, type).body.childNodes;
 };
