@@ -15,7 +15,6 @@ ___
 - [getFormDataFromObj](#getformdatafromobj)
 - [getUrlWithQueryParams](#geturlwithqueryparams)
 - [getFromServer](#getfromserver)
-- [getObjFromFormData](#getobjfromformdata)
 
 ### getExternalScript
 
@@ -143,11 +142,16 @@ const user = await getFromServer<{ userId: number }>({ url: "/api/user?id=1", me
 ```
 
 
+
+## Constants
+
+- [getObjFromFormData](#getobjfromformdata)
+
 ### getObjFromFormData
 
 Gets an object from `FormData` interface
 
-| Function | Type |
+| Constant | Type |
 | ---------- | ---------- |
 | `getObjFromFormData` | `(fd?: FormData) => TFormDataReturn` |
 

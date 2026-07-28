@@ -7,7 +7,6 @@ import * as tsModule from "@rollup/plugin-typescript";
 import type {
   RollupOptions, OutputOptions, InputOption, Plugin,
 } from "rollup";
-import * as copyModule from "rollup-plugin-copy";
 import del from "rollup-plugin-delete";
 import path from "path";
 import { fileURLToPath } from "url";
@@ -18,7 +17,6 @@ const commonjs = getFactory(commonjsModule);
 const json = getFactory(jsonModule);
 const terser = getFactory(terserModule);
 const ts = getFactory(tsModule);
-const copy = getFactory(copyModule);
 
 // Current dir
 const __dirname = fileURLToPath(new URL(".", import.meta.url));
@@ -88,34 +86,6 @@ const plugins: Plugin[] = [
       declarationDir: dist,
       rootDir: path.resolve(__dirname, "./src"),
     },
-  }),
-  copy({
-    verbose: false,
-    flatten: true,
-    copySync: true,
-    targets: [
-      { // src/**/*.d.ts => dist/**/*.d.mts
-        src: "src/**/*.d.ts",
-        dest: "dist",
-        rename: (name: string, extension: string, fullPath: string) => {
-          return fullPath.replaceAll("src", "");
-        },
-        transform: (contents: Buffer) => contents.toString().replaceAll(".d.ts", ".d.mts"),
-      },
-    ],
-  }),
-  copy({
-    verbose: false,
-    flatten: false,
-    copySync: true,
-    targets: [
-      { // dist/**/*.d.ts => dist/**/*.d.mts
-        src: "dist/**/*.d.ts",
-        dest: "dist",
-        rename: (name: string) => `${name}.mts`,
-        transform: (contents: Buffer) => contents.toString().replaceAll(".d.ts", ".d.mts"),
-      },
-    ],
   }),
   babel({
     targets: pkg.browserslist,

@@ -1,3 +1,4 @@
+import{getObjFromFormData as getObjFromFormData$1}from"../../obj/getObjFromFormData/index.mjs";
 /**
  * Gets an object from `FormData` interface
  * @param {FormData} [fd=new FormData()] Source `FormData` instance
@@ -8,6 +9,5 @@
  * const fd = new FormData();
  * fd.append("test", "val");
  * getObjFromFormData(fd); // { test: "val" }
- */
-const getObjFromFormData=(fd=new FormData)=>{if(!(fd instanceof FormData))throw new TypeError("getObjFromFormData: fd must be a FormData instance");const entries=[...fd].map(([name,value])=>{const values=fd.getAll(name);return[name,values.length>1?values:value]});return Object.fromEntries(entries)};export{getObjFromFormData};
+ */const getObjFromFormData=getObjFromFormData$1;export{getObjFromFormData};
 //# sourceMappingURL=index.mjs.map

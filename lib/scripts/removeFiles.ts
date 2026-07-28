@@ -14,7 +14,15 @@ const rewriteDeclImportsToMts = (content: string): string => content
     "$1$2.d.mts$1"
   );
 
-await getFiles(dist, (file: string) => file.endsWith(".d.mts"))
+await getFiles(dist, (file: string) => file.endsWith(".d.ts"))
+  .then(async (list) => {
+    const items = list.map(async (item: string) => {
+      const content = await readFile(item, "utf8");
+      await writeFile(item.replace(/\.d\.ts$/, ".d.mts"), content, "utf8");
+    });
+    return await Promise.all(items);
+  })
+  .then(async () => await getFiles(dist, (file: string) => file.endsWith(".d.mts")))
   .then(async (list) => {
     const items = list.map(async (item: string) => {
       const content = await readFile(item, "utf8");

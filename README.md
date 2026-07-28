@@ -4,6 +4,8 @@ More than 70 frontend-focused utilities for JavaScript and TypeScript: DOM, even
 
 [![npm](https://img.shields.io/npm/v/@web3r/flowerkit)](https://www.npmjs.com/package/@web3r/flowerkit)
 [![npm downloads](https://img.shields.io/npm/dw/@web3r/flowerkit)](https://www.npmjs.com/package/@web3r/flowerkit)
+[![CI](https://github.com/yuri-moskvin/flowerkit/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/yuri-moskvin/flowerkit/actions/workflows/ci.yml)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://github.com/yuri-moskvin/flowerkit/blob/main/LICENSE)
 
 ## Install
 

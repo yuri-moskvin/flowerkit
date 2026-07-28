@@ -1,5 +1,4 @@
-type TFormDataEntryValue = string | File;
-type TFormDataReturn = Record<string, TFormDataEntryValue | TFormDataEntryValue[]>;
+import { getObjFromFormData as getObjFromFormDataInternal } from "../../obj/getObjFromFormData/index.ts";
 
 export type TGetObjFromFormDataArgs = Parameters<typeof getObjFromFormData>;
 
@@ -16,15 +15,4 @@ export type TGetObjFromFormDataReturn = ReturnType<typeof getObjFromFormData>;
  * fd.append("test", "val");
  * getObjFromFormData(fd); // { test: "val" }
  */
-export const getObjFromFormData = (fd: FormData = new FormData()): TFormDataReturn => {
-  if (!(fd instanceof FormData)) {
-    throw new TypeError("getObjFromFormData: fd must be a FormData instance");
-  }
-
-  const entries: [string, TFormDataEntryValue | TFormDataEntryValue[]][] = [ ...fd ].map(([ name, value ]) => {
-    const values = fd.getAll(name) as TFormDataEntryValue[];
-    return [ name, values.length > 1 ? values : value as TFormDataEntryValue ];
-  });
-
-  return Object.fromEntries(entries);
-};
+export const getObjFromFormData = getObjFromFormDataInternal;

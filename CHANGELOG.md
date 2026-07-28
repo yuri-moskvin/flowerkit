@@ -1,5 +1,13 @@
 # Changelog
 
+## 1.1.7
+- Added GitHub Actions CI for linting, type-checking, tests, build verification, production dependency audit, and package smoke testing.
+- Added CI and MIT license badges to `README.md`.
+- Added `lint:check`, `lint:fix`, and `verify:package` scripts.
+- Added SSR coverage for all package entry points and fixed SSR fallbacks in `isNode/index.ts` and `isMobileDevice/index.ts`.
+- `net/getObjFromFormData/index.ts`: Reused the `obj/getObjFromFormData` implementation and added coverage for the network entry point.
+- Updated development dependencies and security overrides.
+
 ## 1.1.6
 - `getHTMLFromStr/index.ts`: Replaced static `node-html-parser` import with dynamic `await import()` to prevent it from being bundled in browser environments; function is now async and returns `Promise<NodeList>`.
 - Updated dependencies.

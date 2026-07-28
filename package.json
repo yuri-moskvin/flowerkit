@@ -1,6 +1,6 @@
 {
   "name": "@web3r/flowerkit",
-  "version": "1.1.6",
+  "version": "1.1.7",
   "description": "Tree-shakable JavaScript and TypeScript utility library for frontend/browser apps: DOM, events, arrays, objects, strings, date, JSON, and network helpers (ESM/CJS, SSR-friendly).",
   "keywords": [
     "javascript",
@@ -35,8 +35,11 @@
     "test": "cross-env NODE_OPTIONS=\"--import=global-jsdom/register\" node --test",
     "prepare": "husky",
     "lint-staged": "lint-staged",
-    "lint": "eslint ./src --fix",
-    "typecheck": "tsc -p tsconfig.json --noEmit"
+    "lint": "npm run lint:check",
+    "lint:check": "eslint ./src",
+    "lint:fix": "eslint ./src --fix",
+    "typecheck": "tsc -p tsconfig.json --noEmit",
+    "verify:package": "node ./lib/scripts/verifyPackage.ts"
   },
   "repository": {
     "type": "git",
@@ -183,7 +186,7 @@
     "@babel/plugin-transform-runtime": "^8.0.1",
     "@babel/preset-env": "^8.0.2",
     "@babel/preset-typescript": "^8.0.1",
-    "@commitlint/cli": "^21.1.0",
+    "@commitlint/cli": "^21.2.1",
     "@commitlint/config-conventional": "^21.1.0",
     "@commitlint/types": "^21.1.0",
     "@eslint/compat": "^2.1.0",
@@ -203,11 +206,11 @@
     "cross-env": "^10.1.0",
     "eslint": "^10.6.0",
     "eslint-import-resolver-typescript": "^4.4.5",
-    "eslint-plugin-import": "^2.32.0",
+    "eslint-plugin-import-x": "^4.17.1",
     "eslint-plugin-jsdoc": "^63.0.10",
     "eslint-plugin-promise": "^7.3.0",
     "eslint-plugin-security": "^4.0.1",
-    "eslint-plugin-sort-exports": "^0.9.1",
+    "eslint-plugin-perfectionist": "^5.10.0",
     "fast-glob": "^3.3.3",
     "global-jsdom": "^29.0.0",
     "globals": "^17.7.0",
@@ -216,7 +219,6 @@
     "lint-staged": "^17.0.8",
     "patch-package": "^8.0.1",
     "rollup": "^4.62.2",
-    "rollup-plugin-copy": "^3.5.0",
     "rollup-plugin-delete": "^3.0.2",
     "tsdoc-markdown": "^1.5.0",
     "tslib": "^2.8.1",
@@ -237,6 +239,9 @@
     "eslint": "^10.6.0",
     "serialize-javascript": ">=7.0.3",
     "typescript": "^6.0.3",
-    "@babel/core": "^8.0.1"
+    "@babel/core": "^8.0.1",
+    "minimatch@^10.2.2": {
+      "brace-expansion": "5.0.8"
+    }
   }
 }

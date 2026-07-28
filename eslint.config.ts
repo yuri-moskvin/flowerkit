@@ -1,21 +1,21 @@
-import { fixupPluginRules } from "@eslint/compat";
 import stylisticPlugin from "@stylistic/eslint-plugin";
 import tsPlugin from "@typescript-eslint/eslint-plugin";
 import tsParser from "@typescript-eslint/parser";
 import type { Linter, ESLint } from "eslint";
-import importPlugin from "eslint-plugin-import";
+import { createTypeScriptImportResolver } from "eslint-import-resolver-typescript";
+import { createNodeResolver, importX } from "eslint-plugin-import-x";
 import jsdocPlugin from "eslint-plugin-jsdoc";
+import perfectionistPlugin from "eslint-plugin-perfectionist";
 import promisePlugin from "eslint-plugin-promise";
 import securityPlugin from "eslint-plugin-security";
-import exportsPlugin from "eslint-plugin-sort-exports";
 import globals from "globals";
 
 // Plugins
 const plugins: Linter.Config["plugins"] = {
   "@stylistic": stylisticPlugin,
   "jsdoc": jsdocPlugin,
-  "import": fixupPluginRules(importPlugin),
-  "sort-exports": fixupPluginRules(exportsPlugin),
+  "import-x": importX,
+  "perfectionist": perfectionistPlugin,
   "promise": promisePlugin,
   "security": securityPlugin,
 };
@@ -23,8 +23,8 @@ const plugins: Linter.Config["plugins"] = {
 // Rules
 const customTreeShakingRules: Linter.RulesRecord = {
   "no-restricted-imports": "error",
-  "import/no-namespace": "off",
-  "import/no-duplicates": "error",
+  "import-x/no-namespace": "off",
+  "import-x/no-duplicates": "error",
 };
 
 const typescriptTreeShakingRules: Linter.RulesRecord = {
@@ -41,7 +41,12 @@ const typescriptTreeShakingRules: Linter.RulesRecord = {
 };
 
 const customExportsRules: Linter.RulesRecord = {
-  "sort-exports/sort-exports": [ "error", { sortDir: "asc", ignoreCase: true, sortExportKindFirst: "type" } ],
+  "perfectionist/sort-named-exports": [ "error", {
+    groups: [ "type-export", "value-export" ],
+    ignoreCase: true,
+    order: "asc",
+    type: "alphabetical",
+  } ],
 };
 
 const customJSDocRules: Linter.RulesRecord = {
@@ -60,8 +65,8 @@ const customJSDocRules: Linter.RulesRecord = {
 };
 
 const customImportRules: Linter.RulesRecord = {
-  "import/first": "error",
-  "import/order": [
+  "import-x/first": "error",
+  "import-x/order": [
     2, {
       "groups": [
         "external",
@@ -97,13 +102,13 @@ const customImportRules: Linter.RulesRecord = {
       },
     },
   ],
-  "import/no-cycle": "error",
-  "import/no-unresolved": "off",
-  "import/namespace": "off",
-  "import/no-named-as-default": "off",
-  "import/consistent-type-specifier-style": [ "error", "prefer-top-level" ],
-  "import/no-duplicates": "error",
-  "import/newline-after-import": [ "error", { "count": 1 } ],
+  "import-x/no-cycle": "error",
+  "import-x/no-unresolved": "off",
+  "import-x/namespace": "off",
+  "import-x/no-named-as-default": "off",
+  "import-x/consistent-type-specifier-style": [ "error", "prefer-top-level" ],
+  "import-x/no-duplicates": "error",
+  "import-x/newline-after-import": [ "error", { "count": 1 } ],
 };
 
 const customStylisticRules: Linter.RulesRecord = {
@@ -406,15 +411,13 @@ const tsConfig: Linter.Config = {
   },
   settings: {
     ...baseConfig.settings,
-    "import/internal-regex": "^~/",
-    "import/resolver": {
-      node: {
+    "import-x/internal-regex": "^~/",
+    "import-x/resolver-next": [
+      createTypeScriptImportResolver({ alwaysTryTypes: true }),
+      createNodeResolver({
         extensions: [ ".ts", ".tsx", ".mts", ".cts", ".js", ".jsx", ".mjs", ".cjs" ],
-      },
-      typescript: {
-        alwaysTryTypes: true,
-      },
-    },
+      }),
+    ],
   },
   rules: {
     ...baseConfig.rules,

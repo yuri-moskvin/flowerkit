@@ -1,4 +1,4 @@
-Object.defineProperty(exports,"__esModule",{value:true});
+Object.defineProperty(exports,"__esModule",{value:true});var index=require("../../obj/getObjFromFormData/index.cjs");
 /**
  * Gets an object from `FormData` interface
  * @param {FormData} [fd=new FormData()] Source `FormData` instance
@@ -9,5 +9,5 @@ Object.defineProperty(exports,"__esModule",{value:true});
  * const fd = new FormData();
  * fd.append("test", "val");
  * getObjFromFormData(fd); // { test: "val" }
- */const getObjFromFormData=(fd=new FormData)=>{if(!(fd instanceof FormData))throw new TypeError("getObjFromFormData: fd must be a FormData instance");const entries=[...fd].map(([name,value])=>{const values=fd.getAll(name);return[name,values.length>1?values:value]});return Object.fromEntries(entries)};exports.getObjFromFormData=getObjFromFormData;
+ */const getObjFromFormData=index.getObjFromFormData;exports.getObjFromFormData=getObjFromFormData;
 //# sourceMappingURL=index.cjs.map

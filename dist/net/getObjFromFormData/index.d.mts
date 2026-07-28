@@ -1,5 +1,3 @@
-type TFormDataEntryValue = string | File;
-type TFormDataReturn = Record<string, TFormDataEntryValue | TFormDataEntryValue[]>;
 export type TGetObjFromFormDataArgs = Parameters<typeof getObjFromFormData>;
 export type TGetObjFromFormDataReturn = ReturnType<typeof getObjFromFormData>;
 /**
@@ -13,5 +11,6 @@ export type TGetObjFromFormDataReturn = ReturnType<typeof getObjFromFormData>;
  * fd.append("test", "val");
  * getObjFromFormData(fd); // { test: "val" }
  */
-export declare const getObjFromFormData: (fd?: FormData) => TFormDataReturn;
-export {};
+export declare const getObjFromFormData: (fd?: FormData) => {
+    [x: string]: (string | File) | (string | File)[];
+};

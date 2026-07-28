@@ -13,7 +13,7 @@ export type TIsNodeReturn = ReturnType<typeof isNode>;
  */
 export const isNode = (el: any): boolean => {
   if (typeof Element === "undefined" || typeof Document === "undefined") {
-    return typeof el === "object" && el.nodeType === 1 && typeof el.style === "object" && typeof el.ownerDocument === "object";
+    return el !== null && typeof el === "object" && el.nodeType === 1 && typeof el.style === "object" && typeof el.ownerDocument === "object";
   } else {
     return el instanceof Element || el instanceof Document;
   }
