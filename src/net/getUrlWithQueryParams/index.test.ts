@@ -43,4 +43,15 @@ describe(getUrlWithQueryParams.name, () => {
     );
   });
 
+  test("Preserves repeated FormData values", () => {
+    const repeated = new FormData();
+    repeated.append("tag", "a");
+    repeated.append("tag", "b");
+
+    assert.strictEqual(
+      getUrlWithQueryParams("https://example.com/?tag=old&page=1", repeated),
+      "https://example.com/?page=1&tag=a&tag=b"
+    );
+  });
+
 });

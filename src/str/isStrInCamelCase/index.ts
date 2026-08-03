@@ -14,6 +14,9 @@ export type TIsStrInCamelCaseReturn = ReturnType<typeof isStrInCamelCase>;
  * @example
  * isStrInCamelCase("abcDef"); // true
  * isStrInCamelCase("Word"); // false
+ * @example
+ * // Validate JavaScript-style keys imported from a configuration file
+ * const invalidKeys = Object.keys(config).filter((key) => !isStrInCamelCase(key));
  */
 export const isStrInCamelCase = (str: string): boolean => {
   if (typeof str !== "string") {

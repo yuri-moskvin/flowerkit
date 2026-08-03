@@ -47,6 +47,12 @@ export type TOnSwipeReturn = ReturnType<typeof onSwipe>;
  *
  * @example
  * onSwipe(document.getElementById("box")!, { callback: ({ dir }) => console.log(dir) });
+ * @example
+ * // Navigate a touch carousel with left and right swipe gestures
+ * const carouselSwipe = onSwipe(carousel, {
+ *   minDist: 50,
+ *   callback: ({ dir }) => dir === "left" ? showNextSlide() : showPreviousSlide(),
+ * });
  */
 export declare const onSwipe: <TDetail extends {
     originEvent: Event;

@@ -10,5 +10,8 @@ export type TGetObjLengthReturn = ReturnType<typeof getObjLength>;
  * const obj = { key1: "value1", key2: "value2" };
  * const objLength = getObjLength(obj);
  * console.log(objLength); // => 2
+ * @example
+ * // Display the number of active filters in a search interface
+ * const activeFilterCount = getObjLength(activeFilters);
  */
 export declare const getObjLength: (obj?: Record<string, unknown> | unknown[]) => number;

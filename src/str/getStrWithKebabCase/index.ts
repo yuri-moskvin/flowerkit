@@ -1,0 +1,23 @@
+import { getCaseWords } from "../caseWords.ts";
+
+export type TGetStrWithKebabCaseArgs = Parameters<typeof getStrWithKebabCase>;
+
+export type TGetStrWithKebabCaseReturn = ReturnType<typeof getStrWithKebabCase>;
+
+/**
+ * Converts a string to kebab-case.
+ * @param {string} str Source string
+ * @returns {string} kebab-case string
+ * @throws {TypeError} getStrWithKebabCase: str must be a string
+ * @example
+ * getStrWithKebabCase("helloWorld value"); // "hello-world-value"
+ * @example
+ * // Convert a component variant into a CSS class modifier
+ * const modifier = `button--${getStrWithKebabCase(variantName)}`;
+ */
+export const getStrWithKebabCase = (str: string): string => {
+  if (typeof str !== "string") {
+    throw new TypeError("getStrWithKebabCase: str must be a string");
+  }
+  return getCaseWords(str).map((word) => word.toLocaleLowerCase()).join("-");
+};

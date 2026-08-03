@@ -1,6 +1,9 @@
 # ⚙️ DOM utils pack API
+
 ___
+
 ## Usage
+
 ```ts
 // import functions
 import { getElSiblings, getElWrapper, getHTMLFromStr, getIndexOfEl, isNode, removeChildNodes } from "@web3r/flowerkit/dom";
@@ -8,7 +11,9 @@ import { getElSiblings, getElWrapper, getHTMLFromStr, getIndexOfEl, isNode, remo
 // import types
 import type { TGetElSiblingsArgs, TGetElSiblingsReturn, TGetElWrapperArgs, TGetElWrapperReturn, TGetHTMLFromStrArgs, TGetHTMLFromStrReturn, TGetIndexOfElArgs, TGetIndexOfElReturn, TIsNodeArgs, TIsNodeReturn, TRemoveChildNodesArgs, TRemoveChildNodesReturn } from "@web3r/flowerkit/dom";
 ```
+
 ___
+
 ## Functions
 
 - [getElSiblings](#getelsiblings)
@@ -41,7 +46,12 @@ Examples:
 //   <li id="item3">Three</li>
 // <ul>
 const secondItem = document.getElementById("item2");
-getElSiblings(secondItem).filter(item => item !== secondItem) // [ li#item1, li#utem3 ]
+getElSiblings(secondItem).filter(item => item !== secondItem) // [ li#item1, li#item3 ]
+```
+
+```ts
+// Remove the active state from sibling tabs before selecting a new tab
+getElSiblings(activeTab).forEach((tab) => tab.classList.remove("active"));
 ```
 
 
@@ -72,6 +82,13 @@ const wrapperLayout = `
 const el = document.getElementById("block");
 const wrapped = getElWrapper(el, wrapperLayout);
 console.log(wrapped.outerHTML); // => `<div class="wrapper"><div class="wrapper__inner"><div id="block">My Element</div></div></div>`
+```
+
+```ts
+// Wrap a form field with reusable validation markup
+const fieldWrapper = getElWrapper(input, `
+  <label class="field"><span class="field__control"></span></label>
+`);
 ```
 
 
@@ -111,6 +128,14 @@ const nodes = await getHTMLFromStr(`
 const elements = Array.from(nodes); // array of two paragraph nodes
 ```
 
+```ts
+// Parse an SVG string into DOM nodes on the browser or server
+const iconNodes = await getHTMLFromStr(
+  `<svg viewBox="0 0 24 24"><path d="M4 12h16" /></svg>`,
+  "image/svg+xml"
+);
+```
+
 
 ### getIndexOfEl
 
@@ -137,6 +162,13 @@ Examples:
 getIndexOfEl(document.querySelector("#c")!) // 2
 ```
 
+```ts
+// Find the index of a clicked tab among its element siblings
+tabs.addEventListener("click", (event) => {
+  if (event.target instanceof Element) selectTab(getIndexOfEl(event.target));
+});
+```
+
 
 ### isNode
 
@@ -157,6 +189,13 @@ Examples:
 // How to check if an object is dom node?
 const isMyElNode = isNode(document.getElementById("test"));
 console.log(isMyElNode) // => boolean
+```
+
+```ts
+// Guard an event target before using DOM Node methods
+if (isNode(event.target) && container.contains(event.target)) {
+  console.log("The event came from inside the container");
+}
 ```
 
 
@@ -183,8 +222,11 @@ removeChildNodes(myDiv);
 console.log(Array.from(myDiv.children).length); // => 0
 ```
 
-
-
+```ts
+// Clear old autocomplete results before rendering a new response
+removeChildNodes(searchResults);
+searchResults.append(...nextResultItems);
+```
 
 ## Types
 
@@ -272,4 +314,3 @@ console.log(Array.from(myDiv.children).length); // => 0
 | Type | Type |
 | ---------- | ---------- |
 | `TRemoveChildNodesReturn` | `ReturnType<typeof removeChildNodes>` |
-

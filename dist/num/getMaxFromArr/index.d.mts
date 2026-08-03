@@ -10,5 +10,8 @@ export type TGetMaxFromArrReturn = ReturnType<typeof getMaxFromArr>;
  * const arr = [ 100, 200, 300 ];
  * const max = getMaxFromArr(arr);
  * console.log(max); // 300
+ * @example
+ * // Find the highest value for a chart scale
+ * const chartMax = getMaxFromArr(points.map((point) => point.value));
  */
 export declare const getMaxFromArr: (arr: number[]) => number;

@@ -11,5 +11,8 @@ export type TIsStrInKebabCaseReturn = ReturnType<typeof isStrInKebabCase>;
  * @throws {TypeError} If str is not a string
  * @example
  * isStrInKebabCase("good-kebab"); // true
+ * @example
+ * // Validate a CSS class naming convention
+ * const isValidClassName = isStrInKebabCase(className);
  */
 export declare const isStrInKebabCase: (str: string) => boolean;

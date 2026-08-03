@@ -17,11 +17,15 @@ export type TOnWindowResizeReturn = ReturnType<typeof onWindowResize>;
  *   removeListener: () => void;
  * }}
  * @throws {TypeError} onWindowResize: cb must be a function
- * @throws {TypeError} onWindowResize: delay must be a number if provided
+ * @throws {TypeError} onWindowResize: delay must be a non-negative finite number
  * @throws {TypeError} onWindowResize: isAutoInit must be a boolean
  *
  * @example
  * onWindowResize(() => console.log("resized"));
+ * @example
+ * // Recalculate a responsive grid after resize with a 200 ms debounce
+ * const resize = onWindowResize(() => updateGridColumns(window.innerWidth), 200);
+ * resize.removeListener();
  */
 export const onWindowResize = (
   cb: (e: Event) => void,
@@ -35,8 +39,8 @@ export const onWindowResize = (
   if (typeof cb !== "function") {
     throw new TypeError("onWindowResize: cb must be a function");
   }
-  if (typeof delay !== "number" && typeof delay !== "undefined") {
-    throw new TypeError("onWindowResize: delay must be a number if provided");
+  if (typeof delay !== "number" || !Number.isFinite(delay) || delay < 0) {
+    throw new TypeError("onWindowResize: delay must be a non-negative finite number");
   }
   if (typeof isAutoInit !== "boolean") {
     throw new TypeError("onWindowResize: isAutoInit must be a boolean");
@@ -53,6 +57,10 @@ export const onWindowResize = (
 
   const removeListener = (): void => {
     getWindow().removeEventListener("resize", handler as EventListener);
+    const cancel = (fn as typeof fn & { cancel?: unknown; }).cancel;
+    if (typeof cancel === "function") {
+      cancel();
+    }
   };
 
   if (isAutoInit) {

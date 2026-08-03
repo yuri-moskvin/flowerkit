@@ -11,6 +11,11 @@ type TGetExternalScriptProps = {
   type?: string;
 };
 
+type TLegacyHTMLScriptElement = HTMLScriptElement & {
+  onreadystatechange: typeof HTMLScriptElement.prototype.onload;
+  readyState?: string;
+};
+
 export type TGetExternalScriptArgs = Parameters<typeof getExternalScript>;
 
 export type TGetExternalScriptReturn = ReturnType<typeof getExternalScript>;
@@ -31,6 +36,13 @@ export type TGetExternalScriptReturn = ReturnType<typeof getExternalScript>;
  * @example
  * getExternalScript({ src: "https://cdn.example.com/lib.js", id: "lib" })
  *   .then(() => console.log("Loaded"));
+ * @example
+ * // Load a third-party SDK with Subresource Integrity protection
+ * await getExternalScript({
+ *   src: "https://cdn.example.com/sdk.js",
+ *   integrity: "sha384-...",
+ *   crossorigin: "anonymous",
+ * });
  */
 export const getExternalScript = (props: TGetExternalScriptProps): Promise<HTMLScriptElement> => {
   const {
@@ -59,7 +71,7 @@ export const getExternalScript = (props: TGetExternalScriptProps): Promise<HTMLS
 
   return new Promise<HTMLScriptElement>((resolve, reject) => {
     let isReady = false;
-    const script = getDocument().createElement("script");
+    const script = getDocument().createElement("script") as TLegacyHTMLScriptElement;
     script.src = src;
     script.async = isAsync;
     script.defer = isDefer;
@@ -68,7 +80,7 @@ export const getExternalScript = (props: TGetExternalScriptProps): Promise<HTMLS
       script.id = id;
     }
     if (crossorigin) {
-      (script as any).crossorigin = crossorigin;
+      script.crossOrigin = crossorigin;
     }
     if (integrity) {
       script.integrity = integrity;
@@ -81,8 +93,9 @@ export const getExternalScript = (props: TGetExternalScriptProps): Promise<HTMLS
       reject(err);
       script.onerror = null;
     };
-    script.onload = script.onreadystatechange = function (this: any): void {
-      if (!isReady && (!this.readyState || this.readyState === "complete")) {
+    script.onload = script.onreadystatechange = function (this: GlobalEventHandlers): void {
+      const currentScript = this as TLegacyHTMLScriptElement;
+      if (!isReady && (!currentScript.readyState || currentScript.readyState === "complete")) {
         isReady = true;
         resolve(script);
         script.onload = null;

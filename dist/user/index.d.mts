@@ -1,12 +1,18 @@
+export type { TCopyToClipboardArgs, TCopyToClipboardReturn } from "./copyToClipboard/index.d.mts";
+export type { TCreateStorageArgs, TCreateStorageReturn, TStorageController } from "./createStorage/index.d.mts";
 export type { TDeleteCookieArgs, TDeleteCookieReturn } from "./cookie/deleteCookie/index.d.mts";
 export type { TGetCookieArgs, TGetCookieReturn } from "./cookie/getCookie/index.d.mts";
 export type { TGetScrollbarWidthArgs, TGetScrollbarWidthReturn } from "./getScrollbarWidth/index.d.mts";
+export type { TGetStorageArgs, TGetStorageReturn, TStorageType } from "./getStorage/index.d.mts";
 export type { TIsAdblockArgs, TIsAdblockReturn } from "./isAdblock/index.d.mts";
 export type { TIsMobileDeviceArgs, TIsMobileDeviceReturn } from "./isMobileDevice/index.d.mts";
 export type { TIsTouchDeviceArgs, TIsTouchDeviceReturn } from "./isTouchDevice/index.d.mts";
 export type { TSetCookieArgs, TSetCookieReturn } from "./cookie/setCookie/index.d.mts";
+export { copyToClipboard } from "./copyToClipboard/index.d.mts";
+export { createStorage } from "./createStorage/index.d.mts";
 export { deleteCookie, getCookie, setCookie } from "./cookie/index.d.mts";
 export { getScrollbarWidth } from "./getScrollbarWidth/index.d.mts";
+export { getStorage } from "./getStorage/index.d.mts";
 export { isAdblock } from "./isAdblock/index.d.mts";
 export { isMobileDevice } from "./isMobileDevice/index.d.mts";
 export { isTouchDevice } from "./isTouchDevice/index.d.mts";

@@ -12,6 +12,10 @@ export type TWaitReturn = ReturnType<typeof wait>;
  * wait(3000).finally(() => {
  *   console.log("Runs after 3 sec!");
  * })
+ * @example
+ * // Delay the next step in an async animation sequence
+ * await wait(200);
+ * element.classList.add("is-visible");
  */
 export const wait = (ms: number = 0): Promise<void> => {
   if (typeof ms !== "number" || !Number.isFinite(ms) || ms < 0) {

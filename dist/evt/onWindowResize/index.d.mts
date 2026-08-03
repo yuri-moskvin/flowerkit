@@ -12,11 +12,15 @@ export type TOnWindowResizeReturn = ReturnType<typeof onWindowResize>;
  *   removeListener: () => void;
  * }}
  * @throws {TypeError} onWindowResize: cb must be a function
- * @throws {TypeError} onWindowResize: delay must be a number if provided
+ * @throws {TypeError} onWindowResize: delay must be a non-negative finite number
  * @throws {TypeError} onWindowResize: isAutoInit must be a boolean
  *
  * @example
  * onWindowResize(() => console.log("resized"));
+ * @example
+ * // Recalculate a responsive grid after resize with a 200 ms debounce
+ * const resize = onWindowResize(() => updateGridColumns(window.innerWidth), 200);
+ * resize.removeListener();
  */
 export declare const onWindowResize: (cb: (e: Event) => void, delay?: number | undefined, isAutoInit?: boolean | undefined) => {
     handler: (e: Event) => void;

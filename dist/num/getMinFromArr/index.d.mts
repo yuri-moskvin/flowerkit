@@ -10,5 +10,8 @@ export type TGetMinFromArrReturn = ReturnType<typeof getMinFromArr>;
  * const arr = [ 100, 200, 300 ];
  * const min = getMinFromArr(arr);
  * console.log(min); // 100
+ * @example
+ * // Find the lowest product price in a catalog
+ * const lowestPrice = getMinFromArr(products.map((product) => product.price));
  */
 export declare const getMinFromArr: (arr: number[]) => number;

@@ -11,6 +11,9 @@ export type TGetStrUnescapedReturn = ReturnType<typeof getStrUnescaped>;
  * @example
  * getStrUnescaped("&lt;b&gt;Hello &amp; world&lt;/b&gt;");
  * // => "<b>Hello & world</b>"
+ * @example
+ * // Decode escaped text received from a trusted CMS field
+ * const pageTitle = getStrUnescaped(cmsPage.escapedTitle);
  */
 export const getStrUnescaped = (str: string): string => {
   if (typeof str !== "string") {

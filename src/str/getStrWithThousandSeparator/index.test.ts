@@ -24,4 +24,10 @@ describe(getStrWithThousandSeparator.name, () => {
     assert.strictEqual(getStrWithThousandSeparator(1000, ","), "1,000");
   });
 
+  test("Preserves decimal and exponent parts", () => {
+    assert.strictEqual(getStrWithThousandSeparator(1234.5678), "1 234.5678");
+    assert.strictEqual(getStrWithThousandSeparator(-1234.5, ","), "-1,234.5");
+    assert.strictEqual(getStrWithThousandSeparator(1.234e+21), "1.234e+21");
+  });
+
 });

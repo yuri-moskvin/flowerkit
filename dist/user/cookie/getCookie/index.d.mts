@@ -12,5 +12,8 @@ export type TGetCookieReturn = ReturnType<typeof getCookie>;
  * setCookie("myCookieName", "myValue");
  * const savedValue = getCookie("myCookieName");
  * console.log(savedValue); // => "myValue"
+ * @example
+ * // Restore a cookie consent choice when the page loads
+ * const consent = getCookie("cookie_consent") ?? "unknown";
  */
 export declare const getCookie: (name: string) => string | undefined;

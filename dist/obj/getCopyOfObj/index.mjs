@@ -1,16 +1,2 @@
-/**
- * Gets a deep copy/clone of an object/array without a reference to the original object
- * @param obj{Object|Array} source object (array)
- * @returns {Object|Array}
- * @see https://developer.mozilla.org/en-US/docs/Glossary/Deep_copy
- * @example
- * // How to make a deep clone of an object?
- * const originalObject = {
- *   value: 1,
- * }
- * const copy = getCopyOfObj(originalObject);
- * copy.value = 2;
- * console.log(originalObject.value === copy.value) // false
- */
-const getCopyOfObj=obj=>{if(obj===null||typeof obj!=="object"||obj instanceof Date)return obj;const objCopy=Array.isArray(obj)?[]:{};return Object.keys(obj).reduce((nestedObj,key)=>{nestedObj[key]=getCopyOfObj(obj[key]);return nestedObj},objCopy)};export{getCopyOfObj};
+const getCopyOfObj=obj=>{const clone=(value,visited)=>{if(value===null||typeof value!=="object")return value;if(visited.has(value))return visited.get(value);if(value instanceof Date){const result=new Date(value.getTime());visited.set(value,result);return result}if(value instanceof RegExp){const result=new RegExp(value.source,value.flags);result.lastIndex=value.lastIndex;visited.set(value,result);return result}if(value instanceof URL){const result=new URL(value.href);visited.set(value,result);return result}if(value instanceof URLSearchParams){const result=new URLSearchParams(value);visited.set(value,result);return result}if(value instanceof Map){const result=new Map;visited.set(value,result);value.forEach((mapValue,key)=>{result.set(clone(key,visited),clone(mapValue,visited))});return result}if(value instanceof Set){const result=new Set;visited.set(value,result);value.forEach(setValue=>{result.add(clone(setValue,visited))});return result}if(value instanceof ArrayBuffer){const result=value.slice(0);visited.set(value,result);return result}if(ArrayBuffer.isView(value)){const result=value instanceof DataView?new DataView(value.buffer.slice(0),value.byteOffset,value.byteLength):new value.constructor(value);visited.set(value,result);return result}const result=Array.isArray(value)?[]:Object.create(Object.getPrototypeOf(value));visited.set(value,result);Reflect.ownKeys(value).forEach(key=>{const descriptor=Object.getOwnPropertyDescriptor(value,key);if(!descriptor)return;if("value"in descriptor)descriptor.value=clone(descriptor.value,visited);Object.defineProperty(result,key,descriptor)});return result};return clone(obj,new WeakMap)};export{getCopyOfObj};
 //# sourceMappingURL=index.mjs.map

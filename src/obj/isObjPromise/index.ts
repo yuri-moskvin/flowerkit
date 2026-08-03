@@ -11,6 +11,10 @@ export type TIsObjPromiseReturn = ReturnType<typeof isObjPromise>;
  * const obj = new Promise(() => {});
  * const isPromise = isObjPromise(obj);
  * console.log(isPromise); // => true
+ * @example
+ * // Normalize a handler that can return either a value or a Promise
+ * const result = plugin.run();
+ * const value = isObjPromise(result) ? await result : result;
  */
 export const isObjPromise = (obj: unknown): obj is Promise<unknown> => {
   return !!obj && typeof obj === "object" && typeof (obj as any).then === "function";

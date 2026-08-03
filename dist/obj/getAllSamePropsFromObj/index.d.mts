@@ -1,7 +1,7 @@
 export type TGetAllSamePropsFromObjArgs = Parameters<typeof getAllSamePropsFromObj>;
 export type TGetAllSamePropsFromObjReturn = ReturnType<typeof getAllSamePropsFromObj>;
 /**
- * Gets all values inside an object by the specified key, including deeply nested objects
+ * Gets all values inside an object by the specified key, including deeply nested and circular objects.
  * @template T
  * @param {Record<string, unknown>} obj Source object (can be nested)
  * @param {string} prop Property name to collect values for
@@ -29,5 +29,8 @@ export type TGetAllSamePropsFromObjReturn = ReturnType<typeof getAllSamePropsFro
  *   }
  * }
  * getAllSamePropsFromObj<string | number>(myObj, "a") // [ "value 1", 1, "value 3", "value 4" ]
+ * @example
+ * // Collect every category id from a nested navigation tree
+ * const categoryIds = getAllSamePropsFromObj<string>(navigation, "categoryId");
  */
 export declare const getAllSamePropsFromObj: <T = unknown>(obj: unknown, prop: string) => T[];

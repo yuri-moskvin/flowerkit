@@ -40,4 +40,14 @@ describe(getAllSamePropsFromObj.name, () => {
     }, "a"), [ "value 1", 1, "value 3", "value 4" ]);
   });
 
+  test("Traverses circular and BigInt-containing objects", () => {
+    const source: Record<string, unknown> = {
+      id: 1n,
+      child: { id: 2n },
+    };
+    source.self = source;
+
+    assert.deepStrictEqual(getAllSamePropsFromObj<bigint>(source, "id"), [ 1n, 2n ]);
+  });
+
 });

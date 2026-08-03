@@ -1,0 +1,2 @@
+Object.defineProperty(exports,"__esModule",{value:true});var dateValue=require("../dateValue.cjs");const getDateFormatted=(date,locales,options={})=>{if(!options||typeof options!=="object"||Array.isArray(options))throw new TypeError("getDateFormatted: options must be a plain object");return new Intl.DateTimeFormat(locales,options).format(dateValue.getDateValue(date,getDateFormatted.name))};exports.getDateFormatted=getDateFormatted;
+//# sourceMappingURL=index.cjs.map

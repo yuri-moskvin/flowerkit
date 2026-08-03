@@ -24,6 +24,7 @@ describe(isObjEmpty.name, () => {
     const obj2 = {};
     assert.strictEqual(isObjEmpty(obj1), false);
     assert.strictEqual(isObjEmpty(obj2), true);
+    assert.strictEqual(isObjEmpty(Object.create(null)), true);
   });
 
   test("Checks for arrays", () => {

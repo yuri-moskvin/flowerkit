@@ -1,209 +1,196 @@
-﻿# FlowerKit 🌸 Tree-shakable JavaScript and TypeScript Utility Library
+# FlowerKit 🌸 TypeScript Utilities for Browser APIs, DOM Events, and SSR
 
-More than 70 frontend-focused utilities for JavaScript and TypeScript: DOM, events, arrays, objects, strings, date, JSON, and network helpers.
+100+ typed, tree-shakable utilities for frontend applications. FlowerKit combines DOM and browser helpers with the array, object, string, date, function, and network utilities that application code uses every day.
 
 [![npm](https://img.shields.io/npm/v/@web3r/flowerkit)](https://www.npmjs.com/package/@web3r/flowerkit)
 [![npm downloads](https://img.shields.io/npm/dw/@web3r/flowerkit)](https://www.npmjs.com/package/@web3r/flowerkit)
 [![CI](https://github.com/yuri-moskvin/flowerkit/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/yuri-moskvin/flowerkit/actions/workflows/ci.yml)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://github.com/yuri-moskvin/flowerkit/blob/main/LICENSE)
 
+## Why FlowerKit?
+
+- Browser-focused helpers for DOM events, observers, storage, cookies, network requests, and CSS
+- SSR-safe fallbacks for utilities that normally depend on `window` or `document`
+- TypeScript types for every public function, including exported argument and return types
+- Tree-shakable ESM subpath imports, CommonJS support, and `sideEffects: false`
+- Cancelable debounce and throttle controls, typed request errors, and explicit listener cleanup
+- Runtime input validation and 100+ colocated test suites
+
 ## Install
 
 ```bash
 npm i @web3r/flowerkit
-# or
-pnpm add @web3r/flowerkit
-# or
-yarn add @web3r/flowerkit
 ```
 
-## Quick Start
+Also works with `pnpm add @web3r/flowerkit` and `yarn add @web3r/flowerkit`.
+
+## Quick start
+
+### Handle clicks outside an element
 
 ```ts
-import { isNode } from "@web3r/flowerkit/dom";
-import { getDebouncedFn } from "@web3r/flowerkit/fn";
-import { getMergedObj } from "@web3r/flowerkit/obj";
+import { onClickOutside } from "@web3r/flowerkit/evt";
 
-const debouncedLog = getDebouncedFn((value: string) => console.log(value), 300);
-debouncedLog("hello");
+const menu = document.querySelector("[data-menu]");
 
-const result = getMergedObj({ first: [ "foo" ] }, { first: [ "bar" ], ok: true });
-console.log(result); // => { first: [ "foo", "bar" ], ok: true }
+if (menu) {
+  const outside = onClickOutside(menu, () => menu.removeAttribute("open"));
 
-console.log(isNode(document.body)); // => true
-```
-
-## Usage
-
-```ts
-// tree-shakable ESM imports from subpaths
-import { isNode } from "@web3r/flowerkit/dom";
-import { onSwipe } from "@web3r/flowerkit/evt";
-
-// import whole kits
-import { domKit, evtKit } from "@web3r/flowerkit";
-
-// CJS
-const domKit = require("@web3r/flowerkit/dom");
-
-// types
-import type { TGetCurryFnArgs, TGetCurryFnReturn } from "@web3r/flowerkit/fn";
-```
-
-## Features
-
-- Tree-shakable subpath imports for smaller bundles
-- TypeScript types for all exported functions
-- Works in browser and SSR environments
-- ESM and CJS support
-- JSDoc on utilities with usage examples
-- Input validation with clear runtime errors
-
-## Structure
-
-- `@web3r/flowerkit/arr` - arrays and iterable helpers
-- `@web3r/flowerkit/css` - CSS utilities from JavaScript
-- `@web3r/flowerkit/date` - Date helpers
-- `@web3r/flowerkit/dom` - DOM and Node helpers
-- `@web3r/flowerkit/evt` - event helpers
-- `@web3r/flowerkit/fn` - function helpers (curry, debounce, throttle)
-- `@web3r/flowerkit/json` - JSON helpers
-- `@web3r/flowerkit/net` - network helpers
-- `@web3r/flowerkit/obj` - object helpers
-- `@web3r/flowerkit/str` - string helpers
-- `@web3r/flowerkit/user` - browser/user environment helpers
-
-## Examples
-
-### Capitalize the first letter of a string
-
-```js
-import { getStrWithCapitalized } from "@web3r/flowerkit/str";
-
-const str = "hello world";
-const upperStr = getStrWithCapitalized(str);
-console.log(upperStr); // => "Hello world"
-```
-
-### Curry a function
-
-```js
-import { getCurryFn } from "@web3r/flowerkit/fn";
-
-function getSum(a, b) {
-  return a + b;
+  // Call this from your framework's unmount hook.
+  const disposeMenu = () => outside.removeListener();
 }
-
-const getCurriedSum = getCurryFn(getSum);
-console.log(getCurriedSum(1)(2)); // => 3
 ```
 
-### Debounce a function
+### Debounce with lifecycle controls
 
-```js
+```ts
 import { getDebouncedFn } from "@web3r/flowerkit/fn";
 
-const fn = getDebouncedFn(alert, 1000);
-fn(1);
-fn(2);
+const search = getDebouncedFn((query: string) => {
+  console.log(query);
+}, 300);
 
-// only the last call within 1000ms is executed
-setTimeout(() => fn(3), 100);
-setTimeout(() => fn(4), 1100);
+search("flower");
+search("flowerkit");
+
+search.pending(); // true
+search.flush();   // run the pending call immediately
+search.cancel();  // or discard a pending call during cleanup
 ```
 
-### Throttle a function
+### Use typed, SSR-safe storage
 
-```js
-import { getThrottledFn } from "@web3r/flowerkit/fn";
+```ts
+import { createStorage } from "@web3r/flowerkit/user";
 
-const fn = getThrottledFn(alert, 5000);
-fn(1); // calls immediately
-fn(2); // ignored
-setTimeout(() => fn(3), 5000); // calls
+const settings = createStorage<{
+  locale: "en" | "ru";
+  theme: "dark" | "light";
+}>({ namespace: "settings" });
+
+settings.set("theme", "dark");
+const theme = settings.get("theme", "light");
 ```
 
-### Get the number of keys in an object
+### Handle typed request failures
 
-```js
-import { getObjLength } from "@web3r/flowerkit/obj";
+```ts
+import { getFromServer } from "@web3r/flowerkit/net";
+import type { TGetFromServerError } from "@web3r/flowerkit/net";
 
-const obj = { key1: "value1", key2: "value2" };
-console.log(getObjLength(obj)); // => 2
+try {
+  const user = await getFromServer<{ id: number; name: string }>({
+    url: "/api/user/1",
+  });
+  console.log(user.name);
+} catch (error) {
+  if (error instanceof Error && error.name === "GetFromServerError") {
+    const requestError = error as TGetFromServerError;
+    console.error(requestError.kind, requestError.status);
+  }
+}
 ```
 
-### Compare objects by keys and values
+## Imports
 
-```js
-import { isObjEqual } from "@web3r/flowerkit/obj";
+Prefer kit subpaths so bundlers can include only the utilities that are used:
 
-const a = { foo: { bar: 1 } };
-const b = { foo: { bar: 1 } };
-console.log(isObjEqual(a, b)); // => true
+```ts
+// ESM
+import { getUniqueBy } from "@web3r/flowerkit/arr";
+import { onIntersection, onSwipe } from "@web3r/flowerkit/evt";
+
+// Namespace kits
+import { arrKit, evtKit } from "@web3r/flowerkit";
+
+// CommonJS
+const { getUniqueBy } = require("@web3r/flowerkit/arr");
+
+// Public types
+import type { TOnSwipeArgs, TOnSwipeReturn } from "@web3r/flowerkit/evt";
 ```
 
-### Deep clone an object
+## Compatibility
 
-```js
-import { getCopyOfObj } from "@web3r/flowerkit/obj";
+| Environment | Support |
+| --- | --- |
+| Node.js | 22 and 24, verified in CI |
+| Browser output | Compiled against the package's `browserslist` configuration |
+| Server-side rendering | SSR-safe entry points verified without browser globals |
+| Modules | ESM and CommonJS |
+| TypeScript | Bundled declarations for the root package and every kit subpath |
 
-const originalObject = { value: 1 };
-const copy = getCopyOfObj(originalObject);
+FlowerKit is framework-independent and can be used with React, Vue, Svelte, other frameworks, or vanilla TypeScript.
 
-copy.value = 2;
-console.log(originalObject.value === copy.value); // => false
+## Bundle-size checks
+
+Representative imports are bundled, minified, compressed with gzip, and checked against regression budgets in CI:
+
+| Import | Minified | Minified + gzip | CI limit (gzip) |
+| --- | ---: | ---: | ---: |
+| `getDebouncedFn` | 0.71 kB | 0.37 kB | 0.49 kB |
+| `onClickOutside` | 1.78 kB | 0.84 kB | 1.07 kB |
+| `createStorage` | 1.42 kB | 0.63 kB | 0.83 kB |
+| `getFromServer` | 6.68 kB | 2.70 kB | 3.42 kB |
+
+Run `npm run size` to print the current measured values. Run `npm run verify:size` to enforce the budgets.
+
+## Kits
+
+| Import path | Purpose |
+| --- | --- |
+| `@web3r/flowerkit/arr` | Arrays, iterables, grouping, sets, and async mapping |
+| `@web3r/flowerkit/css` | CSS values, variables, selectors, media queries, and transforms |
+| `@web3r/flowerkit/date` | Date validation, arithmetic, formatting, and differences |
+| `@web3r/flowerkit/dom` | DOM nodes, HTML parsing, siblings, wrappers, and cleanup |
+| `@web3r/flowerkit/evt` | DOM lifecycle events, outside clicks, swipe, resize, media, and intersection observers |
+| `@web3r/flowerkit/fn` | Async pools, curry, debounce, throttle, memoization, retry, and timing |
+| `@web3r/flowerkit/json` | JSON parsing and validation |
+| `@web3r/flowerkit/net` | Typed fetch, query parameters, FormData, and external scripts |
+| `@web3r/flowerkit/num` | Clamping, formatting, ranges, rounding, minimum, and maximum |
+| `@web3r/flowerkit/obj` | Deep clone, equality, merge, fallback, pick, omit, and cleanup |
+| `@web3r/flowerkit/str` | Case conversion, slugging, escaping, truncation, IDs, and formatting |
+| `@web3r/flowerkit/user` | SSR-safe storage, clipboard, cookies, devices, and viewport helpers |
+
+See the [complete API reference](./docs/index.md) and the generated reference for each kit.
+
+## Quality and package verification
+
+Current coverage from the built-in Node.js coverage runner:
+
+| Metric | Current | Enforced minimum |
+| --- | ---: | ---: |
+| Lines | 93.71% | 90% |
+| Branches | 85.15% | 80% |
+| Functions | 94.93% | 90% |
+
+The current npm artifact is approximately 254 kB compressed and 977 kB unpacked. CI limits the artifact to 280,000 compressed bytes, 1,050,000 unpacked bytes, and 650 files so packaging regressions require an explicit decision.
+
+Every pull request is checked with:
+
+- ESLint and strict TypeScript type checking
+- the Node.js test runner in Node.js 22 and 24
+- browser-global-free SSR import tests
+- ESM, CommonJS, declaration, and subpath smoke tests against the actual npm tarball
+- production dependency audit
+- representative bundle-size regression budgets
+
+The package tarball is restricted to runtime output and project documentation. Run `npm run verify:package` to install the packed artifact into a temporary consumer project and verify all public entry points.
+
+## Contributing
+
+Bug reports, use cases, documentation improvements, and focused utility proposals are welcome. Read [CONTRIBUTING.md](./CONTRIBUTING.md) before opening a pull request. Security issues should follow [SECURITY.md](./SECURITY.md).
+
+Before opening a pull request, run:
+
+```bash
+npm run lint
+npm run typecheck
+npm test
+npm run build
+npm run verify:package
 ```
 
-### Merge two objects
+## License
 
-```js
-import { getMergedObj } from "@web3r/flowerkit/obj";
-
-const targetObj = { first: [ "foo" ] };
-const sourceObj = { first: [ "moo" ], boo: 12 };
-console.log(getMergedObj(targetObj, sourceObj)); // => { first: [ "foo", "moo" ], boo: 12 }
-```
-
-### Generate a random ID
-
-```js
-import { getId } from "@web3r/flowerkit/str";
-
-const uniqueId = getId(100);
-console.log(uniqueId.length); // => 100
-```
-
-### Check if a value is iterable
-
-```js
-import { isIterable } from "@web3r/flowerkit/arr";
-
-const myDivs = document.querySelectorAll("div");
-console.log(isIterable(myDivs)); // => true
-```
-
-### Set a CSS variable from JavaScript
-
-```js
-import { setCSSVar } from "@web3r/flowerkit/css";
-
-const block = document.getElementById("myBlock");
-setCSSVar(block, "myVar", 10);
-// <div id="myBlock" style="--myVar: 10"></div>
-```
-
-### Detect an invalid Date instance
-
-```js
-import { isValidDate } from "@web3r/flowerkit/date";
-
-const wrongDate = new Date("invalid_date");
-console.log(isValidDate(wrongDate)); // => false
-
-const validDate = new Date(0);
-console.log(isValidDate(validDate)); // => true
-```
-
-## API
-
-See full [API docs and examples](https://github.com/yuri-moskvin/flowerkit/blob/main/docs/index.md).
+[MIT](./LICENSE) © Yuri Moskvin

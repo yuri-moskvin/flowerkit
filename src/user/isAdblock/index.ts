@@ -16,6 +16,9 @@ export type TIsAdblockReturn = ReturnType<typeof isAdblock>;
  * @example
  * const blocked = isAdblock();
  * console.log(blocked); // => false
+ * @example
+ * // Offer an ad-free subscription when an ad blocker is detected
+ * if (isAdblock()) showAdFreeSubscriptionNotice();
  */
 export const isAdblock = (): boolean => {
   const id = `adv_${getId()}`;

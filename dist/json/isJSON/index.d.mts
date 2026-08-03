@@ -9,5 +9,8 @@ export type TIsJSONReturn = ReturnType<typeof isJSON>;
  * const str = '{ "hello": "world" }';
  * const isStrJSON = isJSON(str);
  * console.log(isStrJSON); // => true
+ * @example
+ * // Validate JSON entered into a configuration editor before saving
+ * saveButton.disabled = !isJSON(editor.value);
  */
 export declare const isJSON: (str: unknown) => boolean;

@@ -10,5 +10,8 @@ export type TIsObjEmptyReturn = ReturnType<typeof isObjEmpty>;
  * const obj = {};
  * const isEmpty = isObjEmpty(obj);
  * console.log(isEmpty); // => true
+ * @example
+ * // Show an empty state when no search filters are selected
+ * const hasActiveFilters = !isObjEmpty(selectedFilters);
  */
 export declare const isObjEmpty: (obj: unknown) => boolean;

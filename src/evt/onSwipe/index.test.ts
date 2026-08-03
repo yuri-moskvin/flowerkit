@@ -76,6 +76,12 @@ describe(onSwipe.name, () => {
 
       assert.strictEqual(callback.mock.callCount(), 1);
 
+      mockTime += 100;
+      handler.move(createEvent(250, 0));
+      mockTime += 100;
+      handler.end(createEvent(250, 0));
+      assert.strictEqual(callback.mock.callCount(), 1);
+
       if (callback.mock.calls.length > 0) {
         const detail = callback.mock.calls[0].arguments[0];
         assert.strictEqual(detail.dir, "right");

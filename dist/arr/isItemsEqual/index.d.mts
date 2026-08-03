@@ -10,5 +10,10 @@ export type TIsItemsEqualReturn = ReturnType<typeof isItemsEqual>;
  * const arr = [ 1, 1, 1 ];
  * const isSame = isItemsEqual(arr);
  * console.log(isSame); // => true
+ * @example
+ * // Check whether every selected item has the same availability state
+ * const hasSameAvailability = isItemsEqual(
+ *   selectedProducts.map((product) => product.inStock)
+ * );
  */
 export declare const isItemsEqual: <T>(arr: T[]) => boolean;

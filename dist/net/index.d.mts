@@ -1,10 +1,14 @@
 export type { TGetExternalScriptArgs, TGetExternalScriptReturn } from "./getExternalScript/index.d.mts";
 export type { TGetFormDataFromObjArgs, TGetFormDataFromObjReturn } from "./getFormDataFromObj/index.d.mts";
-export type { TGetFromServerArgs, TGetFromServerReturn } from "./getFromServer/index.d.mts";
+export type { TGetFromServerArgs, TGetFromServerError, TGetFromServerErrorKind, TGetFromServerMethod, TGetFromServerReturn, } from "./getFromServer/index.d.mts";
 export type { TGetObjFromFormDataArgs, TGetObjFromFormDataReturn } from "./getObjFromFormData/index.d.mts";
+export type { TGetQueryParamArgs, TGetQueryParamReturn } from "./getQueryParam/index.d.mts";
+export type { TGetQueryParamsArgs, TGetQueryParamsReturn, TQueryParamsInput } from "./getQueryParams/index.d.mts";
 export type { TGetUrlWithQueryParamsArgs, TGetUrlWithQueryParamsReturn } from "./getUrlWithQueryParams/index.d.mts";
 export { getExternalScript } from "./getExternalScript/index.d.mts";
 export { getFormDataFromObj } from "./getFormDataFromObj/index.d.mts";
 export { getFromServer } from "./getFromServer/index.d.mts";
 export { getObjFromFormData } from "./getObjFromFormData/index.d.mts";
+export { getQueryParam } from "./getQueryParam/index.d.mts";
+export { getQueryParams } from "./getQueryParams/index.d.mts";
 export { getUrlWithQueryParams } from "./getUrlWithQueryParams/index.d.mts";

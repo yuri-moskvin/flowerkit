@@ -1,0 +1,2 @@
+Object.defineProperty(exports,"__esModule",{value:true});var index=require("../getQueryParams/index.cjs");const getQueryParam=(name,input)=>{if(typeof name!=="string")throw new TypeError("getQueryParam: name must be a string");const value=index.getQueryParams(input)[name];return Array.isArray(value)?value[0]??null:value??null};exports.getQueryParam=getQueryParam;
+//# sourceMappingURL=index.cjs.map

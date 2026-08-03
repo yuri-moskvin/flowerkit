@@ -19,6 +19,9 @@ describe(getId.name, () => {
     }
     assert.strictEqual(storageIds.size === count, true);
     assert.strictEqual(getId(16).length, 16);
+    const longId = getId(100);
+    assert.strictEqual(longId.length, 100);
+    assert.strictEqual(longId.includes("}"), false);
     assert.strictEqual(getId() !== getId(), true);
   });
 

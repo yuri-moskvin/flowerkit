@@ -13,5 +13,9 @@ export type TGetMapFromObjReturn = ReturnType<typeof getMapFromObj>;
  * const sourceObj = { hello: "world", goodbye: 1 };
  * const targetMap = getMapFromObj<string, number>(sourceObj as any, (_k, v) => typeof v === "number");
  * console.log(targetMap); // => Map { "goodbye" => 1 }
+ * @example
+ * // Convert a permission configuration object into a lookup Map
+ * const permissions = getMapFromObj({ edit: true, delete: false }, (_key, allowed) => allowed);
+ * permissions.has("edit"); // => true
  */
 export declare const getMapFromObj: <K extends string = string, V = unknown>(obj?: Record<string, V>, getFiltered?: (key: string, value: V, index: number) => boolean) => Map<K, V>;

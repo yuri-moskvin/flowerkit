@@ -9,11 +9,18 @@ export type TIsTouchDeviceReturn = ReturnType<typeof isTouchDevice>;
  * Avoids false positives from non-browser envs (like `jsdom`).
  * @example
  * const isTouchScreen = isTouchDevice(); // {boolean}
+ * @example
+ * // Increase control sizes for devices that support touch input
+ * document.documentElement.classList.toggle("has-touch", isTouchDevice());
  * @returns {boolean}
  */
 export const isTouchDevice = (): boolean => {
   const win = getWindow();
   const doc = getDocument();
+  const navigator = win.navigator as Navigator & {
+    msMaxTouchPoints?: number;
+    msPointerEnabled?: boolean;
+  };
 
   const isRealDocument = !!(doc && typeof doc.createElement === "function" && doc.nodeType === 9);
 
@@ -23,9 +30,9 @@ export const isTouchDevice = (): boolean => {
 
   return !!(
     isHasTouchEvent
-    || (typeof win.navigator?.maxTouchPoints !== "undefined" && win.navigator.maxTouchPoints)
-    || (typeof (win.navigator as any).msMaxTouchPoints !== "undefined" && (win.navigator as any).msMaxTouchPoints)
+    || (typeof navigator?.maxTouchPoints !== "undefined" && navigator.maxTouchPoints)
+    || (typeof navigator?.msMaxTouchPoints !== "undefined" && navigator.msMaxTouchPoints)
     || ((win as any).DocumentTouch && doc instanceof (win as any).DocumentTouch)
-    || (win.navigator?.msPointerEnabled && (win as any).MSGesture)
+    || (navigator?.msPointerEnabled && (win as any).MSGesture)
   );
 };

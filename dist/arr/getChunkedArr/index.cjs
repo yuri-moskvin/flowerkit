@@ -1,0 +1,2 @@
+Object.defineProperty(exports,"__esModule",{value:true});const getChunkedArr=(arr,size)=>{if(!Array.isArray(arr))throw new TypeError("getChunkedArr: arr must be an array");if(!Number.isInteger(size)||size<=0)throw new TypeError("getChunkedArr: size must be a positive integer");const result=[];for(let index=0;index<arr.length;index+=size)result.push(arr.slice(index,index+size));return result};exports.getChunkedArr=getChunkedArr;
+//# sourceMappingURL=index.cjs.map

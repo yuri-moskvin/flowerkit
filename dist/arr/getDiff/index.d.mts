@@ -13,5 +13,11 @@ export type TGetDiffReturn = ReturnType<typeof getDiff>;
  * const arr2 = [ 3, 4, 5, 6 ];
  * const diff = getDiff(arr1, arr2);
  * console.log(diff); // => [ 1, 2, 4, 5, 6 ]
+ * @example
+ * // Find permissions that changed between two role configurations
+ * const changedPermissions = getDiff(
+ *   [ "read", "write" ],
+ *   [ "read", "delete" ]
+ * ); // [ "write", "delete" ]
  */
 export declare const getDiff: <T>(arr1: T[], arr2: T[]) => T[];

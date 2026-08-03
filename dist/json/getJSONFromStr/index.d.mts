@@ -16,5 +16,12 @@ export type TGetJSONFromStrReturn = ReturnType<typeof getJSONFromStr>;
  * // How to convert string to JSON?
  * const json = getJSONFromStr<{ hello: string }>('{"hello":"world"}');
  * console.log(json.hello); // => "world"
+ * @example
+ * // Parse cached application settings and report malformed JSON
+ * const settings = getJSONFromStr<AppSettings>(
+ *   localStorage.getItem("settings") ?? "{}",
+ *   undefined,
+ *   (error) => reportInvalidSettings(error)
+ * );
  */
 export declare const getJSONFromStr: <T = unknown>(str: string, reviver?: (this: any, key: string, value: any) => any, onError?: (err: unknown) => void) => T | Record<string, never>;

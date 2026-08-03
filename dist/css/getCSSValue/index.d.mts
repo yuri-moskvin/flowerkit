@@ -12,5 +12,9 @@ export type TGetCSSValueReturn = ReturnType<typeof getCSSValue>;
  * // How to get "height" prop of div from JS?
  * const block = document.querySelector("#myBlock");
  * getCSSValue(block, "height");
+ * @example
+ * // Check whether a responsive navigation element is currently hidden
+ * const display = getCSSValue(navigation, "display");
+ * const isNavigationHidden = display === "none";
  */
 export declare const getCSSValue: (el: HTMLElement, prop: string) => string;

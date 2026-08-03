@@ -1,2 +1,2 @@
-export{bubble}from"./bubble/index.mjs";export{onDOMReady}from"./onDOMReady/index.mjs";export{onSwipe}from"./onSwipe/index.mjs";export{onWindowLoad}from"./onWindowLoad/index.mjs";export{onWindowResize}from"./onWindowResize/index.mjs";
+export{bubble}from"./bubble/index.mjs";export{on}from"./on/index.mjs";export{onClickOutside}from"./onClickOutside/index.mjs";export{onDOMReady}from"./onDOMReady/index.mjs";export{onIntersection}from"./onIntersection/index.mjs";export{onMediaQueryChange}from"./onMediaQueryChange/index.mjs";export{onResizeObserved}from"./onResizeObserved/index.mjs";export{onSwipe}from"./onSwipe/index.mjs";export{onWindowLoad}from"./onWindowLoad/index.mjs";export{onWindowResize}from"./onWindowResize/index.mjs";
 //# sourceMappingURL=index.mjs.map

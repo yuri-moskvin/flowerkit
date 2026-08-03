@@ -15,6 +15,11 @@ export type TIsSelectorValidReturn = ReturnType<typeof isSelectorValid>;
  * const selector = "#myElement";
  * const isValid = isSelectorValid(selector);
  * console.log(isValid); // => true
+ * @example
+ * // Validate a configurable selector before calling querySelector
+ * const element = isSelectorValid(config.selector)
+ *   ? document.querySelector(config.selector)
+ *   : null;
  */
 export const isSelectorValid = (str: string): boolean => {
   if (typeof str !== "string") {

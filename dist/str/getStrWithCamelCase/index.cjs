@@ -1,0 +1,2 @@
+Object.defineProperty(exports,"__esModule",{value:true});var caseWords=require("../caseWords.cjs");const getStrWithCamelCase=str=>{if(typeof str!=="string")throw new TypeError("getStrWithCamelCase: str must be a string");return caseWords.getCaseWords(str).map((word,index)=>{const normalized=word.toLocaleLowerCase();return index===0?normalized:normalized.charAt(0).toLocaleUpperCase()+normalized.slice(1)}).join("")};exports.getStrWithCamelCase=getStrWithCamelCase;
+//# sourceMappingURL=index.cjs.map

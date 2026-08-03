@@ -10,5 +10,8 @@ export type TGetWordsReturn = ReturnType<typeof getWords>;
  * @throws {TypeError} If str is not a string
  * @example
  * getWords("helloWorld! what's_up?"); // ["hello","World","what","s","up"]
+ * @example
+ * // Extract searchable words from a camelCase configuration key
+ * const keywords = getWords("productCardImageURL"); // [ "product", "Card", "Image", "URL" ]
  */
 export declare const getWords: (str: string) => string[];

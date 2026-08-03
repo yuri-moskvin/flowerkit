@@ -37,6 +37,12 @@ export type TOnSwipeReturn = ReturnType<typeof onSwipe>;
  *
  * @example
  * onSwipe(document.getElementById("box")!, { callback: ({ dir }) => console.log(dir) });
+ * @example
+ * // Navigate a touch carousel with left and right swipe gestures
+ * const carouselSwipe = onSwipe(carousel, {
+ *   minDist: 50,
+ *   callback: ({ dir }) => dir === "left" ? showNextSlide() : showPreviousSlide(),
+ * });
  */
 export const onSwipe = <TDetail extends {
   originEvent: Event;
@@ -193,6 +199,9 @@ export const onSwipe = <TDetail extends {
       isMouseDown = false;
       return;
     }
+    if (isMouse) {
+      isMouseDown = false;
+    }
 
     const endTime = Date.now();
     const time = endTime - startTime;
@@ -246,6 +255,10 @@ export const onSwipe = <TDetail extends {
     (el as unknown as EventTarget)[action](events.start, handler.start as EventListener);
     (el as unknown as EventTarget)[action](events.move, handler.move as EventListener);
     (el as unknown as EventTarget)[action](events.end, handler.end as EventListener);
+    if ("cancel" in events) {
+      (el as unknown as EventTarget)[action](events.cancel, handler.end as EventListener);
+    }
+    (el as unknown as EventTarget)[action](events.leave, handler.end as EventListener);
     if (isSupport.pointer && isSupport.touch) {
       (el as unknown as EventTarget)[action]("lostpointercapture", handler.end as EventListener);
     }

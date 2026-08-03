@@ -1,0 +1,2 @@
+Object.defineProperty(exports,"__esModule",{value:true});const getObjWithOmittedProps=(obj,keys)=>{if(!obj||typeof obj!=="object"||Array.isArray(obj))throw new TypeError("getObjWithOmittedProps: obj must be a plain object");if(!Array.isArray(keys))throw new TypeError("getObjWithOmittedProps: keys must be an array");const omitted=new Set(keys);const result={};Reflect.ownKeys(obj).forEach(key=>{if(!omitted.has(key))result[key]=obj[key]});return result};exports.getObjWithOmittedProps=getObjWithOmittedProps;
+//# sourceMappingURL=index.cjs.map

@@ -1,0 +1,2 @@
+Object.defineProperty(exports,"__esModule",{value:true});const getNumberFormatted=(num,locales,options={})=>{if(typeof num!=="number"||Number.isNaN(num))throw new TypeError("getNumberFormatted: num must be a valid number");if(!options||typeof options!=="object"||Array.isArray(options))throw new TypeError("getNumberFormatted: options must be a plain object");return new Intl.NumberFormat(locales,options).format(num)};exports.getNumberFormatted=getNumberFormatted;
+//# sourceMappingURL=index.cjs.map

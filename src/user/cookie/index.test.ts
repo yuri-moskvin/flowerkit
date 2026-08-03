@@ -28,6 +28,16 @@ describe(setCookie.name, () => {
     );
   });
 
+  test("Does not mutate cookie options", () => {
+    const expires = new Date("2030-01-01T00:00:00Z");
+    const options = { expires, path: "/" };
+
+    setCookie("IMMUTABLE_COOKIE_OPTIONS", "value", options);
+
+    assert.strictEqual(options.expires, expires);
+    assert.ok(options.expires instanceof Date);
+  });
+
 });
 
 describe(getCookie.name, () => {

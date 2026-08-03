@@ -1,4 +1,11 @@
+export type { TDateInput } from "./dateValue.d.mts";
+export type { TGetDateAddedArgs, TGetDateAddedReturn } from "./getDateAdded/index.d.mts";
+export type { TGetDateDiffArgs, TGetDateDiffReturn } from "./getDateDiff/index.d.mts";
+export type { TGetDateFormattedArgs, TGetDateFormattedReturn } from "./getDateFormatted/index.d.mts";
 export type { TGetPureDateArgs, TGetPureDateReturn } from "./getPureDate/index.d.mts";
 export type { TIsValidDateArgs, TIsValidDateReturn } from "./isValidDate/index.d.mts";
+export { getDateAdded } from "./getDateAdded/index.d.mts";
+export { getDateDiff } from "./getDateDiff/index.d.mts";
+export { getDateFormatted } from "./getDateFormatted/index.d.mts";
 export { getPureDate } from "./getPureDate/index.d.mts";
 export { isValidDate } from "./isValidDate/index.d.mts";

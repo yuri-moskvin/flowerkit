@@ -79,6 +79,28 @@ describe(isObjEqual.name, () => {
       ),
       false
     );
+
+    assert.strictEqual(
+      isObjEqual(
+        new Set([ { nested: 1 }, { nested: 2 } ]),
+        new Set([ { nested: 2 }, { nested: 1 } ])
+      ),
+      true
+    );
+  });
+
+  test("Compares binary values by type and contents", () => {
+    assert.strictEqual(
+      isObjEqual(Uint8Array.from([ 1, 2 ]).buffer, Uint8Array.from([ 1, 2 ]).buffer),
+      true
+    );
+    assert.strictEqual(
+      isObjEqual(Uint8Array.from([ 1 ]).buffer, Uint8Array.from([ 2 ]).buffer),
+      false
+    );
+    assert.strictEqual(isObjEqual(new Uint8Array([ 1 ]), new Uint16Array([ 1 ])), false);
+    assert.strictEqual(isObjEqual(new Uint8Array([ 1, 2 ]), new Uint8Array([ 1, 2 ])), true);
+    assert.strictEqual(isObjEqual(new Uint8Array([ 1, 2 ]), new Uint8Array([ 1, 3 ])), false);
   });
 
 });

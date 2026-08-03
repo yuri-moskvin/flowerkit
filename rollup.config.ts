@@ -80,6 +80,7 @@ const plugins: Plugin[] = [
   ts({
     include: inputData.map(({ input }) => input as string),
     tsconfig: path.resolve(__dirname, "./tsconfig.json"),
+    noForceEmit: true,
     noEmitOnError: false,
     compilerOptions: {
       declaration: true,
@@ -123,7 +124,7 @@ const plugins: Plugin[] = [
       hoist_vars: false,
     },
     format: {
-      comments: "all",
+      comments: /^!/,
       keep_numbers: true,
     },
   }),

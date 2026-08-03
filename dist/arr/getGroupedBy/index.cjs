@@ -1,0 +1,2 @@
+Object.defineProperty(exports,"__esModule",{value:true});const getGroupedBy=(arr,getKey)=>{if(!Array.isArray(arr))throw new TypeError("getGroupedBy: arr must be an array");if(typeof getKey!=="function")throw new TypeError("getGroupedBy: getKey must be a function");const result=Object.create(null);arr.forEach((value,index,array)=>{const key=getKey(value,index,array);const group=result[key];if(group)group.push(value);else result[key]=[value]});return result};exports.getGroupedBy=getGroupedBy;
+//# sourceMappingURL=index.cjs.map

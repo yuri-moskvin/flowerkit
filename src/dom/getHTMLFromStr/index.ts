@@ -16,6 +16,12 @@ export type TGetHTMLFromStrReturn = ReturnType<typeof getHTMLFromStr>;
  *   <p>Hello world!</p>
  * `);
  * const elements = Array.from(nodes); // array of two paragraph nodes
+ * @example
+ * // Parse an SVG string into DOM nodes on the browser or server
+ * const iconNodes = await getHTMLFromStr(
+ *   `<svg viewBox="0 0 24 24"><path d="M4 12h16" /></svg>`,
+ *   "image/svg+xml"
+ * );
  */
 export const getHTMLFromStr = async (
   str: string = "",
@@ -40,8 +46,9 @@ export const getHTMLFromStr = async (
 
   if (typeof DOMParser === "undefined") {
     const { parse } = await import("node-html-parser");
-    return (parse(str) as unknown as HTMLElement).querySelectorAll("*");
+    return parse(str).childNodes as unknown as NodeList;
   }
 
-  return new DOMParser().parseFromString(str, type).body.childNodes;
+  const parsed = new DOMParser().parseFromString(str, type);
+  return type === "text/html" ? parsed.body.childNodes : parsed.childNodes;
 };

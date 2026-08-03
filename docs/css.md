@@ -1,6 +1,9 @@
 # ⚙️ CSS utils pack API
+
 ___
+
 ## Usage
+
 ```ts
 // import functions
 import { getCSSTransformValues, getCSSValue, getCSSVar, isMediaQuery, isSelectorValid, removeCSSVar, setCSSVar } from "@web3r/flowerkit/css";
@@ -8,7 +11,9 @@ import { getCSSTransformValues, getCSSValue, getCSSVar, isMediaQuery, isSelector
 // import types
 import type { TGetCSSTransformValuesArgs, TGetCSSTransformValuesReturn, TGetCSSValueArgs, TGetCSSValueReturn, TGetCSSVarArgs, TGetCSSVarReturn, TIsMediaQueryArgs, TIsMediaQueryReturn, TIsSelectorValidArgs, TIsSelectorValidReturn, TRemoveCSSVarArgs, TRemoveCSSVarReturn, TSetCSSVarArgs, TSetCSSVarReturn } from "@web3r/flowerkit/css";
 ```
+
 ___
+
 ## Functions
 
 - [getCSSTransformValues](#getcsstransformvalues)
@@ -47,6 +52,12 @@ const values = getCSSTransformValues(block);
 console.log(values); // => { x: 10, y: 15, z: 35 }
 ```
 
+```ts
+// Read the current translated position before continuing a drag animation
+const { x, y } = getCSSTransformValues(draggableElement);
+draggableElement.style.transform = `translate(${x + 20}px, ${y}px)`;
+```
+
 
 ### getCSSValue
 
@@ -73,6 +84,12 @@ Examples:
 // How to get "height" prop of div from JS?
 const block = document.querySelector("#myBlock");
 getCSSValue(block, "height");
+```
+
+```ts
+// Check whether a responsive navigation element is currently hidden
+const display = getCSSValue(navigation, "display");
+const isNavigationHidden = display === "none";
 ```
 
 
@@ -104,10 +121,16 @@ const block = document.querySelector("#myBlock"); // <div id="myBlock" style="--
 getCSSVar(block, "--myVar"); // or just "myVar"
 ```
 
+```ts
+// Read a numeric spacing token from CSS in JavaScript
+const spacing = getCSSVar(document.documentElement, "spacing", true);
+console.log(spacing); // number
+```
+
 
 ### isMediaQuery
 
-Gets a result of testing of a CSS media query
+Gets a result of testing a CSS media query and wraps bare media features when needed.
 
 | Function | Type |
 | ---------- | ---------- |
@@ -130,6 +153,11 @@ Examples:
 const mediaQuery = "(orientation: portrait)";
 const isPortrait = isMediaQuery(mediaQuery);
 console.log(isPortrait); // => false
+```
+
+```ts
+// Disable decorative animation when the user prefers reduced motion
+const shouldReduceMotion = isMediaQuery("(prefers-reduced-motion: reduce)");
 ```
 
 
@@ -160,6 +188,13 @@ const isValid = isSelectorValid(selector);
 console.log(isValid); // => true
 ```
 
+```ts
+// Validate a configurable selector before calling querySelector
+const element = isSelectorValid(config.selector)
+  ? document.querySelector(config.selector)
+  : null;
+```
+
 
 ### removeCSSVar
 
@@ -188,6 +223,11 @@ Examples:
 const block = document.getElementById("myBlock");
 removeCSSVar(block, "myVar");
 // <div id="myBlock" style=""></div>
+```
+
+```ts
+// Remove an inline theme override and fall back to the stylesheet value
+removeCSSVar(document.documentElement, "accent-color");
 ```
 
 
@@ -221,8 +261,10 @@ setCSSVar(block, "myVar", 10);
 // <div id="myBlock" style="--myVar: 10"></div>
 ```
 
-
-
+```ts
+// Update a CSS progress variable from JavaScript
+setCSSVar(progressBar, "progress", `${completedPercent}%`);
+```
 
 ## Types
 
@@ -324,4 +366,3 @@ setCSSVar(block, "myVar", 10);
 | Type | Type |
 | ---------- | ---------- |
 | `TSetCSSVarReturn` | `ReturnType<typeof setCSSVar>` |
-

@@ -1,20 +1,27 @@
 # ⚙️ Network utils pack API
+
 ___
+
 ## Usage
+
 ```ts
 // import functions
-import { getExternalScript, getFormDataFromObj, getUrlWithQueryParams, getFromServer, getObjFromFormData } from "@web3r/flowerkit/net";
+import { getExternalScript, getFormDataFromObj, getUrlWithQueryParams, getFromServer, getObjFromFormData, getQueryParams, getQueryParam } from "@web3r/flowerkit/net";
 
 // import types
-import type { TGetExternalScriptArgs, TGetExternalScriptReturn, TGetFormDataFromObjArgs, TGetFormDataFromObjReturn, TGetUrlWithQueryParamsArgs, TGetUrlWithQueryParamsReturn, TGetFromServerArgs, TGetFromServerReturn, TGetObjFromFormDataArgs, TGetObjFromFormDataReturn } from "@web3r/flowerkit/net";
+import type { TGetExternalScriptArgs, TGetExternalScriptReturn, TGetFormDataFromObjArgs, TGetFormDataFromObjReturn, TGetUrlWithQueryParamsArgs, TGetUrlWithQueryParamsReturn, TGetFromServerMethod, TGetFromServerErrorKind, TGetFromServerError, TGetFromServerArgs, TGetFromServerReturn, TGetObjFromFormDataArgs, TGetObjFromFormDataReturn, TQueryParamsInput, TGetQueryParamsArgs, TGetQueryParamsReturn, TGetQueryParamArgs, TGetQueryParamReturn } from "@web3r/flowerkit/net";
 ```
+
 ___
+
 ## Functions
 
 - [getExternalScript](#getexternalscript)
 - [getFormDataFromObj](#getformdatafromobj)
 - [getUrlWithQueryParams](#geturlwithqueryparams)
 - [getFromServer](#getfromserver)
+- [getQueryParams](#getqueryparams)
+- [getQueryParam](#getqueryparam)
 
 ### getExternalScript
 
@@ -48,6 +55,15 @@ getExternalScript({ src: "https://cdn.example.com/lib.js", id: "lib" })
   .then(() => console.log("Loaded"));
 ```
 
+```ts
+// Load a third-party SDK with Subresource Integrity protection
+await getExternalScript({
+  src: "https://cdn.example.com/sdk.js",
+  integrity: "sha384-...",
+  crossorigin: "anonymous",
+});
+```
+
 
 ### getFormDataFromObj
 
@@ -75,6 +91,14 @@ const fd = getFormDataFromObj({ foo: 1, bar: "x" });
 fd.get("foo"); // "1"
 ```
 
+```ts
+// Build multipart form data and preserve File values with a custom setter
+const upload = getFormDataFromObj({ title, imageFile }, new FormData(), (name, value, fd) => {
+  if (value instanceof Blob) fd.set(name, value);
+  else fd.set(name, String(value ?? ""));
+});
+```
+
 
 ### getUrlWithQueryParams
 
@@ -93,6 +117,25 @@ Parameters:
 Returns:
 
 Updated URL
+
+Examples:
+
+```ts
+// Add pagination and sorting parameters to an existing URL
+const nextPageUrl = getUrlWithQueryParams("/products?category=plants", {
+  page: 2,
+  sort: "price",
+});
+```
+
+```ts
+// Build a filter URL that preserves repeated FormData values
+const filters = new FormData();
+filters.append("tag", "indoor");
+filters.append("tag", "sale");
+const filterUrl = getUrlWithQueryParams("/products", filters);
+```
+
 
 ### getFromServer
 
@@ -115,7 +158,7 @@ Parameters:
 * `props.signal`: AbortSignal for cancellation.
 * `props.data`: Request data. For GET-like methods, appended as query params.
 * `props.getSuccessResp`: Transform function for successful response. Defaults to identity function.
-* `props.getResp`: Custom response parser. If provided, overrides `type`.
+* `props.getResp`: Custom response parser. If provided, overrides `type` after HTTP status validation.
 * `props.type`: Response body parsing type (used when `getResp` not provided).
 * `props.headers`: Additional headers.
 * `props.allowedCodes`: Array of HTTP status codes to treat as success even if not 2xx.
@@ -139,6 +182,94 @@ Examples:
 
 ```ts
 const user = await getFromServer<{ userId: number }>({ url: "/api/user?id=1", method: "GET" });
+```
+
+```ts
+import type { TGetFromServerError } from "@web3r/flowerkit/net";
+
+try {
+  await getFromServer({ url: "/api/user" });
+} catch (error) {
+  if (error instanceof Error && error.name === "GetFromServerError") {
+    const requestError = error as TGetFromServerError;
+    if (requestError.kind === "http") {
+      console.error(requestError.status, requestError.response);
+    }
+  }
+}
+```
+
+```ts
+// Send typed JSON data and transform the successful API response
+const productId = await getFromServer<{ product: { id: string } }, string>({
+  url: "/api/products",
+  method: "POST",
+  contentType: "application/json",
+  data: { name: "Flower pot", price: 24 },
+  getSuccessResp: ({ product }) => product.id,
+});
+```
+
+
+### getQueryParams
+
+Reads URL query parameters into an object and preserves repeated values and bare flags.
+
+| Function | Type |
+| ---------- | ---------- |
+| `getQueryParams` | `(input?: TQueryParamsInput or undefined) => Record<string, string or string[]>` |
+
+Parameters:
+
+* `input`: URL, query string, or URLSearchParams; current URL by default
+
+
+Returns:
+
+Query object
+
+Examples:
+
+```ts
+getQueryParams("?tag=a&tag=b&page=1"); // { tag: [ "a", "b" ], page: "1" }
+```
+
+```ts
+// Restore product filters from a shared search URL
+const filters = getQueryParams(window.location.href);
+const selectedBrands = Array.isArray(filters.brand)
+  ? filters.brand
+  : [ filters.brand ].filter(Boolean);
+```
+
+
+### getQueryParam
+
+Gets the first value of a URL query parameter.
+
+| Function | Type |
+| ---------- | ---------- |
+| `getQueryParam` | `(name: string, input?: TQueryParamsInput or undefined) => string or null` |
+
+Parameters:
+
+* `name`: Parameter name
+* `input`: URL, query string, or URLSearchParams; current URL by default
+
+
+Returns:
+
+First value or `null` when absent
+
+Examples:
+
+```ts
+getQueryParam("page", "?page=2"); // "2"
+```
+
+```ts
+// Read an optional feature flag from the current browser URL
+const isPreview = getQueryParam("preview") === "true";
 ```
 
 
@@ -173,8 +304,12 @@ fd.append("test", "val");
 getObjFromFormData(fd); // { test: "val" }
 ```
 
-
-
+```ts
+// Preserve repeated checkbox values when converting a form submission
+const data = new FormData(form);
+const values = getObjFromFormData(data);
+console.log(values.category); // string, File, or an array of repeated values
+```
 
 ## Types
 
@@ -184,10 +319,18 @@ getObjFromFormData(fd); // { test: "val" }
 - [TGetFormDataFromObjReturn](#tgetformdatafromobjreturn)
 - [TGetUrlWithQueryParamsArgs](#tgeturlwithqueryparamsargs)
 - [TGetUrlWithQueryParamsReturn](#tgeturlwithqueryparamsreturn)
+- [TGetFromServerMethod](#tgetfromservermethod)
+- [TGetFromServerErrorKind](#tgetfromservererrorkind)
+- [TGetFromServerError](#tgetfromservererror)
 - [TGetFromServerArgs](#tgetfromserverargs)
 - [TGetFromServerReturn](#tgetfromserverreturn)
 - [TGetObjFromFormDataArgs](#tgetobjfromformdataargs)
 - [TGetObjFromFormDataReturn](#tgetobjfromformdatareturn)
+- [TQueryParamsInput](#tqueryparamsinput)
+- [TGetQueryParamsArgs](#tgetqueryparamsargs)
+- [TGetQueryParamsReturn](#tgetqueryparamsreturn)
+- [TGetQueryParamArgs](#tgetqueryparamargs)
+- [TGetQueryParamReturn](#tgetqueryparamreturn)
 
 ### TGetExternalScriptArgs
 
@@ -225,11 +368,29 @@ getObjFromFormData(fd); // { test: "val" }
 | ---------- | ---------- |
 | `TGetUrlWithQueryParamsReturn` | `ReturnType<typeof getUrlWithQueryParams>` |
 
+### TGetFromServerMethod
+
+| Type | Type |
+| ---------- | ---------- |
+| `TGetFromServerMethod` | `GET" or "PUT" or "POST" or "DELETE" or "HEAD" or "CONNECT" or "OPTIONS" or "TRACE" or "PATCH` |
+
+### TGetFromServerErrorKind
+
+| Type | Type |
+| ---------- | ---------- |
+| `TGetFromServerErrorKind` | `abort" or "http" or "network" or "parse" or "request" or "timeout" or "transform` |
+
+### TGetFromServerError
+
+| Type | Type |
+| ---------- | ---------- |
+| `TGetFromServerError` | `Error and { cause: unknown; kind: TGetFromServerErrorKind; method: TGetFromServerMethod; name: "GetFromServerError"; response: Response or null; status: number or null; url: string; }` |
+
 ### TGetFromServerArgs
 
 | Type | Type |
 | ---------- | ---------- |
-| `TGetFromServerArgs` | `{ contentType?: "auto" or "application/json" or "application/x-www-form-urlencoded" or "multipart/form-data"; isBubble?: boolean; timeout?: number; method?: "GET" or "PUT" or "POST" or "DELETE" or "HEAD" or "CONNECT" or "OPTIONS" or "TRACE" or "PATCH"; mode?: RequestMode; signal?: AbortSignal or null; data?: Record<string, unknown> or FormData or null; getSuccessResp?: (data: TResp) => TSuccess; getResp?: (resp: Response) => Promise<TResp>; type?: "text" or "json" or "blob" or "arrayBuffer"; url?: string; headers?: Record<string, string>; allowedCodes?: number[]; credentials?: RequestCredentials; redirect?: RequestRedirect; cache?: RequestCache; referrerPolicy?: ReferrerPolicy; fetchProps?: Omit<RequestInit, "method" or "headers" or "body" or "signal" or "mode" or "credentials" or "redirect" or "cache" or "referrerPolicy">; }` |
+| `TGetFromServerArgs` | `{ contentType?: "auto" or "application/json" or "application/x-www-form-urlencoded" or "multipart/form-data"; isBubble?: boolean; timeout?: number; method?: TGetFromServerMethod; mode?: RequestMode; signal?: AbortSignal or null; data?: Record<string, unknown> or FormData or null; getSuccessResp?: (data: TResp) => TSuccess; getResp?: (resp: Response) => Promise<TResp>; type?: "text" or "json" or "blob" or "arrayBuffer"; url?: string; headers?: Record<string, string>; allowedCodes?: number[]; credentials?: RequestCredentials; redirect?: RequestRedirect; cache?: RequestCache; referrerPolicy?: ReferrerPolicy; fetchProps?: Omit<RequestInit, "method" or "headers" or "body" or "signal" or "mode" or "credentials" or "redirect" or "cache" or "referrerPolicy">; }` |
 
 ### TGetFromServerReturn
 
@@ -249,3 +410,32 @@ getObjFromFormData(fd); // { test: "val" }
 | ---------- | ---------- |
 | `TGetObjFromFormDataReturn` | `ReturnType<typeof getObjFromFormData>` |
 
+### TQueryParamsInput
+
+| Type | Type |
+| ---------- | ---------- |
+| `TQueryParamsInput` | `string or URL or URLSearchParams` |
+
+### TGetQueryParamsArgs
+
+| Type | Type |
+| ---------- | ---------- |
+| `TGetQueryParamsArgs` | `Parameters<typeof getQueryParams>` |
+
+### TGetQueryParamsReturn
+
+| Type | Type |
+| ---------- | ---------- |
+| `TGetQueryParamsReturn` | `ReturnType<typeof getQueryParams>` |
+
+### TGetQueryParamArgs
+
+| Type | Type |
+| ---------- | ---------- |
+| `TGetQueryParamArgs` | `Parameters<typeof getQueryParam>` |
+
+### TGetQueryParamReturn
+
+| Type | Type |
+| ---------- | ---------- |
+| `TGetQueryParamReturn` | `ReturnType<typeof getQueryParam>` |

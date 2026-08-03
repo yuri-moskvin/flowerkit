@@ -13,5 +13,8 @@ export type TRemoveCSSVarReturn = ReturnType<typeof removeCSSVar>;
  * const block = document.getElementById("myBlock");
  * removeCSSVar(block, "myVar");
  * // <div id="myBlock" style=""></div>
+ * @example
+ * // Remove an inline theme override and fall back to the stylesheet value
+ * removeCSSVar(document.documentElement, "accent-color");
  */
 export declare const removeCSSVar: (el: HTMLElement | undefined, variable: string) => void;

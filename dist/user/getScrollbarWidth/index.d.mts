@@ -7,5 +7,9 @@ export type TGetScrollbarWidthReturn = ReturnType<typeof getScrollbarWidth>;
  * @example
  * const scrollbarWidth = getScrollbarWidth();
  * console.log(scrollbarWidth); // => number
+ * @example
+ * // Prevent a layout shift when locking page scroll behind a modal
+ * document.body.style.paddingRight = `${getScrollbarWidth()}px`;
+ * document.body.style.overflow = "hidden";
  */
 export declare const getScrollbarWidth: () => number;

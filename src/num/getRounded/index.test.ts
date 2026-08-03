@@ -8,6 +8,8 @@ describe(getRounded.name, () => {
     assert.throws(() => getRounded(NaN));
     assert.throws(() => getRounded(10, -1));
     assert.throws(() => getRounded(10, Infinity));
+    assert.throws(() => getRounded(10, 1.5));
+    assert.throws(() => getRounded(Infinity));
   });
 
   test("Checks for problematic rounding cases", () => {

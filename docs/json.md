@@ -1,6 +1,9 @@
 # ⚙️ JSON utils pack API
+
 ___
+
 ## Usage
+
 ```ts
 // import functions
 import { getJSONFromStr, isJSON } from "@web3r/flowerkit/json";
@@ -8,7 +11,9 @@ import { getJSONFromStr, isJSON } from "@web3r/flowerkit/json";
 // import types
 import type { TGetJSONFromStrArgs, TGetJSONFromStrReturn, TIsJSONArgs, TIsJSONReturn } from "@web3r/flowerkit/json";
 ```
+
 ___
+
 ## Functions
 
 - [getJSONFromStr](#getjsonfromstr)
@@ -46,6 +51,15 @@ const json = getJSONFromStr<{ hello: string }>('{"hello":"world"}');
 console.log(json.hello); // => "world"
 ```
 
+```ts
+// Parse cached application settings and report malformed JSON
+const settings = getJSONFromStr<AppSettings>(
+  localStorage.getItem("settings") ?? "{}",
+  undefined,
+  (error) => reportInvalidSettings(error)
+);
+```
+
 
 ### isJSON
 
@@ -69,8 +83,10 @@ const isStrJSON = isJSON(str);
 console.log(isStrJSON); // => true
 ```
 
-
-
+```ts
+// Validate JSON entered into a configuration editor before saving
+saveButton.disabled = !isJSON(editor.value);
+```
 
 ## Types
 
@@ -102,4 +118,3 @@ console.log(isStrJSON); // => true
 | Type | Type |
 | ---------- | ---------- |
 | `TIsJSONReturn` | `ReturnType<typeof isJSON>` |
-

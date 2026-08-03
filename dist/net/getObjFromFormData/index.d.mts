@@ -10,6 +10,11 @@ export type TGetObjFromFormDataReturn = ReturnType<typeof getObjFromFormData>;
  * const fd = new FormData();
  * fd.append("test", "val");
  * getObjFromFormData(fd); // { test: "val" }
+ * @example
+ * // Preserve repeated checkbox values when converting a form submission
+ * const data = new FormData(form);
+ * const values = getObjFromFormData(data);
+ * console.log(values.category); // string, File, or an array of repeated values
  */
 export declare const getObjFromFormData: (fd?: FormData) => {
     [x: string]: (string | File) | (string | File)[];

@@ -1,2 +1,2 @@
-export{getMaxFromArr}from"./getMaxFromArr/index.mjs";export{getMinFromArr}from"./getMinFromArr/index.mjs";export{getRandomIntFromInterval}from"./getRandomIntFromInterval/index.mjs";export{getRounded}from"./getRounded/index.mjs";
+export{getClampedNum}from"./getClampedNum/index.mjs";export{getCurrencyFormatted}from"./getCurrencyFormatted/index.mjs";export{getMaxFromArr}from"./getMaxFromArr/index.mjs";export{getMinFromArr}from"./getMinFromArr/index.mjs";export{getNumberFormatted}from"./getNumberFormatted/index.mjs";export{getRandomIntFromInterval}from"./getRandomIntFromInterval/index.mjs";export{getRounded}from"./getRounded/index.mjs";
 //# sourceMappingURL=index.mjs.map

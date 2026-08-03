@@ -11,6 +11,9 @@ export type TIsStrUrlReturn = ReturnType<typeof isStrUrl>;
  * @example
  * isStrUrl("www.example.com"); // true
  * isStrUrl("file.php"); // true
+ * @example
+ * // Detect whether pasted text should be rendered as a link
+ * const shouldLinkify = isStrUrl(clipboardText.trim());
  */
 export const isStrUrl = (str: string): boolean => {
   if (typeof str !== "string") {

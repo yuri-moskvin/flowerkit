@@ -33,4 +33,18 @@ describe(getElWrapper.name, () => {
     assert.strictEqual(getElWrapper(block, "<div></div>").outerHTML, `<div><div id="test"></div></div>`);
   });
 
+  test("Supports whitespace and returns the root wrapper", () => {
+    document.body.innerHTML = `<div id="test"></div>`;
+    const block = document.getElementById("test") as HTMLElement;
+    const wrapper = getElWrapper(block, `
+      <div class="wrapper">
+        <div class="wrapper__inner"></div>
+      </div>
+    `);
+
+    assert.strictEqual(wrapper.className, "wrapper");
+    assert.strictEqual(wrapper.querySelector(".wrapper__inner")?.firstElementChild, block);
+    assert.strictEqual(document.body.firstElementChild, wrapper);
+  });
+
 });

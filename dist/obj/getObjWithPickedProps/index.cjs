@@ -1,0 +1,2 @@
+Object.defineProperty(exports,"__esModule",{value:true});const getObjWithPickedProps=(obj,keys)=>{if(!obj||typeof obj!=="object"||Array.isArray(obj))throw new TypeError("getObjWithPickedProps: obj must be a plain object");if(!Array.isArray(keys))throw new TypeError("getObjWithPickedProps: keys must be an array");const result={};keys.forEach(key=>{if(Object.prototype.hasOwnProperty.call(obj,key))result[key]=obj[key]});return result};exports.getObjWithPickedProps=getObjWithPickedProps;
+//# sourceMappingURL=index.cjs.map

@@ -10,5 +10,8 @@ export type TDeleteCookieReturn = ReturnType<typeof deleteCookie>;
  * @example
  * // How to delete a Cookie?
  * deleteCookie("myCookieName");
+ * @example
+ * // Remove an authentication cookie after the user signs out
+ * deleteCookie("session_token");
  */
 export declare const deleteCookie: (name: string) => void;

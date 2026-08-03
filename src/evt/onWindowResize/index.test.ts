@@ -31,6 +31,7 @@ describe(onWindowResize.name, () => {
         null
       )
     );
+    assert.throws(() => onWindowResize(() => {}, Infinity));
   });
 
   test("Checks for removing listeners", async () => {
@@ -48,6 +49,17 @@ describe(onWindowResize.name, () => {
     removeListener();
     bubble(getWindow(), "resize");
     assert.strictEqual(spy.mock.callCount(), 1);
+  });
+
+  test("Cancels a pending debounced callback when removed", async () => {
+    const callback = mock.fn();
+    const listener = onWindowResize(callback, 20);
+
+    bubble(getWindow(), "resize");
+    listener.removeListener();
+    await new Promise((resolve) => setTimeout(resolve, 30));
+
+    assert.strictEqual(callback.mock.callCount(), 0);
   });
 
 });

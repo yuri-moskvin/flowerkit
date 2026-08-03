@@ -15,6 +15,11 @@ export type TGetIndexOfElReturn = ReturnType<typeof getIndexOfEl>;
  * //  <li id="c">C</li>
  * // </ul>
  * getIndexOfEl(document.querySelector("#c")!) // 2
+ * @example
+ * // Find the index of a clicked tab among its element siblings
+ * tabs.addEventListener("click", (event) => {
+ *   if (event.target instanceof Element) selectTab(getIndexOfEl(event.target));
+ * });
  */
 export const getIndexOfEl = (el: HTMLElement | Node | Element | Document): number => {
   if (!el || typeof (el as any).parentNode === "undefined") {

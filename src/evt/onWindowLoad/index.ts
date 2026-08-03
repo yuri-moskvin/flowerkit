@@ -22,6 +22,9 @@ export type TOnWindowLoadReturn = ReturnType<typeof onWindowLoad>;
  *
  * @example
  * const { removeListener } = onWindowLoad(() => console.log("Loaded"));
+ * @example
+ * // Hide a loading screen after images and stylesheets finish loading
+ * onWindowLoad(() => document.querySelector("[data-loader]")?.remove());
  */
 export const onWindowLoad = (
   cb: (e?: Event) => void,

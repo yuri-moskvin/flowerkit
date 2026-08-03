@@ -11,12 +11,15 @@ export type TIsJSONReturn = ReturnType<typeof isJSON>;
  * const str = '{ "hello": "world" }';
  * const isStrJSON = isJSON(str);
  * console.log(isStrJSON); // => true
+ * @example
+ * // Validate JSON entered into a configuration editor before saving
+ * saveButton.disabled = !isJSON(editor.value);
  */
 export const isJSON = (str: unknown): boolean => {
   if (typeof str === "string" && str.length) {
     try {
-      const json = JSON.parse(str);
-      return typeof json === "object" && json !== null;
+      JSON.parse(str);
+      return true;
       // eslint-disable-next-line no-unused-vars
     } catch (_err) {
       return false;

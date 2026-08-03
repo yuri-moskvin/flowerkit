@@ -1,13 +1,2 @@
-Object.defineProperty(exports,"__esModule",{value:true});var index=require("../isValidDate/index.cjs");
-/**
- * Gets a Date instance without time (hours, minutes, seconds, and milliseconds)
- * @param date{*=}
- * @returns {Date|null}
- * @example
- * // How to get a date without time e.g., hours, minutes, seconds, and milliseconds?
- * const dateWithTime = new Date();
- * console.log(dateWithTime.getMilliseconds()); // => {number}
- * const dateWithoutTime = getPureDate(dateWithTime);
- * console.log(dateWithoutTime.getMilliseconds()); // => 0
- */const getPureDate=(date=new Date)=>{const getWithoutTime=date=>{date.setHours(0,0,0,0);return date};if(index.isValidDate(date))return getWithoutTime(date);else{const convertedDare=new Date(date);if(index.isValidDate(convertedDare))return getPureDate(convertedDare);else return null}};exports.getPureDate=getPureDate;
+Object.defineProperty(exports,"__esModule",{value:true});var index=require("../isValidDate/index.cjs");const getPureDate=(date=new Date)=>{const convertedDate=index.isValidDate(date)?new Date(date.getTime()):new Date(date);if(!index.isValidDate(convertedDate))return null;convertedDate.setHours(0,0,0,0);return convertedDate};exports.getPureDate=getPureDate;
 //# sourceMappingURL=index.cjs.map

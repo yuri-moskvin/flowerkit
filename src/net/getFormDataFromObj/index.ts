@@ -20,6 +20,12 @@ export type TGetFormDataFromObjReturn = ReturnType<typeof getFormDataFromObj>;
  * @example
  * const fd = getFormDataFromObj({ foo: 1, bar: "x" });
  * fd.get("foo"); // "1"
+ * @example
+ * // Build multipart form data and preserve File values with a custom setter
+ * const upload = getFormDataFromObj({ title, imageFile }, new FormData(), (name, value, fd) => {
+ *   if (value instanceof Blob) fd.set(name, value);
+ *   else fd.set(name, String(value ?? ""));
+ * });
  */
 export const getFormDataFromObj = (
   obj: TSourceObject = {},

@@ -9,6 +9,9 @@ export type TIsMobileDeviceReturn = ReturnType<typeof isMobileDevice>;
  * @returns {boolean} True if likely a mobile browser
  * @example
  * const isMobile = isMobileDevice(); // => boolean
+ * @example
+ * // Select a mobile navigation variant when UA-based detection is acceptable
+ * const navigationVariant = isMobileDevice() ? "drawer" : "sidebar";
  */
 export const isMobileDevice = (): boolean => {
   const win = getWindow();

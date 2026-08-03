@@ -13,6 +13,10 @@ export type TGetLastFromIterableReturn = ReturnType<typeof getLastFromIterable>;
  * // How to get the last element from `NodeList` of `div`?
  * const lastDiv = getLastFromIterable(document.querySelectorAll("div"));
  * console.log(lastDiv) // => Node or null
+ * @example
+ * // Read the last uploaded file from a FileList
+ * const lastFile = getLastFromIterable(input.files ?? []);
+ * console.log(lastFile?.name);
  */
 export const getLastFromIterable = <T>(obj: ArrayLike<T> & Iterable<T>): T | null => {
   const hasLen = obj && typeof (obj as any).length === "number";

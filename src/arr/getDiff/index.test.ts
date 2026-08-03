@@ -19,5 +19,7 @@ describe(getDiff.name, () => {
       getDiff([ undefined, null ], [ undefined, 1, null ]), [ 1 ]
     );
     assert.deepStrictEqual(getDiff([ 1, 2, 3 ], [ 2, 3, 4 ]), [ 1, 4 ]);
+    assert.deepStrictEqual(getDiff([ 1, 1 ], []), [ 1, 1 ]);
+    assert.deepStrictEqual(getDiff([ NaN ], []), [ NaN ]);
   });
 });

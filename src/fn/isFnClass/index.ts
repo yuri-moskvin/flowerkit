@@ -8,9 +8,14 @@ export type TIsFnClassReturn = ReturnType<typeof isFnClass>;
  * @returns {boolean}
  * @example
  * // How to check if a function is ES6 Class?
- * const fn = new Class();
- * const isClass = isFnClass(fn);
+ * class UserService {}
+ * const isClass = isFnClass(UserService);
  * console.log(isClass); // => true
+ * @example
+ * // Distinguish a class constructor from a factory function in a plugin registry
+ * const plugin = isFnClass(PluginConstructor)
+ *   ? new PluginConstructor()
+ *   : PluginConstructor();
  */
 export const isFnClass = (fn: unknown): boolean => {
   const type = typeof fn;

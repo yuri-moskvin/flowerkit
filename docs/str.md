@@ -1,21 +1,32 @@
 # ⚙️ Strings utils pack API
+
 ___
+
 ## Usage
+
 ```ts
 // import functions
-import { getId, getStrDeclination, getStrEscaped, getStrUnescaped, getStrWithCapitalized, getStrWithThousandSeparator, getStrWithZeroFromNum, getWords, isStrInCamelCase, isStrInKebabCase, isStrInSnakeCase, isStrUrl } from "@web3r/flowerkit/str";
+import { getId, getStrDeclination, getStrEscaped, getStrTruncated, getStrUnescaped, getStrWithCamelCase, getStrWithCapitalized, getStrWithKebabCase, getStrWithNormalizedSpaces, getStrWithSlug, getStrWithSnakeCase, getStrWithThousandSeparator, getStrWithZeroFromNum, getWords, isStrInCamelCase, isStrInKebabCase, isStrInSnakeCase, isStrUrl } from "@web3r/flowerkit/str";
 
 // import types
-import type { TGetIdArgs, TGetIdReturn, TGetStrDeclinationArgs, TGetStrDeclinationReturn, TGetStrEscapedArgs, TGetStrEscapedReturn, TGetStrUnescapedArgs, TGetStrUnescapedReturn, TGetStrWithCapitalizedArgs, TGetStrWithCapitalizedReturn, TGetStrWithThousandSeparatorArgs, TGetStrWithThousandSeparatorReturn, TGetStrWithZeroFromNumArgs, TGetStrWithZeroFromNumReturn, TGetWordsArgs, TGetWordsReturn, TIsStrInCamelCaseArgs, TIsStrInCamelCaseReturn, TIsStrInKebabCaseArgs, TIsStrInKebabCaseReturn, TIsStrInSnakeCaseArgs, TIsStrInSnakeCaseReturn, TIsStrUrlArgs, TIsStrUrlReturn } from "@web3r/flowerkit/str";
+import type { TGetIdArgs, TGetIdReturn, TGetStrDeclinationArgs, TGetStrDeclinationReturn, TGetStrEscapedArgs, TGetStrEscapedReturn, TGetStrTruncatedArgs, TGetStrTruncatedReturn, TGetStrUnescapedArgs, TGetStrUnescapedReturn, TGetStrWithCamelCaseArgs, TGetStrWithCamelCaseReturn, TGetStrWithCapitalizedArgs, TGetStrWithCapitalizedReturn, TGetStrWithKebabCaseArgs, TGetStrWithKebabCaseReturn, TGetStrWithNormalizedSpacesArgs, TGetStrWithNormalizedSpacesReturn, TGetStrWithSlugArgs, TGetStrWithSlugReturn, TGetStrWithSnakeCaseArgs, TGetStrWithSnakeCaseReturn, TGetStrWithThousandSeparatorArgs, TGetStrWithThousandSeparatorReturn, TGetStrWithZeroFromNumArgs, TGetStrWithZeroFromNumReturn, TGetWordsArgs, TGetWordsReturn, TIsStrInCamelCaseArgs, TIsStrInCamelCaseReturn, TIsStrInKebabCaseArgs, TIsStrInKebabCaseReturn, TIsStrInSnakeCaseArgs, TIsStrInSnakeCaseReturn, TIsStrUrlArgs, TIsStrUrlReturn } from "@web3r/flowerkit/str";
 ```
+
 ___
+
 ## Functions
 
 - [getId](#getid)
 - [getStrDeclination](#getstrdeclination)
 - [getStrEscaped](#getstrescaped)
+- [getStrTruncated](#getstrtruncated)
 - [getStrUnescaped](#getstrunescaped)
+- [getStrWithCamelCase](#getstrwithcamelcase)
 - [getStrWithCapitalized](#getstrwithcapitalized)
+- [getStrWithKebabCase](#getstrwithkebabcase)
+- [getStrWithNormalizedSpaces](#getstrwithnormalizedspaces)
+- [getStrWithSlug](#getstrwithslug)
+- [getStrWithSnakeCase](#getstrwithsnakecase)
 - [getStrWithThousandSeparator](#getstrwiththousandseparator)
 - [getStrWithZeroFromNum](#getstrwithzerofromnum)
 - [getWords](#getwords)
@@ -45,6 +56,13 @@ const uniqueId = getId(100);
 console.log(uniqueId.length); // 100
 ```
 
+```ts
+// Generate an id for linking a form label to its input
+const inputId = `email-${getId(8)}`;
+label.htmlFor = inputId;
+input.id = inputId;
+```
+
 
 ### getStrDeclination
 
@@ -57,7 +75,7 @@ Commonly used for Cyrillic languages (one, few, many).
 
 Parameters:
 
-* `num`: Source number (can be negative)
+* `num`: Source integer (can be negative)
 * `words`: Exactly three declensions: [one, few, many]
 
 
@@ -72,6 +90,11 @@ const words: [ string, string, string ] = [ "товар", "товара", "то�
 getStrDeclination(1, words); // "товар"
 getStrDeclination(2, words); // "товара"
 getStrDeclination(5, words); // "товаров"
+```
+
+```ts
+// Build a localized cart item counter
+const itemLabel = `${count} ${getStrDeclination(count, [ "товар", "товара", "товаров" ])}`;
 ```
 
 
@@ -100,6 +123,43 @@ getStrEscaped('<b>Hello & "world"</b>');
 // => "&lt;b&gt;Hello &amp; &quot;world&quot;&lt;/b&gt;"
 ```
 
+```ts
+// Escape user-generated text before inserting it into an HTML template
+const safeComment = `<p>${getStrEscaped(comment.text)}</p>`;
+```
+
+
+### getStrTruncated
+
+Truncates a string to a maximum number of Unicode code points.
+The suffix is included in the maximum length.
+
+| Function | Type |
+| ---------- | ---------- |
+| `getStrTruncated` | `(str: string, maxLength: number, suffix?: string) => string` |
+
+Parameters:
+
+* `str`: Source string
+* `maxLength`: Maximum result length
+* `suffix`: Suffix for truncated strings
+
+
+Returns:
+
+Truncated string
+
+Examples:
+
+```ts
+getStrTruncated("Hello world", 8); // "Hello w…"
+```
+
+```ts
+// Limit a product title to fit inside a compact card
+const cardTitle = getStrTruncated(product.title, 48, "...");
+```
+
 
 ### getStrUnescaped
 
@@ -126,6 +186,40 @@ getStrUnescaped("&lt;b&gt;Hello &amp; world&lt;/b&gt;");
 // => "<b>Hello & world</b>"
 ```
 
+```ts
+// Decode escaped text received from a trusted CMS field
+const pageTitle = getStrUnescaped(cmsPage.escapedTitle);
+```
+
+
+### getStrWithCamelCase
+
+Converts a string to camelCase.
+
+| Function | Type |
+| ---------- | ---------- |
+| `getStrWithCamelCase` | `(str: string) => string` |
+
+Parameters:
+
+* `str`: Source string
+
+
+Returns:
+
+camelCase string
+
+Examples:
+
+```ts
+getStrWithCamelCase("hello-world value"); // "helloWorldValue"
+```
+
+```ts
+// Convert an API field name into a JavaScript property name
+const propertyName = getStrWithCamelCase("billing-address-id"); // "billingAddressId"
+```
+
 
 ### getStrWithCapitalized
 
@@ -150,10 +244,133 @@ Examples:
 getStrWithCapitalized("hello world"); // "Hello world"
 ```
 
+```ts
+// Capitalize a category name for a page heading
+const heading = getStrWithCapitalized(category.name);
+```
+
+
+### getStrWithKebabCase
+
+Converts a string to kebab-case.
+
+| Function | Type |
+| ---------- | ---------- |
+| `getStrWithKebabCase` | `(str: string) => string` |
+
+Parameters:
+
+* `str`: Source string
+
+
+Returns:
+
+kebab-case string
+
+Examples:
+
+```ts
+getStrWithKebabCase("helloWorld value"); // "hello-world-value"
+```
+
+```ts
+// Convert a component variant into a CSS class modifier
+const modifier = `button--${getStrWithKebabCase(variantName)}`;
+```
+
+
+### getStrWithNormalizedSpaces
+
+Trims a string and replaces consecutive whitespace with a single space.
+
+| Function | Type |
+| ---------- | ---------- |
+| `getStrWithNormalizedSpaces` | `(str: string) => string` |
+
+Parameters:
+
+* `str`: Source string
+
+
+Returns:
+
+Normalized string
+
+Examples:
+
+```ts
+getStrWithNormalizedSpaces("  hello\n world  "); // "hello world"
+```
+
+```ts
+// Normalize a search query pasted by a user
+const query = getStrWithNormalizedSpaces(searchInput.value);
+```
+
+
+### getStrWithSlug
+
+Creates a lowercase Unicode slug. Diacritics are removed, while non-Latin
+letters such as Cyrillic are preserved.
+
+| Function | Type |
+| ---------- | ---------- |
+| `getStrWithSlug` | `(str: string, options?: { separator?: string or undefined; locale?: string or undefined; }) => string` |
+
+Parameters:
+
+* `str`: Source string
+* `options`: Slug options
+
+
+Returns:
+
+Slug
+
+Examples:
+
+```ts
+getStrWithSlug("Café: Привет мир!"); // "cafe-привет-мир"
+```
+
+```ts
+// Create an SEO-friendly article pathname with a custom separator
+const pathname = `/blog/${getStrWithSlug(article.title, { separator: "-" })}`;
+```
+
+
+### getStrWithSnakeCase
+
+Converts a string to snake_case.
+
+| Function | Type |
+| ---------- | ---------- |
+| `getStrWithSnakeCase` | `(str: string) => string` |
+
+Parameters:
+
+* `str`: Source string
+
+
+Returns:
+
+snake_case string
+
+Examples:
+
+```ts
+getStrWithSnakeCase("helloWorld value"); // "hello_world_value"
+```
+
+```ts
+// Convert an action name into an analytics event key
+const eventName = getStrWithSnakeCase("Product Added To Cart"); // "product_added_to_cart"
+```
+
 
 ### getStrWithThousandSeparator
 
-Gets a formatted string with thousands separators from given number. This is a simple formatter for integer parts and does not handle locales or decimals.
+Gets a formatted string with thousands separators in the integer part of a number.
 
 | Function | Type |
 | ---------- | ---------- |
@@ -173,6 +390,11 @@ Examples:
 
 ```ts
 getStrWithThousandSeparator(1000000, ","); // "1,000,000"
+```
+
+```ts
+// Format a dashboard counter with narrow no-break spaces
+const views = getStrWithThousandSeparator(1_250_000, "\u202f");
 ```
 
 
@@ -201,6 +423,11 @@ getStrWithZeroFromNum(9, 3); // "009"
 getStrWithZeroFromNum(-10, 5); // "-00010"
 ```
 
+```ts
+// Format a countdown timer as mm:ss
+const timer = `${getStrWithZeroFromNum(minutes)}:${getStrWithZeroFromNum(seconds)}`;
+```
+
 
 ### getWords
 
@@ -225,6 +452,11 @@ Examples:
 
 ```ts
 getWords("helloWorld! what's_up?"); // ["hello","World","what","s","up"]
+```
+
+```ts
+// Extract searchable words from a camelCase configuration key
+const keywords = getWords("productCardImageURL"); // [ "product", "Card", "Image", "URL" ]
 ```
 
 
@@ -255,6 +487,11 @@ isStrInCamelCase("abcDef"); // true
 isStrInCamelCase("Word"); // false
 ```
 
+```ts
+// Validate JavaScript-style keys imported from a configuration file
+const invalidKeys = Object.keys(config).filter((key) => !isStrInCamelCase(key));
+```
+
 
 ### isStrInKebabCase
 
@@ -280,6 +517,11 @@ Examples:
 
 ```ts
 isStrInKebabCase("good-kebab"); // true
+```
+
+```ts
+// Validate a CSS class naming convention
+const isValidClassName = isStrInKebabCase(className);
 ```
 
 
@@ -309,6 +551,11 @@ Examples:
 isStrInSnakeCase("good_snake"); // true
 ```
 
+```ts
+// Validate an analytics event name before sending it
+if (isStrInSnakeCase(eventName)) analytics.track(eventName);
+```
+
 
 ### isStrUrl
 
@@ -334,8 +581,10 @@ isStrUrl("www.example.com"); // true
 isStrUrl("file.php"); // true
 ```
 
-
-
+```ts
+// Detect whether pasted text should be rendered as a link
+const shouldLinkify = isStrUrl(clipboardText.trim());
+```
 
 ## Types
 
@@ -345,10 +594,22 @@ isStrUrl("file.php"); // true
 - [TGetStrDeclinationReturn](#tgetstrdeclinationreturn)
 - [TGetStrEscapedArgs](#tgetstrescapedargs)
 - [TGetStrEscapedReturn](#tgetstrescapedreturn)
+- [TGetStrTruncatedArgs](#tgetstrtruncatedargs)
+- [TGetStrTruncatedReturn](#tgetstrtruncatedreturn)
 - [TGetStrUnescapedArgs](#tgetstrunescapedargs)
 - [TGetStrUnescapedReturn](#tgetstrunescapedreturn)
+- [TGetStrWithCamelCaseArgs](#tgetstrwithcamelcaseargs)
+- [TGetStrWithCamelCaseReturn](#tgetstrwithcamelcasereturn)
 - [TGetStrWithCapitalizedArgs](#tgetstrwithcapitalizedargs)
 - [TGetStrWithCapitalizedReturn](#tgetstrwithcapitalizedreturn)
+- [TGetStrWithKebabCaseArgs](#tgetstrwithkebabcaseargs)
+- [TGetStrWithKebabCaseReturn](#tgetstrwithkebabcasereturn)
+- [TGetStrWithNormalizedSpacesArgs](#tgetstrwithnormalizedspacesargs)
+- [TGetStrWithNormalizedSpacesReturn](#tgetstrwithnormalizedspacesreturn)
+- [TGetStrWithSlugArgs](#tgetstrwithslugargs)
+- [TGetStrWithSlugReturn](#tgetstrwithslugreturn)
+- [TGetStrWithSnakeCaseArgs](#tgetstrwithsnakecaseargs)
+- [TGetStrWithSnakeCaseReturn](#tgetstrwithsnakecasereturn)
 - [TGetStrWithThousandSeparatorArgs](#tgetstrwiththousandseparatorargs)
 - [TGetStrWithThousandSeparatorReturn](#tgetstrwiththousandseparatorreturn)
 - [TGetStrWithZeroFromNumArgs](#tgetstrwithzerofromnumargs)
@@ -400,6 +661,18 @@ isStrUrl("file.php"); // true
 | ---------- | ---------- |
 | `TGetStrEscapedReturn` | `ReturnType<typeof getStrEscaped>` |
 
+### TGetStrTruncatedArgs
+
+| Type | Type |
+| ---------- | ---------- |
+| `TGetStrTruncatedArgs` | `Parameters<typeof getStrTruncated>` |
+
+### TGetStrTruncatedReturn
+
+| Type | Type |
+| ---------- | ---------- |
+| `TGetStrTruncatedReturn` | `ReturnType<typeof getStrTruncated>` |
+
 ### TGetStrUnescapedArgs
 
 | Type | Type |
@@ -412,6 +685,18 @@ isStrUrl("file.php"); // true
 | ---------- | ---------- |
 | `TGetStrUnescapedReturn` | `ReturnType<typeof getStrUnescaped>` |
 
+### TGetStrWithCamelCaseArgs
+
+| Type | Type |
+| ---------- | ---------- |
+| `TGetStrWithCamelCaseArgs` | `Parameters<typeof getStrWithCamelCase>` |
+
+### TGetStrWithCamelCaseReturn
+
+| Type | Type |
+| ---------- | ---------- |
+| `TGetStrWithCamelCaseReturn` | `ReturnType<typeof getStrWithCamelCase>` |
+
 ### TGetStrWithCapitalizedArgs
 
 | Type | Type |
@@ -423,6 +708,54 @@ isStrUrl("file.php"); // true
 | Type | Type |
 | ---------- | ---------- |
 | `TGetStrWithCapitalizedReturn` | `ReturnType<typeof getStrWithCapitalized>` |
+
+### TGetStrWithKebabCaseArgs
+
+| Type | Type |
+| ---------- | ---------- |
+| `TGetStrWithKebabCaseArgs` | `Parameters<typeof getStrWithKebabCase>` |
+
+### TGetStrWithKebabCaseReturn
+
+| Type | Type |
+| ---------- | ---------- |
+| `TGetStrWithKebabCaseReturn` | `ReturnType<typeof getStrWithKebabCase>` |
+
+### TGetStrWithNormalizedSpacesArgs
+
+| Type | Type |
+| ---------- | ---------- |
+| `TGetStrWithNormalizedSpacesArgs` | `Parameters<typeof getStrWithNormalizedSpaces>` |
+
+### TGetStrWithNormalizedSpacesReturn
+
+| Type | Type |
+| ---------- | ---------- |
+| `TGetStrWithNormalizedSpacesReturn` | `ReturnType<typeof getStrWithNormalizedSpaces>` |
+
+### TGetStrWithSlugArgs
+
+| Type | Type |
+| ---------- | ---------- |
+| `TGetStrWithSlugArgs` | `Parameters<typeof getStrWithSlug>` |
+
+### TGetStrWithSlugReturn
+
+| Type | Type |
+| ---------- | ---------- |
+| `TGetStrWithSlugReturn` | `ReturnType<typeof getStrWithSlug>` |
+
+### TGetStrWithSnakeCaseArgs
+
+| Type | Type |
+| ---------- | ---------- |
+| `TGetStrWithSnakeCaseArgs` | `Parameters<typeof getStrWithSnakeCase>` |
+
+### TGetStrWithSnakeCaseReturn
+
+| Type | Type |
+| ---------- | ---------- |
+| `TGetStrWithSnakeCaseReturn` | `ReturnType<typeof getStrWithSnakeCase>` |
 
 ### TGetStrWithThousandSeparatorArgs
 
@@ -507,4 +840,3 @@ isStrUrl("file.php"); // true
 | Type | Type |
 | ---------- | ---------- |
 | `TIsStrUrlReturn` | `ReturnType<typeof isStrUrl>` |
-

@@ -16,5 +16,8 @@ export type TSetCSSVarReturn = ReturnType<typeof setCSSVar>;
  * const block = document.getElementById("myBlock");
  * setCSSVar(block, "myVar", 10);
  * // <div id="myBlock" style="--myVar: 10"></div>
+ * @example
+ * // Update a CSS progress variable from JavaScript
+ * setCSSVar(progressBar, "progress", `${completedPercent}%`);
  */
 export declare const setCSSVar: (el: HTMLElement | undefined, variable: string, value?: string | number | boolean) => void;

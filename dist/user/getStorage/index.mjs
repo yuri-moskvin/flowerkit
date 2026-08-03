@@ -1,0 +1,2 @@
+const getStorage=(type="local")=>{if(type!=="local"&&type!=="session")throw new TypeError('getStorage: type must be "local" or "session"');if(typeof window==="undefined")return null;try{const storage=type==="local"?window.localStorage:window.sessionStorage;const key=`__flowerkit_storage_test__${Date.now()}`;storage.setItem(key,key);storage.removeItem(key);return storage}catch{return null}};export{getStorage};
+//# sourceMappingURL=index.mjs.map

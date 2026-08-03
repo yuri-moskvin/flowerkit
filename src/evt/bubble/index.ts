@@ -25,6 +25,9 @@ export type TBubbleReturn = ReturnType<typeof bubble>;
  * @example
  * const el = document.querySelector("#myElement");
  * if (el) bubble(el, "myEvent");
+ * @example
+ * // Notify parent components after the shopping cart changes
+ * bubble(cartElement, "cart:update", { itemCount: cart.items.length });
  */
 export const bubble = <T = unknown>(
   el: Document | Window | Element | HTMLElement = getDocument(),

@@ -13,5 +13,10 @@ export type TIsObjHasOwnPropReturn = ReturnType<typeof isObjHasOwnProp>;
  * const obj = { foo: "bar" };
  * const isHasOwnProp = isObjHasOwnProp(obj, "foo");
  * console.log(isHasOwnProp); // => true
+ * @example
+ * // Safely check an untrusted API response for an error field
+ * if (isObjHasOwnProp(response, "error")) {
+ *   showError(response.error);
+ * }
  */
 export declare const isObjHasOwnProp: (obj: unknown, prop: PropertyKey) => boolean;

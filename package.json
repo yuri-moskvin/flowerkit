@@ -1,32 +1,35 @@
 {
   "name": "@web3r/flowerkit",
-  "version": "1.1.7",
-  "description": "Tree-shakable JavaScript and TypeScript utility library for frontend/browser apps: DOM, events, arrays, objects, strings, date, JSON, and network helpers (ESM/CJS, SSR-friendly).",
+  "version": "1.1.8",
+  "description": "Typed, tree-shakable utilities for browser APIs, DOM events and SSR: debounce, throttle, fetch, FormData, arrays, objects and strings. ESM/CJS.",
   "keywords": [
     "javascript",
     "typescript",
-    "utils",
-    "utility",
     "frontend",
     "browser",
+    "browser-utilities",
     "dom",
-    "events",
-    "array",
-    "object",
-    "string",
-    "date",
-    "json",
+    "dom-events",
+    "event-listener",
+    "ssr",
+    "ssr-safe",
+    "tree-shaking",
+    "utilities",
     "debounce",
     "throttle",
+    "fetch",
     "formdata",
-    "ssr",
-    "tree-shaking",
+    "url-search-params",
+    "local-storage",
+    "deep-clone",
+    "deep-merge",
+    "click-outside",
     "esm",
     "cjs"
   ],
   "type": "module",
   "engines": {
-    "node": ">=24"
+    "node": ">=22"
   },
   "scripts": {
     "build": "rollup --c",
@@ -38,13 +41,17 @@
     "lint": "npm run lint:check",
     "lint:check": "eslint ./src",
     "lint:fix": "eslint ./src --fix",
+    "size": "node ./lib/scripts/bundleSize.ts",
+    "test:coverage": "cross-env NODE_OPTIONS=\"--import=global-jsdom/register\" node --test --experimental-test-coverage --test-coverage-lines=90 --test-coverage-branches=80 --test-coverage-functions=90",
     "typecheck": "tsc -p tsconfig.json --noEmit",
-    "verify:package": "node ./lib/scripts/verifyPackage.ts"
+    "verify:package": "node ./lib/scripts/verifyPackage.ts",
+    "verify:size": "node ./lib/scripts/bundleSize.ts --check"
   },
   "repository": {
     "type": "git",
     "url": "https://github.com/yuri-moskvin/flowerkit.git"
   },
+  "homepage": "https://github.com/yuri-moskvin/flowerkit#readme",
   "bugs": {
     "url": "https://github.com/yuri-moskvin/flowerkit/issues"
   },
@@ -108,74 +115,89 @@
   "exports": {
     ".": {
       "types": "./dist/index.d.mts",
-      "default": "./dist/index.mjs",
-      "require": "./dist/index.cjs"
+      "import": "./dist/index.mjs",
+      "require": "./dist/index.cjs",
+      "default": "./dist/index.mjs"
     },
     "./arr": {
       "types": "./dist/arr/index.d.mts",
-      "default": "./dist/arr/index.mjs",
-      "require": "./dist/arr/index.cjs"
+      "import": "./dist/arr/index.mjs",
+      "require": "./dist/arr/index.cjs",
+      "default": "./dist/arr/index.mjs"
     },
     "./user": {
       "types": "./dist/user/index.d.mts",
-      "default": "./dist/user/index.mjs",
-      "require": "./dist/user/index.cjs"
+      "import": "./dist/user/index.mjs",
+      "require": "./dist/user/index.cjs",
+      "default": "./dist/user/index.mjs"
     },
     "./css": {
       "types": "./dist/css/index.d.mts",
-      "default": "./dist/css/index.mjs",
-      "require": "./dist/css/index.cjs"
+      "import": "./dist/css/index.mjs",
+      "require": "./dist/css/index.cjs",
+      "default": "./dist/css/index.mjs"
     },
     "./dom": {
       "types": "./dist/dom/index.d.mts",
-      "default": "./dist/dom/index.mjs",
-      "require": "./dist/dom/index.cjs"
+      "import": "./dist/dom/index.mjs",
+      "require": "./dist/dom/index.cjs",
+      "default": "./dist/dom/index.mjs"
     },
     "./evt": {
       "types": "./dist/evt/index.d.mts",
-      "default": "./dist/evt/index.mjs",
-      "require": "./dist/evt/index.cjs"
+      "import": "./dist/evt/index.mjs",
+      "require": "./dist/evt/index.cjs",
+      "default": "./dist/evt/index.mjs"
     },
     "./fn": {
       "types": "./dist/fn/index.d.mts",
-      "default": "./dist/fn/index.mjs",
-      "require": "./dist/fn/index.cjs"
+      "import": "./dist/fn/index.mjs",
+      "require": "./dist/fn/index.cjs",
+      "default": "./dist/fn/index.mjs"
     },
     "./json": {
       "types": "./dist/json/index.d.mts",
-      "default": "./dist/json/index.mjs",
-      "require": "./dist/json/index.cjs"
+      "import": "./dist/json/index.mjs",
+      "require": "./dist/json/index.cjs",
+      "default": "./dist/json/index.mjs"
     },
     "./net": {
       "types": "./dist/net/index.d.mts",
-      "default": "./dist/net/index.mjs",
-      "require": "./dist/net/index.cjs"
+      "import": "./dist/net/index.mjs",
+      "require": "./dist/net/index.cjs",
+      "default": "./dist/net/index.mjs"
     },
     "./num": {
       "types": "./dist/num/index.d.mts",
-      "default": "./dist/num/index.mjs",
-      "require": "./dist/num/index.cjs"
+      "import": "./dist/num/index.mjs",
+      "require": "./dist/num/index.cjs",
+      "default": "./dist/num/index.mjs"
     },
     "./obj": {
       "types": "./dist/obj/index.d.mts",
-      "default": "./dist/obj/index.mjs",
-      "require": "./dist/obj/index.cjs"
+      "import": "./dist/obj/index.mjs",
+      "require": "./dist/obj/index.cjs",
+      "default": "./dist/obj/index.mjs"
     },
     "./str": {
       "types": "./dist/str/index.d.mts",
-      "default": "./dist/str/index.mjs",
-      "require": "./dist/str/index.cjs"
+      "import": "./dist/str/index.mjs",
+      "require": "./dist/str/index.cjs",
+      "default": "./dist/str/index.mjs"
     },
     "./date": {
       "types": "./dist/date/index.d.mts",
-      "default": "./dist/date/index.mjs",
-      "require": "./dist/date/index.cjs"
+      "import": "./dist/date/index.mjs",
+      "require": "./dist/date/index.cjs",
+      "default": "./dist/date/index.mjs"
     }
   },
   "files": [
     "dist",
     "README.md",
     "CHANGELOG.md",
+    "CONTRIBUTING.md",
+    "SECURITY.md",
     "LICENSE"
   ],
   "sideEffects": false,
@@ -187,8 +209,8 @@
     "@babel/preset-env": "^8.0.2",
     "@babel/preset-typescript": "^8.0.1",
     "@commitlint/cli": "^21.2.1",
-    "@commitlint/config-conventional": "^21.1.0",
-    "@commitlint/types": "^21.1.0",
+    "@commitlint/config-conventional": "^21.2.0",
+    "@commitlint/types": "^21.2.0",
     "@eslint/compat": "^2.1.0",
     "@rollup/plugin-babel": "^7.1.0",
     "@rollup/plugin-commonjs": "^29.0.3",
@@ -201,24 +223,25 @@
     "@types/eslint": "^9.6.1",
     "@types/eslint-plugin-security": "^3.0.1",
     "@types/jsdom": "^28.0.3",
-    "@typescript-eslint/eslint-plugin": "^8.62.0",
-    "@typescript-eslint/parser": "^8.62.0",
+    "@typescript-eslint/eslint-plugin": "^8.65.0",
+    "@typescript-eslint/parser": "^8.65.0",
     "cross-env": "^10.1.0",
-    "eslint": "^10.6.0",
+    "eslint": "^10.8.0",
     "eslint-import-resolver-typescript": "^4.4.5",
     "eslint-plugin-import-x": "^4.17.1",
-    "eslint-plugin-jsdoc": "^63.0.10",
+    "eslint-plugin-jsdoc": "^63.3.2",
+    "eslint-plugin-perfectionist": "^5.10.0",
     "eslint-plugin-promise": "^7.3.0",
     "eslint-plugin-security": "^4.0.1",
-    "eslint-plugin-perfectionist": "^5.10.0",
     "fast-glob": "^3.3.3",
     "global-jsdom": "^29.0.0",
-    "globals": "^17.7.0",
+    "globals": "^17.8.0",
     "husky": "^9.1.7",
     "jsdom": "^29.1.1",
-    "lint-staged": "^17.0.8",
+    "lint-staged": "^17.3.0",
+    "markdownlint": "^0.41.1",
     "patch-package": "^8.0.1",
-    "rollup": "^4.62.2",
+    "rollup": "^4.62.4",
     "rollup-plugin-delete": "^3.0.2",
     "tsdoc-markdown": "^1.5.0",
     "tslib": "^2.8.1",
@@ -228,20 +251,16 @@
     "defaults"
   ],
   "dependencies": {
-    "node-html-parser": "^8.0.3",
-    "ssr-window": "^5.0.1"
-  },
-  "peerDependencies": {
-    "node-html-parser": "^8.0.3",
+    "node-html-parser": "^9.0.1",
     "ssr-window": "^5.0.1"
   },
   "overrides": {
-    "eslint": "^10.6.0",
+    "eslint": "^10.8.0",
     "serialize-javascript": ">=7.0.3",
     "typescript": "^6.0.3",
     "@babel/core": "^8.0.1",
     "minimatch@^10.2.2": {
-      "brace-expansion": "5.0.8"
+      "brace-expansion": "5.0.9"
     }
   }
 }

@@ -15,5 +15,11 @@ export type TGetHTMLFromStrReturn = ReturnType<typeof getHTMLFromStr>;
  *   <p>Hello world!</p>
  * `);
  * const elements = Array.from(nodes); // array of two paragraph nodes
+ * @example
+ * // Parse an SVG string into DOM nodes on the browser or server
+ * const iconNodes = await getHTMLFromStr(
+ *   `<svg viewBox="0 0 24 24"><path d="M4 12h16" /></svg>`,
+ *   "image/svg+xml"
+ * );
  */
 export declare const getHTMLFromStr: (str?: string, type?: DOMParserSupportedType) => Promise<NodeList>;

@@ -1,21 +1,29 @@
 # ⚙️ Arrays utils pack API
+
 ___
+
 ## Usage
+
 ```ts
 // import functions
-import { getAsyncMap, getDiff, getIntersection, getLastFromIterable, getUnion, isItemsEqual, isIterable, isNonEmptyArr } from "@web3r/flowerkit/arr";
+import { getAsyncMap, getChunkedArr, getDiff, getGroupedBy, getIntersection, getLastFromIterable, getUnion, getUniqueBy, isItemsEqual, isIterable, isNonEmptyArr } from "@web3r/flowerkit/arr";
 
 // import types
-import type { TGetAsyncMapArgs, TGetAsyncMapReturn, TGetDiffArgs, TGetDiffReturn, TGetIntersectionArgs, TGetIntersectionReturn, TGetLastFromIterableArgs, TGetLastFromIterableReturn, TGetUnionArgs, TGetUnionReturn, TIsItemsEqualArgs, TIsItemsEqualReturn, TIsIterableArgs, TIsIterableReturn, TIsNonEmptyArrArgs, TIsNonEmptyArrReturn } from "@web3r/flowerkit/arr";
+import type { TGetAsyncMapArgs, TGetAsyncMapReturn, TGetChunkedArrArgs, TGetChunkedArrReturn, TGetDiffArgs, TGetDiffReturn, TGetGroupedByArgs, TGetGroupedByReturn, TGetIntersectionArgs, TGetIntersectionReturn, TGetLastFromIterableArgs, TGetLastFromIterableReturn, TGetUnionArgs, TGetUnionReturn, TGetUniqueByArgs, TGetUniqueByReturn, TIsItemsEqualArgs, TIsItemsEqualReturn, TIsIterableArgs, TIsIterableReturn, TIsNonEmptyArrArgs, TIsNonEmptyArrReturn } from "@web3r/flowerkit/arr";
 ```
+
 ___
+
 ## Functions
 
 - [getAsyncMap](#getasyncmap)
+- [getChunkedArr](#getchunkedarr)
 - [getDiff](#getdiff)
+- [getGroupedBy](#getgroupedby)
 - [getIntersection](#getintersection)
 - [getLastFromIterable](#getlastfromiterable)
 - [getUnion](#getunion)
+- [getUniqueBy](#getuniqueby)
 - [isItemsEqual](#isitemsequal)
 - [isIterable](#isiterable)
 - [isNonEmptyArr](#isnonemptyarr)
@@ -46,7 +54,45 @@ Examples:
 const myAPIFn = (item, index, arr) => Promise.resolve("success" + item);
 const array = [ 1, 2, 3 ];
 const result = await getAsyncMap(array, myAPIFn);
-console.log(result); // => [ "success1", "success2, "success3" ]
+console.log(result); // => [ "success1", "success2", "success3" ]
+```
+
+```ts
+// Fetch user profiles for every ID in parallel
+const users = await getAsyncMap(userIds, async (id) => {
+  const response = await fetch(`/api/users/${id}`);
+  return response.json();
+});
+```
+
+
+### getChunkedArr
+
+Splits an array into chunks of a fixed size without mutating the source.
+
+| Function | Type |
+| ---------- | ---------- |
+| `getChunkedArr` | `<T>(arr: T[], size: number) => T[][]` |
+
+Parameters:
+
+* `arr`: Source array
+* `size`: Maximum number of items in each chunk
+
+
+Returns:
+
+Array of chunks
+
+Examples:
+
+```ts
+getChunkedArr([ 1, 2, 3, 4, 5 ], 2); // [ [ 1, 2 ], [ 3, 4 ], [ 5 ] ]
+```
+
+```ts
+// Split products into rows of three cards for a responsive grid
+const productRows = getChunkedArr(products, 3);
 ```
 
 
@@ -74,6 +120,45 @@ const diff = getDiff(arr1, arr2);
 console.log(diff); // => [ 1, 2, 4, 5, 6 ]
 ```
 
+```ts
+// Find permissions that changed between two role configurations
+const changedPermissions = getDiff(
+  [ "read", "write" ],
+  [ "read", "delete" ]
+); // [ "write", "delete" ]
+```
+
+
+### getGroupedBy
+
+Groups array items by a key returned from a selector.
+
+| Function | Type |
+| ---------- | ---------- |
+| `getGroupedBy` | `<T, TKey extends PropertyKey>(arr: T[], getKey: (value: T, index: number, array: T[]) => TKey) => Partial<Record<TKey, T[]>>` |
+
+Parameters:
+
+* `arr`: Source array
+* `getKey`: Group key selector
+
+
+Returns:
+
+Null-prototype object containing grouped items
+
+Examples:
+
+```ts
+getGroupedBy([ { type: "a" }, { type: "b" } ], (item) => item.type);
+```
+
+```ts
+// Group orders by status before rendering dashboard columns
+const ordersByStatus = getGroupedBy(orders, (order) => order.status);
+const pendingOrders = ordersByStatus.pending ?? [];
+```
+
 
 ### getIntersection
 
@@ -99,6 +184,14 @@ const intersection = getIntersection(arr1, arr2);
 console.log(intersection); // => [ 2, 3 ]
 ```
 
+```ts
+// Get tags shared by an article and the active search filters
+const matchingTags = getIntersection(
+  [ "typescript", "frontend", "seo" ],
+  [ "frontend", "accessibility" ]
+); // [ "frontend" ]
+```
+
 
 ### getLastFromIterable
 
@@ -119,6 +212,12 @@ Examples:
 // How to get the last element from `NodeList` of `div`?
 const lastDiv = getLastFromIterable(document.querySelectorAll("div"));
 console.log(lastDiv) // => Node or null
+```
+
+```ts
+// Read the last uploaded file from a FileList
+const lastFile = getLastFromIterable(input.files ?? []);
+console.log(lastFile?.name);
 ```
 
 
@@ -146,6 +245,44 @@ const union = getUnion(arr1, arr2);
 console.log(union); // => [ 1, 2, 3, 4, 5 ];
 ```
 
+```ts
+// Combine user and team permissions without duplicate values
+const permissions = getUnion(
+  [ "profile:read", "profile:write" ],
+  [ "profile:read", "billing:read" ]
+);
+```
+
+
+### getUniqueBy
+
+Returns the first item for every unique selector result.
+
+| Function | Type |
+| ---------- | ---------- |
+| `getUniqueBy` | `<T, TKey>(arr: T[], getKey: (value: T, index: number, array: T[]) => TKey) => T[]` |
+
+Parameters:
+
+* `arr`: Source array
+* `getKey`: Unique key selector
+
+
+Returns:
+
+New array containing unique items
+
+Examples:
+
+```ts
+getUniqueBy([ { id: 1 }, { id: 1 }, { id: 2 } ], (item) => item.id);
+```
+
+```ts
+// Remove duplicate products by SKU while preserving the first result
+const uniqueProducts = getUniqueBy(products, (product) => product.sku);
+```
+
 
 ### isItemsEqual
 
@@ -169,6 +306,13 @@ const isSame = isItemsEqual(arr);
 console.log(isSame); // => true
 ```
 
+```ts
+// Check whether every selected item has the same availability state
+const hasSameAvailability = isItemsEqual(
+  selectedProducts.map((product) => product.inStock)
+);
+```
+
 
 ### isIterable
 
@@ -187,9 +331,16 @@ Examples:
 
 ```ts
 // How to check for iterability?
-const myDivs = document.querySelectAll("div");
+const myDivs = document.querySelectorAll("div");
 const isCanBeIterated = isIterable(myDivs);
 console.log(isCanBeIterated); // => true
+```
+
+```ts
+// Guard a value before using it in a for-of loop
+if (isIterable(value)) {
+  for (const item of value) console.log(item);
+}
 ```
 
 
@@ -211,21 +362,31 @@ const myObj = "string";
 console.log(isNonEmptyArr(myObj)); // => false
 ```
 
-
-
+```ts
+// Narrow API data to a non-empty array before reading the first item
+if (isNonEmptyArr<User>(response.users)) {
+  console.log(response.users[0].name);
+}
+```
 
 ## Types
 
 - [TGetAsyncMapArgs](#tgetasyncmapargs)
 - [TGetAsyncMapReturn](#tgetasyncmapreturn)
+- [TGetChunkedArrArgs](#tgetchunkedarrargs)
+- [TGetChunkedArrReturn](#tgetchunkedarrreturn)
 - [TGetDiffArgs](#tgetdiffargs)
 - [TGetDiffReturn](#tgetdiffreturn)
+- [TGetGroupedByArgs](#tgetgroupedbyargs)
+- [TGetGroupedByReturn](#tgetgroupedbyreturn)
 - [TGetIntersectionArgs](#tgetintersectionargs)
 - [TGetIntersectionReturn](#tgetintersectionreturn)
 - [TGetLastFromIterableArgs](#tgetlastfromiterableargs)
 - [TGetLastFromIterableReturn](#tgetlastfromiterablereturn)
 - [TGetUnionArgs](#tgetunionargs)
 - [TGetUnionReturn](#tgetunionreturn)
+- [TGetUniqueByArgs](#tgetuniquebyargs)
+- [TGetUniqueByReturn](#tgetuniquebyreturn)
 - [TIsItemsEqualArgs](#tisitemsequalargs)
 - [TIsItemsEqualReturn](#tisitemsequalreturn)
 - [TIsIterableArgs](#tisiterableargs)
@@ -245,6 +406,18 @@ console.log(isNonEmptyArr(myObj)); // => false
 | ---------- | ---------- |
 | `TGetAsyncMapReturn` | `ReturnType<typeof getAsyncMap>` |
 
+### TGetChunkedArrArgs
+
+| Type | Type |
+| ---------- | ---------- |
+| `TGetChunkedArrArgs` | `Parameters<typeof getChunkedArr>` |
+
+### TGetChunkedArrReturn
+
+| Type | Type |
+| ---------- | ---------- |
+| `TGetChunkedArrReturn` | `ReturnType<typeof getChunkedArr>` |
+
 ### TGetDiffArgs
 
 | Type | Type |
@@ -256,6 +429,18 @@ console.log(isNonEmptyArr(myObj)); // => false
 | Type | Type |
 | ---------- | ---------- |
 | `TGetDiffReturn` | `ReturnType<typeof getDiff>` |
+
+### TGetGroupedByArgs
+
+| Type | Type |
+| ---------- | ---------- |
+| `TGetGroupedByArgs` | `Parameters<typeof getGroupedBy>` |
+
+### TGetGroupedByReturn
+
+| Type | Type |
+| ---------- | ---------- |
+| `TGetGroupedByReturn` | `ReturnType<typeof getGroupedBy>` |
 
 ### TGetIntersectionArgs
 
@@ -293,6 +478,18 @@ console.log(isNonEmptyArr(myObj)); // => false
 | ---------- | ---------- |
 | `TGetUnionReturn` | `ReturnType<typeof getUnion>` |
 
+### TGetUniqueByArgs
+
+| Type | Type |
+| ---------- | ---------- |
+| `TGetUniqueByArgs` | `Parameters<typeof getUniqueBy>` |
+
+### TGetUniqueByReturn
+
+| Type | Type |
+| ---------- | ---------- |
+| `TGetUniqueByReturn` | `ReturnType<typeof getUniqueBy>` |
+
 ### TIsItemsEqualArgs
 
 | Type | Type |
@@ -328,4 +525,3 @@ console.log(isNonEmptyArr(myObj)); // => false
 | Type | Type |
 | ---------- | ---------- |
 | `TIsNonEmptyArrReturn` | `ReturnType<typeof isNonEmptyArr>` |
-

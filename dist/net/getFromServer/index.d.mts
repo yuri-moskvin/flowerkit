@@ -1,8 +1,19 @@
+export type TGetFromServerMethod = "GET" | "PUT" | "POST" | "DELETE" | "HEAD" | "CONNECT" | "OPTIONS" | "TRACE" | "PATCH";
+export type TGetFromServerErrorKind = "abort" | "http" | "network" | "parse" | "request" | "timeout" | "transform";
+export type TGetFromServerError = Error & {
+    cause: unknown;
+    kind: TGetFromServerErrorKind;
+    method: TGetFromServerMethod;
+    name: "GetFromServerError";
+    response: Response | null;
+    status: number | null;
+    url: string;
+};
 export type TGetFromServerArgs<TResp = unknown, TSuccess = TResp> = {
     contentType?: "auto" | "application/json" | "application/x-www-form-urlencoded" | "multipart/form-data";
     isBubble?: boolean;
     timeout?: number;
-    method?: "GET" | "PUT" | "POST" | "DELETE" | "HEAD" | "CONNECT" | "OPTIONS" | "TRACE" | "PATCH";
+    method?: TGetFromServerMethod;
     mode?: RequestMode;
     signal?: AbortSignal | null;
     data?: Record<string, unknown> | FormData | null;
@@ -34,7 +45,7 @@ export type TGetFromServerReturn = ReturnType<typeof getFromServer>;
  * @param {AbortSignal|null} [props.signal=null] AbortSignal for cancellation.
  * @param {Record<string,unknown>|FormData|null} [props.data=null] Request data. For GET-like methods, appended as query params.
  * @param {function(T): T} [props.getSuccessResp] Transform function for successful response. Defaults to identity function.
- * @param {function(Response): Promise<T>} [props.getResp] Custom response parser. If provided, overrides `type`.
+ * @param {function(Response): Promise<T>} [props.getResp] Custom response parser. If provided, overrides `type` after HTTP status validation.
  * @param {("text"|"json"|"blob"|"arrayBuffer")} [props.type="json"] Response body parsing type (used when `getResp` not provided).
  * @param {Record<string,string>} [props.headers={}] Additional headers.
  * @param {number[]} [props.allowedCodes=[]] Array of HTTP status codes to treat as success even if not 2xx.
@@ -48,8 +59,31 @@ export type TGetFromServerReturn = ReturnType<typeof getFromServer>;
  * @throws {TypeError} getFromServer: allowedCodes must be an array of integers
  * @throws {TypeError} getFromServer: data must be a plain object, FormData, or null
  * @throws {TypeError} getFromServer: timeout must be a non-negative number or Infinity
+ * @throws {TGetFromServerError} Request lifecycle error with a discriminating `kind`
  * @see https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API
  * @example
  * const user = await getFromServer<{ userId: number }>({ url: "/api/user?id=1", method: "GET" });
+ * @example
+ * import type { TGetFromServerError } from "@web3r/flowerkit/net";
+ *
+ * try {
+ *   await getFromServer({ url: "/api/user" });
+ * } catch (error) {
+ *   if (error instanceof Error && error.name === "GetFromServerError") {
+ *     const requestError = error as TGetFromServerError;
+ *     if (requestError.kind === "http") {
+ *       console.error(requestError.status, requestError.response);
+ *     }
+ *   }
+ * }
+ * @example
+ * // Send typed JSON data and transform the successful API response
+ * const productId = await getFromServer<{ product: { id: string } }, string>({
+ *   url: "/api/products",
+ *   method: "POST",
+ *   contentType: "application/json",
+ *   data: { name: "Flower pot", price: 24 },
+ *   getSuccessResp: ({ product }) => product.id,
+ * });
  */
 export declare const getFromServer: <TResp = unknown, TSuccess = TResp>(props?: TGetFromServerArgs<TResp, TSuccess>) => Promise<TSuccess>;

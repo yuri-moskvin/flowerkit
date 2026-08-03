@@ -44,6 +44,14 @@ export type TSetCookieReturn = ReturnType<typeof setCookie>;
  * @example
  * // How to set Cookie for one day or other time?
  * setCookie("myCookie", "value", { expires: 86400 }); // expires in 1 day (seconds)
+ * @example
+ * // Persist a cookie consent choice with common security attributes
+ * setCookie("cookie_consent", "accepted", {
+ *   expires: 60 * 60 * 24 * 365,
+ *   path: "/",
+ *   samesite: "lax",
+ *   secure: true,
+ * });
  */
 export const setCookie = (name: string, value: string, options: TCookieOptions = {}): void => {
   if (typeof name !== "string" || name.length === 0) {
@@ -56,26 +64,27 @@ export const setCookie = (name: string, value: string, options: TCookieOptions =
     throw new TypeError("setCookie: options must be an object");
   }
 
-  let expires = options.expires;
+  const normalizedOptions: TCookieOptions = { ...options };
+  let expires = normalizedOptions.expires;
   if (typeof expires === "number" && expires > 0) {
     const d = new Date();
     d.setTime(d.getTime() + expires * 1000);
     expires = d;
-    options.expires = d;
+    normalizedOptions.expires = d;
   }
   if (expires && typeof (expires as Date).toUTCString === "function") {
-    options.expires = (expires as Date).toUTCString();
+    normalizedOptions.expires = (expires as Date).toUTCString();
   }
 
   const encoded = encodeURIComponent(value);
   let cookie = `${name}=${encoded}`;
 
-  for (const key in options) {
-    if (!Object.prototype.hasOwnProperty.call(options, key)) {
+  for (const key in normalizedOptions) {
+    if (!Object.prototype.hasOwnProperty.call(normalizedOptions, key)) {
       continue;
     }
     cookie += `; ${key}`;
-    const optVal = (options as Record<string, unknown>)[key];
+    const optVal = (normalizedOptions as Record<string, unknown>)[key];
     if (optVal !== true && typeof optVal !== "undefined") {
       cookie += `=${String(optVal)}`;
     }

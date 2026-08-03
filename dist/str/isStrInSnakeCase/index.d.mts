@@ -11,5 +11,8 @@ export type TIsStrInSnakeCaseReturn = ReturnType<typeof isStrInSnakeCase>;
  * @throws {TypeError} If str is not a string
  * @example
  * isStrInSnakeCase("good_snake"); // true
+ * @example
+ * // Validate an analytics event name before sending it
+ * if (isStrInSnakeCase(eventName)) analytics.track(eventName);
  */
 export declare const isStrInSnakeCase: (str: string) => boolean;

@@ -36,5 +36,13 @@ export type TSetCookieReturn = ReturnType<typeof setCookie>;
  * @example
  * // How to set Cookie for one day or other time?
  * setCookie("myCookie", "value", { expires: 86400 }); // expires in 1 day (seconds)
+ * @example
+ * // Persist a cookie consent choice with common security attributes
+ * setCookie("cookie_consent", "accepted", {
+ *   expires: 60 * 60 * 24 * 365,
+ *   path: "/",
+ *   samesite: "lax",
+ *   secure: true,
+ * });
  */
 export declare const setCookie: (name: string, value: string, options?: TCookieOptions) => void;

@@ -47,6 +47,29 @@ describe(getObjWithFallbacks.name, () => {
     });
   });
 
+  test("Adds fallback values for keys missing from data", () => {
+    assert.deepStrictEqual(getObjWithFallbacks({}, {
+      count: { type: "number" },
+      name: { type: "string" },
+    }), {
+      count: 0,
+      name: "",
+    });
+  });
+
+  test("Passes the configured type fallback to getValue", () => {
+    assert.deepStrictEqual(getObjWithFallbacks({}, {
+      name: {
+        type: "string",
+        getValue: (_value, fallback) => fallback,
+      },
+    }, {
+      string: "unknown",
+    }), {
+      name: "unknown",
+    });
+  });
+
   test("Checks for custom types", () => {
     assert.deepStrictEqual(getObjWithFallbacks({
       nullishProp: null,

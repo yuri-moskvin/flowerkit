@@ -11,6 +11,9 @@ export type TGetStrEscapedReturn = ReturnType<typeof getStrEscaped>;
  * @example
  * getStrEscaped('<b>Hello & "world"</b>');
  * // => "&lt;b&gt;Hello &amp; &quot;world&quot;&lt;/b&gt;"
+ * @example
+ * // Escape user-generated text before inserting it into an HTML template
+ * const safeComment = `<p>${getStrEscaped(comment.text)}</p>`;
  */
 export const getStrEscaped = (str: string): string => {
 

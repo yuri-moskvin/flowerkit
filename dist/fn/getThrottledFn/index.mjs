@@ -1,16 +1,2 @@
-/**
- * Gets a throttled function with specific delay
- * @template {(...args: any[]) => any} T
- * @param {T} func function
- * @param {number} [delay=1000] delay in ms, 1000 by default
- * @returns {(...args: Parameters<T>) => void}
- * @throws {TypeError} getThrottledFn: func must be a function
- * @throws {TypeError} getThrottledFn: delay must be a non-negative finite number
- * @example
- * // How to implement function throttling?
- * const getDataFromAPI = () => Promise.resolve([]);
- * const getThrottledDataFromAPI = getThrottledFn(getDataFromAPI, 3000);
- * getThrottledDataFromAPI(); // => []
- */
-const getThrottledFn=(func,delay=1000)=>{if(typeof func!=="function")throw new TypeError("getThrottledFn: func must be a function");if(typeof delay!=="number"||!Number.isFinite(delay)||delay<0)throw new TypeError("getThrottledFn: delay must be a non-negative finite number");let timeout=null;return(...args)=>{if(!timeout){func(...args);timeout=setTimeout(()=>{timeout=null},delay)}}};export{getThrottledFn};
+const getThrottledFn=(func,delay=1000)=>{if(typeof func!=="function")throw new TypeError("getThrottledFn: func must be a function");if(typeof delay!=="number"||!Number.isFinite(delay)||delay<0)throw new TypeError("getThrottledFn: delay must be a non-negative finite number");let timeout=null;let lastArgs=null;let lastContext;let result;const invoke=()=>{if(!lastArgs)return result;const args=lastArgs;const context=lastContext;lastArgs=null;lastContext=void 0;result=func.apply(context,args);return result};const throttled=function throttledFunction(...args){if(!timeout){lastArgs=args;lastContext=this;invoke();timeout=setTimeout(()=>{timeout=null;lastArgs=null;lastContext=void 0},delay)}else{lastArgs=args;lastContext=this}return result};throttled.cancel=()=>{if(timeout)clearTimeout(timeout);timeout=null;lastArgs=null;lastContext=void 0};throttled.flush=()=>{if(timeout){clearTimeout(timeout);timeout=null;return invoke()}return result};throttled.pending=()=>timeout!==null;return throttled};export{getThrottledFn};
 //# sourceMappingURL=index.mjs.map

@@ -2,10 +2,15 @@ import assert from "node:assert";
 import { createServer } from "node:http";
 import type { Server } from "node:http";
 import {
-  after, before, describe, test,
+  after, before, describe, mock, test,
 } from "node:test";
 import { TextEncoder, TextDecoder } from "util";
 import { getFromServer } from "./index.ts";
+import type { TGetFromServerError } from "./index.ts";
+
+const isGetFromServerError = (error: unknown): error is TGetFromServerError => {
+  return error instanceof Error && error.name === "GetFromServerError";
+};
 
 describe(getFromServer.name, () => {
   let server: Server;
@@ -13,6 +18,7 @@ describe(getFromServer.name, () => {
   let testUrl = "";
   let echoUrl = "";
   let echoQueryUrl = "";
+  let invalidJsonUrl = "";
   let slowUrl = "";
 
   before(async () => {
@@ -50,6 +56,12 @@ describe(getFromServer.name, () => {
         return;
       }
 
+      if (pathname === "/invalid-json") {
+        resp.writeHead(200, { "Content-Type": "application/json" });
+        resp.end("not-json");
+        return;
+      }
+
       if (pathname !== "/todos/1") {
         resp.writeHead(404, { "Content-Type": "application/json" });
         resp.end(JSON.stringify({ message: "Not Found" }));
@@ -78,6 +90,7 @@ describe(getFromServer.name, () => {
     testUrl = `${baseUrl}/todos/1`;
     echoUrl = `${baseUrl}/echo`;
     echoQueryUrl = `${baseUrl}/echo-query`;
+    invalidJsonUrl = `${baseUrl}/invalid-json`;
     slowUrl = `${baseUrl}/slow`;
   });
 
@@ -187,12 +200,45 @@ describe(getFromServer.name, () => {
     assert.strictEqual(result, 1);
   });
 
+  test("Checks HTTP status before calling a custom response parser", async () => {
+    const getResp = mock.fn(async (resp: Response) => await resp.json());
+    await assert.rejects(
+      getFromServer({
+        url: `${baseUrl}/missing`,
+        getResp,
+      }),
+      (error) => {
+        assert.strictEqual(isGetFromServerError(error), true);
+        if (!isGetFromServerError(error)) {
+          return false;
+        }
+        assert.strictEqual(error.kind, "http");
+        assert.strictEqual(error.status, 404);
+        return true;
+      }
+    );
+    assert.strictEqual(getResp.mock.callCount(), 0);
+  });
+
   test("Checks for error of POST method", async () => {
     await assert.rejects(
       getFromServer({
         url: testUrl,
         method: "POST",
-      }), Response
+      }),
+      (error) => {
+        assert.strictEqual(isGetFromServerError(error), true);
+        if (!isGetFromServerError(error)) {
+          return false;
+        }
+        assert.strictEqual(error.kind, "http");
+        assert.strictEqual(error.status, 405);
+        assert.strictEqual(error.method, "POST");
+        assert.strictEqual(error.url, testUrl);
+        assert.strictEqual(error.response instanceof Response, true);
+        assert.strictEqual(error.cause, error.response);
+        return true;
+      }
     );
   });
 
@@ -236,7 +282,16 @@ describe(getFromServer.name, () => {
         url: slowUrl,
         timeout: 10,
       }),
-      (err) => err === 408
+      (error) => {
+        assert.strictEqual(isGetFromServerError(error), true);
+        if (!isGetFromServerError(error)) {
+          return false;
+        }
+        assert.strictEqual(error.kind, "timeout");
+        assert.strictEqual(error.status, 408);
+        assert.strictEqual(error.response, null);
+        return true;
+      }
     );
   });
 
@@ -250,7 +305,102 @@ describe(getFromServer.name, () => {
         timeout: Infinity,
         signal: controller.signal,
       }),
-      (err) => Boolean(err && typeof err === "object" && "name" in err && (err as { name?: string; }).name === "AbortError")
+      (error) => {
+        assert.strictEqual(isGetFromServerError(error), true);
+        if (!isGetFromServerError(error)) {
+          return false;
+        }
+        assert.strictEqual(error.kind, "abort");
+        assert.strictEqual(error.status, null);
+        assert.strictEqual(
+          Boolean(error.cause && typeof error.cause === "object" && "name" in error.cause),
+          true
+        );
+        return true;
+      }
+    );
+  });
+
+  test("Normalizes network errors", async () => {
+    const fetchMock = mock.method(globalThis, "fetch", async () => {
+      throw new TypeError("offline");
+    });
+    try {
+      await assert.rejects(
+        getFromServer({ url: testUrl }),
+        (error) => {
+          assert.strictEqual(isGetFromServerError(error), true);
+          if (!isGetFromServerError(error)) {
+            return false;
+          }
+          assert.strictEqual(error.kind, "network");
+          assert.strictEqual(error.status, null);
+          assert.strictEqual((error.cause as Error).message, "offline");
+          return true;
+        }
+      );
+    } finally {
+      fetchMock.mock.restore();
+    }
+  });
+
+  test("Normalizes response parsing errors", async () => {
+    await assert.rejects(
+      getFromServer({ url: invalidJsonUrl }),
+      (error) => {
+        assert.strictEqual(isGetFromServerError(error), true);
+        if (!isGetFromServerError(error)) {
+          return false;
+        }
+        assert.strictEqual(error.kind, "parse");
+        assert.strictEqual(error.status, 200);
+        assert.strictEqual(error.response instanceof Response, true);
+        return true;
+      }
+    );
+  });
+
+  test("Normalizes request construction errors", async () => {
+    const data: Record<string, unknown> = {};
+    data.self = data;
+    await assert.rejects(
+      getFromServer({
+        contentType: "application/json",
+        data,
+        method: "POST",
+        url: echoUrl,
+      }),
+      (error) => {
+        assert.strictEqual(isGetFromServerError(error), true);
+        if (!isGetFromServerError(error)) {
+          return false;
+        }
+        assert.strictEqual(error.kind, "request");
+        assert.strictEqual(error.response, null);
+        assert.strictEqual(error.cause instanceof TypeError, true);
+        return true;
+      }
+    );
+  });
+
+  test("Normalizes success transformation errors", async () => {
+    await assert.rejects(
+      getFromServer({
+        getSuccessResp: () => {
+          throw new Error("transform failed");
+        },
+        url: testUrl,
+      }),
+      (error) => {
+        assert.strictEqual(isGetFromServerError(error), true);
+        if (!isGetFromServerError(error)) {
+          return false;
+        }
+        assert.strictEqual(error.kind, "transform");
+        assert.strictEqual(error.status, 200);
+        assert.strictEqual((error.cause as Error).message, "transform failed");
+        return true;
+      }
     );
   });
 

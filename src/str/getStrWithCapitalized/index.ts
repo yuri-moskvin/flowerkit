@@ -9,6 +9,9 @@ export type TGetStrWithCapitalizedReturn = ReturnType<typeof getStrWithCapitaliz
  * @throws {TypeError} If str is not a string
  * @example
  * getStrWithCapitalized("hello world"); // "Hello world"
+ * @example
+ * // Capitalize a category name for a page heading
+ * const heading = getStrWithCapitalized(category.name);
  */
 export const getStrWithCapitalized = (str: string): string => {
   if (typeof str !== "string") {

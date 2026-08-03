@@ -16,6 +16,10 @@ export type TOnDOMReadyReturn = ReturnType<typeof onDOMReady>;
  *
  * @example
  * onDOMReady(() => console.log("DOM ready"));
+ * @example
+ * // Initialize client-side widgets after the HTML document is parsed
+ * const ready = onDOMReady(() => initializeWidgets("[data-widget]"));
+ * ready.removeListener();
  */
 export declare const onDOMReady: (cb: (e?: Event) => void, isAutoInit?: boolean | undefined) => {
     handler: (e?: Event) => void;

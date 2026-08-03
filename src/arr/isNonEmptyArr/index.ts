@@ -13,6 +13,11 @@ export type TIsNonEmptyArrReturn = ReturnType<typeof isNonEmptyArr>;
  * console.log(isNonEmptyArr(myArr)); // => true
  * const myObj = "string";
  * console.log(isNonEmptyArr(myObj)); // => false
+ * @example
+ * // Narrow API data to a non-empty array before reading the first item
+ * if (isNonEmptyArr<User>(response.users)) {
+ *   console.log(response.users[0].name);
+ * }
  */
 export const isNonEmptyArr = <T>(arr: unknown): arr is T[] => {
   return Array.isArray(arr) && arr.length > 0;

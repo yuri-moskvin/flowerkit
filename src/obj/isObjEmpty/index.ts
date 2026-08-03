@@ -12,10 +12,17 @@ export type TIsObjEmptyReturn = ReturnType<typeof isObjEmpty>;
  * const obj = {};
  * const isEmpty = isObjEmpty(obj);
  * console.log(isEmpty); // => true
+ * @example
+ * // Show an empty state when no search filters are selected
+ * const hasActiveFilters = !isObjEmpty(selectedFilters);
  */
 export const isObjEmpty = (obj: unknown): boolean => {
   if (obj === null || typeof obj !== "object") {
     throw new TypeError("isObjEmpty: obj must be an object or array");
   }
-  return Array.isArray(obj) ? obj.length === 0 : (Object.keys(obj).length === 0 && (obj as any).constructor === Object);
+  if (Array.isArray(obj)) {
+    return obj.length === 0;
+  }
+  const prototype = Object.getPrototypeOf(obj);
+  return (prototype === Object.prototype || prototype === null) && Object.keys(obj).length === 0;
 };

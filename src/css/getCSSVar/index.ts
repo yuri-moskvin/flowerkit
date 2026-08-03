@@ -18,6 +18,10 @@ export type TGetCSSVarReturn = ReturnType<typeof getCSSVar>;
  * // How to get CSS3 variable value from an element?
  * const block = document.querySelector("#myBlock"); // <div id="myBlock" style="--myVar: value;">
  * getCSSVar(block, "--myVar"); // or just "myVar"
+ * @example
+ * // Read a numeric spacing token from CSS in JavaScript
+ * const spacing = getCSSVar(document.documentElement, "spacing", true);
+ * console.log(spacing); // number
  */
 export const getCSSVar = (el: HTMLElement, variable: string, isNumberFormat: boolean | undefined = false): string | number => {
   if (!el || typeof (el as any).style !== "object") {

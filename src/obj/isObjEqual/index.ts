@@ -3,7 +3,8 @@ export type TIsObjEqualArgs = Parameters<typeof isObjEqual>;
 export type TIsObjEqualReturn = ReturnType<typeof isObjEqual>;
 
 /**
- * Checks if two objects are deeply equal by keys and values (not by reference)
+ * Checks if two objects are deeply equal by keys and values (not by reference),
+ * including collections and binary data.
  * @param {unknown} obj1 First object
  * @param {unknown} obj2 Second object
  * @returns {boolean} True if objects are deeply equal
@@ -15,6 +16,9 @@ export type TIsObjEqualReturn = ReturnType<typeof isObjEqual>;
  * const b = { foo: { bar: 1 } };
  * const isEqual = isObjEqual(a, b);
  * console.log(isEqual); // => true
+ * @example
+ * // Enable a save button only when a form draft has changed
+ * const hasUnsavedChanges = !isObjEqual(initialValues, formValues);
  */
 export const isObjEqual = (obj1: unknown, obj2: unknown): boolean => {
   const isObject = (obj: unknown): obj is object => obj !== null && typeof obj === "object";
@@ -29,8 +33,8 @@ export const isObjEqual = (obj1: unknown, obj2: unknown): boolean => {
   const deepCompare = (
     value1: unknown,
     value2: unknown,
-    visitedValue1: WeakMap<object, object>,
-    visitedValue2: WeakMap<object, object>
+    visitedValue1: Map<object, object>,
+    visitedValue2: Map<object, object>
   ): boolean => {
     if (Object.is(value1, value2)) {
       return true;
@@ -69,6 +73,27 @@ export const isObjEqual = (obj1: unknown, obj2: unknown): boolean => {
         && value1.flags === value2.flags;
     }
 
+    if (value1 instanceof ArrayBuffer || value2 instanceof ArrayBuffer) {
+      if (!(value1 instanceof ArrayBuffer) || !(value2 instanceof ArrayBuffer)) {
+        return false;
+      }
+      const bytes1 = new Uint8Array(value1);
+      const bytes2 = new Uint8Array(value2);
+      return bytes1.length === bytes2.length && bytes1.every((byte, index) => byte === bytes2[index]);
+    }
+
+    if (ArrayBuffer.isView(value1) || ArrayBuffer.isView(value2)) {
+      if (!ArrayBuffer.isView(value1)
+        || !ArrayBuffer.isView(value2)
+        || value1.constructor !== value2.constructor
+        || value1.byteLength !== value2.byteLength) {
+        return false;
+      }
+      const bytes1 = new Uint8Array(value1.buffer, value1.byteOffset, value1.byteLength);
+      const bytes2 = new Uint8Array(value2.buffer, value2.byteOffset, value2.byteLength);
+      return bytes1.every((byte, index) => byte === bytes2[index]);
+    }
+
     if (value1 instanceof Map || value2 instanceof Map) {
       if (!(value1 instanceof Map) || !(value2 instanceof Map) || value1.size !== value2.size) {
         return false;
@@ -91,12 +116,24 @@ export const isObjEqual = (obj1: unknown, obj2: unknown): boolean => {
       }
       const value2Items = [ ...value2.values() ];
       for (const setItem1 of value1.values()) {
-        const matchIndex = value2Items.findIndex((setItem2) =>
-          deepCompare(setItem1, setItem2, visitedValue1, visitedValue2)
-        );
+        let matchIndex = -1;
+        let matchedValue1: Map<object, object> | null = null;
+        let matchedValue2: Map<object, object> | null = null;
+        for (let index = 0; index < value2Items.length; index += 1) {
+          const branchValue1 = new Map(visitedValue1);
+          const branchValue2 = new Map(visitedValue2);
+          if (deepCompare(setItem1, value2Items[index], branchValue1, branchValue2)) {
+            matchIndex = index;
+            matchedValue1 = branchValue1;
+            matchedValue2 = branchValue2;
+            break;
+          }
+        }
         if (matchIndex === -1) {
           return false;
         }
+        matchedValue1?.forEach((mappedValue, key) => visitedValue1.set(key, mappedValue));
+        matchedValue2?.forEach((mappedValue, key) => visitedValue2.set(key, mappedValue));
         value2Items.splice(matchIndex, 1);
       }
       return true;
@@ -120,5 +157,5 @@ export const isObjEqual = (obj1: unknown, obj2: unknown): boolean => {
     });
   };
 
-  return deepCompare(obj1, obj2, new WeakMap<object, object>(), new WeakMap<object, object>());
+  return deepCompare(obj1, obj2, new Map<object, object>(), new Map<object, object>());
 };

@@ -3,7 +3,7 @@ export type TIsObjPrototypeOfReturn = ReturnType<typeof isObjPrototypeOf>;
 /**
  * Checks whether a given object exists in the prototype chain of another value.
  *
- * This is a safe wrapper around Object.prototype.isPrototypeOf that validates inputs and orks with non-plain objects and primitives (primitives always return false)
+ * This is a safe wrapper around Object.prototype.isPrototypeOf that validates inputs and works with non-plain objects and primitives (primitives always return false)
  * @param {object} prototype The potential prototype object
  * @param {unknown} value The value whose prototype chain is checked
  * @returns {boolean} True if `prototype` is in the prototype chain of `value`
@@ -24,5 +24,9 @@ export type TIsObjPrototypeOfReturn = ReturnType<typeof isObjPrototypeOf>;
  * @example
  * // Primitives
  * isObjPrototypeOf(Object.prototype, 123); // => false
+ *
+ * @example
+ * // Check whether an event target is a DOM element
+ * const isElement = isObjPrototypeOf(Element.prototype, event.target);
  */
 export declare const isObjPrototypeOf: (prototype: object, value: unknown) => boolean;

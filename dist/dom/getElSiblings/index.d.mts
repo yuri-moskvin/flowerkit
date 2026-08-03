@@ -13,6 +13,9 @@ export type TGetElSiblingsReturn = ReturnType<typeof getElSiblings>;
  * //   <li id="item3">Three</li>
  * // <ul>
  * const secondItem = document.getElementById("item2");
- * getElSiblings(secondItem).filter(item => item !== secondItem) // [ li#item1, li#utem3 ]
+ * getElSiblings(secondItem).filter(item => item !== secondItem) // [ li#item1, li#item3 ]
+ * @example
+ * // Remove the active state from sibling tabs before selecting a new tab
+ * getElSiblings(activeTab).forEach((tab) => tab.classList.remove("active"));
  */
 export declare const getElSiblings: (el: HTMLElement) => Array<ChildNode>;

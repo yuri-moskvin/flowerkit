@@ -12,6 +12,12 @@ export type TGetObjFromFormDataReturn = ReturnType<typeof getObjFromFormData>;
  * const fd = new FormData();
  * fd.append("test", "val");
  * getObjFromFormData(fd); // { test: "val" }
+ * @example
+ * // Convert repeated checkbox values into an array
+ * const filters = new FormData();
+ * filters.append("category", "books");
+ * filters.append("category", "games");
+ * getObjFromFormData(filters); // { category: [ "books", "games" ] }
  */
 export declare const getObjFromFormData: (fd?: FormData) => TFormDataReturn;
 export {};

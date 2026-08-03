@@ -1,7 +1,7 @@
 export type TIsMediaQueryArgs = Parameters<typeof isMediaQuery>;
 export type TIsMediaQueryReturn = ReturnType<typeof isMediaQuery>;
 /**
- * Gets a result of testing of a CSS media query
+ * Gets a result of testing a CSS media query and wraps bare media features when needed.
  * @param str{string} source media query string
  * @returns {boolean}
  * @throws {TypeError} isMediaQuery: str must be a string
@@ -11,5 +11,8 @@ export type TIsMediaQueryReturn = ReturnType<typeof isMediaQuery>;
  * const mediaQuery = "(orientation: portrait)";
  * const isPortrait = isMediaQuery(mediaQuery);
  * console.log(isPortrait); // => false
+ * @example
+ * // Disable decorative animation when the user prefers reduced motion
+ * const shouldReduceMotion = isMediaQuery("(prefers-reduced-motion: reduce)");
  */
 export declare const isMediaQuery: (str: string) => boolean;

@@ -11,6 +11,9 @@ export type TIsFnAsyncReturn = ReturnType<typeof isFnAsync>;
  * const fn = async () => {};
  * const isAsync = isFnAsync(fn);
  * console.log(isAsync); // => true
+ * @example
+ * // Detect whether a route loader was declared as an async function
+ * const shouldShowPendingState = isFnAsync(route.load);
  */
 export const isFnAsync = (fn: unknown): boolean => {
   if (typeof fn === "function") {

@@ -62,6 +62,21 @@ const validateRulesSchema = <TInput extends Record<string, unknown>, TOutput ext
  * @throws {TypeError} getObjWithFallbacks: rules must be a plain object
  * @throws {TypeError} getObjWithFallbacks: rules validation failed
  * @example
+ * // Normalize incomplete API data before rendering a user card
+ * const user = getObjWithFallbacks(
+ *   { name: "", age: undefined },
+ *   {
+ *     name: { type: "string", fallback: "Anonymous" },
+ *     age: { type: "number", fallback: 0 },
+ *   }
+ * ); // { name: "Anonymous", age: 0 }
+ * @example
+ * // Rename an API field and provide a global fallback for missing strings
+ * const product = getObjWithFallbacks(
+ *   { product_name: null },
+ *   { product_name: { output: "name", type: "string" } },
+ *   { string: "Untitled product" }
+ * ); // { name: "Untitled product" }
  */
 export const getObjWithFallbacks = <
   TInput extends Record<string, unknown>,
@@ -92,7 +107,10 @@ export const getObjWithFallbacks = <
 
   const newItem: Record<string, unknown> = {};
 
-  Object.entries(data).forEach(([ key, value ]) => {
+  const keys = new Set([ ...Object.keys(data), ...Object.keys(rules) ]);
+
+  keys.forEach((key) => {
+    const value = data[key];
     const rule = (rules as Record<string, TRulesSchema<TInput, TOutput>[string]>)[key];
 
     if (rule) {
@@ -121,7 +139,7 @@ export const getObjWithFallbacks = <
 
       if (output) {
         if (typeof getValue === "function") {
-          newItem[output as string] = getValue(value as any, getFallback(Array.isArray(value) ? "array" : "object"));
+          newItem[output as string] = getValue(value as any, getFallback(type));
         } else {
           switch (type) {
             case "string":

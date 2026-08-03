@@ -13,5 +13,11 @@ export type TGetIntersectionReturn = ReturnType<typeof getIntersection>;
  * const arr2 = [ 2, 3, 4, 5 ];
  * const intersection = getIntersection(arr1, arr2);
  * console.log(intersection); // => [ 2, 3 ]
+ * @example
+ * // Get tags shared by an article and the active search filters
+ * const matchingTags = getIntersection(
+ *   [ "typescript", "frontend", "seo" ],
+ *   [ "frontend", "accessibility" ]
+ * ); // [ "frontend" ]
  */
 export declare const getIntersection: <T>(arr1: T[], arr2: T[]) => T[];

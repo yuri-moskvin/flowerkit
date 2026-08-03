@@ -5,11 +5,25 @@ import { getObjFromFormData } from "../../obj/getObjFromFormData/index.ts";
 import { getFormDataFromObj } from "../getFormDataFromObj/index.ts";
 import { getUrlWithQueryParams } from "../getUrlWithQueryParams/index.ts";
 
+export type TGetFromServerMethod = "GET" | "PUT" | "POST" | "DELETE" | "HEAD" | "CONNECT" | "OPTIONS" | "TRACE" | "PATCH";
+
+export type TGetFromServerErrorKind = "abort" | "http" | "network" | "parse" | "request" | "timeout" | "transform";
+
+export type TGetFromServerError = Error & {
+  cause: unknown;
+  kind: TGetFromServerErrorKind;
+  method: TGetFromServerMethod;
+  name: "GetFromServerError";
+  response: Response | null;
+  status: number | null;
+  url: string;
+};
+
 export type TGetFromServerArgs<TResp = unknown, TSuccess = TResp> = {
   contentType?: "auto" | "application/json" | "application/x-www-form-urlencoded" | "multipart/form-data";
   isBubble?: boolean;
   timeout?: number;
-  method?: "GET" | "PUT" | "POST" | "DELETE" | "HEAD" | "CONNECT" | "OPTIONS" | "TRACE" | "PATCH";
+  method?: TGetFromServerMethod;
   mode?: RequestMode;
   signal?: AbortSignal | null;
   data?: Record<string, unknown> | FormData | null;
@@ -28,6 +42,58 @@ export type TGetFromServerArgs<TResp = unknown, TSuccess = TResp> = {
 
 export type TGetFromServerReturn = ReturnType<typeof getFromServer>;
 
+type TGetFromServerErrorProps = {
+  cause: unknown;
+  kind: TGetFromServerErrorKind;
+  method: TGetFromServerMethod;
+  response?: Response | null;
+  status?: number | null;
+  url: string;
+};
+
+type TRequestStage = "fetch" | "parse" | "request" | "transform";
+
+const getFromServerErrorMarker = Symbol("getFromServerError");
+
+const getErrorMessage = (kind: TGetFromServerErrorKind, status: number | null): string => {
+  switch (kind) {
+    case "abort": return "getFromServer: request was aborted";
+    case "http": return `getFromServer: request failed with status ${status ?? "unknown"}`;
+    case "network": return "getFromServer: network request failed";
+    case "parse": return "getFromServer: failed to parse response";
+    case "request": return "getFromServer: failed to create request";
+    case "timeout": return "getFromServer: request timed out";
+    case "transform": return "getFromServer: failed to transform response";
+  }
+};
+
+const getRequestError = (props: TGetFromServerErrorProps): TGetFromServerError => {
+  const {
+    cause,
+    kind,
+    method,
+    response = null,
+    status = response?.status ?? (kind === "timeout" ? 408 : null),
+    url,
+  } = props;
+  const error = new Error(getErrorMessage(kind, status)) as TGetFromServerError & {
+    [getFromServerErrorMarker]: true;
+  };
+  error.name = "GetFromServerError";
+  error.cause = cause;
+  error.kind = kind;
+  error.method = method;
+  error.response = response;
+  error.status = status;
+  error.url = url;
+  Object.defineProperty(error, getFromServerErrorMarker, { value: true });
+  return error;
+};
+
+const isRequestError = (error: unknown): error is TGetFromServerError => {
+  return typeof error === "object" && error !== null && getFromServerErrorMarker in error;
+};
+
 /**
  * Performs an HTTP request (`fetch`) with handy defaults, content-type handling,
  * query param building, and optional bubbling of a "getFromServer" event.
@@ -43,7 +109,7 @@ export type TGetFromServerReturn = ReturnType<typeof getFromServer>;
  * @param {AbortSignal|null} [props.signal=null] AbortSignal for cancellation.
  * @param {Record<string,unknown>|FormData|null} [props.data=null] Request data. For GET-like methods, appended as query params.
  * @param {function(T): T} [props.getSuccessResp] Transform function for successful response. Defaults to identity function.
- * @param {function(Response): Promise<T>} [props.getResp] Custom response parser. If provided, overrides `type`.
+ * @param {function(Response): Promise<T>} [props.getResp] Custom response parser. If provided, overrides `type` after HTTP status validation.
  * @param {("text"|"json"|"blob"|"arrayBuffer")} [props.type="json"] Response body parsing type (used when `getResp` not provided).
  * @param {Record<string,string>} [props.headers={}] Additional headers.
  * @param {number[]} [props.allowedCodes=[]] Array of HTTP status codes to treat as success even if not 2xx.
@@ -57,9 +123,32 @@ export type TGetFromServerReturn = ReturnType<typeof getFromServer>;
  * @throws {TypeError} getFromServer: allowedCodes must be an array of integers
  * @throws {TypeError} getFromServer: data must be a plain object, FormData, or null
  * @throws {TypeError} getFromServer: timeout must be a non-negative number or Infinity
+ * @throws {TGetFromServerError} Request lifecycle error with a discriminating `kind`
  * @see https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API
  * @example
  * const user = await getFromServer<{ userId: number }>({ url: "/api/user?id=1", method: "GET" });
+ * @example
+ * import type { TGetFromServerError } from "@web3r/flowerkit/net";
+ *
+ * try {
+ *   await getFromServer({ url: "/api/user" });
+ * } catch (error) {
+ *   if (error instanceof Error && error.name === "GetFromServerError") {
+ *     const requestError = error as TGetFromServerError;
+ *     if (requestError.kind === "http") {
+ *       console.error(requestError.status, requestError.response);
+ *     }
+ *   }
+ * }
+ * @example
+ * // Send typed JSON data and transform the successful API response
+ * const productId = await getFromServer<{ product: { id: string } }, string>({
+ *   url: "/api/products",
+ *   method: "POST",
+ *   contentType: "application/json",
+ *   data: { name: "Flower pot", price: 24 },
+ *   getSuccessResp: ({ product }) => product.id,
+ * });
  */
 export const getFromServer = async <TResp = unknown, TSuccess = TResp>(
   props: TGetFromServerArgs<TResp, TSuccess> = {}
@@ -85,7 +174,7 @@ export const getFromServer = async <TResp = unknown, TSuccess = TResp>(
   } = props;
 
   const getSuccessResp = props.getSuccessResp ?? ((resp: TResp) => resp as unknown as TSuccess);
-  const methodNormalized = String(method).toUpperCase() as Uppercase<typeof method>;
+  const methodNormalized = String(method).toUpperCase() as TGetFromServerMethod;
   const methodsWithBody = new Set([
     "POST",
     "PUT",
@@ -191,19 +280,25 @@ export const getFromServer = async <TResp = unknown, TSuccess = TResp>(
    * @private
    */
   const getResponse = async (resp: Response): Promise<TResp> => {
+    const { ok, status } = resp;
+    if (!ok && !(allowedCodes.length > 0 && allowedCodes.includes(status))) {
+      throw getRequestError({
+        cause: resp,
+        kind: "http",
+        method: methodNormalized,
+        response: resp,
+        url: requestUrl,
+      });
+    }
     if (typeof getResp === "function") {
       return await getResp(resp);
     }
-    const { ok, status } = resp;
-    if (ok || (allowedCodes.length > 0 && allowedCodes.includes(status))) {
-      switch (type) {
-        case "arrayBuffer": return await resp.arrayBuffer() as unknown as TResp;
-        case "json": return await resp.json() as TResp;
-        case "blob": return await resp.blob() as unknown as TResp;
-        default: return await resp.text() as unknown as TResp;
-      }
+    switch (type) {
+      case "arrayBuffer": return await resp.arrayBuffer() as unknown as TResp;
+      case "json": return await resp.json() as TResp;
+      case "blob": return await resp.blob() as unknown as TResp;
+      default: return await resp.text() as unknown as TResp;
     }
-    throw resp;
   };
 
   /**
@@ -233,33 +328,70 @@ export const getFromServer = async <TResp = unknown, TSuccess = TResp>(
     }, timeout);
   }
 
-  const fetchParams: RequestInit = {
-    ...fetchProps,
-    method: methodNormalized,
-    body: getBody(),
-    mode,
-    signal: requestController.signal,
-    credentials,
-    redirect,
-    cache,
-    referrerPolicy,
-    headers: getHeaders(),
-  };
+  let requestUrl = url;
+  let response: Response | null = null;
+  let stage: TRequestStage = "request";
 
   try {
-    const resp = await fetch(getUrl(), fetchParams);
-    const parsed = await getResponse(resp);
+    const fetchParams: RequestInit = {
+      ...fetchProps,
+      method: methodNormalized,
+      body: getBody(),
+      mode,
+      signal: requestController.signal,
+      credentials,
+      redirect,
+      cache,
+      referrerPolicy,
+      headers: getHeaders(),
+    };
+    requestUrl = getUrl();
+    stage = "fetch";
+    response = await fetch(requestUrl, fetchParams);
+    stage = "parse";
+    const parsed = await getResponse(response);
 
+    stage = "transform";
     if (isBubble && typeof window !== "undefined") {
       bubble(getDocument(), getFromServer.name, parsed);
     }
 
     return getSuccessResp(parsed);
   } catch (error) {
-    if (isTimedOut) {
-      throw 408;
+    if (isRequestError(error)) {
+      throw error;
     }
-    throw error;
+    if (isTimedOut) {
+      throw getRequestError({
+        cause: error,
+        kind: "timeout",
+        method: methodNormalized,
+        response,
+        url: requestUrl,
+      });
+    }
+    if (signal?.aborted) {
+      throw getRequestError({
+        cause: signal.reason ?? error,
+        kind: "abort",
+        method: methodNormalized,
+        response,
+        url: requestUrl,
+      });
+    }
+    const kindByStage: Record<TRequestStage, TGetFromServerErrorKind> = {
+      fetch: "network",
+      parse: "parse",
+      request: "request",
+      transform: "transform",
+    };
+    throw getRequestError({
+      cause: error,
+      kind: kindByStage[stage],
+      method: methodNormalized,
+      response,
+      url: requestUrl,
+    });
   } finally {
     if (timer) {
       clearTimeout(timer);

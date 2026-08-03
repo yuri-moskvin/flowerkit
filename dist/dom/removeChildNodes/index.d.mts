@@ -10,5 +10,9 @@ export type TRemoveChildNodesReturn = ReturnType<typeof removeChildNodes>;
  * const myDiv = document.getElementById("myBlock");
  * removeChildNodes(myDiv);
  * console.log(Array.from(myDiv.children).length); // => 0
+ * @example
+ * // Clear old autocomplete results before rendering a new response
+ * removeChildNodes(searchResults);
+ * searchResults.append(...nextResultItems);
  */
 export declare const removeChildNodes: (el: Node) => void;

@@ -26,6 +26,13 @@ export type TGetExternalScriptReturn = ReturnType<typeof getExternalScript>;
  * @example
  * getExternalScript({ src: "https://cdn.example.com/lib.js", id: "lib" })
  *   .then(() => console.log("Loaded"));
+ * @example
+ * // Load a third-party SDK with Subresource Integrity protection
+ * await getExternalScript({
+ *   src: "https://cdn.example.com/sdk.js",
+ *   integrity: "sha384-...",
+ *   crossorigin: "anonymous",
+ * });
  */
 export declare const getExternalScript: (props: TGetExternalScriptProps) => Promise<HTMLScriptElement>;
 export {};

@@ -38,10 +38,13 @@ describe(getExternalScript.name, () => {
     getExternalScript({
       src: "https://ajax.googleapis.com/ajax/libs/d3js/7.8.5/d3.min.js",
       id: "d3",
+      crossorigin: "anonymous",
       integrity: "sha384-test",
     });
     assert.strictEqual((document.getElementById("d3") as HTMLElement).tagName, "SCRIPT");
     assert.strictEqual((document.getElementById("d3") as HTMLScriptElement).integrity, "sha384-test");
+    assert.strictEqual((document.getElementById("d3") as HTMLScriptElement).crossOrigin, "anonymous");
+    assert.strictEqual(document.getElementById("d3")?.getAttribute("crossorigin"), "anonymous");
   });
 
 });

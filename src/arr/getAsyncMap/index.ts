@@ -16,7 +16,13 @@ export type TGetAsyncMapReturn = ReturnType<typeof getAsyncMap>;
  * const myAPIFn = (item, index, arr) => Promise.resolve("success" + item);
  * const array = [ 1, 2, 3 ];
  * const result = await getAsyncMap(array, myAPIFn);
- * console.log(result); // => [ "success1", "success2, "success3" ]
+ * console.log(result); // => [ "success1", "success2", "success3" ]
+ * @example
+ * // Fetch user profiles for every ID in parallel
+ * const users = await getAsyncMap(userIds, async (id) => {
+ *   const response = await fetch(`/api/users/${id}`);
+ *   return response.json();
+ * });
  */
 export const getAsyncMap = async <T, U>(
   arr: T[],

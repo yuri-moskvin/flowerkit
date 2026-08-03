@@ -1,0 +1,2 @@
+const getClampedNum=(num,min,max)=>{if(![num,min,max].every(value=>typeof value==="number"&&Number.isFinite(value)))throw new TypeError("getClampedNum: arguments must be finite numbers");if(min>max)throw new RangeError("getClampedNum: min must be less than or equal to max");return Math.min(Math.max(num,min),max)};export{getClampedNum};
+//# sourceMappingURL=index.mjs.map

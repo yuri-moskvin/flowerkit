@@ -1,0 +1,2 @@
+Object.defineProperty(exports,"__esModule",{value:true});const once=fn=>{if(typeof fn!=="function")throw new TypeError("once: fn must be a function");let isCalled=false;let error;let isFailed=false;let result;return function onceFunction(...args){if(!isCalled){isCalled=true;try{result=fn.apply(this,args)}catch(caughtError){error=caughtError;isFailed=true;throw caughtError}}if(isFailed)throw error;return result}};exports.once=once;
+//# sourceMappingURL=index.cjs.map

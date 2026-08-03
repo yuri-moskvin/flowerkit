@@ -13,6 +13,10 @@ describe(isJSON.name, () => {
     const str = '{ "hello": "world" }';
     const brokenStr = "{ hello }";
     assert.strictEqual(isJSON(str), true);
+    assert.strictEqual(isJSON("1"), true);
+    assert.strictEqual(isJSON("true"), true);
+    assert.strictEqual(isJSON("null"), true);
+    assert.strictEqual(isJSON('"value"'), true);
     assert.strictEqual(isJSON(brokenStr), false);
   });
 });

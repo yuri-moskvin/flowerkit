@@ -15,6 +15,12 @@ export type TGetUnionReturn = ReturnType<typeof getUnion>;
  * const arr2 = [ 2, 3, 4, 5 ];
  * const union = getUnion(arr1, arr2);
  * console.log(union); // => [ 1, 2, 3, 4, 5 ];
+ * @example
+ * // Combine user and team permissions without duplicate values
+ * const permissions = getUnion(
+ *   [ "profile:read", "profile:write" ],
+ *   [ "profile:read", "billing:read" ]
+ * );
  */
 export const getUnion = <T>(arr1: T[], arr2: T[]): T[] => {
   if (!Array.isArray(arr1) || !Array.isArray(arr2)) {

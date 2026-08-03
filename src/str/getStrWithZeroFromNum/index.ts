@@ -12,6 +12,9 @@ export type TGetStrWithZeroFromNumReturn = ReturnType<typeof getStrWithZeroFromN
  * @example
  * getStrWithZeroFromNum(9, 3); // "009"
  * getStrWithZeroFromNum(-10, 5); // "-00010"
+ * @example
+ * // Format a countdown timer as mm:ss
+ * const timer = `${getStrWithZeroFromNum(minutes)}:${getStrWithZeroFromNum(seconds)}`;
  */
 export const getStrWithZeroFromNum = (num: number, digits: number = 2): string => {
   if (!Number.isFinite(num)) {

@@ -12,6 +12,7 @@ export type TGetElWrapperReturn = ReturnType<typeof getElWrapper>;
  * @returns {HTMLElement}
  * @throws {TypeError} getElWrapper: el must be an HTMLElement
  * @throws {TypeError} getElWrapper: str must be a non-empty string
+ * @throws {TypeError} getElWrapper: str must contain an HTML element
  * @example
  * // How to wrap content to the few nested `div` blocks?
  * // <div id="block">My Element</div>
@@ -23,6 +24,11 @@ export type TGetElWrapperReturn = ReturnType<typeof getElWrapper>;
  * const el = document.getElementById("block");
  * const wrapped = getElWrapper(el, wrapperLayout);
  * console.log(wrapped.outerHTML); // => `<div class="wrapper"><div class="wrapper__inner"><div id="block">My Element</div></div></div>`
+ * @example
+ * // Wrap a form field with reusable validation markup
+ * const fieldWrapper = getElWrapper(input, `
+ *   <label class="field"><span class="field__control"></span></label>
+ * `);
  */
 export const getElWrapper = (el: HTMLElement, str: string): HTMLElement => {
   if (!el || typeof (el as any).nodeType !== "number") {
@@ -33,16 +39,19 @@ export const getElWrapper = (el: HTMLElement, str: string): HTMLElement => {
   }
   const temp = getDocument().createElement("div");
   const parent = el.parentNode;
-  const insertWhere = (el as any).previousSibling;
-  let target;
-  temp.innerHTML = str;
-  target = temp.firstChild as any;
-  while ((target as any).firstChild) {
-    target = (target as any).firstChild;
+  const nextSibling = el.nextSibling;
+  temp.innerHTML = str.trim();
+  const wrapper = temp.firstElementChild as HTMLElement | null;
+  if (!wrapper) {
+    throw new TypeError("getElWrapper: str must contain an HTML element");
   }
-  (target as any).appendChild(el);
+  let target = wrapper;
+  while (target.firstElementChild) {
+    target = target.firstElementChild as HTMLElement;
+  }
+  target.appendChild(el);
   if (parent) {
-    parent.insertBefore(temp.firstChild as any, (insertWhere ? (insertWhere as any).nextSibling : (parent as any).firstChild));
+    parent.insertBefore(wrapper, nextSibling);
   }
-  return target as any;
+  return wrapper;
 };

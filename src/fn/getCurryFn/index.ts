@@ -17,6 +17,12 @@ export type TGetCurryFnReturn = ReturnType<typeof getCurryFn>;
  * function sum(a: number, b: number) { return a + b; }
  * const curried = getCurryFn(sum);
  * curried(1)(2); // 3
+ * @example
+ * // Build reusable field validators from a curried range check
+ * const isInRange = getCurryFn((min: number, max: number, value: number) => {
+ *   return value >= min && value <= max;
+ * });
+ * const isValidPercentage = isInRange(0)(100);
  */
 export const getCurryFn = <T extends (...args: any[]) => any>(
   fn: T,

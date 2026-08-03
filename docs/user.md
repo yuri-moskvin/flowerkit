@@ -1,16 +1,24 @@
 # ⚙️ User's browser utils pack API
+
 ___
+
 ## Usage
+
 ```ts
 // import functions
-import { setCookie, deleteCookie, getCookie, getScrollbarWidth, isAdblock, isMobileDevice, isTouchDevice } from "@web3r/flowerkit/user";
+import { copyToClipboard, getStorage, createStorage, setCookie, deleteCookie, getCookie, getScrollbarWidth, isAdblock, isMobileDevice, isTouchDevice } from "@web3r/flowerkit/user";
 
 // import types
-import type { TSetCookieArgs, TSetCookieReturn, TDeleteCookieArgs, TDeleteCookieReturn, TGetCookieArgs, TGetCookieReturn, TGetScrollbarWidthArgs, TGetScrollbarWidthReturn, TIsAdblockArgs, TIsAdblockReturn, TIsMobileDeviceArgs, TIsMobileDeviceReturn, TIsTouchDeviceArgs, TIsTouchDeviceReturn } from "@web3r/flowerkit/user";
+import type { TCopyToClipboardArgs, TCopyToClipboardReturn, TStorageType, TGetStorageArgs, TGetStorageReturn, TStorageController, TCreateStorageArgs, TCreateStorageReturn, TSetCookieArgs, TSetCookieReturn, TDeleteCookieArgs, TDeleteCookieReturn, TGetCookieArgs, TGetCookieReturn, TGetScrollbarWidthArgs, TGetScrollbarWidthReturn, TIsAdblockArgs, TIsAdblockReturn, TIsMobileDeviceArgs, TIsMobileDeviceReturn, TIsTouchDeviceArgs, TIsTouchDeviceReturn } from "@web3r/flowerkit/user";
 ```
+
 ___
+
 ## Functions
 
+- [copyToClipboard](#copytoclipboard)
+- [getStorage](#getstorage)
+- [createStorage](#createstorage)
 - [setCookie](#setcookie)
 - [deleteCookie](#deletecookie)
 - [getCookie](#getcookie)
@@ -18,6 +26,103 @@ ___
 - [isAdblock](#isadblock)
 - [isMobileDevice](#ismobiledevice)
 - [isTouchDevice](#istouchdevice)
+
+### copyToClipboard
+
+Copies text to the clipboard using the Clipboard API with a legacy fallback.
+Returns `false` when clipboard access is unavailable or denied.
+
+| Function | Type |
+| ---------- | ---------- |
+| `copyToClipboard` | `(text: string) => Promise<boolean>` |
+
+Parameters:
+
+* `text`: Text to copy
+
+
+Returns:
+
+Whether copying succeeded
+
+Examples:
+
+```ts
+await copyToClipboard("https://example.com");
+```
+
+```ts
+// Copy a share URL and show feedback only when it succeeds
+const copied = await copyToClipboard(window.location.href);
+if (copied) showToast("Link copied");
+```
+
+
+### getStorage
+
+Safely gets browser local or session storage.
+Returns `null` during SSR or when storage access is blocked.
+
+| Function | Type |
+| ---------- | ---------- |
+| `getStorage` | `(type?: TStorageType) => Storage or null` |
+
+Parameters:
+
+* `type`: Storage type
+
+
+Returns:
+
+Browser storage when available
+
+Examples:
+
+```ts
+const storage = getStorage("session");
+```
+
+```ts
+// Read a saved preference only when localStorage is available
+const storage = getStorage();
+const theme = storage?.getItem("theme") ?? "system";
+```
+
+
+### createStorage
+
+Creates a typed, JSON-backed and SSR-safe storage namespace.
+Operations return fallbacks or `false` when storage is unavailable.
+
+| Function | Type |
+| ---------- | ---------- |
+| `createStorage` | `<TSchema extends Record<string, unknown> = Record<string, unknown>>(options?: { namespace?: string or undefined; onError?: ((error: unknown) => void) or undefined; storage?: Storage or null or undefined; }) => TStorageController<...>` |
+
+Parameters:
+
+* `options`: Options; namespace defaults to "flowerkit"
+
+
+Returns:
+
+Storage controller
+
+Examples:
+
+```ts
+const settings = createStorage<{ theme: "light"|"dark" }>({ namespace: "app" });
+settings.set("theme", "dark");
+```
+
+```ts
+// Persist a typed shopping cart and restore it with a fallback
+const cartStorage = createStorage<{ items: Array<{ id: string; quantity: number; }> }>({
+  namespace: "shop",
+});
+cartStorage.set("items", cartItems);
+const savedItems = cartStorage.get("items", []);
+```
+
 
 ### setCookie
 
@@ -50,6 +155,16 @@ Examples:
 setCookie("myCookie", "value", { expires: 86400 }); // expires in 1 day (seconds)
 ```
 
+```ts
+// Persist a cookie consent choice with common security attributes
+setCookie("cookie_consent", "accepted", {
+  expires: 60 * 60 * 24 * 365,
+  path: "/",
+  samesite: "lax",
+  secure: true,
+});
+```
+
 
 ### deleteCookie
 
@@ -74,6 +189,11 @@ Examples:
 ```ts
 // How to delete a Cookie?
 deleteCookie("myCookieName");
+```
+
+```ts
+// Remove an authentication cookie after the user signs out
+deleteCookie("session_token");
 ```
 
 
@@ -108,6 +228,11 @@ const savedValue = getCookie("myCookieName");
 console.log(savedValue); // => "myValue"
 ```
 
+```ts
+// Restore a cookie consent choice when the page loads
+const consent = getCookie("cookie_consent") ?? "unknown";
+```
+
 
 ### getScrollbarWidth
 
@@ -126,6 +251,12 @@ Examples:
 ```ts
 const scrollbarWidth = getScrollbarWidth();
 console.log(scrollbarWidth); // => number
+```
+
+```ts
+// Prevent a layout shift when locking page scroll behind a modal
+document.body.style.paddingRight = `${getScrollbarWidth()}px`;
+document.body.style.overflow = "hidden";
 ```
 
 
@@ -151,6 +282,11 @@ const blocked = isAdblock();
 console.log(blocked); // => false
 ```
 
+```ts
+// Offer an ad-free subscription when an ad blocker is detected
+if (isAdblock()) showAdFreeSubscriptionNotice();
+```
+
 
 ### isMobileDevice
 
@@ -170,6 +306,11 @@ Examples:
 const isMobile = isMobileDevice(); // => boolean
 ```
 
+```ts
+// Select a mobile navigation variant when UA-based detection is acceptable
+const navigationVariant = isMobileDevice() ? "drawer" : "sidebar";
+```
+
 
 ### isTouchDevice
 
@@ -186,11 +327,21 @@ Examples:
 const isTouchScreen = isTouchDevice(); // {boolean}
 ```
 
-
-
+```ts
+// Increase control sizes for devices that support touch input
+document.documentElement.classList.toggle("has-touch", isTouchDevice());
+```
 
 ## Types
 
+- [TCopyToClipboardArgs](#tcopytoclipboardargs)
+- [TCopyToClipboardReturn](#tcopytoclipboardreturn)
+- [TStorageType](#tstoragetype)
+- [TGetStorageArgs](#tgetstorageargs)
+- [TGetStorageReturn](#tgetstoragereturn)
+- [TStorageController](#tstoragecontroller)
+- [TCreateStorageArgs](#tcreatestorageargs)
+- [TCreateStorageReturn](#tcreatestoragereturn)
 - [TSetCookieArgs](#tsetcookieargs)
 - [TSetCookieReturn](#tsetcookiereturn)
 - [TDeleteCookieArgs](#tdeletecookieargs)
@@ -205,6 +356,54 @@ const isTouchScreen = isTouchDevice(); // {boolean}
 - [TIsMobileDeviceReturn](#tismobiledevicereturn)
 - [TIsTouchDeviceArgs](#tistouchdeviceargs)
 - [TIsTouchDeviceReturn](#tistouchdevicereturn)
+
+### TCopyToClipboardArgs
+
+| Type | Type |
+| ---------- | ---------- |
+| `TCopyToClipboardArgs` | `Parameters<typeof copyToClipboard>` |
+
+### TCopyToClipboardReturn
+
+| Type | Type |
+| ---------- | ---------- |
+| `TCopyToClipboardReturn` | `ReturnType<typeof copyToClipboard>` |
+
+### TStorageType
+
+| Type | Type |
+| ---------- | ---------- |
+| `TStorageType` | `local" or "session` |
+
+### TGetStorageArgs
+
+| Type | Type |
+| ---------- | ---------- |
+| `TGetStorageArgs` | `Parameters<typeof getStorage>` |
+
+### TGetStorageReturn
+
+| Type | Type |
+| ---------- | ---------- |
+| `TGetStorageReturn` | `ReturnType<typeof getStorage>` |
+
+### TStorageController
+
+| Type | Type |
+| ---------- | ---------- |
+| `TStorageController` | `{ clear: () => boolean; get: <TKey extends Extract<keyof TSchema, string>>( key: TKey, fallback?: TSchema[TKey] ) => TSchema[TKey] or undefined; has: (key: Extract<keyof TSchema, string>) => boolean; remove: (key: Extract<keyof TSchema, string>) => boolean; set: <TKey extends Extract<keyof TSchema, string>>(key: TKey, value: TSchema[TKey]) => boolean; }` |
+
+### TCreateStorageArgs
+
+| Type | Type |
+| ---------- | ---------- |
+| `TCreateStorageArgs` | `Parameters<typeof createStorage>` |
+
+### TCreateStorageReturn
+
+| Type | Type |
+| ---------- | ---------- |
+| `TCreateStorageReturn` | `ReturnType<typeof createStorage>` |
 
 ### TSetCookieArgs
 
@@ -289,4 +488,3 @@ const isTouchScreen = isTouchDevice(); // {boolean}
 | Type | Type |
 | ---------- | ---------- |
 | `TIsTouchDeviceReturn` | `ReturnType<typeof isTouchDevice>` |
-

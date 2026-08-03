@@ -5,6 +5,9 @@ export type TIsTouchDeviceReturn = ReturnType<typeof isTouchDevice>;
  * Avoids false positives from non-browser envs (like `jsdom`).
  * @example
  * const isTouchScreen = isTouchDevice(); // {boolean}
+ * @example
+ * // Increase control sizes for devices that support touch input
+ * document.documentElement.classList.toggle("has-touch", isTouchDevice());
  * @returns {boolean}
  */
 export declare const isTouchDevice: () => boolean;

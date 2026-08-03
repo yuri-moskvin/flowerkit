@@ -1,0 +1,2 @@
+const getUniqueBy=(arr,getKey)=>{if(!Array.isArray(arr))throw new TypeError("getUniqueBy: arr must be an array");if(typeof getKey!=="function")throw new TypeError("getUniqueBy: getKey must be a function");const keys=new Set;return arr.filter((value,index,array)=>{const key=getKey(value,index,array);if(keys.has(key))return false;keys.add(key);return true})};export{getUniqueBy};
+//# sourceMappingURL=index.mjs.map

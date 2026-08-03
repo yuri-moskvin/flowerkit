@@ -12,6 +12,7 @@ describe(getStrDeclination.name, () => {
         []
       )
     );
+    assert.throws(() => getStrDeclination(1.5, [ "one", "few", "many" ]));
     assert.throws(() =>
       getStrDeclination(
         123,

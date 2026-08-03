@@ -12,6 +12,10 @@ export type TGetCSSTransformValuesReturn = ReturnType<typeof getCSSTransformValu
  * const block = document.getElementById("block");
  * const values = getCSSTransformValues(block);
  * console.log(values); // => { x: 10, y: 15, z: 35 }
+ * @example
+ * // Read the current translated position before continuing a drag animation
+ * const { x, y } = getCSSTransformValues(draggableElement);
+ * draggableElement.style.transform = `translate(${x + 20}px, ${y}px)`;
  */
 export declare const getCSSTransformValues: (el: HTMLElement) => {
     x: number;
