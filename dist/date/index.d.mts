@@ -1,4 +1,4 @@
-export type { TDateInput } from "./dateValue.d.mts";
+export type { TDateInput } from "./_dateValue/index.d.mts";
 export type { TGetDateAddedArgs, TGetDateAddedReturn } from "./getDateAdded/index.d.mts";
 export type { TGetDateDiffArgs, TGetDateDiffReturn } from "./getDateDiff/index.d.mts";
 export type { TGetDateFormattedArgs, TGetDateFormattedReturn } from "./getDateFormatted/index.d.mts";

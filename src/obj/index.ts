@@ -5,6 +5,7 @@ export type { TGetMapFromObjArgs, TGetMapFromObjReturn } from "./getMapFromObj/i
 export type { TGetMergedObjArgs, TGetMergedObjReturn } from "./getMergedObj/index.ts";
 export type { TGetObjFromFormDataArgs, TGetObjFromFormDataReturn } from "./getObjFromFormData/index.ts";
 export type { TGetObjLengthArgs, TGetObjLengthReturn } from "./getObjLength/index.ts";
+export type { TGetObjValueByPathArgs, TGetObjValueByPathReturn, TObjPath } from "./getObjValueByPath/index.ts";
 export type { TGetObjWithFallbacksArgs, TGetObjWithFallbacksReturn } from "./getObjWithFallbacks/index.ts";
 export type { TGetObjWithoutUndefinedArgs, TGetObjWithoutUndefinedReturn } from "./getObjWithoutUndefined/index.ts";
 export type { TGetObjWithOmittedPropsArgs, TGetObjWithOmittedPropsReturn } from "./getObjWithOmittedProps/index.ts";
@@ -21,6 +22,7 @@ export { getMapFromObj } from "./getMapFromObj/index.ts";
 export { getMergedObj } from "./getMergedObj/index.ts";
 export { getObjFromFormData } from "./getObjFromFormData/index.ts";
 export { getObjLength } from "./getObjLength/index.ts";
+export { getObjValueByPath } from "./getObjValueByPath/index.ts";
 export { getObjWithFallbacks } from "./getObjWithFallbacks/index.ts";
 export { getObjWithoutUndefined } from "./getObjWithoutUndefined/index.ts";
 export { getObjWithOmittedProps } from "./getObjWithOmittedProps/index.ts";

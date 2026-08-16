@@ -1,4 +1,4 @@
-import { getCaseWords } from "../caseWords.ts";
+import { _getCaseWords } from "../_caseWords/index.ts";
 
 export type TGetStrWithSnakeCaseArgs = Parameters<typeof getStrWithSnakeCase>;
 
@@ -19,5 +19,5 @@ export const getStrWithSnakeCase = (str: string): string => {
   if (typeof str !== "string") {
     throw new TypeError("getStrWithSnakeCase: str must be a string");
   }
-  return getCaseWords(str).map((word) => word.toLocaleLowerCase()).join("_");
+  return _getCaseWords(str).map((word) => word.toLocaleLowerCase()).join("_");
 };

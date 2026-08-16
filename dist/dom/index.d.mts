@@ -2,11 +2,13 @@ export type { TGetElSiblingsArgs, TGetElSiblingsReturn } from "./getElSiblings/i
 export type { TGetElWrapperArgs, TGetElWrapperReturn } from "./getElWrapper/index.d.mts";
 export type { TGetHTMLFromStrArgs, TGetHTMLFromStrReturn } from "./getHTMLFromStr/index.d.mts";
 export type { TGetIndexOfElArgs, TGetIndexOfElReturn } from "./getIndexOfEl/index.d.mts";
+export type { TGetScrollParentArgs, TGetScrollParentReturn, TScrollAxis } from "./getScrollParent/index.d.mts";
 export type { TIsNodeArgs, TIsNodeReturn } from "./isNode/index.d.mts";
 export type { TRemoveChildNodesArgs, TRemoveChildNodesReturn } from "./removeChildNodes/index.d.mts";
 export { getElSiblings } from "./getElSiblings/index.d.mts";
 export { getElWrapper } from "./getElWrapper/index.d.mts";
 export { getHTMLFromStr } from "./getHTMLFromStr/index.d.mts";
 export { getIndexOfEl } from "./getIndexOfEl/index.d.mts";
+export { getScrollParent } from "./getScrollParent/index.d.mts";
 export { isNode } from "./isNode/index.d.mts";
 export { removeChildNodes } from "./removeChildNodes/index.d.mts";

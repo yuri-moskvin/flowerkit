@@ -1,5 +1,5 @@
 
-export type { TDateInput } from "./dateValue.ts";
+export type { TDateInput } from "./_dateValue/index.ts";
 export type { TGetDateAddedArgs, TGetDateAddedReturn } from "./getDateAdded/index.ts";
 export type { TGetDateDiffArgs, TGetDateDiffReturn } from "./getDateDiff/index.ts";
 export type { TGetDateFormattedArgs, TGetDateFormattedReturn } from "./getDateFormatted/index.ts";

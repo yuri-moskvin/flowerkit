@@ -4,6 +4,7 @@ export type { TGetMapFromObjArgs, TGetMapFromObjReturn } from "./getMapFromObj/i
 export type { TGetMergedObjArgs, TGetMergedObjReturn } from "./getMergedObj/index.d.mts";
 export type { TGetObjFromFormDataArgs, TGetObjFromFormDataReturn } from "./getObjFromFormData/index.d.mts";
 export type { TGetObjLengthArgs, TGetObjLengthReturn } from "./getObjLength/index.d.mts";
+export type { TGetObjValueByPathArgs, TGetObjValueByPathReturn, TObjPath } from "./getObjValueByPath/index.d.mts";
 export type { TGetObjWithFallbacksArgs, TGetObjWithFallbacksReturn } from "./getObjWithFallbacks/index.d.mts";
 export type { TGetObjWithoutUndefinedArgs, TGetObjWithoutUndefinedReturn } from "./getObjWithoutUndefined/index.d.mts";
 export type { TGetObjWithOmittedPropsArgs, TGetObjWithOmittedPropsReturn } from "./getObjWithOmittedProps/index.d.mts";
@@ -19,6 +20,7 @@ export { getMapFromObj } from "./getMapFromObj/index.d.mts";
 export { getMergedObj } from "./getMergedObj/index.d.mts";
 export { getObjFromFormData } from "./getObjFromFormData/index.d.mts";
 export { getObjLength } from "./getObjLength/index.d.mts";
+export { getObjValueByPath } from "./getObjValueByPath/index.d.mts";
 export { getObjWithFallbacks } from "./getObjWithFallbacks/index.d.mts";
 export { getObjWithoutUndefined } from "./getObjWithoutUndefined/index.d.mts";
 export { getObjWithOmittedProps } from "./getObjWithOmittedProps/index.d.mts";

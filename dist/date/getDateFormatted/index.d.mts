@@ -1,4 +1,4 @@
-import type { TDateInput } from "../dateValue.d.mts";
+import type { TDateInput } from "../_dateValue/index.d.mts";
 export type TGetDateFormattedArgs = Parameters<typeof getDateFormatted>;
 export type TGetDateFormattedReturn = ReturnType<typeof getDateFormatted>;
 /**

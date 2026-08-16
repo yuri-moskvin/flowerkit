@@ -1,3 +1,4 @@
+export type { TArrSortDirection, TArrSortNulls, TArrSortValue, TGetArrSortedByArgs, TGetArrSortedByOptions, TGetArrSortedByReturn, } from "./getArrSortedBy/index.d.mts";
 export type { TGetAsyncMapArgs, TGetAsyncMapReturn } from "./getAsyncMap/index.d.mts";
 export type { TGetChunkedArrArgs, TGetChunkedArrReturn } from "./getChunkedArr/index.d.mts";
 export type { TGetDiffArgs, TGetDiffReturn } from "./getDiff/index.d.mts";
@@ -9,6 +10,7 @@ export type { TGetUniqueByArgs, TGetUniqueByReturn } from "./getUniqueBy/index.d
 export type { TIsItemsEqualArgs, TIsItemsEqualReturn } from "./isItemsEqual/index.d.mts";
 export type { TIsIterableArgs, TIsIterableReturn } from "./isIterable/index.d.mts";
 export type { TIsNonEmptyArrArgs, TIsNonEmptyArrReturn } from "./isNonEmptyArr/index.d.mts";
+export { getArrSortedBy } from "./getArrSortedBy/index.d.mts";
 export { getAsyncMap } from "./getAsyncMap/index.d.mts";
 export { getChunkedArr } from "./getChunkedArr/index.d.mts";
 export { getDiff } from "./getDiff/index.d.mts";

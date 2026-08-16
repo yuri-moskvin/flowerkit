@@ -6,10 +6,10 @@ ___
 
 ```ts
 // import functions
-import { getAllSamePropsFromObj, getCopyOfObj, getMapFromObj, getMergedObj, getObjFromFormData, getObjLength, getObjWithFallbacks, getObjWithoutUndefined, getObjWithOmittedProps, getObjWithPickedProps, isObjEmpty, isObjEqual, isObjHasOwnProp, isObjPromise, isObjPrototypeOf } from "@web3r/flowerkit/obj";
+import { getAllSamePropsFromObj, getCopyOfObj, getMapFromObj, getMergedObj, getObjFromFormData, getObjLength, getObjValueByPath, getObjWithFallbacks, getObjWithoutUndefined, getObjWithOmittedProps, getObjWithPickedProps, isObjEmpty, isObjEqual, isObjHasOwnProp, isObjPromise, isObjPrototypeOf } from "@web3r/flowerkit/obj";
 
 // import types
-import type { TGetAllSamePropsFromObjArgs, TGetAllSamePropsFromObjReturn, TGetCopyOfObjArgs, TGetCopyOfObjReturn, TGetMapFromObjArgs, TGetMapFromObjReturn, TGetMergedObjArgs, TGetMergedObjReturn, TGetObjFromFormDataArgs, TGetObjFromFormDataReturn, TGetObjLengthArgs, TGetObjLengthReturn, TGetObjWithFallbacksArgs, TGetObjWithFallbacksReturn, TGetObjWithoutUndefinedArgs, TGetObjWithoutUndefinedReturn, TGetObjWithOmittedPropsArgs, TGetObjWithOmittedPropsReturn, TGetObjWithPickedPropsArgs, TGetObjWithPickedPropsReturn, TIsObjEmptyArgs, TIsObjEmptyReturn, TIsObjEqualArgs, TIsObjEqualReturn, TIsObjHasOwnPropArgs, TIsObjHasOwnPropReturn, TIsObjPromiseArgs, TIsObjPromiseReturn, TIsObjPrototypeOfArgs, TIsObjPrototypeOfReturn } from "@web3r/flowerkit/obj";
+import type { TGetAllSamePropsFromObjArgs, TGetAllSamePropsFromObjReturn, TGetCopyOfObjArgs, TGetCopyOfObjReturn, TGetMapFromObjArgs, TGetMapFromObjReturn, TGetMergedObjArgs, TGetMergedObjReturn, TGetObjFromFormDataArgs, TGetObjFromFormDataReturn, TGetObjLengthArgs, TGetObjLengthReturn, TObjPath, TGetObjValueByPathArgs, TGetObjValueByPathReturn, TGetObjWithFallbacksArgs, TGetObjWithFallbacksReturn, TGetObjWithoutUndefinedArgs, TGetObjWithoutUndefinedReturn, TGetObjWithOmittedPropsArgs, TGetObjWithOmittedPropsReturn, TGetObjWithPickedPropsArgs, TGetObjWithPickedPropsReturn, TIsObjEmptyArgs, TIsObjEmptyReturn, TIsObjEqualArgs, TIsObjEqualReturn, TIsObjHasOwnPropArgs, TIsObjHasOwnPropReturn, TIsObjPromiseArgs, TIsObjPromiseReturn, TIsObjPrototypeOfArgs, TIsObjPrototypeOfReturn } from "@web3r/flowerkit/obj";
 ```
 
 ___
@@ -22,6 +22,7 @@ ___
 - [getMergedObj](#getmergedobj)
 - [getObjFromFormData](#getobjfromformdata)
 - [getObjLength](#getobjlength)
+- [getObjValueByPath](#getobjvaluebypath)
 - [getObjWithFallbacks](#getobjwithfallbacks)
 - [getObjWithoutUndefined](#getobjwithoutundefined)
 - [getObjWithOmittedProps](#getobjwithomittedprops)
@@ -255,6 +256,38 @@ console.log(objLength); // => 2
 ```ts
 // Display the number of active filters in a search interface
 const activeFilterCount = getObjLength(activeFilters);
+```
+
+
+### getObjValueByPath
+
+Reads a nested own property using a dot path or an array of property keys.
+Returns the fallback when traversal fails or the resolved value is `undefined`.
+
+| Function | Type |
+| ---------- | ---------- |
+| `getObjValueByPath` | `<TValue = unknown>(obj: object, path: TObjPath, fallback?: TValue or undefined) => TValue or undefined` |
+
+Parameters:
+
+* `obj`: Source object or array
+* `path`: Dot path or property-key array
+* `fallback`: Value returned for a missing path
+
+
+Returns:
+
+Resolved value or fallback
+
+Examples:
+
+```ts
+const sellerName = getObjValueByPath<string>(product, "seller.profile.name", "Unknown");
+```
+
+```ts
+// Array paths support indexes, symbols, and keys that contain dots
+const quantity = getObjValueByPath<number>(order, [ "items", 0, "quantity" ], 0);
 ```
 
 
@@ -587,6 +620,9 @@ const isElement = isObjPrototypeOf(Element.prototype, event.target);
 - [TGetObjFromFormDataReturn](#tgetobjfromformdatareturn)
 - [TGetObjLengthArgs](#tgetobjlengthargs)
 - [TGetObjLengthReturn](#tgetobjlengthreturn)
+- [TObjPath](#tobjpath)
+- [TGetObjValueByPathArgs](#tgetobjvaluebypathargs)
+- [TGetObjValueByPathReturn](#tgetobjvaluebypathreturn)
 - [TGetObjWithFallbacksArgs](#tgetobjwithfallbacksargs)
 - [TGetObjWithFallbacksReturn](#tgetobjwithfallbacksreturn)
 - [TGetObjWithoutUndefinedArgs](#tgetobjwithoutundefinedargs)
@@ -677,6 +713,24 @@ const isElement = isObjPrototypeOf(Element.prototype, event.target);
 | Type | Type |
 | ---------- | ---------- |
 | `TGetObjLengthReturn` | `ReturnType<typeof getObjLength>` |
+
+### TObjPath
+
+| Type | Type |
+| ---------- | ---------- |
+| `TObjPath` | `string or readonly PropertyKey[]` |
+
+### TGetObjValueByPathArgs
+
+| Type | Type |
+| ---------- | ---------- |
+| `TGetObjValueByPathArgs` | `Parameters<typeof getObjValueByPath>` |
+
+### TGetObjValueByPathReturn
+
+| Type | Type |
+| ---------- | ---------- |
+| `TGetObjValueByPathReturn` | `ReturnType<typeof getObjValueByPath>` |
 
 ### TGetObjWithFallbacksArgs
 

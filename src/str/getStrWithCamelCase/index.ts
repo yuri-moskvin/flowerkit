@@ -1,4 +1,4 @@
-import { getCaseWords } from "../caseWords.ts";
+import { _getCaseWords } from "../_caseWords/index.ts";
 
 export type TGetStrWithCamelCaseArgs = Parameters<typeof getStrWithCamelCase>;
 
@@ -19,7 +19,7 @@ export const getStrWithCamelCase = (str: string): string => {
   if (typeof str !== "string") {
     throw new TypeError("getStrWithCamelCase: str must be a string");
   }
-  return getCaseWords(str)
+  return _getCaseWords(str)
     .map((word, index) => {
       const normalized = word.toLocaleLowerCase();
       return index === 0

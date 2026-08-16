@@ -1,4 +1,4 @@
-import type { TDateInput } from "../dateValue.d.mts";
+import type { TDateInput } from "../_dateValue/index.d.mts";
 type TDateDiffUnit = "millisecond" | "second" | "minute" | "hour" | "day" | "week";
 export type TGetDateDiffArgs = Parameters<typeof getDateDiff>;
 export type TGetDateDiffReturn = ReturnType<typeof getDateDiff>;

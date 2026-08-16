@@ -1,5 +1,5 @@
-import { getDateValue } from "../dateValue.ts";
-import type { TDateInput } from "../dateValue.ts";
+import { _getDateValue } from "../_dateValue/index.ts";
+import type { TDateInput } from "../_dateValue/index.ts";
 
 type TDateUnit = "millisecond" | "second" | "minute" | "hour" | "day" | "week" | "month" | "year";
 
@@ -42,7 +42,7 @@ export const getDateAdded = (
     throw new TypeError(`getDateAdded: unit must be one of: ${units.join(", ")}`);
   }
 
-  const result = getDateValue(date, getDateAdded.name);
+  const result = _getDateValue(date, getDateAdded.name);
   const multipliers: Partial<Record<TDateUnit, number>> = {
     millisecond: 1,
     second: 1_000,

@@ -13,7 +13,7 @@
 - SSR-safe fallbacks for utilities that normally depend on `window` or `document`
 - TypeScript types for every public function, including exported argument and return types
 - Tree-shakable ESM subpath imports, CommonJS support, and `sideEffects: false`
-- Cancelable debounce and throttle controls, typed request errors, and explicit listener cleanup
+- Cancelable async workflows, debounce and throttle controls, typed request errors, and explicit cleanup
 - Runtime input validation and 100+ colocated test suites
 
 ## Install
@@ -56,6 +56,20 @@ search("flowerkit");
 search.pending(); // true
 search.flush();   // run the pending call immediately
 search.cancel();  // or discard a pending call during cleanup
+```
+
+### Cancel stale async work
+
+```ts
+import { getLatestAsyncFn } from "@web3r/flowerkit/fn";
+
+const search = getLatestAsyncFn(async (signal, query: string) => {
+  const response = await fetch(`/api/search?q=${encodeURIComponent(query)}`, { signal });
+  return response.json();
+});
+
+search("flower");
+await search("flowerkit"); // aborts the previous pending search
 ```
 
 ### Use typed, SSR-safe storage
@@ -130,7 +144,7 @@ Representative imports are bundled, minified, compressed with gzip, and checked 
 | --- | ---: | ---: | ---: |
 | `getDebouncedFn` | 0.71 kB | 0.37 kB | 0.49 kB |
 | `onClickOutside` | 1.78 kB | 0.84 kB | 1.07 kB |
-| `createStorage` | 1.42 kB | 0.63 kB | 0.83 kB |
+| `createStorage` | 1.44 kB | 0.64 kB | 0.83 kB |
 | `getFromServer` | 6.68 kB | 2.70 kB | 3.42 kB |
 
 Run `npm run size` to print the current measured values. Run `npm run verify:size` to enforce the budgets.
@@ -139,16 +153,16 @@ Run `npm run size` to print the current measured values. Run `npm run verify:siz
 
 | Import path | Purpose |
 | --- | --- |
-| `@web3r/flowerkit/arr` | Arrays, iterables, grouping, sets, and async mapping |
+| `@web3r/flowerkit/arr` | Arrays, stable sorting, iterables, grouping, sets, and async mapping |
 | `@web3r/flowerkit/css` | CSS values, variables, selectors, media queries, and transforms |
 | `@web3r/flowerkit/date` | Date validation, arithmetic, formatting, and differences |
-| `@web3r/flowerkit/dom` | DOM nodes, HTML parsing, siblings, wrappers, and cleanup |
+| `@web3r/flowerkit/dom` | DOM nodes, scroll containers, HTML parsing, siblings, wrappers, and cleanup |
 | `@web3r/flowerkit/evt` | DOM lifecycle events, outside clicks, swipe, resize, media, and intersection observers |
-| `@web3r/flowerkit/fn` | Async pools, curry, debounce, throttle, memoization, retry, and timing |
+| `@web3r/flowerkit/fn` | Async cancellation and pools, curry, debounce, throttle, memoization, retry, and timing |
 | `@web3r/flowerkit/json` | JSON parsing and validation |
 | `@web3r/flowerkit/net` | Typed fetch, query parameters, FormData, and external scripts |
 | `@web3r/flowerkit/num` | Clamping, formatting, ranges, rounding, minimum, and maximum |
-| `@web3r/flowerkit/obj` | Deep clone, equality, merge, fallback, pick, omit, and cleanup |
+| `@web3r/flowerkit/obj` | Deep clone, equality, merge, nested paths, fallback, pick, omit, and cleanup |
 | `@web3r/flowerkit/str` | Case conversion, slugging, escaping, truncation, IDs, and formatting |
 | `@web3r/flowerkit/user` | SSR-safe storage, clipboard, cookies, devices, and viewport helpers |
 
@@ -160,11 +174,11 @@ Current coverage from the built-in Node.js coverage runner:
 
 | Metric | Current | Enforced minimum |
 | --- | ---: | ---: |
-| Lines | 93.71% | 90% |
-| Branches | 85.15% | 80% |
-| Functions | 94.93% | 90% |
+| Lines | 95.47% | 90% |
+| Branches | 87.05% | 80% |
+| Functions | 95.99% | 90% |
 
-The current npm artifact is approximately 254 kB compressed and 977 kB unpacked. CI limits the artifact to 280,000 compressed bytes, 1,050,000 unpacked bytes, and 650 files so packaging regressions require an explicit decision.
+The current npm artifact is approximately 275 kB compressed and 1,039 kB unpacked. CI limits the artifact to 280,000 compressed bytes, 1,050,000 unpacked bytes, and 655 files so packaging regressions require an explicit decision.
 
 Every pull request is checked with:
 

@@ -1,6 +1,6 @@
 {
   "name": "@web3r/flowerkit",
-  "version": "1.1.8",
+  "version": "1.2.0",
   "description": "Typed, tree-shakable utilities for browser APIs, DOM events and SSR: debounce, throttle, fetch, FormData, arrays, objects and strings. ESM/CJS.",
   "keywords": [
     "javascript",
@@ -32,6 +32,7 @@
     "node": ">=22"
   },
   "scripts": {
+    "audit:security": "npm audit --audit-level=high",
     "build": "rollup --c",
     "prebuild": "npm run lint && npm run typecheck && npm run test",
     "postbuild": "node ./lib/scripts/docs.ts && node ./lib/scripts/removeFiles.ts",
@@ -226,6 +227,7 @@
     "@typescript-eslint/eslint-plugin": "^8.65.0",
     "@typescript-eslint/parser": "^8.65.0",
     "cross-env": "^10.1.0",
+    "dpdm": "^4.3.0",
     "eslint": "^10.8.0",
     "eslint-import-resolver-typescript": "^4.4.5",
     "eslint-plugin-import-x": "^4.17.1",
@@ -256,6 +258,8 @@
   },
   "overrides": {
     "eslint": "^10.8.0",
+    "fast-uri": "3.1.5",
+    "js-yaml": "4.3.1",
     "serialize-javascript": ">=7.0.3",
     "typescript": "^6.0.3",
     "@babel/core": "^8.0.1",

@@ -6,16 +6,17 @@ ___
 
 ```ts
 // import functions
-import { getAsyncMap, getChunkedArr, getDiff, getGroupedBy, getIntersection, getLastFromIterable, getUnion, getUniqueBy, isItemsEqual, isIterable, isNonEmptyArr } from "@web3r/flowerkit/arr";
+import { getArrSortedBy, getAsyncMap, getChunkedArr, getDiff, getGroupedBy, getIntersection, getLastFromIterable, getUnion, getUniqueBy, isItemsEqual, isIterable, isNonEmptyArr } from "@web3r/flowerkit/arr";
 
 // import types
-import type { TGetAsyncMapArgs, TGetAsyncMapReturn, TGetChunkedArrArgs, TGetChunkedArrReturn, TGetDiffArgs, TGetDiffReturn, TGetGroupedByArgs, TGetGroupedByReturn, TGetIntersectionArgs, TGetIntersectionReturn, TGetLastFromIterableArgs, TGetLastFromIterableReturn, TGetUnionArgs, TGetUnionReturn, TGetUniqueByArgs, TGetUniqueByReturn, TIsItemsEqualArgs, TIsItemsEqualReturn, TIsIterableArgs, TIsIterableReturn, TIsNonEmptyArrArgs, TIsNonEmptyArrReturn } from "@web3r/flowerkit/arr";
+import type { TArrSortDirection, TArrSortNulls, TArrSortValue, TGetArrSortedByOptions, TGetArrSortedByArgs, TGetArrSortedByReturn, TGetAsyncMapArgs, TGetAsyncMapReturn, TGetChunkedArrArgs, TGetChunkedArrReturn, TGetDiffArgs, TGetDiffReturn, TGetGroupedByArgs, TGetGroupedByReturn, TGetIntersectionArgs, TGetIntersectionReturn, TGetLastFromIterableArgs, TGetLastFromIterableReturn, TGetUnionArgs, TGetUnionReturn, TGetUniqueByArgs, TGetUniqueByReturn, TIsItemsEqualArgs, TIsItemsEqualReturn, TIsIterableArgs, TIsIterableReturn, TIsNonEmptyArrArgs, TIsNonEmptyArrReturn } from "@web3r/flowerkit/arr";
 ```
 
 ___
 
 ## Functions
 
+- [getArrSortedBy](#getarrsortedby)
 - [getAsyncMap](#getasyncmap)
 - [getChunkedArr](#getchunkedarr)
 - [getDiff](#getdiff)
@@ -27,6 +28,44 @@ ___
 - [isItemsEqual](#isitemsequal)
 - [isIterable](#isiterable)
 - [isNonEmptyArr](#isnonemptyarr)
+
+### getArrSortedBy
+
+Returns a stable, sorted copy of an array using a value selector.
+Nullish values, `NaN`, and invalid dates are placed according to `nulls`.
+
+| Function | Type |
+| ---------- | ---------- |
+| `getArrSortedBy` | `<T, TValue extends TArrSortValue>(arr: readonly T[], getValue: (value: T, index: number, array: readonly T[]) => TValue, options?: TGetArrSortedByOptions<TValue>) => T[]` |
+
+Parameters:
+
+* `arr`: Source array
+* `getValue`: Sort value selector
+* `options`: Direction, empty-value placement, and comparator
+
+
+Returns:
+
+Stable sorted copy
+
+Examples:
+
+```ts
+const productsByPrice = getArrSortedBy(products, (product) => product.price, {
+  direction: "desc",
+});
+```
+
+```ts
+// Sort localized names while keeping missing names at the end
+const collator = new Intl.Collator("ru-RU", { sensitivity: "base" });
+const usersByName = getArrSortedBy(users, (user) => user.name, {
+  compare: collator.compare,
+  nulls: "last",
+});
+```
+
 
 ### getAsyncMap
 
@@ -371,6 +410,12 @@ if (isNonEmptyArr<User>(response.users)) {
 
 ## Types
 
+- [TArrSortDirection](#tarrsortdirection)
+- [TArrSortNulls](#tarrsortnulls)
+- [TArrSortValue](#tarrsortvalue)
+- [TGetArrSortedByOptions](#tgetarrsortedbyoptions)
+- [TGetArrSortedByArgs](#tgetarrsortedbyargs)
+- [TGetArrSortedByReturn](#tgetarrsortedbyreturn)
 - [TGetAsyncMapArgs](#tgetasyncmapargs)
 - [TGetAsyncMapReturn](#tgetasyncmapreturn)
 - [TGetChunkedArrArgs](#tgetchunkedarrargs)
@@ -393,6 +438,42 @@ if (isNonEmptyArr<User>(response.users)) {
 - [TIsIterableReturn](#tisiterablereturn)
 - [TIsNonEmptyArrArgs](#tisnonemptyarrargs)
 - [TIsNonEmptyArrReturn](#tisnonemptyarrreturn)
+
+### TArrSortDirection
+
+| Type | Type |
+| ---------- | ---------- |
+| `TArrSortDirection` | `asc" or "desc` |
+
+### TArrSortNulls
+
+| Type | Type |
+| ---------- | ---------- |
+| `TArrSortNulls` | `first" or "last` |
+
+### TArrSortValue
+
+| Type | Type |
+| ---------- | ---------- |
+| `TArrSortValue` | `bigint or boolean or Date or null or number or string or undefined` |
+
+### TGetArrSortedByOptions
+
+| Type | Type |
+| ---------- | ---------- |
+| `TGetArrSortedByOptions` | `{ compare?: (left: TValue, right: TValue) => number; direction?: TArrSortDirection; nulls?: TArrSortNulls; }` |
+
+### TGetArrSortedByArgs
+
+| Type | Type |
+| ---------- | ---------- |
+| `TGetArrSortedByArgs` | `Parameters<typeof getArrSortedBy>` |
+
+### TGetArrSortedByReturn
+
+| Type | Type |
+| ---------- | ---------- |
+| `TGetArrSortedByReturn` | `ReturnType<typeof getArrSortedBy>` |
 
 ### TGetAsyncMapArgs
 

@@ -31,7 +31,7 @@ const projectDir = process.cwd();
 const npmCli = process.env.npm_execpath;
 const tscCli = path.join(projectDir, "node_modules", "typescript", "bin", "tsc");
 const packageBudgets = {
-  entryCount: 650,
+  entryCount: 655,
   size: 280_000,
   unpackedSize: 1_050_000,
 };

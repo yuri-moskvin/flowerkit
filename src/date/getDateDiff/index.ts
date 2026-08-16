@@ -1,5 +1,5 @@
-import { getDateValue } from "../dateValue.ts";
-import type { TDateInput } from "../dateValue.ts";
+import { _getDateValue } from "../_dateValue/index.ts";
+import type { TDateInput } from "../_dateValue/index.ts";
 
 type TDateDiffUnit = "millisecond" | "second" | "minute" | "hour" | "day" | "week";
 
@@ -37,7 +37,7 @@ export const getDateDiff = (
   if (!Object.prototype.hasOwnProperty.call(multipliers, unit)) {
     throw new TypeError(`getDateDiff: unit must be one of: ${Object.keys(multipliers).join(", ")}`);
   }
-  const leftDate = getDateValue(left, getDateDiff.name);
-  const rightDate = getDateValue(right, getDateDiff.name);
+  const leftDate = _getDateValue(left, getDateDiff.name);
+  const rightDate = _getDateValue(right, getDateDiff.name);
   return (leftDate.getTime() - rightDate.getTime()) / multipliers[unit];
 };

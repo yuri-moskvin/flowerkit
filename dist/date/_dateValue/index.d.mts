@@ -7,4 +7,4 @@ export type TDateInput = Date | number | string;
  * @throws {TypeError} Date input must be valid
  * @internal
  */
-export declare const getDateValue: (value: TDateInput, functionName: string) => Date;
+export declare const _getDateValue: (value: TDateInput, functionName: string) => Date;

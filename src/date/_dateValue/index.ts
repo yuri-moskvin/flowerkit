@@ -8,7 +8,7 @@ export type TDateInput = Date | number | string;
  * @throws {TypeError} Date input must be valid
  * @internal
  */
-export const getDateValue = (value: TDateInput, functionName: string): Date => {
+export const _getDateValue = (value: TDateInput, functionName: string): Date => {
   const date = value instanceof Date ? new Date(value.getTime()) : new Date(value);
   if (Number.isNaN(date.getTime())) {
     throw new TypeError(`${functionName}: date must be a valid date`);

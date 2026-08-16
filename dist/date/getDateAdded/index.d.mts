@@ -1,4 +1,4 @@
-import type { TDateInput } from "../dateValue.d.mts";
+import type { TDateInput } from "../_dateValue/index.d.mts";
 type TDateUnit = "millisecond" | "second" | "minute" | "hour" | "day" | "week" | "month" | "year";
 export type TGetDateAddedArgs = Parameters<typeof getDateAdded>;
 export type TGetDateAddedReturn = ReturnType<typeof getDateAdded>;

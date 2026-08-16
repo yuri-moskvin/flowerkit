@@ -6,10 +6,10 @@ ___
 
 ```ts
 // import functions
-import { getElSiblings, getElWrapper, getHTMLFromStr, getIndexOfEl, isNode, removeChildNodes } from "@web3r/flowerkit/dom";
+import { getElSiblings, getElWrapper, getHTMLFromStr, getIndexOfEl, getScrollParent, isNode, removeChildNodes } from "@web3r/flowerkit/dom";
 
 // import types
-import type { TGetElSiblingsArgs, TGetElSiblingsReturn, TGetElWrapperArgs, TGetElWrapperReturn, TGetHTMLFromStrArgs, TGetHTMLFromStrReturn, TGetIndexOfElArgs, TGetIndexOfElReturn, TIsNodeArgs, TIsNodeReturn, TRemoveChildNodesArgs, TRemoveChildNodesReturn } from "@web3r/flowerkit/dom";
+import type { TGetElSiblingsArgs, TGetElSiblingsReturn, TGetElWrapperArgs, TGetElWrapperReturn, TGetHTMLFromStrArgs, TGetHTMLFromStrReturn, TGetIndexOfElArgs, TGetIndexOfElReturn, TScrollAxis, TGetScrollParentArgs, TGetScrollParentReturn, TIsNodeArgs, TIsNodeReturn, TRemoveChildNodesArgs, TRemoveChildNodesReturn } from "@web3r/flowerkit/dom";
 ```
 
 ___
@@ -20,6 +20,7 @@ ___
 - [getElWrapper](#getelwrapper)
 - [getHTMLFromStr](#gethtmlfromstr)
 - [getIndexOfEl](#getindexofel)
+- [getScrollParent](#getscrollparent)
 - [isNode](#isnode)
 - [removeChildNodes](#removechildnodes)
 
@@ -170,6 +171,39 @@ tabs.addEventListener("click", (event) => {
 ```
 
 
+### getScrollParent
+
+Gets the nearest ancestor configured as a scroll container for the selected axis.
+Falls back to the document scrolling element when no nested container is found.
+
+| Function | Type |
+| ---------- | ---------- |
+| `getScrollParent` | `(element: Element, axis?: TScrollAxis) => Element or null` |
+
+Parameters:
+
+* `element`: Source element
+* `axis`: Scroll axis to inspect
+
+
+Returns:
+
+Nearest scroll container or document root
+
+Examples:
+
+```ts
+const scrollContainer = getScrollParent(dropdownTrigger);
+scrollContainer?.addEventListener("scroll", repositionDropdown);
+```
+
+```ts
+// Use the vertical scroll parent as an IntersectionObserver root
+const root = getScrollParent(loadMoreButton, "y");
+const observer = new IntersectionObserver(loadNextPage, { root });
+```
+
+
 ### isNode
 
 Checks whether the specified object is a DOM element
@@ -238,6 +272,9 @@ searchResults.append(...nextResultItems);
 - [TGetHTMLFromStrReturn](#tgethtmlfromstrreturn)
 - [TGetIndexOfElArgs](#tgetindexofelargs)
 - [TGetIndexOfElReturn](#tgetindexofelreturn)
+- [TScrollAxis](#tscrollaxis)
+- [TGetScrollParentArgs](#tgetscrollparentargs)
+- [TGetScrollParentReturn](#tgetscrollparentreturn)
 - [TIsNodeArgs](#tisnodeargs)
 - [TIsNodeReturn](#tisnodereturn)
 - [TRemoveChildNodesArgs](#tremovechildnodesargs)
@@ -290,6 +327,24 @@ searchResults.append(...nextResultItems);
 | Type | Type |
 | ---------- | ---------- |
 | `TGetIndexOfElReturn` | `ReturnType<typeof getIndexOfEl>` |
+
+### TScrollAxis
+
+| Type | Type |
+| ---------- | ---------- |
+| `TScrollAxis` | `any" or "x" or "y` |
+
+### TGetScrollParentArgs
+
+| Type | Type |
+| ---------- | ---------- |
+| `TGetScrollParentArgs` | `Parameters<typeof getScrollParent>` |
+
+### TGetScrollParentReturn
+
+| Type | Type |
+| ---------- | ---------- |
+| `TGetScrollParentReturn` | `ReturnType<typeof getScrollParent>` |
 
 ### TIsNodeArgs
 

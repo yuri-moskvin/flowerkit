@@ -17,7 +17,8 @@ Use it to make safe, fast, repo-native changes with minimal context switching.
 - Public API is split into subpath kits:
   - `arr`, `css`, `date`, `dom`, `evt`, `fn`, `json`, `net`, `num`, `obj`, `str`, `user`
 - Root entrypoint `src/index.ts` re-exports namespace kits (`arrKit`, `domKit`, etc.).
-- Every utility typically lives in `src/<kit>/<utility>/index.ts`.
+- Every public utility lives in `src/<kit>/<utility>/index.ts`.
+- Shared implementation-only utilities live in `src/<kit>/_<internalUtility>/index.ts`; do not place helper `.ts` files directly in a kit root.
 - Most utilities have a colocated `index.test.ts`.
 - API docs are generated into `docs/*.md` from JSDoc.
 - Build artifacts are committed under `dist/`.
@@ -26,6 +27,7 @@ Use it to make safe, fast, repo-native changes with minimal context switching.
 - `src/` implementation and tests.
 - `dist/` build output (ESM/CJS/types).
 - `docs/` generated API markdown.
+- `CHANGELOG.md` release notes; every completed repository change must be recorded under the current version.
 - `lib/scripts/docs.ts` docs generator and validator (public API coverage, Markdown, links, and TypeScript examples).
 - `lib/scripts/bundleSize.ts` representative bundle-size checks.
 - `lib/scripts/removeFiles.ts` declaration post-processing (`.d.ts` cleanup, import rewrite to `.d.mts`).
@@ -43,9 +45,9 @@ Current kits:
 
 Recompute counts quickly when needed:
 - Public utility count (counts exported function implementations and ignores barrel `index.ts` files):
-  - `$counts = Get-ChildItem src -Recurse -File -Filter index.ts | ForEach-Object { ([regex]::Matches((Get-Content -Raw $_.FullName), '(?m)^export const\s+\w+\s*=')).Count }; ($counts | Measure-Object -Sum).Sum`
+  - `$counts = Get-ChildItem src -Recurse -File -Filter index.ts | ForEach-Object { ([regex]::Matches((Get-Content -Raw $_.FullName), '(?m)^export const\s+(?!_)\w+\s*=')).Count }; ($counts | Measure-Object -Sum).Sum`
 - Per-kit public utility counts:
-  - `foreach($m in 'arr','css','date','dom','evt','fn','json','net','num','obj','str','user'){ $counts = Get-ChildItem \"src/$m\" -Recurse -File -Filter index.ts | ForEach-Object { ([regex]::Matches((Get-Content -Raw $_.FullName), '(?m)^export const\s+\w+\s*=')).Count }; \"$m=$(($counts | Measure-Object -Sum).Sum)\" }`
+  - `foreach($m in 'arr','css','date','dom','evt','fn','json','net','num','obj','str','user'){ $counts = Get-ChildItem \"src/$m\" -Recurse -File -Filter index.ts | ForEach-Object { ([regex]::Matches((Get-Content -Raw $_.FullName), '(?m)^export const\s+(?!_)\w+\s*=')).Count }; \"$m=$(($counts | Measure-Object -Sum).Sum)\" }`
 
 ## Core Commands
 Use `npm.cmd` on Windows PowerShell if `npm.ps1` is blocked by ExecutionPolicy.
@@ -85,7 +87,7 @@ Important lint scope:
 - DOM environment for tests: `global-jsdom/register` via `NODE_OPTIONS`
 - Get current status by running:
   - `npm.cmd test`
-- Meta test: `src/index.test.ts` checks each kit `index.ts` exports all utility folders.
+- Meta test: `src/quality.test.ts` checks cyclic dependencies and verifies root and kit exports; underscore-prefixed internal folders are excluded only from public-export expectations.
 - `npm run test:coverage` enforces 90% lines, 80% branches, and 90% functions.
 
 ## Coding Conventions (important)
@@ -94,6 +96,18 @@ Important lint scope:
 - ESM only (`"type": "module"` in package).
 - Keep explicit `.ts` extension in internal imports (repo convention).
 - Prefer named exports; no default exports in utilities.
+
+### Internal utilities
+- Use an internal utility only for implementation shared by multiple public utilities or for a cohesive helper that should not be part of the consumer API. Consumer-facing behavior belongs in a normal public utility folder instead.
+- Put each internal utility in `src/<kit>/_<internalUtility>/index.ts`. Both the folder and every internal runtime symbol must start with `_`, for example `_abort`, `_getAbortReason`, or `_isAbortSignal`.
+- Do not place implementation files such as `src/<kit>/<helper>.ts` directly in a kit root; only the kit barrel `src/<kit>/index.ts` may live there.
+- Mark internal functions and other documented implementation helpers with `@internal`.
+- Import internal symbols directly from their underscore-prefixed module. Never re-export internal runtime symbols from `src/<kit>/index.ts`, `src/index.ts`, or package `exports`.
+- A type stored beside an internal helper may keep a public `T...` name only when it is intentionally part of the supported API and is explicitly re-exported from the kit index, as with `TDateInput`. This exception does not make adjacent runtime helpers public.
+- Cover internal behavior through the public utilities that consume it. Add a colocated `index.test.ts` when direct tests are needed for branches or contracts that public tests cannot exercise clearly.
+- `src/quality.test.ts` must ignore underscore-prefixed folders when calculating expected public exports while still including their source files in cyclic-dependency analysis.
+- Internal folders, runtime symbols, headings, and import examples must never appear in generated `docs/*.md`. After regenerating docs, search the generated Markdown for every affected internal folder and symbol; any match is a failure. Fix the source exports or docs generator instead of editing generated Markdown manually.
+- Internal modules may appear under `dist/` because Rollup preserves modules. That output is expected and does not authorize a public package entrypoint for them.
 
 ### Types pattern
 Each utility usually exports:
@@ -115,7 +129,7 @@ Type naming conventions enforced by ESLint:
 - Every public function must have at least two non-empty `@example` blocks.
 - Prefer task-focused examples that reflect realistic frontend search intent; examples are future per-utility page content.
 - TypeScript examples must be syntactically valid, but may use illustrative variables such as `products` or `userIds`.
-- Mark implementation-only documented helpers with `@internal` and do not export them from the kit index.
+- Mark implementation-only documented helpers with `@internal`; the tag supplements the internal naming and export rules above.
 - `lib/scripts/docs.ts` filters documentation by the kit's public exports and validates Markdown, links, code fences, example counts, and TypeScript syntax before writing files.
 
 ### Formatting/lint specifics
@@ -124,6 +138,13 @@ Type naming conventions enforced by ESLint:
 - Semicolons required.
 - `import/order` and `sort-exports` are enforced.
 - `no-console` is enabled (only specific methods allowed).
+
+### Changelog
+- Every completed repository change must update `CHANGELOG.md` before handoff. This includes source, tests, documentation, scripts, configuration, CI, dependencies, security fixes, and release artifacts.
+- Add the entry under the current version from `package.json`; do not create a new version unless explicitly requested.
+- Preserve the existing style: concise English past-tense entries, one `- ` bullet per change, inline code for symbols/files/packages, and no added categories or subheadings inside a version.
+- Describe the user-visible result or maintenance outcome rather than the implementation process.
+- Keep existing entries intact, avoid duplicates, and integrate a new entry at the most relevant position in the current version.
 
 ## SSR and Browser Compatibility Rules
 - For window/document usage, prefer `ssr-window` helpers (`getWindow`, `getDocument`) where applicable.
@@ -152,16 +173,25 @@ Type naming conventions enforced by ESLint:
 5. If runtime output changes, run `npm.cmd run verify:size`.
 6. If preparing committed release output, run `npm.cmd run build`.
 
-### 2) Add new utility to existing kit
+### 2) Add new public utility to existing kit
 1. Create folder `src/<kit>/<newUtility>/`.
 2. Add `index.ts` with function + exported `T...Args` and `T...Return`.
 3. Add `index.test.ts`.
 4. Export function and types from `src/<kit>/index.ts`.
-5. Run tests; `src/index.test.ts` will fail if exports are incomplete.
+5. Run tests; `src/quality.test.ts` will fail if exports are incomplete.
 6. If preparing release artifacts, run `npm.cmd run build` (updates `dist` and `docs`).
 7. Run `npm.cmd run verify:size` and `npm.cmd run verify:package` for a publishable change.
 
-### 3) Add a new top-level kit
+### 3) Add or modify an internal utility
+1. Create or edit `src/<kit>/_<internalUtility>/index.ts`; never add a helper file directly under `src/<kit>/`.
+2. Prefix every internal runtime export with `_` and add `@internal` JSDoc where the helper is documented.
+3. Import the helper directly from its underscore-prefixed module; do not add runtime exports to the kit or root barrels.
+4. Add direct tests only when the consuming public-utility tests do not cover the internal contract clearly.
+5. Run `npm.cmd run lint`, `npm.cmd run typecheck`, and `npm.cmd test`.
+6. Run `node ./lib/scripts/docs.ts`, then confirm the affected internal folder and symbol names are absent from `docs/*.md`.
+7. Run `npm.cmd run build` when tracked release artifacts under `dist/` must be refreshed.
+
+### 4) Add a new top-level kit
 1. Create `src/<newKit>/index.ts` and utility folders.
 2. Export namespace in `src/index.ts` (`export * as <newKit>Kit ...`).
 3. Update `package.json`:
@@ -171,20 +201,21 @@ Type naming conventions enforced by ESLint:
 5. Build and verify generated `dist/<newKit>` and `docs/<newKit>.md`.
 6. Run `npm.cmd run verify:size` and `npm.cmd run verify:package`.
 
-### 4) Update JSDoc or generated API docs
+### 5) Update JSDoc or generated API docs
 1. Edit JSDoc in `src`; never edit `docs/*.md` manually.
 2. Keep at least two realistic examples for every affected public function.
 3. Run `node ./lib/scripts/docs.ts`; generation fails on invalid Markdown, missing public entities, bad links, insufficient examples, or invalid TypeScript syntax.
-4. Review the generated kit Markdown and commit it with the source change.
-5. Run `npm.cmd run build` when release artifacts in `dist/` must also be refreshed.
+4. Confirm that no internal folder, runtime symbol, heading, or import example appears in generated Markdown.
+5. Review the generated kit Markdown and commit it with the source change.
+6. Run `npm.cmd run build` when release artifacts in `dist/` must also be refreshed.
 
-### 5) Update network utilities (`net/*`)
+### 6) Update network utilities (`net/*`)
 - Preserve method/body behavior in `getFromServer`.
 - Keep timeout and external abort behavior covered by tests.
 - Be careful with `multipart/form-data`: do not hardcode content-type boundary headers.
 
-### 6) Prepare package or release output
-1. Update source, tests, JSDoc, and `CHANGELOG.md` as appropriate.
+### 7) Prepare package or release output
+1. Update source, tests, JSDoc, and `CHANGELOG.md`; the changelog update is mandatory and must preserve its current style.
 2. Run `npm.cmd run build` to refresh tracked `dist/` and `docs/`.
 3. Run `npm.cmd run test:coverage` for coverage gates.
 4. Run `npm.cmd run verify:size` for representative tree-shaken bundle budgets.
@@ -221,6 +252,8 @@ Type naming conventions enforced by ESLint:
 - Tests updated/added and passing.
 - Kit exports updated.
 - JSDoc updated with at least two valid examples for every affected public function.
+- Internal utilities follow the underscore folder/symbol contract, remain outside public barrels, and are absent from generated documentation.
+- `CHANGELOG.md` updated under the current package version in its existing style, without rewriting unrelated entries.
 - `npm.cmd run lint`, `npm.cmd run typecheck`, and `npm.cmd test` pass locally.
 - Changed TypeScript outside `src/` is linted explicitly.
 - If JSDoc or public API changes, regenerate and review `docs/`.

@@ -6,20 +6,22 @@ ___
 
 ```ts
 // import functions
-import { getAsyncPool, getCurryFn, getDebouncedFn, getMemoizedFn, getRetriedFn, getThrottledFn, isFnAsync, isFnClass, once, wait } from "@web3r/flowerkit/fn";
+import { getAbortSignal, getAsyncPool, getCurryFn, getDebouncedFn, getMemoizedFn, getLatestAsyncFn, getRetriedFn, getThrottledFn, isFnAsync, isFnClass, once, wait } from "@web3r/flowerkit/fn";
 
 // import types
-import type { TGetAsyncPoolArgs, TGetAsyncPoolReturn, TGetCurryFnArgs, TGetCurryFnReturn, TDebouncedFn, TGetDebouncedFnArgs, TGetDebouncedFnReturn, TMemoizedFn, TGetMemoizedFnArgs, TGetMemoizedFnReturn, TRetryOptions, TGetRetriedFnArgs, TGetRetriedFnReturn, TThrottledFn, TGetThrottledFnArgs, TGetThrottledFnReturn, TIsFnAsyncArgs, TIsFnAsyncReturn, TIsFnClassArgs, TIsFnClassReturn, TOnceArgs, TOnceReturn, TWaitArgs, TWaitReturn } from "@web3r/flowerkit/fn";
+import type { TAbortSignalControls, TGetAbortSignalOptions, TGetAbortSignalArgs, TGetAbortSignalReturn, TGetAsyncPoolOptions, TGetAsyncPoolResult, TGetAsyncPoolArgs, TGetAsyncPoolReturn, TGetCurryFnArgs, TGetCurryFnReturn, TDebouncedFn, TGetDebouncedFnArgs, TGetDebouncedFnReturn, TMemoizedFn, TGetMemoizedFnArgs, TGetMemoizedFnReturn, TGetLatestAsyncFnOptions, TLatestAsyncFn, TLatestAsyncSource, TGetLatestAsyncFnArgs, TGetLatestAsyncFnReturn, TRetryOptions, TGetRetriedFnArgs, TGetRetriedFnReturn, TThrottledFn, TGetThrottledFnArgs, TGetThrottledFnReturn, TIsFnAsyncArgs, TIsFnAsyncReturn, TIsFnClassArgs, TIsFnClassReturn, TOnceArgs, TOnceReturn, TWaitOptions, TWaitArgs, TWaitReturn } from "@web3r/flowerkit/fn";
 ```
 
 ___
 
 ## Functions
 
+- [getAbortSignal](#getabortsignal)
 - [getAsyncPool](#getasyncpool)
 - [getCurryFn](#getcurryfn)
 - [getDebouncedFn](#getdebouncedfn)
 - [getMemoizedFn](#getmemoizedfn)
+- [getLatestAsyncFn](#getlatestasyncfn)
 - [getRetriedFn](#getretriedfn)
 - [getThrottledFn](#getthrottledfn)
 - [isFnAsync](#isfnasync)
@@ -27,19 +29,53 @@ ___
 - [once](#once)
 - [wait](#wait)
 
-### getAsyncPool
+### getAbortSignal
 
-Maps an array asynchronously with a concurrency limit while preserving order.
+Creates a disposable abort signal that can combine external signals with a timeout.
+The returned controller can also abort the operation manually.
 
 | Function | Type |
 | ---------- | ---------- |
-| `getAsyncPool` | `<T, U>(arr: T[], callback: (value: T, index: number, array: T[]) => U or Promise<U>, concurrency?: number) => Promise<U[]>` |
+| `getAbortSignal` | `(options?: TGetAbortSignalOptions) => TAbortSignalControls` |
+
+Parameters:
+
+* `options`: External signals and optional timeout
+
+
+Returns:
+
+Abort signal and lifecycle controls
+
+Examples:
+
+```ts
+const request = getAbortSignal({ timeout: 5_000 });
+await fetch("/api/products", { signal: request.signal }).finally(request.dispose);
+```
+
+```ts
+// Combine component cleanup with a request timeout
+const component = new AbortController();
+const request = getAbortSignal({ signals: [ component.signal ], timeout: 2_000 });
+component.abort();
+```
+
+
+### getAsyncPool
+
+Maps an array asynchronously with a concurrency limit while preserving order.
+Supports cancellation and an all-settled result mode.
+
+| Function | Type |
+| ---------- | ---------- |
+| `getAsyncPool` | `<T, U, TSettle extends boolean = false>(arr: T[], callback: (value: T, index: number, array: T[], signal: AbortSignal) => U or Promise<U>, concurrencyOrOptions?: number or TGetAsyncPoolOptions<TSettle>) => Promise<...>` |
 
 Parameters:
 
 * `arr`: Source array
 * `callback`: Mapper
-* `concurrency`: Maximum active callbacks
+* `concurrencyOrOptions`: Concurrency or pool options
 
 
 Returns:
@@ -53,8 +89,13 @@ await getAsyncPool(ids, (id) => loadItem(id), 3);
 ```
 
 ```ts
-// Upload files with no more than two simultaneous network requests
-const uploadedFiles = await getAsyncPool(files, uploadFile, 2);
+// Upload files with cancellation and collect every outcome
+const controller = new AbortController();
+const uploadedFiles = await getAsyncPool(files, uploadFile, {
+  concurrency: 2,
+  settle: true,
+  signal: controller.signal,
+});
 ```
 
 
@@ -156,6 +197,43 @@ doubled.clear();
 const filterProducts = getMemoizedFn((items, filters) => {
   return items.filter((item) => filters.includes(item.category));
 });
+```
+
+
+### getLatestAsyncFn
+
+Wraps an async operation so a new call aborts the previous pending call.
+The source function receives a per-call signal as its first argument.
+
+| Function | Type |
+| ---------- | ---------- |
+| `getLatestAsyncFn` | `<TArgs extends any[], TResult>(fn: TLatestAsyncSource<TArgs, TResult>, options?: TGetLatestAsyncFnOptions) => TLatestAsyncFn<TArgs, TResult>` |
+
+Parameters:
+
+* `fn`: Async source function
+* `options`: Shared lifecycle signal
+
+
+Returns:
+
+Latest-only async function with cancel controls
+
+Examples:
+
+```ts
+const search = getLatestAsyncFn(async (signal, query: string) => {
+  const response = await fetch(`/api/search?q=${encodeURIComponent(query)}`, { signal });
+  return response.json();
+});
+await search("roses");
+```
+
+```ts
+// Abort the active request when a component is disposed
+const lifecycle = new AbortController();
+const load = getLatestAsyncFn(loadProduct, { signal: lifecycle.signal });
+lifecycle.abort();
 ```
 
 
@@ -324,11 +402,12 @@ Gets a `Promise` that resolves after specific time
 
 | Function | Type |
 | ---------- | ---------- |
-| `wait` | `(ms?: number) => Promise<void>` |
+| `wait` | `(ms?: number, options?: TWaitOptions) => Promise<void>` |
 
 Parameters:
 
 * `ms`: delay in ms
+* `options`: Optional cancellation signal
 
 
 Examples:
@@ -346,8 +425,21 @@ await wait(200);
 element.classList.add("is-visible");
 ```
 
+```ts
+// Cancel a pending delay during component cleanup
+const lifecycle = new AbortController();
+await wait(1_000, { signal: lifecycle.signal });
+lifecycle.abort();
+```
+
 ## Types
 
+- [TAbortSignalControls](#tabortsignalcontrols)
+- [TGetAbortSignalOptions](#tgetabortsignaloptions)
+- [TGetAbortSignalArgs](#tgetabortsignalargs)
+- [TGetAbortSignalReturn](#tgetabortsignalreturn)
+- [TGetAsyncPoolOptions](#tgetasyncpooloptions)
+- [TGetAsyncPoolResult](#tgetasyncpoolresult)
 - [TGetAsyncPoolArgs](#tgetasyncpoolargs)
 - [TGetAsyncPoolReturn](#tgetasyncpoolreturn)
 - [TGetCurryFnArgs](#tgetcurryfnargs)
@@ -358,6 +450,11 @@ element.classList.add("is-visible");
 - [TMemoizedFn](#tmemoizedfn)
 - [TGetMemoizedFnArgs](#tgetmemoizedfnargs)
 - [TGetMemoizedFnReturn](#tgetmemoizedfnreturn)
+- [TGetLatestAsyncFnOptions](#tgetlatestasyncfnoptions)
+- [TLatestAsyncFn](#tlatestasyncfn)
+- [TLatestAsyncSource](#tlatestasyncsource)
+- [TGetLatestAsyncFnArgs](#tgetlatestasyncfnargs)
+- [TGetLatestAsyncFnReturn](#tgetlatestasyncfnreturn)
 - [TRetryOptions](#tretryoptions)
 - [TGetRetriedFnArgs](#tgetretriedfnargs)
 - [TGetRetriedFnReturn](#tgetretriedfnreturn)
@@ -370,8 +467,45 @@ element.classList.add("is-visible");
 - [TIsFnClassReturn](#tisfnclassreturn)
 - [TOnceArgs](#tonceargs)
 - [TOnceReturn](#toncereturn)
+- [TWaitOptions](#twaitoptions)
 - [TWaitArgs](#twaitargs)
 - [TWaitReturn](#twaitreturn)
+
+### TAbortSignalControls
+
+| Type | Type |
+| ---------- | ---------- |
+| `TAbortSignalControls` | `{ abort: (reason?: unknown) => void; dispose: () => void; signal: AbortSignal; }` |
+
+### TGetAbortSignalOptions
+
+| Type | Type |
+| ---------- | ---------- |
+| `TGetAbortSignalOptions` | `{ signals?: readonly (AbortSignal or null or undefined)[]; timeout?: number; }` |
+
+### TGetAbortSignalArgs
+
+| Type | Type |
+| ---------- | ---------- |
+| `TGetAbortSignalArgs` | `Parameters<typeof getAbortSignal>` |
+
+### TGetAbortSignalReturn
+
+| Type | Type |
+| ---------- | ---------- |
+| `TGetAbortSignalReturn` | `ReturnType<typeof getAbortSignal>` |
+
+### TGetAsyncPoolOptions
+
+| Type | Type |
+| ---------- | ---------- |
+| `TGetAsyncPoolOptions` | `{ concurrency?: number; settle?: TSettle; signal?: AbortSignal or null; }` |
+
+### TGetAsyncPoolResult
+
+| Type | Type |
+| ---------- | ---------- |
+| `TGetAsyncPoolResult` | `TSettle extends true ? PromiseSettledResult<T>[] : T[]` |
 
 ### TGetAsyncPoolArgs
 
@@ -432,6 +566,36 @@ element.classList.add("is-visible");
 | Type | Type |
 | ---------- | ---------- |
 | `TGetMemoizedFnReturn` | `ReturnType<typeof getMemoizedFn>` |
+
+### TGetLatestAsyncFnOptions
+
+| Type | Type |
+| ---------- | ---------- |
+| `TGetLatestAsyncFnOptions` | `{ signal?: AbortSignal or null; }` |
+
+### TLatestAsyncFn
+
+| Type | Type |
+| ---------- | ---------- |
+| `TLatestAsyncFn` | `(( ...args: TArgs ) => Promise<Awaited<TResult>>) and { cancel: (reason?: unknown) => void; pending: () => boolean; }` |
+
+### TLatestAsyncSource
+
+| Type | Type |
+| ---------- | ---------- |
+| `TLatestAsyncSource` | `( signal: AbortSignal, ...args: TArgs ) => TResult` |
+
+### TGetLatestAsyncFnArgs
+
+| Type | Type |
+| ---------- | ---------- |
+| `TGetLatestAsyncFnArgs` | `Parameters<typeof getLatestAsyncFn>` |
+
+### TGetLatestAsyncFnReturn
+
+| Type | Type |
+| ---------- | ---------- |
+| `TGetLatestAsyncFnReturn` | `ReturnType<typeof getLatestAsyncFn>` |
 
 ### TRetryOptions
 
@@ -504,6 +668,12 @@ element.classList.add("is-visible");
 | Type | Type |
 | ---------- | ---------- |
 | `TOnceReturn` | `ReturnType<typeof once>` |
+
+### TWaitOptions
+
+| Type | Type |
+| ---------- | ---------- |
+| `TWaitOptions` | `{ signal?: AbortSignal or null; }` |
 
 ### TWaitArgs
 

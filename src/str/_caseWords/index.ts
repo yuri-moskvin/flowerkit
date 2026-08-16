@@ -4,7 +4,7 @@
  * @returns {string[]} Words
  * @internal
  */
-export const getCaseWords = (str: string): string[] => {
+export const _getCaseWords = (str: string): string[] => {
   return str
     .trim()
     .replace(/([\p{Ll}\d])(\p{Lu})/gu, "$1 $2")

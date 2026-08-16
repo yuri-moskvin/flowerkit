@@ -4,4 +4,4 @@
  * @returns {string[]} Words
  * @internal
  */
-export declare const getCaseWords: (str: string) => string[];
+export declare const _getCaseWords: (str: string) => string[];

@@ -1,5 +1,22 @@
 # Changelog
 
+## 1.2.0
+- Added `getArrSortedBy` for immutable stable sorting by a selector, with direction, empty-value placement, and custom comparator controls.
+- Added `getScrollParent` for finding the nearest scroll container by axis, including traversal across Shadow DOM boundaries.
+- Added `getObjValueByPath` for safe nested own-property lookup with dot paths, property-key arrays, and fallback values.
+- Added `getAbortSignal` for combining external abort signals, timeouts, manual cancellation, and explicit listener cleanup.
+- Added `getLatestAsyncFn` for latest-only async workflows that abort superseded calls and expose `cancel` and `pending` controls.
+- Extended `wait` with optional `AbortSignal` cancellation while preserving the existing delay-only API.
+- Extended `getAsyncPool` with cancellation, per-callback signals, configurable options, immediate rejection on abort, and an ordered all-settled result mode.
+- Preserved the numeric concurrency argument of `getAsyncPool` for backward compatibility.
+- Added sorting, nested-path, scroll-container, cancellation, timeout, disposal, race-condition, settled-result, and worker-shutdown regression tests.
+- Hardened repository quality checks with fail-closed cycle detection, exact public-export validation, and a dedicated security-audit CI step.
+- Moved the shared internal abort, date-value, and case-word helpers into dedicated underscore-prefixed folders and symbols.
+- Documented the underscore-prefixed internal-utility contract and generated-doc exclusion rules in `AGENTS.md`.
+- Raised the package entry-count budget from 650 to 655 for the generated outputs of the new public utilities; byte-size budgets remain unchanged.
+- Updated development dependencies and security overrides.
+- Updated `AGENTS.md` to require a current-version changelog entry for every completed repository change while preserving the existing changelog style.
+
 ## 1.1.8
 - Repositioned the package around typed browser, DOM event, and SSR-safe utilities.
 - Expanded npm metadata with task-oriented keywords, homepage and issue tracker links, and bundled project documentation.

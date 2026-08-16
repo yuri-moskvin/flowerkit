@@ -1,0 +1,2 @@
+const _getAbortError=(message="The operation was aborted")=>new DOMException(message,"AbortError");const _getAbortReason=signal=>signal.reason??_getAbortError();const _isAbortSignal=value=>Boolean(value&&typeof value==="object"&&typeof value.aborted==="boolean"&&typeof value.addEventListener==="function"&&typeof value.removeEventListener==="function");export{_getAbortError,_getAbortReason,_isAbortSignal};
+//# sourceMappingURL=index.mjs.map

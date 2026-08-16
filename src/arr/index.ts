@@ -1,4 +1,12 @@
 
+export type {
+  TArrSortDirection,
+  TArrSortNulls,
+  TArrSortValue,
+  TGetArrSortedByArgs,
+  TGetArrSortedByOptions,
+  TGetArrSortedByReturn,
+} from "./getArrSortedBy/index.ts";
 export type { TGetAsyncMapArgs, TGetAsyncMapReturn } from "./getAsyncMap/index.ts";
 export type { TGetChunkedArrArgs, TGetChunkedArrReturn } from "./getChunkedArr/index.ts";
 export type { TGetDiffArgs, TGetDiffReturn } from "./getDiff/index.ts";
@@ -12,6 +20,7 @@ export type { TIsIterableArgs, TIsIterableReturn } from "./isIterable/index.ts";
 export type { TIsNonEmptyArrArgs, TIsNonEmptyArrReturn } from "./isNonEmptyArr/index.ts";
 
 
+export { getArrSortedBy } from "./getArrSortedBy/index.ts";
 export { getAsyncMap } from "./getAsyncMap/index.ts";
 export { getChunkedArr } from "./getChunkedArr/index.ts";
 export { getDiff } from "./getDiff/index.ts";

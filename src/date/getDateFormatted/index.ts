@@ -1,5 +1,5 @@
-import { getDateValue } from "../dateValue.ts";
-import type { TDateInput } from "../dateValue.ts";
+import { _getDateValue } from "../_dateValue/index.ts";
+import type { TDateInput } from "../_dateValue/index.ts";
 
 export type TGetDateFormattedArgs = Parameters<typeof getDateFormatted>;
 
@@ -29,5 +29,5 @@ export const getDateFormatted = (
   if (!options || typeof options !== "object" || Array.isArray(options)) {
     throw new TypeError("getDateFormatted: options must be a plain object");
   }
-  return new Intl.DateTimeFormat(locales, options).format(getDateValue(date, getDateFormatted.name));
+  return new Intl.DateTimeFormat(locales, options).format(_getDateValue(date, getDateFormatted.name));
 };

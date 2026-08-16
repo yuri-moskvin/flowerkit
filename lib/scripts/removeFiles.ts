@@ -41,6 +41,6 @@ await getFiles(dist, (file: string) => file.endsWith(".d.ts"))
     return await Promise.all(items);
   })
   .then(() => {
-    console.debug("[RemoveFilesPlugin] Declarations rewritten and .d.ts files removed");
+    console.debug("Declarations rewritten and .d.ts files removed");
     return true;
   });
